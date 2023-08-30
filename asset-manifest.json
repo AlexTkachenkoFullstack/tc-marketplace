@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/tc-marketplace/static/css/main.073c9b0a.css",
+    "main.js": "/tc-marketplace/static/js/main.9adb5cae.js",
+    "static/js/787.8ccf4d39.chunk.js": "/tc-marketplace/static/js/787.8ccf4d39.chunk.js",
+    "index.html": "/tc-marketplace/index.html",
+    "main.073c9b0a.css.map": "/tc-marketplace/static/css/main.073c9b0a.css.map",
+    "main.9adb5cae.js.map": "/tc-marketplace/static/js/main.9adb5cae.js.map",
+    "787.8ccf4d39.chunk.js.map": "/tc-marketplace/static/js/787.8ccf4d39.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.9adb5cae.js"
+  ]
+}
