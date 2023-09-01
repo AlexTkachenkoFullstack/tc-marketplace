@@ -6,14 +6,12 @@ import Basket from './pages/Basket';
 import AddAdvertisementPage from './pages/AddAdvertisementPage';
 import React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
+import { ProductCategory } from 'types';
+import ProductsPage from 'pages/ProductsPage/ProductsPage';
+import ProductDetailsPage from 'pages/ProductDetailsPage/ProductDetailsPage';
 
-
-
-export interface IAppProps{
-
-}
-
-const App: React.FC<IAppProps>=(props)=>{
+console.log(ProductCategory)
+const App: React.FC=(props)=>{
   return (
     <Routes>
         <Route path='/' element={<Layout />}>
@@ -21,6 +19,17 @@ const App: React.FC<IAppProps>=(props)=>{
             <Route path='register' element={<Register/>}/>
             <Route path='favorite' element={<Favorite/>}/>
             <Route path='basket' element={<Basket/>}/>
+
+            {Object.values(ProductCategory).map((category)=>{
+              return (<Route key={category} path={category} element={<ProductsPage category={category}/>}>
+                      {/* <Route path=':productId' element={<ProductDetailsPage />}/> */}
+                      </Route>)
+                  })}
+
+            {Object.values(ProductCategory).map((category)=>{
+              return (<Route key={category} path={category+'/:productId'} element={<ProductDetailsPage />}/>)
+                  })}
+
             <Route path='addAdvertisement' element={<AddAdvertisementPage/>}/>
             <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
