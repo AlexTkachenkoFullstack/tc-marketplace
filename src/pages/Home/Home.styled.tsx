@@ -39,8 +39,10 @@ width:100%;
 display:flex;
 `
 export const ViewedList=styled.ul`
-display:flex;
-gap:16px;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+gap: 16px;
 `
 
 export const PopularSection=styled.section`
@@ -51,7 +53,13 @@ padding-bottom:40px;
 background-color:rgb(202 240 241);
 `
 export const PopularList=styled.ul`
-display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(308px, 1fr));
-  gap: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
 `
+
+
+
+
+
