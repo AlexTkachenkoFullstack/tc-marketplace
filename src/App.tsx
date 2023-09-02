@@ -18,15 +18,9 @@ const App: React.FC=(props)=>{
             <Route index element={<Home />}/>
             <Route path='register' element={<Register/>}/>
 {/* -------------усі товари певної категорії----------- */}
-            {Object.values(ProductCategory).map((category)=>{
-              return (<Route key={category} path={category} element={<ProductsPage category={category}/>}>
-                      {/* <Route path=':productId' element={<ProductDetailsPage />}/> */}
-                      </Route>)
-                  })}
+            {Object.values(ProductCategory).map((category)=>(<Route key={category} path={category} element={<ProductsPage category={category}/>}/>))}
 {/* -------------один товар певної категоріі------------- */}
-            {Object.values(ProductCategory).map((category)=>{
-              return (<Route key={category} path={category+'/:productId'} element={<ProductDetailsPage />}/>)
-                  })}
+            {Object.values(ProductCategory).map((category)=>(<Route key={category} path={category+'/:productId'} element={<ProductDetailsPage />}/>))}
             <Route path='favorite' element={<Favorite/>}/>
             <Route path='basket' element={<Basket/>}/>
             <Route path='addAdvertisement' element={<AddAdvertisementPage/>}/>
