@@ -1,32 +1,26 @@
 import React from "react"
 import { HeaderBottomContainer,  NavList, NavListItem, NavListItemLink } from "./HeaderBottom.styled"
 
+const productsLinks=[
+    {link:'cloth', name: 'Одяг'},
+    {link:'hygiene', name: 'Гігієна'},
+    {link:'babyGoods', name: 'Для немовлят'},
+    {link:'devAndCreat', name: 'Розвиток та творчість'},
+    {link:'toy', name: 'Іграшки'},
+    {link:'schoolGoods', name: 'Все для школи'},
+    {link:'nutritionAndFeeding', name: 'Харчування та годування'},
+]
+
 
 
 const HeaderBottom:React.FC=()=>{
     return(<HeaderBottomContainer className="container">
                 <NavList>
-                        <NavListItem>
-                            <NavListItemLink to='cloth'>Одяг</NavListItemLink>
+                    {productsLinks.map(link=>(
+                        <NavListItem key={link.link}>
+                            <NavListItemLink to={link.link}>{link.name}</NavListItemLink>
                         </NavListItem>
-                        <NavListItem>
-                            <NavListItemLink to='hygiene'>Гігієна</NavListItemLink>
-                        </NavListItem>
-                        <NavListItem>
-                            <NavListItemLink to='babyGoods'>Для немовлят</NavListItemLink>
-                        </NavListItem>
-                        <NavListItem>
-                            <NavListItemLink to='devAndCreat'>Розвиток та творчість</NavListItemLink>
-                        </NavListItem>
-                        <NavListItem>
-                            <NavListItemLink to='toy'>Іграшки</NavListItemLink>
-                        </NavListItem>
-                        <NavListItem>
-                            <NavListItemLink to='schoolGoods'>Все для школи</NavListItemLink>
-                        </NavListItem>
-                        <NavListItem>
-                            <NavListItemLink to='nutritionAndFeeding'>Харчування та годування</NavListItemLink>
-                        </NavListItem>
+                    ))}
                 </NavList>
         </HeaderBottomContainer>
     )
