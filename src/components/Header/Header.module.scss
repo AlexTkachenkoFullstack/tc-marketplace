@@ -1,0 +1,124 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px; // 56px for mobile
+  padding: 12px 32px; // 8px 20px for mobile
+  background-color: #FEFFFF;
+
+  @media (max-width: 880px) {
+    height: 56px;
+    padding: 8px 20px;
+  }
+
+  &__burger {
+    border: none;
+    padding: 8px;
+  }
+
+  &__nav {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    gap: 16px; // 8px for mobile
+
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+
+    @media (max-width: 880px) {
+      display: none; // Hide on mobile
+    }
+
+    &_link {
+      padding: 8px;
+    }
+  }
+
+  &__left {
+    display: flex;
+    height: 40px;
+    align-items: center;
+    gap: 16px; // 8px for mobile
+
+    @media (max-width: 880px) {
+      gap: 8px;
+    }
+
+    &__link {
+      text-decoration: none;
+      color: #000; // Change to your desired text color
+      font-weight: bold; // Adjust font styles as needed
+    }
+  }
+
+  &__right {
+    display: flex;
+    height: 40px;
+    gap: 16px; // 8px for mobile
+
+    @media (max-width: 880px) {
+      gap: 8px;
+    }
+  }
+
+  &__add_button {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  color: #434343;
+  padding: 0 8px; // 0 4px for mobile
+  border: 1px solid #434343; // Change to your desired border styles
+  border-radius: 100px; // 16px for mobile
+  cursor: pointer;
+
+  @media (max-width: 880px) {
+    display: none; // Hide on mobile
+  }
+
+  &_text {
+    margin-right: 8px; // 4px for mobile
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+  }
+
+  &_icon {
+    font-size: 16px; // Adjust the font size as needed
+  }
+}
+
+  &__favorite_button,
+  &__login_button {
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    padding: 8px; // 0 4px for mobile
+  }
+
+  &__favorite_button {
+    position: relative;
+
+    &_point {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+    }
+  }
+
+  &__login_text {
+    margin-left: 8px; // 4px for mobile
+    color: #434343;
+
+    // font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+  }
+}

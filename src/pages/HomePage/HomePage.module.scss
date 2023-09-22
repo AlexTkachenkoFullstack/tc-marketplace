@@ -1,0 +1,42 @@
+.main {
+  margin: 0 auto;
+  background-color: #FEFFFF;
+  width: 100vw;
+  max-width: 1200px;
+  padding: 40px 80px;
+}
+
+.new {
+  margin-bottom: 28px;
+
+  &__title {
+    margin-bottom: 16px;
+
+    font-family: Roboto;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 36px
+  }
+}
+
+.card_container {
+  display: grid;
+  grid-template-columns: 1fr;
+
+  gap: 16px;
+
+  @media (min-width: 880px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card {
+  height: 384px;
+  width: 100%;
+  background-color: #434343;
+}

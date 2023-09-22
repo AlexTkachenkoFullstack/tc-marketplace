@@ -1,0 +1,150 @@
+@use '../../styles/utils/index' as *;
+$item-container-desktop: 752px;
+
+.Container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+  flex-grow: 1;
+
+  &__Top {
+    @include smallText;
+    line-height: 17px;
+    margin: 25px 0 40px;
+  }
+
+  &__Text {
+    @include h1-text-mobile;
+    margin-bottom: 32px;
+    color: $primary-color;
+
+    @include onTablet {
+      @include h1-text;
+    }
+  }
+
+  &__Content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-bottom: 56px;
+    margin-top: 32px;
+
+    @include onTablet {
+      margin-bottom: 64px;
+      margin-top: 40px;
+    }
+
+    @include onDesctop {
+      grid-template-columns: 2fr 1fr;
+      gap: 16px;
+      margin-bottom: 80px;
+    }
+  }
+}
+
+.emptyCart {
+  display: flex;
+  flex-grow: 1;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+
+  @include h2-text-mobile;
+  color: $primary-color;
+
+  @include onTablet {
+    @include h2-text;
+  }
+}
+
+.title {
+  grid-column: 1 / -1;
+  color: $primary-color;
+  @include h2-text;
+
+  @include onTablet {
+    @include h1-text;
+  }
+}
+
+.BackLink {
+  color: $secondary-color;
+  display: inline-block;
+  width: 60px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: $primary-color;
+  }
+}
+
+.ItemContainer {
+  margin: 0 auto;
+  width: 100%;
+
+  &__CartItem {
+    margin: 0 auto;
+    max-width: $item-container-desktop;
+    margin-bottom: 16px;
+
+    &:nth-last-child(1) {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.TotalContainer {
+  margin: 0 auto;
+  width: 100%;
+  padding: 24px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  box-sizing: border-box;
+  border: 1px solid $elements-color;
+  max-width: $item-container-desktop;
+  text-align: center;
+
+  @include onDesctop {
+    max-width: 368px;
+    height: 206px;
+    margin-top: 0;
+  }
+
+  &__Price {
+    border-bottom: 1px solid $elements-color;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+
+    &__Amount {
+      @include h2-text;
+      color: $primary-color;
+    }
+
+    &__Title {
+      @include bodyText;
+      color: $secondary-color;
+    }
+  }
+
+  &__Button {
+    @include buttonText;
+    height: 48px;
+    background-color: var(--button-color);
+    width: 100%;
+    color: $hover-bg-color;
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0 3px 13px 0 rgba(23, 32, 49, 0.4);
+      color: $button-selected-text;
+      border-color: transparent !important;
+    }
+  }
+}
