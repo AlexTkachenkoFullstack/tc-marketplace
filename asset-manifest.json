@@ -1,13 +1,23 @@
 {
   "files": {
-    "main.css": "/tc-marketplace/static/css/main.1a2d46b1.css",
-    "main.js": "/tc-marketplace/static/js/main.077c1866.js",
+    "main.css": "/tc-marketplace/static/css/main.3ad09364.css",
+    "main.js": "/tc-marketplace/static/js/main.30532911.js",
+    "static/media/logo.svg": "/tc-marketplace/static/media/logo.7965a18df6fd59bcd3f8379349e850f8.svg",
+    "static/media/favorite.svg": "/tc-marketplace/static/media/favorite.8fe9260c8366b6b89475c3b17a6c0968.svg",
+    "static/media/account_circle.svg": "/tc-marketplace/static/media/account_circle.c4b322c07feb2df011f2bcdeed665b7b.svg",
+    "static/media/arrow-white.svg": "/tc-marketplace/static/media/arrow-white.b54ec856197aaaab6742190da47efff6.svg",
+    "static/media/arrow-down.svg": "/tc-marketplace/static/media/arrow-down.0e79c17a292a33806b6c.svg",
+    "static/media/menu.svg": "/tc-marketplace/static/media/menu.5dc3fef5e07b7bf409a0866b7d508660.svg",
+    "static/media/arrow_right.svg": "/tc-marketplace/static/media/arrow_right.8269bda6a3bd8a00801708cdd3f297f7.svg",
     "index.html": "/tc-marketplace/index.html",
-    "main.1a2d46b1.css.map": "/tc-marketplace/static/css/main.1a2d46b1.css.map",
-    "main.077c1866.js.map": "/tc-marketplace/static/js/main.077c1866.js.map"
+    "static/media/add.svg": "/tc-marketplace/static/media/add.f1c642def307d73bcce1a1d223031cee.svg",
+    "static/media/line.svg": "/tc-marketplace/static/media/line.388887f6e56b0e756adb.svg",
+    "static/media/point.svg": "/tc-marketplace/static/media/point.eb5f67a2c8c41fd461c5fbbfb682533f.svg",
+    "main.3ad09364.css.map": "/tc-marketplace/static/css/main.3ad09364.css.map",
+    "main.30532911.js.map": "/tc-marketplace/static/js/main.30532911.js.map"
   },
   "entrypoints": [
-    "static/css/main.1a2d46b1.css",
-    "static/js/main.077c1866.js"
+    "static/css/main.3ad09364.css",
+    "static/js/main.30532911.js"
   ]
 }
