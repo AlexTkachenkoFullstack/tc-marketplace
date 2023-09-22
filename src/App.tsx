@@ -1,33 +1,24 @@
-import Favorite from './pages/Favorite';
-import Layout from './layouts';
-import Home from './pages/Home';
-import Register from './pages/Register';
-import Basket from './pages/Basket';
-import AddAdvertisementPage from './pages/AddAdvertisementPage';
-import React from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
-import { ProductCategory } from 'types';
-import ProductsPage from 'pages/ProductsPage/ProductsPage';
-import ProductDetailsPage from 'pages/ProductDetailsPage/ProductDetailsPage';
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable max-len */
+import './index.css';
+import { FC } from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { Layout } from './layouts/Layout';
+import { HomePage } from './pages/HomePage';
+import { FavoritesPage } from 'pages/Favourites';
 
-console.log(ProductCategory)
-const App: React.FC=(props)=>{
+export const App: FC = () => {
   return (
-    <Routes>
-        <Route path='/' element={<Layout />}>
-            <Route index element={<Home />}/>
-            <Route path='register' element={<Register/>}/>
-{/* -------------усі товари певної категорії----------- */}
-            {Object.values(ProductCategory).map((category)=>(<Route key={category} path={category} element={<ProductsPage category={category}/>}/>))}
-{/* -------------один товар певної категоріі------------- */}
-            {Object.values(ProductCategory).map((category)=>(<Route key={category} path={category+'/:productId'} element={<ProductDetailsPage />}/>))}
-            <Route path='favorite' element={<Favorite/>}/>
-            <Route path='basket' element={<Basket/>}/>
-            <Route path='addAdvertisement' element={<AddAdvertisementPage/>}/>
-            <Route path="*" element={<Navigate to="/" replace />} />
-        </Route>
-    </Routes>
-  );
-}
+    <>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="home" element={<Navigate to="/" replace />} />
 
-export default App;
+          <Route path="favorites" element={<FavoritesPage />} />
+
+        </Route>
+      </Routes>
+    </>
+  );
+};

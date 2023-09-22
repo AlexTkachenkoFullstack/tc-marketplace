@@ -1,0 +1,24 @@
+.footer {
+  box-sizing: border-box;
+  padding: 38px 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #E4E4E4;
+}
+
+.contact {
+  padding: 6px;
+  color: #606060;
+  border: none;
+  cursor: pointer;
+
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+
+  &:first-child {
+    margin-right: 13px;
+  }
+}
