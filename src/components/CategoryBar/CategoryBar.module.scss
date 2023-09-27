@@ -1,11 +1,10 @@
+@import '../../styles/main.scss';
+
 .category_bar {
   display: flex;
   overflow-x: auto;
   scroll-behavior: smooth;
-
-  @media (min-width: 880px) {
-    margin-bottom: 8px;
-  }
+  padding: 2px 0px;
 
   @media (max-width: 992px) {
     width: 100%;
@@ -20,11 +19,13 @@
 .category {
   padding: 10px 22px;
   box-sizing: border-box;
-  background-color: #FEFFFF;
+  background-color: $white-color;
   border: none;
   border-radius: 100px;
-  color: #434343;
+  color: $color-grey;
   cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 2px 3px 4px 0px rgba(208, 206, 206, 0.106);
 
   font-family: Roboto;
   font-size: 16px;
@@ -39,13 +40,13 @@
 
 .selected {
   background-color: #797979;
-  color: #FEFFFF;
+  color: $white-color;
 }
 
 .container {
   position: relative;
   display: flex;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 
   &__scroll_right {
     display: flex;
@@ -59,7 +60,7 @@
   }
 
   &__scroll_left {
-    display: block;
+    display: flex;
     padding: 10px;
     border: none;
     cursor: pointer;

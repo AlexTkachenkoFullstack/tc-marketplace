@@ -1,20 +1,17 @@
 import {
   FC, useState, useRef, useCallback, useEffect,
 } from 'react';
-import cn from 'classnames';
 import styles from './Dropdown.module.scss';
 
 import arrowDown from '../../assets/icons/arrow-down.svg';
 import close from '../../assets/icons/close.svg';
 
-import Select from './Select/Select';
 import useClickOutside from 'helpers/hooks/useClickOutside';
 
 type Props = {
   label: string;
   startValue: string;
   options: string[];
-  className?: string;
 };
 
 export const Dropdown: FC<Props> = (props) => {
@@ -22,10 +19,9 @@ export const Dropdown: FC<Props> = (props) => {
     label,
     startValue,
     options,
-    className = '',
   } = props;
 
-  const [isActive, setIsActive] = useState(true);
+  const [isActive, setIsActive] = useState(false);
   const [option, setOption] = useState(startValue);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -59,10 +55,7 @@ export const Dropdown: FC<Props> = (props) => {
 
   return (
     <div
-      className={cn(styles.container, className, {
-        [styles.active]: isActive,
-        [styles.disabled]: !isActive,
-      })}
+      className={styles.container}
       ref={dropdownRef}
     >
       {(option !== startValue) && (
@@ -74,37 +67,42 @@ export const Dropdown: FC<Props> = (props) => {
         type="button"
         onClick={() => setIsActive((prevState) => !prevState)}
       >
+        <div className={`${styles.trigger_content} ${isActive ? styles.trigger_content_active : ''}`}>
         <span className={styles.text}>{option}</span>
 
         <div className={styles.icons}>
-          <img
-            src={arrowDown}
-            alt="down"
-            className={cn(styles.icon, styles['icon--down'])}
-          />
-
-          {isActive && (
-          <img
-            src={close}
-            alt="close"
-            className={cn(styles.icon, styles['icon--up'])}
-          />
+          {!isActive ? (
+            <img
+              src={arrowDown}
+              alt="down"
+              className={styles.icon}
+            />
+          ) : (
+            <img
+              src={close}
+              alt="close"
+              className={styles.icon}
+            />
           )}
+        </div>
         </div>
       </button>
 
-      <ul className={styles.list}>
-        {options.map(option => (
-          <li className={styles.listItem} key={option}>
-            <Select
-              className={styles.listLink}
-              handleChangeOption={changeOption}
-            >
-              {option}
-            </Select>
-          </li>
-        ))}
-      </ul>
+      {isActive && (
+        <ul className={styles.list}>
+          {options.map(currentOption => (
+            <li className={styles.listItem} key={currentOption}>
+              <span
+                className={styles.listLink}
+                onClick={() => changeOption(currentOption)}
+              >
+                {currentOption}
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+
     </div>
   );
 };

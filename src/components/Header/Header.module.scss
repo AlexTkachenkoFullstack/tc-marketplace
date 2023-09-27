@@ -1,10 +1,12 @@
+@import '../../styles/main.scss';
+
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 64px; // 56px for mobile
-  padding: 12px 32px; // 8px 20px for mobile
-  background-color: #FEFFFF;
+  height: 64px;
+  padding: 12px 32px;
+  background-color: $white-color;
 
   @media (max-width: 880px) {
     height: 56px;
@@ -21,7 +23,7 @@
     display: none;
     height: 100%;
     align-items: center;
-    gap: 16px; // 8px for mobile
+    gap: 16px;
 
     font-family: Roboto;
     font-size: 16px;
@@ -29,7 +31,7 @@
     font-weight: 600;
 
     @media (min-width: 880px) {
-      display: flex; // Hide on mobile
+      display: flex;
     }
 
     &_link {
@@ -41,7 +43,7 @@
     display: flex;
     height: 40px;
     align-items: center;
-    gap: 16px; // 8px for mobile
+    gap: 16px;
 
     @media (max-width: 880px) {
       gap: 8px;
@@ -49,15 +51,15 @@
 
     &__link {
       text-decoration: none;
-      color: #000; // Change to your desired text color
-      font-weight: bold; // Adjust font styles as needed
+      color: $color-grey;
+      font-weight: bold;
     }
   }
 
   &__right {
     display: flex;
     height: 40px;
-    gap: 16px; // 8px for mobile
+    gap: 16px;
 
     @media (max-width: 880px) {
       gap: 8px;
@@ -68,18 +70,18 @@
   display: flex;
   align-items: center;
   height: 40px;
-  color: #434343;
-  padding: 0 8px; // 0 4px for mobile
-  border: 1px solid #434343; // Change to your desired border styles
-  border-radius: 100px; // 16px for mobile
+  color: $color-grey;
+  padding: 0 8px;
+  border: 1px solid $color-grey;
+  border-radius: 100px;
   cursor: pointer;
 
   @media (max-width: 880px) {
-    display: none; // Hide on mobile
+    display: none;
   }
 
   &_text {
-    margin-right: 8px; // 4px for mobile
+    margin-right: 8px;
     font-family: Roboto;
     font-size: 16px;
     font-style: normal;
@@ -88,7 +90,7 @@
   }
 
   &_icon {
-    font-size: 16px; // Adjust the font size as needed
+    font-size: 16px;
   }
 }
 
@@ -100,7 +102,7 @@
 
     display: flex;
     align-items: center;
-    padding: 8px; // 0 4px for mobile
+    padding: 8px;
   }
 
   &__favorite_button {
@@ -114,10 +116,10 @@
   }
 
   &__login_text {
-    margin-left: 8px; // 4px for mobile
-    color: #434343;
+    margin-left: 8px;
+    color: $color-grey;
 
-    // font-family: Roboto;
+    font-family: Roboto;
     font-size: 16px;
     font-style: normal;
     font-weight: 600;

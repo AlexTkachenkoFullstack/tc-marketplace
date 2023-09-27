@@ -7,13 +7,14 @@ import { Dropdown } from 'components/Dropdown/Dropdown';
 const models = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 const brands = ['Toyota', 'Ford', 'BMW', 'Audi', 'Lexus'];
 const regions = ['Kyiv', 'Odesa', 'Lviv'];
-const categories = ['Всі', 'Легкові', 'Мотоцикли', 'Електротранспорт', 'Причепи', 'Вантажівки', 'Водний&nbsp;транспорт'];
+const categories = ['Всі', 'Легкові', 'Мотоцикли', 'Електротранспорт', 'Причепи', 'Вантажівки', 'Водний транспорт'];
 
 export const HomeTop = () => {
   const [selectedModel, setSelectedModel] = useState<string | null>(null);
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('Всі');
+  const [active, setActive] = useState(false);
 
   return (
     <div className={styles.homeTop}>
@@ -31,11 +32,24 @@ export const HomeTop = () => {
 
             <Dropdown
               options={models}
-              label='select model'
+              label='Модель'
               startValue='Модель'
+              // setActive={setActive}
             />
 
-            <select className={styles.select_window}>
+            <Dropdown
+              options={brands}
+              label='Марка'
+              startValue='Марка'
+            />
+
+            <Dropdown
+              options={regions}
+              label='Регіон'
+              startValue='Регіон'
+            />
+
+            {/* <select className={styles.select_window}>
               <option value="model">
                 <span>Модель</span>
               </option>
@@ -71,7 +85,7 @@ export const HomeTop = () => {
                 <span>{region}</span>
               </option>
               ))}
-            </select>
+            </select> */}
           </div>
 
           <div className={styles.search}>
