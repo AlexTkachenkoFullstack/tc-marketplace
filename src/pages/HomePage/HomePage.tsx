@@ -1,38 +1,33 @@
+import React from 'react';
 import { HomeTop } from 'components/HomeTop/HomeTop';
 import styles from './HomePage.module.scss';
+import { CardSlider } from 'components/CardSlider';
 // import { GoToTopButton } from '../../components/GoToTopButton/GoToTopButton';
 
-export const HomePage = () => {
+export const HomePage: React.FC = () => {
   return (
     <div className={styles.homePage}>
+
       <HomeTop />
+
       <div className={styles.main}>
-        <section className={styles.new}>
-          <h2 className={styles.new__title}>Нещодавно переглянуті товари</h2>
-          <div className={styles.card_container}>
-            <article className={styles.card}>fgsdf</article>
-            <article className={styles.card}>sfdf</article>
-            <article className={styles.card}>sdfds</article>
-          </div>
-        </section>
+        <div className={styles.recentGoods}>
+          <CardSlider title={"Нещодавно переглянуті товари"} />
+        </div>
 
-        <section className={styles.new}>
-          <h2 className={styles.new__title}>Нові автомобілі на сайті</h2>
-          <div className={styles.card_container}>
-            <article className={styles.card}>fgsdf</article>
-            <article className={styles.card}>sfdf</article>
-            <article className={styles.card}>sdfds</article>
-          </div>
-        </section>
+        {/* <div className={styles.newGoods}>
+          <CardSlider title={"Нові автомобілі на сайті"} />
+        </div> */}
 
-        <section className={styles.new}>
-          <h2 className={styles.new__title}>Популярні товари</h2>
+        <div className={styles.popularGoods}>
+          {/* <PopularGoods /> */}
+          {/* <h2 className={styles.new__title}>Популярні товари</h2>
           <div className={styles.card_container}>
             <article className={styles.card}>fgsdf</article>
             <article className={styles.card}>sfdf</article>
             <article className={styles.card}>sdfds</article>
-          </div>
-        </section>
+          </div> */}
+        </div>
       </div>
     </div>
   );

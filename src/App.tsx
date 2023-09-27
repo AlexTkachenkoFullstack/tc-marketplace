@@ -1,13 +1,13 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable max-len */
-import './index.css';
-import { FC } from 'react';
+import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+
+import './styles/main.scss';
+
 import { Layout } from './layouts/Layout';
 import { HomePage } from './pages/HomePage';
 import { FavoritesPage } from 'pages/Favourites';
 
-export const App: FC = () => {
+export const App: React.FC = () => {
   return (
     <>
       <Routes>
