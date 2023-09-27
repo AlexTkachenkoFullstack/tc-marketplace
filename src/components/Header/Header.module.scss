@@ -14,10 +14,11 @@
   &__burger {
     border: none;
     padding: 8px;
+    cursor: pointer;
   }
 
   &__nav {
-    display: flex;
+    display: none;
     height: 100%;
     align-items: center;
     gap: 16px; // 8px for mobile
@@ -27,8 +28,8 @@
     font-style: normal;
     font-weight: 600;
 
-    @media (max-width: 880px) {
-      display: none; // Hide on mobile
+    @media (min-width: 880px) {
+      display: flex; // Hide on mobile
     }
 
     &_link {

@@ -1,35 +1,76 @@
 import styles from './HomeTop.module.scss';
 import arrow from '../../assets/icons/arrow-white.svg';
 import { CategoryBar } from 'components/CategoryBar/CategoryBar';
-// import { GoToTopButton } from '../../components/GoToTopButton/GoToTopButton';
+import { useState } from 'react';
+import { Dropdown } from 'components/Dropdown/Dropdown';
+
+const models = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+const brands = ['Toyota', 'Ford', 'BMW', 'Audi', 'Lexus'];
+const regions = ['Kyiv', 'Odesa', 'Lviv'];
+const categories = ['Всі', 'Легкові', 'Мотоцикли', 'Електротранспорт', 'Причепи', 'Вантажівки', 'Водний&nbsp;транспорт'];
 
 export const HomeTop = () => {
+  const [selectedModel, setSelectedModel] = useState<string | null>(null);
+  const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+  const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>('Всі');
+
   return (
     <div className={styles.homeTop}>
       <div className={styles.container}>
         <h2 className={styles.title}>
           Title
         </h2>
-        <CategoryBar />
+        <CategoryBar
+          categories={categories}
+          handleSelect={setSelectedCategory}
+        />
 
         <div className={styles.container_bottom}>
           <div className={styles.select_bar}>
+
+            <Dropdown
+              options={models}
+              label='select model'
+              startValue='Модель'
+            />
+
             <select className={styles.select_window}>
               <option value="model">
                 <span>Модель</span>
               </option>
+
+              {models.map(model => (
+              <option value={model} key={model}>
+                <span>{model}</span>
+              </option>
+              ))}
+
             </select>
 
             <select className={styles.select_window}>
               <option value="">
                 <span>Марка</span>
               </option>
+
+              {brands.map(brand => (
+              <option value={brand} key={brand}>
+                <span>{brand}</span>
+              </option>
+              ))}
+
             </select>
 
             <select className={styles.select_window}>
               <option value="city">
-                <span>Київ</span>
+                <span>Регіон</span>
               </option>
+
+              {regions.map(region => (
+              <option value={region} key={region}>
+                <span>{region}</span>
+              </option>
+              ))}
             </select>
           </div>
 

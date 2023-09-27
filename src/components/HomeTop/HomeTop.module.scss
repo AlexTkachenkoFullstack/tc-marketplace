@@ -85,9 +85,10 @@
 .select_window {
   box-sizing: border-box;
   border: none;
-  height: 44px;
-  padding: 6px 0px 6px 20px;
+  height: 48px;
+  padding: 2px 0px 2px 22px;
   border-radius: 100px;
+  cursor: pointer;
 
   font-family: Roboto;
   font-size: 16px;
@@ -125,6 +126,11 @@
   @media (min-width: 880px) {
     margin-bottom: 0;
   }
+}
+
+.select_window option {
+  background-color: #fff;
+  color: black;
 }
 
 .search {
@@ -165,9 +171,10 @@
     height: 48px;
     border: none;
     line-height: 48px;
+    cursor: pointer;
   }
 
-  @media (min-width: 992px) {
+  @media (min-width: 993px) {
     flex-direction: column;
   }
 }
