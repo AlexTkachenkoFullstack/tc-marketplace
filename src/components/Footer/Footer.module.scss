@@ -1,24 +1,25 @@
+@import '../../styles/utils/variables';
+
 .footer {
-  box-sizing: border-box;
-  padding: 38px 80px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  padding-block: 38px;
   background-color: #E4E4E4;
 }
 
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.contacts {
+  display: flex;
+  justify-content: center;
+  gap: 0.81rem;
+}
+
 .contact {
-  padding: 6px;
-  color: #606060;
-  border: none;
-  cursor: pointer;
-
-  font-family: Roboto;
+  padding-block: 6px;
+  color: $color-dark-grey;
   font-size: 16px;
-  font-style: normal;
   font-weight: 600;
-
-  &:first-child {
-    margin-right: 13px;
-  }
 }

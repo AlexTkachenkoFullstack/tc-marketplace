@@ -9,9 +9,11 @@ export const Layout: FC = () => {
   return (
     <>
       <Header />
+
       <main className={styles.main}>
-        <Outlet />
+          <Outlet />
       </main>
+
       <Footer />
     </>
   );

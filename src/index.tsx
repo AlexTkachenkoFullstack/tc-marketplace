@@ -6,7 +6,7 @@ const container = document.getElementById('root') as HTMLElement;
 const root = createRoot(container);
 
 root.render(
-      <Router>
-        <App />
-      </Router>
+  <Router>
+    <App />
+  </Router>
 );

@@ -1,13 +1,35 @@
+import React from 'react';
+import '../../styles/blocks/_container.scss';
 import styles from './Footer.module.scss';
-import { Logo } from 'components/Logo';
 
-export const Footer = () => {
+import { Logo } from 'components/Logo';
+import { NavLink } from 'react-router-dom';
+
+export const Footer: React.FC = () => {
   return (
     <footer className={styles.footer}>
-      <Logo />
-      <div className={styles.contacts}>
-        <button className={styles.contact}>Facebook</button>
-        <button className={styles.contact}>Instagram</button>
+      <div className="container">
+        <div className={styles.content}>
+          <Logo />
+
+          <div className={styles.contacts}>
+            <NavLink
+              to={'https://www.facebook.com/'}
+              target='_blank'
+              className={styles.contact}
+            >
+              Facebook
+            </NavLink>
+
+            <NavLink
+              to={'https://www.instagram.com/'}
+              target='_blank'
+              className={styles.contact}
+            >
+              Instagram
+            </NavLink>
+          </div>
+        </div>
       </div>
     </footer>
   );
