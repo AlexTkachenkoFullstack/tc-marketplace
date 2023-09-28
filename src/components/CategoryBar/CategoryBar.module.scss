@@ -4,7 +4,6 @@
   display: flex;
   overflow-x: auto;
   scroll-behavior: smooth;
-  padding: 2px 0px;
 
   @media (max-width: 992px) {
     width: 100%;
@@ -25,7 +24,7 @@
   color: $color-grey;
   cursor: pointer;
   white-space: nowrap;
-  box-shadow: 2px 3px 4px 0px rgba(208, 206, 206, 0.106);
+  // box-shadow: 2px 3px 4px 0px rgba(208, 206, 206, 0.106);
 
   font-family: Roboto;
   font-size: 16px;
@@ -46,7 +45,7 @@
 .container {
   position: relative;
   display: flex;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 
   &__scroll_right {
     display: flex;

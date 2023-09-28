@@ -48,44 +48,6 @@ export const HomeTop = () => {
               label='Регіон'
               startValue='Регіон'
             />
-
-            {/* <select className={styles.select_window}>
-              <option value="model">
-                <span>Модель</span>
-              </option>
-
-              {models.map(model => (
-              <option value={model} key={model}>
-                <span>{model}</span>
-              </option>
-              ))}
-
-            </select>
-
-            <select className={styles.select_window}>
-              <option value="">
-                <span>Марка</span>
-              </option>
-
-              {brands.map(brand => (
-              <option value={brand} key={brand}>
-                <span>{brand}</span>
-              </option>
-              ))}
-
-            </select>
-
-            <select className={styles.select_window}>
-              <option value="city">
-                <span>Регіон</span>
-              </option>
-
-              {regions.map(region => (
-              <option value={region} key={region}>
-                <span>{region}</span>
-              </option>
-              ))}
-            </select> */}
           </div>
 
           <div className={styles.search}>
