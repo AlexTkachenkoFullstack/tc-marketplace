@@ -1,9 +1,16 @@
-import React from "react";
-import styles from './CardItem.module.scss';
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { LikeBtn } from "components/LikeBtn";
+import cn from 'classnames';
+
+import styles from './CardItem.module.scss';
+
+import LikeImg from '../../assets/icons/favorite.svg';
+import ActiveLikeImg from '../../assets/icons/favorite-active.svg';
+import { CommonBtn } from "components/Buttons/CommonBtn";
 
 export const CardItem: React.FC = () => {
+  const [isLiked, setIsLiked] = useState(false);
+
   return (
     <article className={styles.card}>
       <NavLink
@@ -18,9 +25,17 @@ export const CardItem: React.FC = () => {
       </NavLink>
 
       <div className={styles.col}>
-        <h3 className={styles.title}>Volkswagen Touareg 2021</h3>
+        <NavLink to="/Volkswagen_Touareg_2021" className={styles.link}>
+          <h3 className={styles.title}>Volkswagen Touareg 2021</h3>
+        </NavLink>
 
-        <LikeBtn />
+        <div>
+          <CommonBtn
+            iconPath={isLiked ? ActiveLikeImg : LikeImg }
+            className={cn(styles.likeBtn)}
+            onClick={() => setIsLiked(!isLiked)}
+          />
+        </div>
       </div>
 
 

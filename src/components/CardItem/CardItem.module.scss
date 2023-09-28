@@ -25,7 +25,19 @@
     justify-content: space-between;
   }
 
+  .link {
+    display: block;
+    transition: text-decoration-color $effectDuration;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+
+    &:hover {
+      text-decoration-color: inherit;
+    }
+  }
+
   .title {
+    width: calc(100% - 32px);
     font-size: 1.375rem;
     font-weight: 700;
     line-height: 1.65rem;
@@ -68,5 +80,24 @@
       background-color: $color-dark-grey;
       border-radius: 50%;
     }
+  }
+}
+
+.likeBtn {
+  width: 32px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  box-shadow: $shadow-btn;
+  border: none;
+
+  &:hover {
+    background-color: $bg-hover-btn;
+  }
+
+  img {
+    display: block;
+    width: 16px;
+    height: 16px;
+    object-fit: cover;
   }
 }
