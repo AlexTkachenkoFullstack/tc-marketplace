@@ -19,7 +19,7 @@ export const CardItem: React.FC = () => {
       >
         <img
           className={styles.img}
-          src="http://surl.li/lmhoe"
+          src="https://cdn2.riastatic.com/photosnew/auto/photo/volkswagen_touareg__516475592hd.webp"
           alt="Volkswagen Touareg 2021"
         />
       </NavLink>
