@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/tc-marketplace/static/css/main.10bccc86.css",
+    "main.css": "/tc-marketplace/static/css/main.351bfd0a.css",
     "main.js": "/tc-marketplace/static/js/main.58ed853a.js",
     "static/media/test8.jpeg": "/tc-marketplace/static/media/test8.080c4ee1c4bad87350e8.jpeg",
     "static/media/logo.svg": "/tc-marketplace/static/media/logo.7965a18df6fd59bcd3f8379349e850f8.svg",
@@ -18,11 +18,11 @@
     "static/media/add.svg": "/tc-marketplace/static/media/add.f1c642def307d73bcce1a1d223031cee.svg",
     "static/media/line.svg": "/tc-marketplace/static/media/line.63befb63f000ebd4c502.svg",
     "static/media/point.svg": "/tc-marketplace/static/media/point.eb5f67a2c8c41fd461c5fbbfb682533f.svg",
-    "main.10bccc86.css.map": "/tc-marketplace/static/css/main.10bccc86.css.map",
+    "main.351bfd0a.css.map": "/tc-marketplace/static/css/main.351bfd0a.css.map",
     "main.58ed853a.js.map": "/tc-marketplace/static/js/main.58ed853a.js.map"
   },
   "entrypoints": [
-    "static/css/main.10bccc86.css",
+    "static/css/main.351bfd0a.css",
     "static/js/main.58ed853a.js"
   ]
 }
