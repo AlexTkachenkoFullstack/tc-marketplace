@@ -14,18 +14,18 @@
   }
 }
 
- .title {
-    margin-bottom: 40px;
+.title {
+  margin-bottom: 40px;
 
-    font-size: 32px;
-    font-weight: 700;
-    line-height: 36px;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 36px;
 
-    @media (min-width: 880px) {
-      margin-bottom: 60px;
-      font-size: 62px;
-    }
+  @media (min-width: 880px) {
+    margin-bottom: 60px;
+    font-size: 62px;
   }
+}
 
 .container {
   padding: 100px 20px;
@@ -79,7 +79,7 @@
       z-index: 3;
 
       right: calc(100% / 3 - 5px);
-      top: calc(100% / 2 - 17px);
+      top: calc(48px / 2 - 10px);
       background: url('../../assets/icons/line.svg') no-repeat;
     }
 
@@ -91,18 +91,8 @@
       z-index: 3;
 
       left: calc(100% / 3 + 7px);
-      top: calc(100% / 2 - 17px);
+      top: calc(48px / 2 - 10px);
       background: url('../../assets/icons/line.svg') no-repeat;
-    }
-  }
-
-  @media (min-width: 993px) {
-    &::before {
-      top: calc(100% / 2 - 29px);
-    }
-
-    &::after {
-      top: calc(100% / 2 - 29px);
     }
   }
 }
