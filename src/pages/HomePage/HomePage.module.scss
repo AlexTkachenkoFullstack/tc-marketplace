@@ -1,9 +1,11 @@
+@import '../../styles/main.scss';
+
 .homePage {
 
   .main {
     padding-block: 2.5rem;
     margin-inline: auto;
-    background-color: #FEFFFF;
+    background-color: $white-color;
   }
 
   .recentGoods {

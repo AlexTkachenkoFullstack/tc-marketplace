@@ -1,9 +1,48 @@
 import styles from './CategoryBar.module.scss';
-import scroll from '../../assets/icons/arrow_right.svg';
-import { useRef } from 'react';
+import scrollRight from '../../assets/icons/arrow_right.svg';
+import scrollLeft from '../../assets/icons/arrow_back.svg';
+import { useEffect, useRef, useState } from 'react';
 
-export const CategoryBar = () => {
+interface Props {
+  categories: string[];
+  handleSelect: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export const CategoryBar: React.FC<Props> = ({ categories, handleSelect }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const [showLeftScrollButton, setShowLeftScrollButton] = useState(false);
+  const [showRightScrollButton, setShowRightScrollButton] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState<string>("Всі");
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      const handleScroll = () => {
+        setShowLeftScrollButton(container.scrollLeft > 0);
+        setShowRightScrollButton(
+          container.scrollWidth > (container.clientWidth + container.scrollLeft)
+        );
+      };
+
+      const handleResize = () => {
+        handleScroll();
+      }
+
+      container.addEventListener('scroll', handleScroll);
+      window.addEventListener('resize', handleResize);
+
+      return () => {
+        container.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('resize', handleResize);
+      };
+
+    }
+  }, []);
+
+  const handleSelectCategory = (category: string) => {
+    setSelectedCategory(category);
+    handleSelect(category);
+  }
 
   const handleScrollRight = () => {
     if (containerRef.current) {
@@ -11,20 +50,37 @@ export const CategoryBar = () => {
     }
   };
 
+  const handleScrollLeft = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollLeft -= 200;
+    }
+  };
+
   return (
   <div className={styles.container}>
-    <div className={styles.category_bar} ref={containerRef}>
-      <button className={styles.category}>Всі</button>
-      <button className={styles.category}>Легкові</button>
-      <button className={styles.category}>Мотоцикли</button>
-      <button className={styles.category}>Електротранспорт</button>
-      <button className={styles.category}>Причепи</button>
-      <button className={styles.category}>Вантажівки</button>
-      <button className={styles.category}>Водний&nbsp;транспорт</button>
-    </div>
-      <button className={styles.container__scroll} onClick={handleScrollRight}>
-        <img src={scroll} alt="scroll" />
+    {showLeftScrollButton &&
+      <button className={styles.container__scroll_left} onClick={handleScrollLeft}>
+        <img src={scrollLeft} alt="scroll right" />
       </button>
+    }
+
+    <div className={styles.category_bar} ref={containerRef}>
+      {categories.map(category => (
+        <button
+          className={`${styles.category} ${selectedCategory === category ? styles.selected : ''}`}
+          key={category}
+          onClick={() => handleSelectCategory(category)}
+        >
+          {category}
+        </button>
+      ))}
+    </div>
+
+      {showRightScrollButton &&
+      <button className={styles.container__scroll_right} onClick={handleScrollRight}>
+        <img src={scrollRight} alt="scroll right" />
+      </button>
+      }
   </div>
   );
 };
