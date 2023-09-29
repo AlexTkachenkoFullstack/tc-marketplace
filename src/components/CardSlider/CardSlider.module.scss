@@ -12,8 +12,12 @@
     user-select: none;
     max-width: $desktop-min-width;
 
-    @include onTablet {
+    @media (min-width: '592px') {
       margin-inline: auto;
+      padding-inline: 1rem;
+    }
+
+    @include onTablet {
       padding-inline: $tablet-padding;
     }
 
@@ -39,7 +43,7 @@
   .navBtns {
     display: none;
 
-    @include onTablet {
+    @media (min-width: '592px') {
       display: flex;
       justify-content: center;
       gap: 0.5rem;
@@ -70,7 +74,7 @@
 
     &:first-child,
     &:last-child {
-      @include onTablet {
+      @media (min-width: '592px') {
         margin-inline: 0;
       }
     }

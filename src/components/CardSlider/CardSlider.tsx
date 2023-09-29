@@ -79,7 +79,8 @@ export const CardSlider: React.FC<Props> = ({ title }) => {
           spaceBetween={16}
           className={"mySwiper"}
           breakpoints={{
-            840: {
+            // 840: { //prev version
+            592: {
               slidesPerView: 2,
             },
             1280: {
