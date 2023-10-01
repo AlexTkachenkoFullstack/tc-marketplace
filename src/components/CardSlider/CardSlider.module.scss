@@ -12,18 +12,13 @@
     user-select: none;
     max-width: $desktop-min-width;
 
-    @include onTabletSmall {
-      margin-inline: auto;
-      padding-inline: 1rem;
-    }
-
     @include onTablet {
+      margin-inline: auto;
       padding-inline: $tablet-padding;
     }
 
     @include onDesktop {
-      padding-inline: $tablet-padding - 3rem;
-      max-width: $desktop-min-width + 6rem;
+      max-width: $desktop-min-width;
     }
   }
 
@@ -43,14 +38,10 @@
   .navBtns {
     display: none;
 
-    @include onTabletSmall {
+    @include onTablet {
       display: flex;
       justify-content: center;
       gap: 0.5rem;
-    }
-
-    @include onDesktop {
-      display: none;
     }
   }
 
@@ -74,17 +65,9 @@
 
     &:first-child,
     &:last-child {
-      @include onTabletSmall {
+      @include onTablet {
         margin-inline: 0;
       }
-    }
-  }
-
-  .sliderBtn {
-    display: none;
-
-    @include onDesktop {
-      display: block;
     }
   }
 }

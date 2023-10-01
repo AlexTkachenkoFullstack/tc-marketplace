@@ -64,26 +64,16 @@ export const CardSlider: React.FC<Props> = ({ title }) => {
       </div>
 
       <div className={styles.content}>
-        <div className={styles.sliderBtn}>
-          <CommonBtn
-            className={cn(styles.squareBtn, styles.squareBtn_left)}
-            isDisabled={isPrevBtnDisabled}
-            iconPath={ArrowLeft}
-            onClick={() => handleClick('left')}
-          />
-        </div>
-
         <Swiper
           onSwiper={setSwiperRef}
           slidesPerView={'auto'}
           spaceBetween={16}
           className={"mySwiper"}
           breakpoints={{
-            // 840: { //prev version
-            592: {
+            768: {
               slidesPerView: 2,
             },
-            1280: {
+            1024: {
               slidesPerView: 3,
             }
           }}
@@ -94,15 +84,6 @@ export const CardSlider: React.FC<Props> = ({ title }) => {
             </SwiperSlide>
           ))}
         </Swiper>
-
-        <div className={styles.sliderBtn}>
-          <CommonBtn
-            className={cn(styles.squareBtn, styles.squareBtn_right)}
-            isDisabled={isNextBtnDisabled}
-            iconPath={ArrowRight}
-            onClick={() => handleClick('right')}
-          />
-        </div>
       </div>
     </section>
   );
