@@ -25,18 +25,17 @@
   .catalog {
     display: grid;
     justify-content: center;
-    grid-template-columns: repeat(auto-fill, minmax(17.5rem, 32.5rem));
+    grid-template-columns: repeat(auto-fill, minmax(16.5rem, 32.5rem));
     flex-wrap: wrap;
     gap: 2rem 1rem;
     width: 100%;
 
     @include onTablet {
-      width: 100%;
-      grid-template-columns: repeat(2, minmax(20rem, 32.5rem));
+      grid-template-columns: repeat(2, minmax(16.5rem, 32.5rem));
     }
 
     @include onDesktop {
-      grid-template-columns: repeat(3, minmax(20rem, 32.5rem));
+      grid-template-columns: repeat(3, minmax(16.5rem, 32.5rem));
     }
   }
 
