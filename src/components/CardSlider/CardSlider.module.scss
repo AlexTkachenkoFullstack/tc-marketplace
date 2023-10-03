@@ -15,11 +15,11 @@
     @include onTablet {
       margin-inline: auto;
       padding-inline: $tablet-padding;
+      box-sizing: border-box;
     }
 
     @include onDesktop {
-      padding-inline: $tablet-padding - 3rem;
-      max-width: $desktop-min-width + 6rem;
+      max-width: $desktop-min-width;
     }
   }
 
@@ -34,6 +34,11 @@
     font-size: 1.375rem;
     font-weight: 700;
     line-height: 120%;
+
+    @include onTablet {
+      font-size: 2rem;
+      line-height: 100%;
+    }
   }
 
   .navBtns {
@@ -43,10 +48,6 @@
       display: flex;
       justify-content: center;
       gap: 0.5rem;
-    }
-
-    @include onDesktop {
-      display: none;
     }
   }
 
@@ -73,14 +74,6 @@
       @include onTablet {
         margin-inline: 0;
       }
-    }
-  }
-
-  .sliderBtn {
-    display: none;
-
-    @include onDesktop {
-      display: block;
     }
   }
 }

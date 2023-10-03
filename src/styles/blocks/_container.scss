@@ -6,4 +6,5 @@
   @include contentPaddingInline;
   max-width: $desktop-min-width;
   margin-inline: auto;
+  box-sizing: border-box;
 }
