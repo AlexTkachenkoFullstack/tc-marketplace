@@ -13,21 +13,11 @@ const regions = ['Kyiv', 'Odesa', 'Lviv'];
 const categories1 = ['Всі', 'Легкові', 'Мотоцикли', 'Електротранспорт', 'Причепи', 'Вантажівки', 'Водний транспорт'];
 
 export const HomeTop = () => {
-  const [categories, setCategories] = useState<Category[] | []>([]);
-  const [selectedModel, setSelectedModel] = useState<string[] | null>(null);
-  const [selectedBrand, setSelectedBrand] = useState<string[] | null>(null);
-  const [selectedRegion, setSelectedRegion] = useState<string[] | null>(null);
+  // const [selectedModel, setSelectedModel] = useState<string | null>(null);
+  // const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+  // const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('Всі');
-
-  // useEffect(() => {
-  //   getProductCategories()
-  //     .then((allCategories) => {
-  //       setCategories(allCategories);
-  //     })
-  //     .catch(() => {
-  //       console.log('categories error');
-  //     })
-  // }, []);
+  // const [active, setActive] = useState(false);
 
   return (
     <div className={styles.homeTop}>

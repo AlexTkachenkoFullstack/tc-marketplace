@@ -6,13 +6,15 @@ const useClickOutside = (
   ref: RefObject<HTMLElement>,
   callback: () => void,
 ) => {
-  const handleClick = (event: Event) => {
-    if (ref.current && !ref.current.contains(event.target as Node)) {
-      callback();
-    }
-  };
+  
 
   useEffect(() => {
+    const handleClick = (event: Event) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        callback();
+      }
+    };
+    
     document.addEventListener('mousedown', handleClick);
     document.addEventListener('touchstart', handleClick);
 
