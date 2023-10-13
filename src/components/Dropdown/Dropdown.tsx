@@ -30,20 +30,6 @@ export const Dropdown: FC<Props> = (props) => {
     setOption(newOption);
     setIsActive(false);
   };
-  //   const params: SearchParams = {
-  //     [searchParamName]: paramValue,
-  //   };
-
-  //   const additionalParams = Object.entries(additionalSearhParams);
-
-  //   if (additionalParams.length) {
-  //     additionalParams.forEach(([option, value]) => {
-  //       params[option] = value;
-  //     });
-  //   }
-
-  //   return params;
-  // };
 
   useClickOutside(dropdownRef, useCallback(() => {
     setIsActive(false);

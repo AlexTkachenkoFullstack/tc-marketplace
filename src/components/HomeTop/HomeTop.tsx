@@ -3,18 +3,31 @@ import arrow from '../../assets/icons/arrow-white.svg';
 import { CategoryBar } from 'components/CategoryBar/CategoryBar';
 import { useState } from 'react';
 import { Dropdown } from 'components/Dropdown/Dropdown';
+import Category from 'types/Category';
+// import { getProductCategories } from 'api/search';
+// import { ProductCategory } from 'types';
 
 const models = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 const brands = ['Toyota', 'Ford', 'BMW', 'Audi', 'Lexus'];
 const regions = ['Kyiv', 'Odesa', 'Lviv'];
-const categories = ['Всі', 'Легкові', 'Мотоцикли', 'Електротранспорт', 'Причепи', 'Вантажівки', 'Водний транспорт'];
+const categories1 = ['Всі', 'Легкові', 'Мотоцикли', 'Електротранспорт', 'Причепи', 'Вантажівки', 'Водний транспорт'];
 
 export const HomeTop = () => {
-  const [selectedModel, setSelectedModel] = useState<string | null>(null);
-  const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
-  const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
+  const [categories, setCategories] = useState<Category[] | []>([]);
+  const [selectedModel, setSelectedModel] = useState<string[] | null>(null);
+  const [selectedBrand, setSelectedBrand] = useState<string[] | null>(null);
+  const [selectedRegion, setSelectedRegion] = useState<string[] | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('Всі');
-  const [active, setActive] = useState(false);
+
+  // useEffect(() => {
+  //   getProductCategories()
+  //     .then((allCategories) => {
+  //       setCategories(allCategories);
+  //     })
+  //     .catch(() => {
+  //       console.log('categories error');
+  //     })
+  // }, []);
 
   return (
     <div className={styles.homeTop}>
@@ -23,7 +36,7 @@ export const HomeTop = () => {
           Title
         </h2>
         <CategoryBar
-          categories={categories}
+          categories={categories1}
           handleSelect={setSelectedCategory}
         />
 
@@ -34,7 +47,6 @@ export const HomeTop = () => {
               options={models}
               label='Модель'
               startValue='Модель'
-              // setActive={setActive}
             />
 
             <Dropdown
