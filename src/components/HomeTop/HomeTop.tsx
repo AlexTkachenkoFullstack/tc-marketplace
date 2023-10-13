@@ -10,12 +10,12 @@ const regions = ['Kyiv', 'Odesa', 'Lviv'];
 const categories = ['Всі', 'Легкові', 'Мотоцикли', 'Електротранспорт', 'Причепи', 'Вантажівки', 'Водний транспорт'];
 
 export const HomeTop = () => {
-  const [selectedModel, setSelectedModel] = useState<string | null>(null);
-  const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
-  const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
+  // const [selectedModel, setSelectedModel] = useState<string | null>(null);
+  // const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+  // const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('Всі');
-  const [active, setActive] = useState(false);
-
+  // const [active, setActive] = useState(false);
+console.log(selectedCategory)
   return (
     <div className={styles.homeTop}>
       <div className={styles.container}>
