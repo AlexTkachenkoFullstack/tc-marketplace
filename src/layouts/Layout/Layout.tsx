@@ -12,7 +12,6 @@ export const Layout: FC = () => {
   return (
     <>
       {path !== '/login' && <Header />}
-      <Header />
 
       <main className={styles.main}>
           <Outlet />
