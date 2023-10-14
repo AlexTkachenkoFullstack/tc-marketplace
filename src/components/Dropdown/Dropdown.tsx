@@ -14,8 +14,6 @@ type Props = {
     options: string[];
 };
 
-// to do:
-// work with input focus
 export const Dropdown: FC<Props> = (props) => {
     const {
         label,
@@ -29,6 +27,7 @@ export const Dropdown: FC<Props> = (props) => {
 
     const dropdownRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null)
+
     const changeOption = (newOption: string) => {
         setOption(newOption);
         setIsActive(false);
@@ -71,10 +70,8 @@ export const Dropdown: FC<Props> = (props) => {
     }
 
     const filterOptions = (option: string) => {
-
         if (filterValue.length === 0) return true
         return option.toLowerCase().includes(filterValue.toLowerCase().trim())
-
     }
 
     useEffect(() => { setfilterValue('') }, [])
@@ -99,7 +96,10 @@ export const Dropdown: FC<Props> = (props) => {
             >
                 <div className={`${styles.trigger_content} ${isActive ? styles.trigger_content_active : ''}`}
                 >
+
                     {isActive ? <input
+                        // #BIVComment
+                        // can't use autofocus, because it's create conflict with parrent button and should broke select in list below
                         onKeyUp={(e) => {
                             if (e.key === ' ') { e.preventDefault() }
                         }}

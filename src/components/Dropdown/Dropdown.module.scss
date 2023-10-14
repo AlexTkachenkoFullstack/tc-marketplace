@@ -100,6 +100,8 @@
   box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.05);
   z-index: 10;
 
+  // #BIVcomment
+  //   dropdown custom thin scroll bar, maybe should be taken to separate mixin for reuse in another cooponents
   &::-webkit-scrollbar {
     width: 4px;
   }
@@ -113,9 +115,15 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background: $color-grey;
+    background: $hover-gray;
     border-radius: 100px;
     padding: 2px 0;
+
+    // #Bivcomment
+    // active color for scrollbar, not in design, so maybe it's temporary, will discuse about it later
+    &:active {
+      background: $color-dark-grey;
+    }
   }
 }
 
