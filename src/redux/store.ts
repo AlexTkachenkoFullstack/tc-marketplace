@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { carsSlice } from './filter/slice'
+import { carsSlice } from './cars/slice'
 export const store = configureStore({
     reducer: {
         cars:carsSlice.reducer

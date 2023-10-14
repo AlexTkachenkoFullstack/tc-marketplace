@@ -1,4 +1,4 @@
-import React, {  useState, useEffect } from 'react';
+import React, {  useState} from 'react';
 import cn from 'classnames';
 import SwiperCore, { Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -16,27 +16,21 @@ import { CardItem } from 'components/CardItem';
 import ArrowLeft from '../../assets/icons/arrow_left.svg';
 import ArrowRight from '../../assets/icons/arrow_right.svg';
 import { CommonBtn } from 'components/Buttons/CommonBtn';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { fetchNewCars } from 'redux/filter/operations';
+import { ICar } from 'types/IСar';
+
 
 SwiperCore.use([Autoplay]);
 
 interface Props {
   title?: string;
+  newCars?:ICar[] | []
 }
 
-export const CardSlider: React.FC<Props> = ({ title }) => {
+export const CardSlider: React.FC<Props> = ({ title, newCars }) => {
   const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
   const [isPrevBtnDisabled, setIsPrevBtnDisabled] = useState(true);
   const [isNextBtnDisabled, setIsNextBtnDisabled] = useState(false);
-
-  const newCars=useAppSelector(state=>state.cars.newCars);
-  console.log(newCars)
-const dispatch=useAppDispatch()
-// console.log(dispatch)
-useEffect(()=>{
-dispatch(fetchNewCars({page:1, limit:3}))
-}, [dispatch])
+  
  
 
   const handleClick = (direction: string) => {

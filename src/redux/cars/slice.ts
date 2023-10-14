@@ -1,15 +1,12 @@
 import { createSlice} from '@reduxjs/toolkit';
 import { fetchNewCars } from './operations';
+import { ICar } from 'types/IСar';
 
-interface Car {
-    id: number;
-    type: string;
-  }
   
   interface CarsState {
-    recentlyViewedCars:Car[] | [];
-    popularCars: Car[] | [];
-    newCars:Car[] | [],
+    recentlyViewedCars:ICar[] | [];
+    popularCars: ICar[] | [];
+    newCars:ICar[] | [],
     error: string | null;
     isLoading:boolean;
   }
