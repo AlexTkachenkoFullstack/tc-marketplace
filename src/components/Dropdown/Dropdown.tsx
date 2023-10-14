@@ -7,6 +7,7 @@ import arrowDown from '../../assets/icons/arrow-down.svg';
 import close from '../../assets/icons/close.svg';
 
 import useClickOutside from 'helpers/hooks/useClickOutside';
+import cyrillicToTranslit from 'cyrillic-to-translit-js';
 
 type Props = {
     label: string;
@@ -69,9 +70,26 @@ export const Dropdown: FC<Props> = (props) => {
         ))
     }
 
+
+    // #BIVcomment
+    // filter now working with the same value, and cyrilic translit (not the best way, will loking for better package)
+    // don't working for now with ukranian => english (will implement this in future)
     const filterOptions = (option: string) => {
         if (filterValue.length === 0) return true
-        return option.toLowerCase().includes(filterValue.toLowerCase().trim())
+
+        const checkValue = filterValue.toLowerCase().trim()
+        const cyrillicPattern = /^[\u0400-\u04FF]+$/;
+        // check cyrilic (ua, rus) in search
+        if (cyrillicPattern.test(filterValue)) {
+            // check for the pure compare
+            if (option.toLowerCase().includes(checkValue)) return true
+            // check for transliteration compare rus => eng
+            return option.toLowerCase().includes(cyrillicToTranslit().transform(checkValue))
+        }
+        // check for transliteration compare eng=>eng
+        if (option.toLowerCase().includes(cyrillicToTranslit().reverse(checkValue))) return true
+        // return pure compare eng => eng
+        return option.toLowerCase().includes(checkValue)
     }
 
     useEffect(() => { setfilterValue('') }, [])
