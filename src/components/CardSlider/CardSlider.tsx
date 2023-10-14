@@ -1,4 +1,4 @@
-import React, {  useState } from 'react';
+import React, {  useState} from 'react';
 import cn from 'classnames';
 import SwiperCore, { Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -16,17 +16,22 @@ import { CardItem } from 'components/CardItem';
 import ArrowLeft from '../../assets/icons/arrow_left.svg';
 import ArrowRight from '../../assets/icons/arrow_right.svg';
 import { CommonBtn } from 'components/Buttons/CommonBtn';
+import { ICar } from 'types/IСar';
+
 
 SwiperCore.use([Autoplay]);
 
 interface Props {
   title?: string;
+  newCars?:ICar[] | []
 }
 
-export const CardSlider: React.FC<Props> = ({ title }) => {
+export const CardSlider: React.FC<Props> = ({ title, newCars }) => {
   const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
   const [isPrevBtnDisabled, setIsPrevBtnDisabled] = useState(true);
   const [isNextBtnDisabled, setIsNextBtnDisabled] = useState(false);
+  
+ 
 
   const handleClick = (direction: string) => {
     if (direction === 'right') {
