@@ -26,6 +26,7 @@
   border-radius: 12px;
   background-color: $white-color;
   color: #8A8B8B;
+
 }
 
 .trigger {
@@ -65,11 +66,17 @@
 
   &_active {
     background-color: $background-color-white;
+
+    &>.text {
+
+      width: 100%;
+    }
   }
 }
 
 .text {
   pointer-events: none;
+
 }
 
 .icon {
@@ -105,6 +112,11 @@
   cursor: pointer;
 }
 
+.listItem_Inactive {
+  cursor: default;
+}
+
+
 .listLink {
   margin: 2px;
   padding: 10px 16px;
@@ -112,7 +124,7 @@
   height: 100%;
   border-radius: 22px;
 
-    transition:
+  transition:
     color 0.3s ease,
     background-color 0.3s ease;
 
@@ -120,4 +132,26 @@
     color: $white-color;
     background-color: $hover-gray;
   }
+}
+
+.listLink_inactive {
+  &:hover {
+    color: inherit;
+    background: none;
+  }
+}
+
+.searchInput {
+  background: transparent;
+  border: none;
+  display: flex;
+  padding: 3px 0;
+  flex-grow: 1;
+  width: 100%;
+  margin: 0;
+  outline: none;
+  font-family: Roboto;
+  font-size: 16px;
+  margin-right: 5px;
+  font-weight: 500;
 }
