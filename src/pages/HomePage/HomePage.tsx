@@ -76,7 +76,7 @@ export const HomePage: React.FC = () => {
 
       <div className={styles.main}>
         <div className={styles.recentGoods}>
-          <CardSlider title={"Нещодавно переглянуті товари"} cars={newCars} /*заменить на пересмотренные машины*/ isLastPage={isLastViewedPage}  loadNextPage={loadNextViewedOnClick}/>
+          <CardSlider title={"Нещодавно переглянуті товари"} cars={viewedCars} /*заменить на пересмотренные машины*/ isLastPage={isLastViewedPage}  loadNextPage={loadNextViewedOnClick}/>
         </div>
 
         <div className={styles.newGoods}>
