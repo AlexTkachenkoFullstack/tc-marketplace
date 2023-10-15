@@ -1,4 +1,4 @@
-import React, {  useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import cn from 'classnames';
 import SwiperCore, { Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -17,31 +17,43 @@ import ArrowLeft from '../../assets/icons/arrow_left.svg';
 import ArrowRight from '../../assets/icons/arrow_right.svg';
 import { CommonBtn } from 'components/Buttons/CommonBtn';
 import { ICar } from 'types/IСar';
+import { useAppSelector } from 'redux/hooks';
+import { getIsLoading } from 'redux/cars/selectors';
 
 
 SwiperCore.use([Autoplay]);
 
 interface Props {
   title?: string;
-  newCars?:ICar[] | []
+  cars?:ICar[] | [];
+  loadNextPage: () => void;
+  isLastPage?:boolean;
 }
 
-export const CardSlider: React.FC<Props> = ({ title, newCars }) => {
+export const CardSlider: React.FC<Props> = ({ title, cars, loadNextPage, isLastPage }) => {
   const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
   const [isPrevBtnDisabled, setIsPrevBtnDisabled] = useState(true);
   const [isNextBtnDisabled, setIsNextBtnDisabled] = useState(false);
-  
- 
+  const isLoading=useAppSelector(getIsLoading);
+
+  useEffect(() => {
+    if (isNextBtnDisabled && !isLastPage) {
+      loadNextPage(); 
+      setIsNextBtnDisabled(false);
+    }
+  }, [isLastPage, isNextBtnDisabled, loadNextPage]);
 
   const handleClick = (direction: string) => {
+    if (isLoading) {
+      return; 
+    }
     if (direction === 'right') {
-      swiperRef?.slideNext();
+     swiperRef?.slideNext();
     } else {
       swiperRef?.slidePrev();
-    }
-
+    } 
     setIsPrevBtnDisabled(() => swiperRef?.isBeginning as boolean);
-    setIsNextBtnDisabled(() => swiperRef?.isEnd as boolean);
+    setIsNextBtnDisabled(() =>  swiperRef?.isEnd as boolean);
   };
 
   return (
@@ -83,9 +95,9 @@ export const CardSlider: React.FC<Props> = ({ title, newCars }) => {
             }
           }}
         >
-          {Array.from({length: 10}).map((_, index) => (
-            <SwiperSlide className={styles.slide} key={index}>
-              <CardItem />
+          {cars?.map((car) => (
+            <SwiperSlide className={styles.slide} key={car.transportId}>
+              <CardItem car={car}/>
             </SwiperSlide>
           ))}
         </Swiper>
