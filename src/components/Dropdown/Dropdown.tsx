@@ -72,7 +72,7 @@ export const Dropdown: FC<Props> = (props) => {
 
 
     // #BIVcomment
-    // filter now working with the same value, and cyrilic translit (not the best way, will loking for better package)
+    // filter now working with the same value, and cyrilic translit rus, ua (not the best way, will loking for better package)
     const filterOptions = (text: string) => {
         if (filterValue.length === 0) return true
 
@@ -116,7 +116,7 @@ export const Dropdown: FC<Props> = (props) => {
 
                     {isActive ? <input
                         // #BIVComment
-                        // can't use autofocus, because it's create conflict with parrent button and should broke select in list below
+                        // can't use autofocus or blur option, because it's create conflict with parrent button and should broke select in list below
                         onKeyUp={(e) => {
                             if (e.key === ' ') { e.preventDefault() }
                         }}
