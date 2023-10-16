@@ -127,11 +127,7 @@ export const Dropdown: FC<Props> = (props) => {
                         placeholder={label}
                         value={filterValue}
                         ref={inputRef}
-                        onBlur={() => {
-                            if (isActive) {
-                                setIsActive(false)
-                            }
-                        }}
+
                     /> :
                         <div className={styles.text}>
                             {option}
