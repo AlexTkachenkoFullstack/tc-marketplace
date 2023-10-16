@@ -10,57 +10,58 @@ const regions = ['Kyiv', 'Odesa', 'Lviv'];
 const categories = ['Всі', 'Легкові', 'Мотоцикли', 'Електротранспорт', 'Причепи', 'Вантажівки', 'Водний транспорт'];
 
 export const HomeTop = () => {
-  // const [selectedModel, setSelectedModel] = useState<string | null>(null);
-  // const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
-  // const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<string>('Всі');
-  // const [active, setActive] = useState(false);
-console.log(selectedCategory)
-  return (
-    <div className={styles.homeTop}>
-      <div className={styles.container}>
-        <h2 className={styles.title}>
-          Title
-        </h2>
-        <CategoryBar
-          categories={categories}
-          handleSelect={setSelectedCategory}
-        />
+    // const [selectedModel, setSelectedModel] = useState<string | null>(null);
+    // const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+    // const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
+    const [selectedCategory, setSelectedCategory] = useState<string>('Всі');
+    // const [active, setActive] = useState(false);
+    console.log(selectedCategory)
+    return (
+        <div className={styles.homeTop}>
+            <div className={styles.container}>
+                <h2 className={styles.title}>
+                    Title
+                </h2>
+                <CategoryBar
+                    categories={categories}
+                    handleSelect={setSelectedCategory}
+                />
 
-        <div className={styles.container_bottom}>
-          <div className={styles.select_bar}>
+                <div className={styles.container_bottom}>
+                    <div className={styles.select_bar}>
 
-            <Dropdown
-              options={models}
-              label='Модель'
-              startValue='Модель'
-              // setActive={setActive}
-            />
 
-            <Dropdown
-              options={brands}
-              label='Марка'
-              startValue='Марка'
-            />
+                        <Dropdown
+                            options={brands}
+                            label='Марка'
+                            startValue='Марка'
+                        />
 
-            <Dropdown
-              options={regions}
-              label='Регіон'
-              startValue='Регіон'
-            />
-          </div>
+                        <Dropdown
+                            options={models}
+                            label='Модель'
+                            startValue='Модель'
+                        // setActive={setActive}
+                        />
 
-          <div className={styles.search}>
-            <button className={styles.search_button}>
-              <span className={styles.search_button_text}>Шукати</span>
-              <img src={arrow} alt="search" />
-            </button>
-            <button className={styles.search_more}>Розширений пошук</button>
-          </div>
+                        <Dropdown
+                            options={regions}
+                            label='Регіон'
+                            startValue='Регіон'
+                        />
+                    </div>
+
+                    <div className={styles.search}>
+                        <button className={styles.search_button}>
+                            <span className={styles.search_button_text}>Шукати</span>
+                            <img src={arrow} alt="search" />
+                        </button>
+                        <button className={styles.search_more}>Розширений пошук</button>
+                    </div>
+                </div>
+
+            </div>
+            {/* <GoToTopButton /> */}
         </div>
-
-      </div>
-      {/* <GoToTopButton /> */}
-    </div>
-  );
+    );
 };
