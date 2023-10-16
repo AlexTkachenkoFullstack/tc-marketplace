@@ -73,23 +73,22 @@ export const Dropdown: FC<Props> = (props) => {
 
     // #BIVcomment
     // filter now working with the same value, and cyrilic translit (not the best way, will loking for better package)
-    // don't working for now with ukranian => english (will implement this in future)
-    const filterOptions = (option: string) => {
+    const filterOptions = (text: string) => {
         if (filterValue.length === 0) return true
 
+        const translit = cyrillicToTranslit()
+        const optionValue = text.toLowerCase()
+        const translitUa = cyrillicToTranslit({ preset: 'uk' })
         const checkValue = filterValue.toLowerCase().trim()
         const cyrillicPattern = /^[\u0400-\u04FF]+$/;
-        // check cyrilic (ua, rus) in search
         if (cyrillicPattern.test(filterValue)) {
-            // check for the pure compare
-            if (option.toLowerCase().includes(checkValue)) return true
-            // check for transliteration compare rus => eng
-            return option.toLowerCase().includes(cyrillicToTranslit().transform(checkValue))
+            if (optionValue.includes(checkValue)) return true
+            if (optionValue.includes(translitUa.transform(checkValue))) return true
+            return optionValue.includes(translit.transform(checkValue))
         }
-        // check for transliteration compare eng=>eng
-        if (option.toLowerCase().includes(cyrillicToTranslit().reverse(checkValue))) return true
-        // return pure compare eng => eng
-        return option.toLowerCase().includes(checkValue)
+        if (optionValue.includes(translit.reverse(checkValue))) return true
+        if (optionValue.includes(translitUa.reverse(checkValue))) return true
+        return optionValue.includes(checkValue)
     }
 
     useEffect(() => { setfilterValue('') }, [])
