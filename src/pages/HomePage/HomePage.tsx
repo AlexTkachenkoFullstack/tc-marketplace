@@ -13,13 +13,13 @@ export const HomePage: React.FC = () => {
   const [newCarsPage, setNewCarsPage]=useState(0);
   const [popularCarsPage, setPopularCarsPage]=useState(0);
   const [viewedCarsPage, setViewedCarsPage]=useState(0);
+  const [isLastNewPage, setIsLastNewPage]=useState(false)
+  const [isLastPopularPage, setIsLastPopularPage]=useState(false)
+  const [isLastViewedPage, setIsLastViewedPage]=useState(false)
   const newCars=useAppSelector(getNewCars);
   const popularCars=useAppSelector(getPopularCars);
   const viewedCars=useAppSelector(getViewedCars);
   const getCarError=useAppSelector(getError);
-  const [isLastNewPage, setIsLastNewPage]=useState(false)
-  const [isLastPopularPage, setIsLastPopularPage]=useState(false)
-  const [isLastViewedPage, setIsLastViewedPage]=useState(false)
   const dispatch=useAppDispatch()
 
   useEffect(()=>{
@@ -53,44 +53,42 @@ export const HomePage: React.FC = () => {
   },[getCarError, newCars])
 
   useEffect(()=>{
-    if(popularCars.length%12!==0 ){
+    if(popularCars.length%POPULARLIMIT!==0 ){
       setIsLastPopularPage(true)
     }
   },[getCarError, popularCars])
 
-  const loadNextNewOnClick=()=>{
-      setNewCarsPage((prevPage)=>prevPage+1)
-  }
-
-  const loadNextViewedOnClick=()=>{
-    setViewedCarsPage((prevPage)=>prevPage+1)
-  }
-
-  const loadNextPopularOnClick=()=>{
-    setPopularCarsPage((prevPage)=>prevPage+1)
+const loadNextOnClick=(type:string | undefined)=>{
+    switch (type){
+      case 'popular':
+        setPopularCarsPage((prevPage)=>prevPage+1)
+        break;
+      case 'Нещодавно переглянуті товари':
+        setViewedCarsPage((prevPage)=>prevPage+1)
+        break; 
+      case "Нові автомобілі на сайті":
+        setNewCarsPage((prevPage)=>prevPage+1)
+        break;
+      default: return  
+    }
 }
-
   return (
     <div className={styles.homePage}>
       <HomeTop />
-
       <div className={styles.main}>
         <div className={styles.recentGoods}>
-          <CardSlider title={"Нещодавно переглянуті товари"} cars={viewedCars} /*заменить на пересмотренные машины*/ isLastPage={isLastViewedPage}  loadNextPage={loadNextViewedOnClick}/>
+          <CardSlider title={"Нещодавно переглянуті товари"} cars={viewedCars} /*заменить на пересмотренные машины*/ isLastPage={isLastViewedPage}  loadNextPage={loadNextOnClick}/>
         </div>
-
         <div className={styles.newGoods}>
-          <CardSlider title={"Нові автомобілі на сайті"} cars={newCars} loadNextPage={loadNextNewOnClick} isLastPage={isLastNewPage}/>
+          <CardSlider title={"Нові автомобілі на сайті"} cars={newCars} loadNextPage={loadNextOnClick} isLastPage={isLastNewPage}/>
         </div>
-
         <div className={styles.popularGoods}>
           <PopularGoods cars={popularCars} />
         </div>
-
         <div>
           <CommonBtn
             className={styles.loadBtn}
-            onClick={loadNextPopularOnClick}
+            onClick={() => loadNextOnClick('popular')}
           >
             Завантажити більше
           </CommonBtn>
