@@ -1,21 +1,33 @@
 import styles from './HomeTop.module.scss';
 import arrow from '../../assets/icons/arrow-white.svg';
 import { CategoryBar } from 'components/CategoryBar/CategoryBar';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Dropdown } from 'components/Dropdown/Dropdown';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { getFilterBrands, getFilterRegions, getFilterTypes } from 'redux/filter/selectors';
+import { fetchBrands, fetchRegions, fetchTypes } from 'redux/filter/operations';
+import { IRegion } from 'types/IRegion';
+import { IType } from 'types/IType';
+import { IBrand } from 'types/IBrand';
 
 const models = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
-const brands = ['Toyota', 'Ford', 'BMW', 'Audi', 'Lexus'];
-const regions = ['Kyiv', 'Odesa', 'Lviv'];
-const categories = ['Всі', 'Легкові', 'Мотоцикли', 'Електротранспорт', 'Причепи', 'Вантажівки', 'Водний транспорт'];
+// const brands = ['Toyota', 'Ford', 'BMW', 'Audi', 'Lexus'];
+// const categories = ['Всі', 'Легкові', 'Мотоцикли', 'Електротранспорт', 'Причепи', 'Вантажівки', 'Водний транспорт'];
 
 export const HomeTop = () => {
-    // const [selectedModel, setSelectedModel] = useState<string | null>(null);
-    // const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
-    // const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
-    const [selectedCategory, setSelectedCategory] = useState<string>('Всі');
+    const dispatch=useAppDispatch();
+    const regions:IRegion[]=useAppSelector(getFilterRegions)
+    const categories:IType[]=useAppSelector(getFilterTypes)
+    const brands:IBrand[]=useAppSelector(getFilterBrands)
+    const [selectedCategory, setSelectedCategory] = useState<string>('легкові');
     // const [active, setActive] = useState(false);
-    console.log(selectedCategory)
+    useEffect(()=>{
+        dispatch(fetchRegions())
+        dispatch(fetchTypes())
+        dispatch(fetchBrands())
+    }, [])
+
+
     return (
         <div className={styles.homeTop}>
             <div className={styles.container}>
@@ -23,7 +35,7 @@ export const HomeTop = () => {
                     Title
                 </h2>
                 <CategoryBar
-                    categories={categories}
+                    categories={categories.map((category)=>category.type)}
                     handleSelect={setSelectedCategory}
                 />
 
@@ -32,7 +44,7 @@ export const HomeTop = () => {
 
 
                         <Dropdown
-                            options={brands}
+                            options={[...brands.map((brand)=>brand.brand)].sort((a,b)=>a.localeCompare(b))}
                             label='Марка'
                             startValue='Марка'
                         />
@@ -45,7 +57,7 @@ export const HomeTop = () => {
                         />
 
                         <Dropdown
-                            options={regions}
+                            options={regions.map((region) => region.region)}
                             label='Регіон'
                             startValue='Регіон'
                         />
