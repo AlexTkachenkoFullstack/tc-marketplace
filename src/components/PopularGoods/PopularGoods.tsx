@@ -3,8 +3,13 @@ import styles from './PopularGoods.module.scss';
 import '../../styles/blocks/_container.scss';
 import { NavLink } from "react-router-dom";
 import { CardItem } from "components/CardItem";
+import { ICar } from "types/IСar";
 
-export const PopularGoods: React.FC = () => {
+interface Props {
+  cars?:ICar[] | [];
+}
+
+export const PopularGoods: React.FC<Props> = ({ cars }) => {
   return (
     <section className={styles.goods}>
       <div className="container">
@@ -18,9 +23,9 @@ export const PopularGoods: React.FC = () => {
           </div>
 
           <div className={styles.catalog}>
-            {Array.from({ length: 10 }).map((_, index) => (
-              <div className={styles.card} key={index}>
-                <CardItem />
+            {cars?.map((car) => (
+              <div className={styles.card} key={car.transportId}>
+                <CardItem car={car}/>
               </div>
             ))}
           </div>

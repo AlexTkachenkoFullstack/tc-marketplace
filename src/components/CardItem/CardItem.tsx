@@ -7,26 +7,31 @@ import styles from './CardItem.module.scss';
 import LikeImg from '../../assets/icons/favorite.svg';
 import ActiveLikeImg from '../../assets/icons/favorite-active.svg';
 import { CommonBtn } from "components/Buttons/CommonBtn";
+import { ICar } from "types/IСar";
 
-export const CardItem: React.FC = () => {
+interface Props {
+  car?:ICar;
+}
+
+export const CardItem: React.FC<Props> = ({ car }) => {
   const [isLiked, setIsLiked] = useState(false);
 
   return (
     <article className={styles.card}>
       <NavLink
-        to="cardItem"
+        to="cardItem ?????"
         className={styles.photo}
       >
         <img
           className={styles.img}
-          src="https://cdn2.riastatic.com/photosnew/auto/photo/volkswagen_touareg__516475592hd.webp"
-          alt="Volkswagen Touareg 2021"
+          src={car?.imgUrl}
+          alt={car?.transportBrand}
         />
       </NavLink>
 
       <div className={styles.col}>
-        <NavLink to="/Volkswagen_Touareg_2021" className={styles.link}>
-          <h3 className={styles.title}>Volkswagen Touareg 2021</h3>
+        <NavLink to="/Volkswagen_Touareg_2021 ?????" className={styles.link}>
+          <h3 className={styles.title}>{car?.transportBrand} {car?.transportModel} {car?.year}</h3>
         </NavLink>
 
         <div>
@@ -39,14 +44,14 @@ export const CardItem: React.FC = () => {
       </div>
 
 
-      <p className={styles.price}>71 500 $</p>
+      <p className={styles.price}>{car?.price} $</p>
 
       <ul className={styles.techSpecs}>
-        <li className={styles.techSpec}>120 тис. км</li>
-        <li className={styles.techSpec}>Харків</li>
-        <li className={styles.techSpec}>Автомат</li>
-        <li className={styles.techSpec}>бензин</li>
-        <li className={styles.techSpec}>2021 рік</li>
+        <li className={styles.techSpec}>{car && car.mileage !== undefined ? `${Math.floor(car.mileage / 1000)} тис. км` : "Нема данних"}</li>
+        <li className={styles.techSpec}>{car?.city}</li>
+        <li className={styles.techSpec}>{car?.transmission}</li>
+        <li className={styles.techSpec}>{car?.fuelType}</li>
+        <li className={styles.techSpec}>{car?.year} рік</li>
       </ul>
     </article>
   )
