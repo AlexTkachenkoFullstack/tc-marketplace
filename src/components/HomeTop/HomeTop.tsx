@@ -25,8 +25,8 @@ export const HomeTop = () => {
         dispatch(fetchRegions())
         dispatch(fetchTypes())
         dispatch(fetchBrands())
-    }, [])
-
+    }, [dispatch])
+console.log(selectedCategory)
 
     return (
         <div className={styles.homeTop}>
