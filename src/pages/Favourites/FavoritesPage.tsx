@@ -2,13 +2,13 @@ import { FC } from 'react';
 import styles from './FavoritesPage.module.scss';
 
 export const FavoritesPage: FC = () => {
-  // const favoritesProducts = useAppSelector(selectFavorites);
+    // const favoritesProducts = useAppSelector(selectFavorites);
 
-  // const productsCount = favoritesProducts.length;
+    // const productsCount = favoritesProducts.length;
 
-  return (
-    <div className={`${styles.Container}`}>
-      {/* <div className={styles.Container__Top}>
+    return (
+        <div className={`${styles.Container}`}>
+            {/* <div className={styles.Container__Top}>
         <Breadcrumbs />
       </div>
       <h1 className={styles.title}>Favorites</h1>
@@ -24,6 +24,7 @@ export const FavoritesPage: FC = () => {
           className={styles.products}
         />
       )} */}
-    </div>
-  );
+
+        </div>
+    );
 };

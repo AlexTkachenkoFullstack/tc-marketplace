@@ -6,15 +6,15 @@ import { Footer } from '../../components/Footer/Footer';
 import styles from './Layout.module.scss';
 
 export const Layout: FC = () => {
-  return (
-    <>
-      <Header />
+    return (
+        <div className={styles.wrapper}>
+            <Header />
 
-      <main className={styles.main}>
-          <Outlet />
-      </main>
+            <main className={styles.main}>
+                <Outlet />
+            </main>
 
-      <Footer />
-    </>
-  );
+            <Footer />
+        </div>
+    );
 };

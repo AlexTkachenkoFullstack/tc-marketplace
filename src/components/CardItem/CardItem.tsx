@@ -9,45 +9,45 @@ import ActiveLikeImg from '../../assets/icons/favorite-active.svg';
 import { CommonBtn } from "components/Buttons/CommonBtn";
 
 export const CardItem: React.FC = () => {
-  const [isLiked, setIsLiked] = useState(false);
+    const [isLiked, setIsLiked] = useState(false);
 
-  return (
-    <article className={styles.card}>
-      <NavLink
-        to="cardItem"
-        className={styles.photo}
-      >
-        <img
-          className={styles.img}
-          src="https://cdn2.riastatic.com/photosnew/auto/photo/volkswagen_touareg__516475592hd.webp"
-          alt="Volkswagen Touareg 2021"
-        />
-      </NavLink>
+    return (
+        <article className={styles.card}>
+            <NavLink
+                to="cardItem"
+                className={styles.photo}
+            >
+                <img
+                    className={styles.img}
+                    src="https://cdn2.riastatic.com/photosnew/auto/photo/volkswagen_touareg__516475592hd.webp"
+                    alt="Volkswagen Touareg 2021"
+                />
+            </NavLink>
 
-      <div className={styles.col}>
-        <NavLink to="/Volkswagen_Touareg_2021" className={styles.link}>
-          <h3 className={styles.title}>Volkswagen Touareg 2021</h3>
-        </NavLink>
+            <div className={styles.col}>
+                <NavLink to="/Volkswagen_Touareg_2021" className={styles.link}>
+                    <h3 className={styles.title}>Volkswagen Touareg 2021</h3>
+                </NavLink>
 
-        <div>
-          <CommonBtn
-            iconPath={isLiked ? ActiveLikeImg : LikeImg }
-            className={cn(styles.likeBtn)}
-            onClick={() => setIsLiked(!isLiked)}
-          />
-        </div>
-      </div>
+                <div>
+                    <CommonBtn
+                        iconPath={isLiked ? ActiveLikeImg : LikeImg}
+                        className={cn(styles.likeBtn)}
+                        onClick={() => setIsLiked(!isLiked)}
+                    />
+                </div>
+            </div>
 
 
-      <p className={styles.price}>71 500 $</p>
+            <p className={styles.price}>71 500 $</p>
 
-      <ul className={styles.techSpecs}>
-        <li className={styles.techSpec}>120 тис. км</li>
-        <li className={styles.techSpec}>Харків</li>
-        <li className={styles.techSpec}>Автомат</li>
-        <li className={styles.techSpec}>бензин</li>
-        <li className={styles.techSpec}>2021 рік</li>
-      </ul>
-    </article>
-  )
+            <ul className={styles.techSpecs}>
+                <li className={styles.techSpec}>120 тис. км</li>
+                <li className={styles.techSpec}>Харків</li>
+                <li className={styles.techSpec}>Автомат</li>
+                <li className={styles.techSpec}>бензин</li>
+                <li className={styles.techSpec}>2021 рік</li>
+            </ul>
+        </article>
+    )
 };
