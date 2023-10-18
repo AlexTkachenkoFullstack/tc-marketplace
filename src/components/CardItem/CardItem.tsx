@@ -7,6 +7,11 @@ import styles from './CardItem.module.scss';
 import LikeImg from '../../assets/icons/favorite.svg';
 import ActiveLikeImg from '../../assets/icons/favorite-active.svg';
 import { CommonBtn } from "components/Buttons/CommonBtn";
+import { ICar } from "types/IСar";
+
+interface Props {
+    car?: ICar;
+}
 
 export const CardItem: React.FC = () => {
     const [isLiked, setIsLiked] = useState(false);
