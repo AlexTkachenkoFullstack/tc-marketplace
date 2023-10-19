@@ -13,7 +13,7 @@ interface Props {
     car?: ICar;
 }
 
-export const CardItem: React.FC = () => {
+export const CardItem: React.FC = ({ car }: Props) => {
     const [isLiked, setIsLiked] = useState(false);
 
     return (
