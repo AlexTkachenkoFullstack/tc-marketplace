@@ -6,16 +6,16 @@ export type KnownError = {
 };
 
 const instance = axios.create({
-  baseURL: 'https://backend-production-448a.up.railway.app/api/v1/',
+  baseURL: 'https://backend-production-7a95.up.railway.app/api/v1/',
 });
 
 
 export const fetchViewedCars = createAsyncThunk(
   'cars/getViewed',
-  async ({page,limit}: { page: number; limit: number }, thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
       
-      const response = await instance(`main/newCars/${page}/${limit}`); /* заменить на просмотренные */
+      const response = await instance(`main/new-transports`); /* заменить на просмотренные */
       return response.data;
     } catch (err) {
       const error: AxiosError<KnownError> = err as any;
@@ -27,13 +27,12 @@ export const fetchViewedCars = createAsyncThunk(
   }
 );
 
-
 export const fetchNewCars = createAsyncThunk(
   'cars/getNew',
-  async ({page,limit}: { page: number; limit: number }, thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
       
-      const response = await instance(`main/newCars/${page}/${limit}`);
+      const response = await instance(`main/new-transports`);
       return response.data;
     } catch (err) {
       const error: AxiosError<KnownError> = err as any;
@@ -47,10 +46,10 @@ export const fetchNewCars = createAsyncThunk(
 
 export const fetchPopularCars = createAsyncThunk(
   'cars/getPopular',
-  async ({page,limit}: { page: number; limit: number }, thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
       
-      const response = await instance(`main/popularCars/${page}/${limit}`);
+      const response = await instance(`main/popular-transports`);
       return response.data;
     } catch (err) {
       const error: AxiosError<KnownError> = err as any;

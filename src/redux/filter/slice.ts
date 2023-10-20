@@ -10,7 +10,7 @@ interface IFilterState {
     types:IType[] | [],
     brand:IBrand[] | [],
     models:IModel[] | [],
-    error: unknown | string | null;
+    error: unknown;
     isLoading:boolean;
   }
 
