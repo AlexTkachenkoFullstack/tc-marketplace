@@ -24,14 +24,14 @@ export const CardItem: React.FC<Props> = ({ car }) => {
       >
         <img
           className={styles.img}
-          src={car?.imgUrl}
-          alt={car?.transportBrand}
+          src={car?.fileUrl}
+          alt={car?.brand}
         />
       </NavLink>
 
       <div className={styles.col}>
         <NavLink to="/Volkswagen_Touareg_2021 ?????" className={styles.link}>
-          <h3 className={styles.title}>{car?.transportBrand} {car?.transportModel} {car?.year}</h3>
+          <h3 className={styles.title}>{car?.brand} {car?.model} {car?.year}</h3>
         </NavLink>
 
         <div>
