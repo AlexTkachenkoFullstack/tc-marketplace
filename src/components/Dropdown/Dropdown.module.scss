@@ -92,7 +92,8 @@
   top: 55px;
   width: 100%;
   max-height: 300px;
-  overflow-y: auto;
+  overflow-y: scroll;
+  overflow-y: overlay;
   scroll-behavior: smooth;
   border: none;
   border-radius: 21px;
@@ -100,10 +101,15 @@
   box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.05);
   z-index: 10;
 
+
+
   // #BIVcomment
   //   dropdown custom thin scroll bar, maybe should be taken to separate mixin for reuse in another cooponents
   &::-webkit-scrollbar {
+    left: 0;
     width: 4px;
+
+    // transform: translate();
   }
 
   &::-webkit-scrollbar-track {
@@ -136,6 +142,7 @@
   font-style: normal;
   font-weight: 500;
   cursor: pointer;
+
 }
 
 .listItem_Inactive {
@@ -154,9 +161,62 @@
     color 0.3s ease,
     background-color 0.3s ease;
 
+
+
   &:hover {
     color: $white-color;
     background-color: $hover-gray;
+  }
+
+
+  input[type='checkbox'] {
+    -webkit-appearance: none;
+    margin: 0 8px 0 0;
+    appearance: none;
+    $size: 16px;
+    height: $size;
+    width: $size;
+    border: 2px solid $hover-gray;
+    border-radius: 4px;
+    transform: translateY(1px);
+    background: #fff;
+
+    &::before {
+      position: absolute;
+      content: '';
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0;
+      transform: scale(0);
+      transition: 100ms transform ease-in-out;
+
+      //   background: #000;
+      transform-origin: bottom left;
+      clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+    }
+
+    &:checked {
+      border-color: $color-dark-grey;
+
+      &::before {
+        transform: scale(1);
+        background: $color-dark-grey;
+      }
+    }
+  }
+
+  &:hover>input[type='checkbox'] {
+    border: 2px solid $hover-gray;
+  }
+}
+
+.listLink_active {
+  background: $color-dark-grey;
+  color: $white-color;
+
+  &:hover {
+    background: $color-dark-grey;
   }
 }
 

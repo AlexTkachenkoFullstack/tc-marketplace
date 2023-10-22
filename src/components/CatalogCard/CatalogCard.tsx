@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback } from 'react'
+import { useRef, useState } from 'react'
 import style from './CatalogCard.module.scss'
 import clockSvg from 'assets/icons/clock.svg'
 import { CommonBtn } from 'components/Buttons/CommonBtn'
@@ -102,7 +102,7 @@ export default function CatalogCard({ car }: Props) {
     return (
         <>
             <div className={style.container}>
-                <img src={car?.imgUrl || 'https://cdn2.riastatic.com/photosnew/auto/photo/volkswagen_touareg__516475592hd.webp'} className={style.image} />
+                <img alt='car image' src={car?.imgUrl || 'https://cdn2.riastatic.com/photosnew/auto/photo/volkswagen_touareg__516475592hd.webp'} className={style.image} />
                 <div className={style.header}>
                     <div>
                         <p className={style.title}>{`${car?.transportBrand || tempFish} ${car?.transportModel || 'Model'}`}</p>
@@ -122,7 +122,7 @@ export default function CatalogCard({ car }: Props) {
                                     optionsVisible && setOptionsVisible(false)
                                 }}
                             >
-                                <img src={option_dots} alt="" />
+                                <img src={option_dots} alt="option icon" />
 
                                 {optionsVisible && <ul className={style.droplist}>
                                     <li onClick={optionHanler}><span>Не показувати цю машину</span></li>
