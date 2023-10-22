@@ -1,15 +1,17 @@
 export interface ICar{
-        transportId: number,
-        imgUrl: string,
-        transportBrand: string,
-        transportModel: string,
+        id: number,
+        brand: string,
+        model: string,
+        year: number,
         price: number,
         mileage: number,
-        city: string,
+        description: string,
         transmission: string,
         fuelType: string,
-        year: number,
+        engineDisplacement:number,
+        city: string,
         created: string,
+        fileUrl: string,    
     }
 
 

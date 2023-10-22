@@ -14,8 +14,6 @@ import ArrowLeft from '../../assets/icons/arrow_left.svg';
 import ArrowRight from '../../assets/icons/arrow_right.svg';
 import { CommonBtn } from 'components/Buttons/CommonBtn';
 import { ICar } from 'types/IСar';
-import { useAppSelector } from 'redux/hooks';
-import { getIsLoading } from 'redux/cars/selectors';
 
 SwiperCore.use([Autoplay]);
 
@@ -89,9 +87,7 @@ export const CardSlider: React.FC<Props> = ({ title, cars, loadNextPage, isLastP
                 >
                     {cars?.map((car) => (
                         <SwiperSlide className={styles.slide} key={car.transportId}>
-                            <CardItem
-                            // car={car}
-                            />
+                            <CardItem car={car} />
                         </SwiperSlide>
                     ))}
                 </Swiper>
