@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/tc-marketplace/static/css/main.83ad0507.css",
-    "main.js": "/tc-marketplace/static/js/main.a5f09ebe.js",
+    "main.js": "/tc-marketplace/static/js/main.71ecf111.js",
     "static/media/test8.jpeg": "/tc-marketplace/static/media/test8.080c4ee1c4bad87350e8.jpeg",
     "static/media/logo.svg": "/tc-marketplace/static/media/logo.7965a18df6fd59bcd3f8379349e850f8.svg",
     "static/media/favorite.svg": "/tc-marketplace/static/media/favorite.8fe9260c8366b6b89475c3b17a6c0968.svg",
@@ -19,10 +19,10 @@
     "static/media/line.svg": "/tc-marketplace/static/media/line.63befb63f000ebd4c502.svg",
     "static/media/point.svg": "/tc-marketplace/static/media/point.eb5f67a2c8c41fd461c5fbbfb682533f.svg",
     "main.83ad0507.css.map": "/tc-marketplace/static/css/main.83ad0507.css.map",
-    "main.a5f09ebe.js.map": "/tc-marketplace/static/js/main.a5f09ebe.js.map"
+    "main.71ecf111.js.map": "/tc-marketplace/static/js/main.71ecf111.js.map"
   },
   "entrypoints": [
     "static/css/main.83ad0507.css",
-    "static/js/main.a5f09ebe.js"
+    "static/js/main.71ecf111.js"
   ]
 }
