@@ -63,7 +63,7 @@ export const Header: FC = () => {
           <img src={favorite} alt="Улюблене" />
           <img src={point} className={styles.header__favorite_button_point} />
         </button>
-        <NavLink to="/login" className={styles.header__login_button}>
+        <NavLink to="/login/sign-up" className={styles.header__login_button}>
           <img className={styles.header__login_icon} src={account} alt="Акаунт" />
           <span className={styles.header__login_text}>Увійти</span>
         </NavLink>
