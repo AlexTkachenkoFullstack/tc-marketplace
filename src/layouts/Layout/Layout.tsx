@@ -1,20 +1,23 @@
 import { FC } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Header } from '../../components/Header/Header';
 import { Footer } from '../../components/Footer/Footer';
 
 import styles from './Layout.module.scss';
 
 export const Layout: FC = () => {
+  const location = useLocation();
+  const path = location.pathname;
+
   return (
     <>
-      <Header />
+      {!path.startsWith('/login') && <Header />}
 
       <main className={styles.main}>
           <Outlet />
       </main>
 
-      <Footer />
+      {!path.startsWith('/login') && <Footer />}
     </>
   );
 };

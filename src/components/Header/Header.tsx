@@ -43,7 +43,8 @@ export const Header: FC = () => {
         <button className={styles.header__burger}>
           <img src={menu} alt="Меню" />
         </button>
-        <Logo className={styles.header__logo} />
+        <NavLink to="/"><Logo className={styles.header__logo} /></NavLink>
+
         <nav className={styles.header__nav}>
           <a className={styles.header__nav_link} href="#">Link</a>
           <a className={styles.header__nav_link} href="#">Link</a>
@@ -62,10 +63,10 @@ export const Header: FC = () => {
           <img src={favorite} alt="Улюблене" />
           <img src={point} className={styles.header__favorite_button_point} />
         </button>
-        <button className={styles.header__login_button}>
+        <NavLink to="/login/sign-up" className={styles.header__login_button}>
           <img className={styles.header__login_icon} src={account} alt="Акаунт" />
           <span className={styles.header__login_text}>Увійти</span>
-        </button>
+        </NavLink>
       </div>
     </header>
   );

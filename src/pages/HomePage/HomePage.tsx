@@ -12,7 +12,7 @@ import { getNewCars, getPopularCars, getViewedCars } from 'redux/cars/selectors'
 import { ICar } from 'types/IСar';
 import { isAuthUser } from 'redux/auth/selectors';
 const POPULARLIMIT=9;
-export const HomePage: React.FC = () => { 
+export const HomePage: React.FC = () => {
   const newCars=useAppSelector(getNewCars);
   const popularCars=useAppSelector(getPopularCars);
   const viewedCars=useAppSelector(getViewedCars);
@@ -29,7 +29,7 @@ export const HomePage: React.FC = () => {
       setCurrentPage(0)
       dispatch(fetchViewedCars())
       dispatch(fetchNewCars())
-      dispatch(fetchPopularCars())  
+      dispatch(fetchPopularCars())
   }, [dispatch])
 
 
@@ -69,7 +69,7 @@ const loadNextOnClick=()=>{
           <PopularGoods cars={popularCarsToShow} />
         </div>
         <div>
-          {showButtonLoadMore 
+          {showButtonLoadMore
           && <CommonBtn
             className={styles.loadBtn}
             onClick={() => loadNextOnClick()}
