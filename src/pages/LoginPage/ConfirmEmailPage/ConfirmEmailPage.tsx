@@ -1,18 +1,33 @@
 import React, { FC, useState } from 'react';
 import styles from './ConfirmEmailPage.module.scss';
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 export const ConfirmEmailPage: FC = () => {
   const [visibleCounter, setVisibleCounter] = useState(false);
   const [countdown, setCountdown] = useState(60);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
   let timer: NodeJS.Timeout | undefined;
 
-  const handleResend = () => {
-    if (timer) {
-      clearTimeout(timer);
-    }
+  const paramValue = queryParams.get('email') as string;
 
-    setVisibleCounter(true);
-    setCountdown(60);
+  const handleResend = async () => {
+    try {
+      const URL = `https://backend-production-7a95.up.railway.app/api/v1/authorization/register/resend-code?email=${paramValue}`;
+      const response = await axios.put(URL)
+
+      if (timer) {
+        clearTimeout(timer);
+      }
+
+      setVisibleCounter(true);
+      setCountdown(60);
+
+      console.log('Успішно відправлено:', response.data);
+    } catch (error) {
+      console.error('Помилка відправки PUT-запиту:', error);
+    }
 
     timer = setInterval(() => {
       setCountdown((prevCountdown) => {
@@ -27,6 +42,19 @@ export const ConfirmEmailPage: FC = () => {
     }, 1000);
   }
 
+  const redirectToMailService = () => {
+    const parts = paramValue.split('@');
+    if (parts.length === 2) {
+      const domain = parts[1];
+      let mailServiceURL = `https://mail.${domain}`;
+
+      if (domain === 'gmail.com') {
+        mailServiceURL = 'https://mail.google.com';
+      }
+      window.open(mailServiceURL, '_blank');
+    };
+  };
+
   return (
     <div className={styles.Login_container}>
       <h2 className={styles.Login_title}>Підтвердження пошти</h2>
@@ -35,7 +63,7 @@ export const ConfirmEmailPage: FC = () => {
       </span>
 
       <div>
-        <button className={styles.Login_btn}>
+        <button className={styles.Login_btn} onClick={redirectToMailService}>
           Перейти
         </button>
 
