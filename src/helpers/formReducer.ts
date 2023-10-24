@@ -23,6 +23,8 @@ export function formReducer (state: FormState, action: FormAction): FormState {
         ...state,
         [action.field]: action.value,
       };
+    case 'RESET':
+      return initialState;
     default:
       return state;
   }

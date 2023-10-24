@@ -5,23 +5,24 @@ import eye from '../../../assets/icons/eye-open.svg';
 import eyeClose from '../../../assets/icons/eye-close.svg';
 import googleIcon from '../../../assets/icons/google.svg';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Logo } from 'components/Logo';
 import { formReducer, initialState } from 'helpers/formReducer';
+import axios from 'axios';
 
 export const SignUpPage: FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, dispatch] = useReducer(formReducer, initialState);
   const navigate = useNavigate();
+  const [nameError, setNameError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   }
-
   const toggleConfirmPasswordVisibility = () => {
     setShowConfirmPassword(!showConfirmPassword);
   }
-
   const handleFieldChange = (field: string, value: string) => {
     dispatch({
       type: 'UPDATE_FIELD',
@@ -30,34 +31,41 @@ export const SignUpPage: FC = () => {
     });
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async(event: React.FormEvent) => {
     event.preventDefault();
+    setNameError('');
+    setPasswordError('');
+    setConfirmPasswordError('');
 
-        const { name, email, password, confirmPassword } = formData;
+    const { name, email, password, confirmPassword } = formData;
 
     if (name.length < 2 || name.length > 50) {
-      alert('Ім\'я має містити від 2 до 50 символів');
+      setNameError('Ім\'я має містити від 2 до 50 символів');
       return;
     }
-
     if (password.length < 8 || password.length > 50) {
-      alert('Пароль має містити від 8 до 50 символів');
+      setPasswordError('Пароль має містити від 8 до 50 символів');
       return;
     }
-
-    if (!/\d/.test(password) || !/[a-zA-Z]/.test(password)) {
-      alert('Пароль має містити принаймні одну букву та одну цифру');
+    if (!/\d/.test(password) || !/[a-z]/.test(password) || !/[A-Z]/.test(password)) {
+      setPasswordError('Пароль не валідний');
       return;
     }
-
     if (password !== confirmPassword) {
-      alert('Підтвердження пароля не співпадає');
+      setConfirmPasswordError('Паролі не співпадають');
       return;
     }
 
-    console.log(formData);
+    try {
+      const URL = 'https://backend-production-7a95.up.railway.app/api/v1/authorization/register';
+      const response = await axios.post(URL, formData)
+      navigate(`/login/finish-registration?email=${formData.email}`);
+      dispatch({ type: 'RESET' });
 
-    navigate('/login/finish-registration');
+      console.log('Успішно відправлено:', response.data);
+    } catch (error) {
+      console.error('Помилка відправки POST-запиту:', error);
+    }
   }
 
   return (
@@ -67,11 +75,20 @@ export const SignUpPage: FC = () => {
         Вже є акаунт?<NavLink to="/login/log-in" className={styles.Login_login_link}>Увійти</NavLink>
       </span>
 
-      <div>
+      <div className={styles.Container}>
+        {nameError.length > 0 && (
+          <label
+            htmlFor='name'
+            className={styles.Login_label}
+          >
+            <span className={styles.Login_label_warning}>!</span>{nameError}
+          </label>
+        )}
         <input
           type='text'
+          id='name'
           placeholder={`Введіть повне ім'я`}
-          className={styles.Login_field}
+          className={nameError ? `${styles.Login_field} ${styles.Login_field_warning}` : styles.Login_field}
           value={formData.name}
           onChange={(e) => handleFieldChange('name', e.target.value)}
           required
@@ -87,10 +104,19 @@ export const SignUpPage: FC = () => {
         />
 
         <div className={styles.password_container}>
+          {passwordError.length > 0 && (
+            <label
+              htmlFor='password'
+              className={styles.Login_label_password}
+            >
+              <span className={styles.Login_label_warning}>!</span>{passwordError}
+            </label>
+          )}
           <input
             type={showPassword ? 'text' : 'password'}
+            id='password'
             placeholder='Введіть пароль'
-            className={styles.Login_field}
+            className={(passwordError || confirmPasswordError) ? `${styles.Login_field} ${styles.Login_field_warning}` : styles.Login_field}
             value={formData.password}
             onChange={(e) => handleFieldChange('password', e.target.value)}
             required
@@ -104,10 +130,19 @@ export const SignUpPage: FC = () => {
         </div>
 
         <div className={styles.password_container}>
+          {confirmPasswordError.length > 0 && (
+            <label
+              htmlFor='confirmPassword'
+              className={styles.Login_label_password}
+            >
+              <span className={styles.Login_label_warning}>!</span>{confirmPasswordError}
+            </label>
+          )}
           <input
             type={showConfirmPassword ? 'text' : 'password'}
+            id='confirmPassword'
             placeholder='Підтвердіть пароль'
-            className={styles.Login_field}
+            className={confirmPasswordError ? `${styles.Login_field} ${styles.Login_field_warning}` : styles.Login_field}
             value={formData.confirmPassword}
             onChange={(e) => handleFieldChange('confirmPassword', e.target.value)}
             required

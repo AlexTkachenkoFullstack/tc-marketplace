@@ -1,3 +1,7 @@
+.Container {
+  position: relative;
+}
+
 .Login {
   justify-self: center;
 
@@ -23,6 +27,33 @@
 
     @media (min-width: 1024px) {
       font-size: 44px;
+    }
+  }
+
+  &_label {
+    position: absolute;
+    top: -19px;
+    color: #f43d3d;
+    font-family: Roboto;
+    font-size: 11px;
+    margin-left: 10px;
+
+    &_warning {
+      display: inline-block;
+      border: 1px solid #f43d3d;
+      padding: 2px 6px;
+      border-radius: 50%;
+      margin-bottom: 2px;
+      margin-right: 2px;
+    }
+
+    &_password {
+      position: absolute;
+      top: -19px;
+      color: #f43d3d;
+      font-family: Roboto;
+      font-size: 11px;
+      margin-left: 10px;
     }
   }
 
@@ -55,6 +86,10 @@
       font-family: Roboto;
       font-size: 14px;
       color: #434343;
+    }
+
+    &_warning {
+      border-color: #f43d3d;
     }
   }
 
