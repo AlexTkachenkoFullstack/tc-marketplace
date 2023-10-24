@@ -1,0 +1,42 @@
+@import '../../styles/utils/_variables.scss';
+
+.goToTop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .top-btn {
+        font-size: 2.4rem;
+        width: 6rem;
+        height: 6rem;
+        color: #fff;
+        background-color: $color-black;
+        box-shadow: $shadow-btn;
+        border-radius: 50%;
+        position: fixed;
+        bottom: 5rem;
+        right: 5rem;
+        z-index: 999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: opacity 1.2s ease, transform 1.1s ease;
+
+
+        &--icon {
+            animation: gototop 1.2s linear infinite alternate-reverse;
+        }
+
+        @keyframes gototop {
+            0% {
+                transform: translateY(-0.5rem);
+            }
+
+            100% {
+                transform: translateY(0.5rem)
+            }
+        }
+
+    }
+}
