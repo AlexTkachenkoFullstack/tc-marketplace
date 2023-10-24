@@ -1,9 +1,11 @@
 {
   "files": {
-    "main.css": "/tc-marketplace/static/css/main.dd5758a9.css",
-    "main.js": "/tc-marketplace/static/js/main.0117b2aa.js",
+    "main.css": "/tc-marketplace/static/css/main.130a7ce5.css",
+    "main.js": "/tc-marketplace/static/js/main.cec234df.js",
     "static/media/test8.jpeg": "/tc-marketplace/static/media/test8.080c4ee1c4bad87350e8.jpeg",
     "static/media/logo.svg": "/tc-marketplace/static/media/logo.7965a18df6fd59bcd3f8379349e850f8.svg",
+    "static/media/google.svg": "/tc-marketplace/static/media/google.f8517734dd1d980942f173c58bc1e4eb.svg",
+    "static/media/eye-close.svg": "/tc-marketplace/static/media/eye-close.fb3a6e796df5b850bda05bc5b7868f51.svg",
     "static/media/favorite.svg": "/tc-marketplace/static/media/favorite.8fe9260c8366b6b89475c3b17a6c0968.svg",
     "static/media/close.svg": "/tc-marketplace/static/media/close.be92795d2b56753037eee1802580a972.svg",
     "static/media/account_circle.svg": "/tc-marketplace/static/media/account_circle.c4b322c07feb2df011f2bcdeed665b7b.svg",
@@ -15,14 +17,15 @@
     "static/media/arrow_back.svg": "/tc-marketplace/static/media/arrow_back.4c4ab72318d87ae6172291ccc5950609.svg",
     "static/media/arrow_right.svg": "/tc-marketplace/static/media/arrow_right.14e3c8b8eeb0395c11334658f987a136.svg",
     "index.html": "/tc-marketplace/index.html",
+    "static/media/eye-open.svg": "/tc-marketplace/static/media/eye-open.60c1fdc9d2481d562555b125ac57c5cd.svg",
     "static/media/add.svg": "/tc-marketplace/static/media/add.f1c642def307d73bcce1a1d223031cee.svg",
     "static/media/line.svg": "/tc-marketplace/static/media/line.63befb63f000ebd4c502.svg",
     "static/media/point.svg": "/tc-marketplace/static/media/point.eb5f67a2c8c41fd461c5fbbfb682533f.svg",
-    "main.dd5758a9.css.map": "/tc-marketplace/static/css/main.dd5758a9.css.map",
-    "main.0117b2aa.js.map": "/tc-marketplace/static/js/main.0117b2aa.js.map"
+    "main.130a7ce5.css.map": "/tc-marketplace/static/css/main.130a7ce5.css.map",
+    "main.cec234df.js.map": "/tc-marketplace/static/js/main.cec234df.js.map"
   },
   "entrypoints": [
-    "static/css/main.dd5758a9.css",
-    "static/js/main.0117b2aa.js"
+    "static/css/main.130a7ce5.css",
+    "static/js/main.cec234df.js"
   ]
 }
