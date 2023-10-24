@@ -10,6 +10,7 @@ import { SignUpPage } from 'pages/LoginPage/SignUpPage/SignUpPage';
 import { LoginPage } from 'pages/LoginPage/LoginPage/LoginPage';
 import { ConfirmEmailPage } from 'pages/LoginPage/ConfirmEmailPage/ConfirmEmailPage';
 import { RecoverPasswordPage } from 'pages/LoginPage/RecoverPasswordPage/RecoverPasswordPage';
+import { NewPasswordPage } from 'pages/LoginPage/NewPasswordPage/NewPasswordPage';
 // import { useAppDispatch } from 'redux/hooks';
 // import { loginThunk } from 'redux/auth/operations';
 
@@ -31,6 +32,7 @@ export const App: React.FC = () => {
             <Route path="log-in" element={<LoginPage />} />
             <Route path="finish-registration" element={<ConfirmEmailPage />} />
             <Route path="recover" element={<RecoverPasswordPage />} />
+            <Route path="recover/new" element={<NewPasswordPage />} />
           </Route>
 
           <Route path="favorites" element={<FavoritesPage />} />
