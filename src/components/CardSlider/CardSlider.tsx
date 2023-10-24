@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React, { useState} from 'react';
 import cn from 'classnames';
 import SwiperCore, { Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -14,35 +14,20 @@ import ArrowLeft from '../../assets/icons/arrow_left.svg';
 import ArrowRight from '../../assets/icons/arrow_right.svg';
 import { CommonBtn } from 'components/Buttons/CommonBtn';
 import { ICar } from 'types/IСar';
-import { useAppSelector } from 'redux/hooks';
-import { getIsLoading } from 'redux/cars/selectors';
 
 SwiperCore.use([Autoplay]);
 
 interface Props {
   title?: string;
   cars?:ICar[] | [];
-  loadNextPage: (title:string | undefined) => void;
-  isLastPage?:boolean;
 }
 
-export const CardSlider: React.FC<Props> = ({ title, cars, loadNextPage, isLastPage }) => {
+export const CardSlider: React.FC<Props> = ({ title, cars}) => {
   const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
   const [isPrevBtnDisabled, setIsPrevBtnDisabled] = useState(true);
   const [isNextBtnDisabled, setIsNextBtnDisabled] = useState(false);
-  const isLoading=useAppSelector(getIsLoading);
-
-  useEffect(() => {
-    if (isNextBtnDisabled && !isLastPage) {
-      loadNextPage(title); 
-      setIsNextBtnDisabled(false);
-    }
-  }, [isLastPage, isNextBtnDisabled, loadNextPage, title]);
 
   const handleClick = (direction: string) => {
-    if (isLoading) {
-      return; 
-    }
     if (direction === 'right') {
      swiperRef?.slideNext();
     } else {
@@ -88,7 +73,7 @@ export const CardSlider: React.FC<Props> = ({ title, cars, loadNextPage, isLastP
           }}
         >
           {cars?.map((car) => (
-            <SwiperSlide className={styles.slide} key={car.transportId}>
+            <SwiperSlide className={styles.slide} key={car.id}>
               <CardItem car={car}/>
             </SwiperSlide>
           ))}

@@ -6,7 +6,7 @@ import { ICar } from 'types/IСar';
     recentlyViewedCars:ICar[] | [];
     popularCars: ICar[] | [];
     newCars:ICar[] | [],
-    error: unknown | string | null;
+    error: unknown;
     isLoading:boolean;
   }
 

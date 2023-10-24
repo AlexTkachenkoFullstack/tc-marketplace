@@ -1,19 +1,24 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-
 import './styles/main.scss';
 
 import { Layout } from './layouts/Layout';
 import { HomePage } from './pages/HomePage';
 import { FavoritesPage } from 'pages/Favourites';
-// import { SignUpPage } from 'pages/LoginPage/SignUpPage/SignUpPage';
 import { LoginLayout } from 'pages/LoginPage/LoginLayout';
 import { SignUpPage } from 'pages/LoginPage/SignUpPage/SignUpPage';
 import { LoginPage } from 'pages/LoginPage/LoginPage/LoginPage';
 import { ConfirmEmailPage } from 'pages/LoginPage/ConfirmEmailPage/ConfirmEmailPage';
 import { RecoverPasswordPage } from 'pages/LoginPage/RecoverPasswordPage/RecoverPasswordPage';
+// import { useAppDispatch } from 'redux/hooks';
+// import { loginThunk } from 'redux/auth/operations';
 
 export const App: React.FC = () => {
+//   const dispatch=useAppDispatch()
+//   useEffect(()=>{
+//     dispatch(loginThunk({email: "oleksandrtkachenko202@gmail.com", password: "Qrtyuiop1"}))
+// }, [dispatch])
+
   return (
     <>
       <Routes>

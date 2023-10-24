@@ -6,92 +6,74 @@ import { PopularGoods } from 'components/PopularGoods';
 import { CommonBtn } from 'components/Buttons/CommonBtn';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { fetchNewCars, fetchPopularCars, fetchViewedCars } from 'redux/cars/operations';
-import { getError, getNewCars, getPopularCars, getViewedCars } from 'redux/cars/selectors';
-const NEWLIMIT=4;
-const POPULARLIMIT=12;
+import { getNewCars, getPopularCars, getViewedCars } from 'redux/cars/selectors';
+import { ICar } from 'types/IСar';
+import { isAuthUser } from 'redux/auth/selectors';
+const POPULARLIMIT=9;
 export const HomePage: React.FC = () => {
-  const [newCarsPage, setNewCarsPage]=useState(0);
-  const [popularCarsPage, setPopularCarsPage]=useState(0);
-  const [viewedCarsPage, setViewedCarsPage]=useState(0);
-  const [isLastNewPage, setIsLastNewPage]=useState(false)
-  const [isLastPopularPage, setIsLastPopularPage]=useState(false)
-  const [isLastViewedPage, setIsLastViewedPage]=useState(false)
   const newCars=useAppSelector(getNewCars);
   const popularCars=useAppSelector(getPopularCars);
   const viewedCars=useAppSelector(getViewedCars);
-  const getCarError=useAppSelector(getError);
+  const isAuth=useAppSelector(isAuthUser)
+  const [popularCarsToShow, setPopularCarsToShow]=useState<ICar[]>([])
+  const [currentPage, setCurrentPage]=useState<number>(0);
+  const [showButtonLoadMore, setShowButtonLoadMore]=useState<boolean>(true)
+
+  const popularCarTotalPages=Math.ceil(popularCars.length/POPULARLIMIT);
+
   const dispatch=useAppDispatch()
 
   useEffect(()=>{
-    if(!isLastViewedPage){
-      dispatch(fetchViewedCars({page:viewedCarsPage, limit:NEWLIMIT}))
-    }
-  }, [dispatch, isLastViewedPage, viewedCarsPage])
+      setCurrentPage(0)
+      dispatch(fetchViewedCars())
+      dispatch(fetchNewCars())
+      dispatch(fetchPopularCars())
+  }, [dispatch])
+
 
   useEffect(()=>{
-    if(!isLastNewPage){
-      dispatch(fetchNewCars({page:newCarsPage, limit:NEWLIMIT}))
+     setShowButtonLoadMore(false)
+    if(popularCarTotalPages && currentPage===0){
+      setPopularCarsToShow(popularCars.slice(0, POPULARLIMIT))
+      setShowButtonLoadMore(true)
     }
-  }, [dispatch, isLastNewPage, newCarsPage])
+    if(currentPage<popularCarTotalPages && currentPage>0){
+      setPopularCarsToShow((prev)=> [...prev, ...popularCars.slice(currentPage*POPULARLIMIT, currentPage*POPULARLIMIT+POPULARLIMIT)])
+      setShowButtonLoadMore(true)
+    }
+    if(currentPage>0 && currentPage===popularCarTotalPages-1){
+      setShowButtonLoadMore(false)
+    }
+  },[currentPage, popularCarTotalPages, popularCars])
 
-  useEffect(()=>{
-    if(!isLastPopularPage){
-      dispatch(fetchPopularCars({page:popularCarsPage, limit:POPULARLIMIT}))
-    }
-  }, [dispatch, isLastPopularPage, popularCarsPage])
-
-  useEffect(()=>{
-    if(viewedCars.length%NEWLIMIT!==0 || getCarError==='New transports not found.'){
-      setIsLastViewedPage(true)
-    }
-  },[getCarError, viewedCars])
-
-  useEffect(()=>{
-    if(newCars.length%NEWLIMIT!==0 || getCarError==='New transports not found.'){
-      setIsLastNewPage(true)
-    }
-  },[getCarError, newCars])
-
-  useEffect(()=>{
-    if(popularCars.length%POPULARLIMIT!==0 ){
-      setIsLastPopularPage(true)
-    }
-  },[getCarError, popularCars])
-
-const loadNextOnClick=(type:string | undefined)=>{
-    switch (type){
-      case 'popular':
-        setPopularCarsPage((prevPage)=>prevPage+1)
-        break;
-      case 'Нещодавно переглянуті товари':
-        setViewedCarsPage((prevPage)=>prevPage+1)
-        break;
-      case "Нові автомобілі на сайті":
-        setNewCarsPage((prevPage)=>prevPage+1)
-        break;
-      default: return
-    }
+const loadNextOnClick=()=>{
+  setCurrentPage((prevPage)=>prevPage+1)
 }
+
   return (
     <div className={styles.homePage}>
       <HomeTop />
       <div className={styles.main}>
+        {(isAuth && viewedCars.length>0) &&
         <div className={styles.recentGoods}>
-          <CardSlider title={"Нещодавно переглянуті товари"} cars={viewedCars} /*заменить на пересмотренные машины*/ isLastPage={isLastViewedPage}  loadNextPage={loadNextOnClick}/>
+          <CardSlider title={"Нещодавно переглянуті товари"} cars={viewedCars} /*заменить на пересмотренные машины*/ />
         </div>
+        }
         <div className={styles.newGoods}>
-          <CardSlider title={"Нові автомобілі на сайті"} cars={newCars} loadNextPage={loadNextOnClick} isLastPage={isLastNewPage}/>
+          <CardSlider title={"Нові автомобілі на сайті"} cars={newCars} />
         </div>
         <div className={styles.popularGoods}>
-          <PopularGoods cars={popularCars} />
+          <PopularGoods cars={popularCarsToShow} />
         </div>
         <div>
-          <CommonBtn
+          {showButtonLoadMore
+          && <CommonBtn
             className={styles.loadBtn}
-            onClick={() => loadNextOnClick('popular')}
+            onClick={() => loadNextOnClick()}
           >
             Завантажити більше
           </CommonBtn>
+          }
         </div>
       </div>
     </div>

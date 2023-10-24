@@ -24,7 +24,7 @@ export const PopularGoods: React.FC<Props> = ({ cars }) => {
 
           <div className={styles.catalog}>
             {cars?.map((car) => (
-              <div className={styles.card} key={car.transportId}>
+              <div className={styles.card} key={car.id}>
                 <CardItem car={car}/>
               </div>
             ))}
