@@ -15,18 +15,18 @@ const models = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 // const categories = ['Всі', 'Легкові', 'Мотоцикли', 'Електротранспорт', 'Причепи', 'Вантажівки', 'Водний транспорт'];
 
 export const HomeTop = () => {
-    const dispatch=useAppDispatch();
-    const regions:IRegion[]=useAppSelector(getFilterRegions)
-    const categories:IType[]=useAppSelector(getFilterTypes)
-    const brands:IBrand[]=useAppSelector(getFilterBrands)
+    const dispatch = useAppDispatch();
+    const regions: IRegion[] = useAppSelector(getFilterRegions)
+    const categories: IType[] = useAppSelector(getFilterTypes)
+    const brands: IBrand[] = useAppSelector(getFilterBrands)
     const [selectedCategory, setSelectedCategory] = useState<string>('легкові');
     // const [active, setActive] = useState(false);
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(fetchRegions())
         dispatch(fetchTypes())
         dispatch(fetchBrands())
     }, [dispatch])
-console.log(selectedCategory)
+    console.log(selectedCategory)
 
     return (
         <div className={styles.homeTop}>
@@ -35,7 +35,7 @@ console.log(selectedCategory)
                     Title
                 </h2>
                 <CategoryBar
-                    categories={categories.map((category)=>category.type)}
+                    categories={categories.map((category) => category.type)}
                     handleSelect={setSelectedCategory}
                 />
 
@@ -44,7 +44,8 @@ console.log(selectedCategory)
 
 
                         <Dropdown
-                            options={[...brands.map((brand)=>brand.brand)].sort((a,b)=>a.localeCompare(b))}
+                            options={[...brands.map((brand) => brand.brand)].sort((a, b) => a.localeCompare(b))}
+                            // options={brands}
                             label='Марка'
                             startValue='Марка'
                         />
@@ -53,6 +54,7 @@ console.log(selectedCategory)
                             options={models}
                             label='Модель'
                             startValue='Модель'
+                            checkboxAllowed
                         // setActive={setActive}
                         />
 

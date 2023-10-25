@@ -6,6 +6,8 @@
   box-sizing: border-box;
   border: none;
   height: 100%;
+  // here must be fixed width for stop width jump in child components
+  width: 284px;
 
   @media (min-width: 880px) {
     margin-bottom: 8px;
@@ -87,92 +89,10 @@
   display: flex;
 }
 
-.list {
-  position: absolute;
-  top: 55px;
-  width: 100%;
-  max-height: 300px;
-  overflow-y: auto;
-  scroll-behavior: smooth;
-  border: none;
-  border-radius: 21px;
-  background-color: $white-color;
-  box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.05);
-  z-index: 10;
-
-  // #BIVcomment
-  //   dropdown custom thin scroll bar, maybe should be taken to separate mixin for reuse in another cooponents
-  &::-webkit-scrollbar {
-    width: 4px;
-  }
-
-  &::-webkit-scrollbar-track {
-    $margin: 15px;
-    margin-top: $margin;
-    margin-bottom: $margin;
-    background: $background-color-white;
-    border-radius: 100px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: $hover-gray;
-    border-radius: 100px;
-    padding: 2px 0;
-
-    // #Bivcomment
-    // active color for scrollbar, not in design, so maybe it's temporary, will discuse about it later
-    &:active {
-      background: $color-dark-grey;
-    }
-  }
-}
-
-.listItem {
-  position: relative;
-  color: $color-grey;
-  width: 100%;
-  font-family: Roboto;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.listItem_Inactive {
-  cursor: default;
-}
-
-
-.listLink {
-  margin: 2px;
-  padding: 10px 16px;
-  display: block;
-  height: 100%;
-  border-radius: 22px;
-
-  transition:
-    color 0.3s ease,
-    background-color 0.3s ease;
-
-  &:hover {
-    color: $white-color;
-    background-color: $hover-gray;
-  }
-}
-
-.listLink_inactive {
-  &:hover {
-    color: inherit;
-    background: none;
-  }
-}
-
 .searchInput {
   background: transparent;
   border: none;
-  display: flex;
   padding: 3px 0;
-  flex-grow: 1;
   width: 100%;
   margin: 0;
   outline: none;
