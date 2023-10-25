@@ -45,7 +45,6 @@ export const HomeTop = () => {
 
                         <Dropdown
                             options={[...brands.map((brand) => brand.brand)].sort((a, b) => a.localeCompare(b))}
-                            // options={brands}
                             label='Марка'
                             startValue='Марка'
                         />
@@ -62,6 +61,7 @@ export const HomeTop = () => {
                             options={regions.map((region) => region.region)}
                             label='Регіон'
                             startValue='Регіон'
+                            checkboxAllowed
                         />
                     </div>
 

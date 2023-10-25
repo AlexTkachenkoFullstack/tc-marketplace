@@ -6,18 +6,15 @@ import { Footer } from '../../components/Footer/Footer';
 import styles from './Layout.module.scss';
 
 export const Layout: FC = () => {
-  const location = useLocation();
-  const path = location.pathname;
+    return (
+        <>
+            <Header />
 
-  return (
-    <>
-      {!path.startsWith('/login') && <Header />}
+            <main className={styles.main}>
+                <Outlet />
+            </main>
 
-      <main className={styles.main}>
-          <Outlet />
-      </main>
-
-      {!path.startsWith('/login') && <Footer />}
-    </>
-  );
+            <Footer />
+        </>
+    );
 };
