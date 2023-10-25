@@ -11,6 +11,7 @@ import { LoginPage } from 'pages/LoginPage/LoginPage/LoginPage';
 import { ConfirmEmailPage } from 'pages/LoginPage/ConfirmEmailPage/ConfirmEmailPage';
 import { RecoverPasswordPage } from 'pages/LoginPage/RecoverPasswordPage/RecoverPasswordPage';
 import { NewPasswordPage } from 'pages/LoginPage/NewPasswordPage/NewPasswordPage';
+import CatalogCard from 'components/CatalogCard/CatalogCard';
 // import { useAppDispatch } from 'redux/hooks';
 // import { loginThunk } from 'redux/auth/operations';
 
@@ -21,7 +22,7 @@ export const App: React.FC = () => {
                 <Route path="/" element={<Layout />}>
                     <Route index element={<HomePage />} />
                     <Route path="home" element={<Navigate to="/" replace />} />
-
+                    <Route path='/cc' element={<CatalogCard />} />
                     <Route path="favorites" element={<FavoritesPage />} />
 
                 </Route>

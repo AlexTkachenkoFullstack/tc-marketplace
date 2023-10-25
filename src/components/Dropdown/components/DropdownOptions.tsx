@@ -1,45 +1,47 @@
 import React from 'react'
-import styles from '../Dropdown.module.scss'
+import styles from './DropdownOptions.module.scss'
 import cyrillicToTranslit from 'cyrillic-to-translit-js';
-import { link } from 'fs';
 
 type Props = {
-    options: string[];
-    changeOption: (option: string) => void
-    checkedValue: string[],
-    setCheckedValue: React.Dispatch<React.SetStateAction<string[]>>,
-    checkboxAllowed?: boolean
-    filterValue: string
+    options: string[],
+    changeOption: (option: string) => void;
+    filterValue: string;
+    checkboxAllowed?: boolean;
+    checkboxHandler: (option: string) => void;
+    checkedValue: string[];
+
 }
 
-export default function DropdownOptions({
-    checkboxAllowed,
-    options,
-    checkedValue,
-    setCheckedValue,
-    changeOption,
-    filterValue
-}: Props) {
+export default function DropdownOptions({ options, changeOption, filterValue, checkboxAllowed, checkedValue, checkboxHandler }: Props) {
 
-
-    // #BIVcomment
-    // filter now working with the same value, and cyrilic translit rus, ua (not the best way, will loking for better package)
-    const filterOptions = (text: string) => {
+    const filterOptionsFunc = (text: string) => {
         if (filterValue.length === 0) return true
 
         const translit = cyrillicToTranslit()
+        const translitUa = cyrillicToTranslit({ preset: 'uk' })
+
         const optionValue = text.toLowerCase()
-        const translitUA = cyrillicToTranslit({ preset: 'uk' })
         const checkValue = filterValue.toLowerCase().trim()
+
         const cyrillicPattern = /^[\u0400-\u04FF]+$/;
+
         if (cyrillicPattern.test(filterValue)) {
             if (optionValue.includes(checkValue)) return true
-            if (optionValue.includes(translitUA.transform(checkValue))) return true
+            if (optionValue.includes(translitUa.transform(checkValue))) return true
             return optionValue.includes(translit.transform(checkValue))
         }
         if (optionValue.includes(translit.reverse(checkValue))) return true
-        if (optionValue.includes(translitUA.reverse(checkValue))) return true
+        if (optionValue.includes(translitUa.reverse(checkValue))) return true
         return optionValue.includes(checkValue)
+    }
+
+    const clickHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        const target = e.target as typeof e.target & {
+            type: string,
+            innerText: string
+        }
+        if (target.type === 'checkbox') return
+        changeOption(target.innerText.trim())
     }
 
     if (options.length === 0) return (
@@ -47,49 +49,51 @@ export default function DropdownOptions({
             <li className={styles.listItem}>
                 <span className={`${styles.listLink} ${styles.listLink_inactive}`}>no matches found</span>
             </li>
-        </ul >
+        </ul>
     )
+
     return (
         <ul className={styles.list}>
-            {checkboxAllowed && <li
-                className={styles.listItem}
-                onClick={() => {
-                    setCheckedValue([])
-                }}
-            >
-                <div className={`${styles.listLink} ${checkedValue.length ? '' : styles.listLink_active}`}>
-                    <input type='checkbox' checked={checkedValue.length === 0} onChange={() => {
-                        setCheckedValue([])
-                    }} />
+            {<li className={styles.listItem}>
+
+                {checkboxAllowed && <div
+                    className={
+                        checkedValue.length === 0 ?
+                            `${styles.listLink_checked} ${styles.listLink}`
+                            : styles.listLink
+                    }
+                    onClick={() => { checkboxHandler('none') }}
+                >
+                    <input
+                        type="checkbox"
+                        checked={checkedValue.length === 0}
+                        onChange={() => { checkboxHandler('none') }}
+                    />
+
+                    {/* here need to replace "select all" with value from props, will discuse this later */}
                     <span>select all</span>
                 </div>
-            </li>}
+                }
 
-            {options.filter(filterOptions).map(currentOption => (
+            </li>}
+            {options.filter(filterOptionsFunc).map(currentOption => (
                 <li className={styles.listItem} key={currentOption}>
+
                     <div
-                        className={styles.listLink + ' ' + (checkedValue.includes(currentOption) ? styles.listLink_active : '')}
-                        onClick={(e) => {
-                            const target = e.target as typeof e.target & { type: string }
-                            if (target.type === 'checkbox') return
-                            changeOption(currentOption)
-                        }}
+                        className={checkedValue.includes(currentOption) ? `${styles.listLink} ${styles.listLink_checked}` : styles.listLink}
+                        onClick={clickHandler}
                     >
                         {checkboxAllowed && <input
                             type="checkbox"
-                            checked={
-                                checkedValue.includes(currentOption)
-                            }
+                            checked={checkedValue.includes(currentOption)}
                             onChange={() => {
-                                if (checkedValue.includes(currentOption)) {
-                                    setCheckedValue(checkedValue.filter(value => value !== currentOption))
-                                    return
-                                }
-                                setCheckedValue([...checkedValue, currentOption])
-                            }} />}
-                        <span>{currentOption}</span>
+                                checkboxHandler(currentOption)
+                            }}
+                        />}
+                        <span> {currentOption}</span>
                     </div>
-                </li>
-            ))}
-        </ul>)
+                </li>))}
+        </ul>
+    )
+
 }

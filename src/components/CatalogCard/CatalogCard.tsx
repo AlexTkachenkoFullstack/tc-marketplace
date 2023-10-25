@@ -102,10 +102,10 @@ export default function CatalogCard({ car }: Props) {
     return (
         <>
             <div className={style.container}>
-                <img alt='car image' src={car?.imgUrl || 'https://cdn2.riastatic.com/photosnew/auto/photo/volkswagen_touareg__516475592hd.webp'} className={style.image} />
+                <img alt='car image' src={car?.fileUrl || 'https://cdn2.riastatic.com/photosnew/auto/photo/volkswagen_touareg__516475592hd.webp'} className={style.image} />
                 <div className={style.header}>
                     <div>
-                        <p className={style.title}>{`${car?.transportBrand || tempFish} ${car?.transportModel || 'Model'}`}</p>
+                        <p className={style.title}>{`${car?.brand || tempFish} ${car?.model || 'Model'}`}</p>
                         <p className={style.price}>{getPriceString(car?.price || 2000000 /* 20000 temp value for test, this should delete */)}</p>
                     </div>
                     <div>

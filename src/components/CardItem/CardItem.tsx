@@ -13,7 +13,7 @@ interface Props {
     car?: ICar;
 }
 
-export const CardItem: React.FC = ({ car }: Props) => {
+export const CardItem: React.FC<Props> = ({ car }) => {
     const [isLiked, setIsLiked] = useState(false);
 
     return (
@@ -24,14 +24,14 @@ export const CardItem: React.FC = ({ car }: Props) => {
             >
                 <img
                     className={styles.img}
-                    src={car?.imgUrl}
-                    alt={car?.transportBrand}
+                    src={car?.fileUrl}
+                    alt={car?.brand}
                 />
             </NavLink>
 
             <div className={styles.col}>
                 <NavLink to="/Volkswagen_Touareg_2021 ?????" className={styles.link}>
-                    <h3 className={styles.title}>{car?.transportBrand} {car?.transportModel} {car?.year}</h3>
+                    <h3 className={styles.title}>{car?.brand} {car?.model} {car?.year}</h3>
                 </NavLink>
 
                 <div>
@@ -44,14 +44,14 @@ export const CardItem: React.FC = ({ car }: Props) => {
             </div>
 
 
-            <p className={styles.price}>71 500 $</p>
+            <p className={styles.price}>{car?.price} $</p>
 
             <ul className={styles.techSpecs}>
-                <li className={styles.techSpec}>120 тис. км</li>
-                <li className={styles.techSpec}>Харків</li>
-                <li className={styles.techSpec}>Автомат</li>
-                <li className={styles.techSpec}>бензин</li>
-                <li className={styles.techSpec}>2021 рік</li>
+                <li className={styles.techSpec}>{car && car.mileage !== undefined ? `${Math.floor(car.mileage / 1000)} тис. км` : "Нема данних"}</li>
+                <li className={styles.techSpec}>{car?.city}</li>
+                <li className={styles.techSpec}>{car?.transmission}</li>
+                <li className={styles.techSpec}>{car?.fuelType}</li>
+                <li className={styles.techSpec}>{car?.year} рік</li>
             </ul>
         </article>
     )
