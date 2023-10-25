@@ -13,8 +13,10 @@ type Props = {
     label: string;
     startValue: string;
     options: string[];
-    checkboxAllowed?: boolean
 };
+
+// usage guide:
+// if need checkbox, add checkboxAlo
 
 export const Dropdown: FC<Props> = (props) => {
     const {
@@ -27,21 +29,12 @@ export const Dropdown: FC<Props> = (props) => {
     const [isActive, setIsActive] = useState(false);
     const [option, setOption] = useState<string | string[]>(startValue);
     const [filterValue, setfilterValue] = useState('')
-    const [checkedValue, setCheckedValue] = useState<string[]>([])
-
 
     const dropdownRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null)
 
     const changeOption = (newOption: string) => {
-        // will discuse this parth latter when endpount's should be known   
-        if (checkedValue.length > 0) {
-            setCheckedValue([...checkedValue, newOption])
-            setOption([...checkedValue, newOption].join(', '))
-        } else {
-            setOption(newOption)
-        }
-        setfilterValue('')
+        setOption(newOption);
         setIsActive(false);
     };
 
@@ -57,6 +50,50 @@ export const Dropdown: FC<Props> = (props) => {
     useEffect(() => {
         setOption(startValue);
     }, [startValue]);
+
+
+    const renderOptions = (optionsArr: string[]) => {
+
+        if (optionsArr.length === 0) return (
+            <li className={styles.listItem}>
+                <span className={`${styles.listLink} ${styles.listLink_inactive}`}>no matches found</span>
+            </li>
+        )
+
+        return optionsArr.map(currentOption => (
+            <li className={styles.listItem} key={currentOption}>
+                <span
+                    className={styles.listLink}
+                    onClick={() => {
+                        changeOption(currentOption)
+                    }}
+                >
+                    {currentOption}
+                </span>
+            </li>
+        ))
+    }
+
+
+    // #BIVcomment
+    // filter now working with the same value, and cyrilic translit rus, ua (not the best way, will loking for better package)
+    const filterOptions = (text: string) => {
+        if (filterValue.length === 0) return true
+
+        const translit = cyrillicToTranslit()
+        const optionValue = text.toLowerCase()
+        const translitUa = cyrillicToTranslit({ preset: 'uk' })
+        const checkValue = filterValue.toLowerCase().trim()
+        const cyrillicPattern = /^[\u0400-\u04FF]+$/;
+        if (cyrillicPattern.test(filterValue)) {
+            if (optionValue.includes(checkValue)) return true
+            if (optionValue.includes(translitUa.transform(checkValue))) return true
+            return optionValue.includes(translit.transform(checkValue))
+        }
+        if (optionValue.includes(translit.reverse(checkValue))) return true
+        if (optionValue.includes(translitUa.reverse(checkValue))) return true
+        return optionValue.includes(checkValue)
+    }
 
     useEffect(() => { setfilterValue('') }, [])
 
@@ -119,15 +156,11 @@ export const Dropdown: FC<Props> = (props) => {
                 </div>
             </button>
 
-            {isActive && <DropdownOptions
-                changeOption={changeOption}
-                checkedValue={checkedValue}
-                checkboxAllowed={checkboxAllowed}
-                options={options}
-                filterValue={filterValue}
-                setCheckedValue={setCheckedValue}
-            />
-            }
+            {isActive && (
+                <ul className={styles.list}>
+                    {renderOptions(options.filter(filterOptions))}
+                </ul>
+            )}
 
         </div>
     );

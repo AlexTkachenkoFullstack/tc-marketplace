@@ -54,6 +54,7 @@ export const HomeTop = () => {
                             label='Модель'
                             startValue='Модель'
                             checkboxAllowed
+                        // setActive={setActive}
                         />
 
                         <Dropdown

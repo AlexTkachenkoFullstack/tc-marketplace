@@ -11,7 +11,8 @@ export interface ICar{
         engineDisplacement:number,
         city: string,
         created: string,
-        fileUrl: string,    
+        fileUrl: string,
+        isFavorite:boolean    
     }
 
 
