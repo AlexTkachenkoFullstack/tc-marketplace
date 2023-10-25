@@ -69,6 +69,8 @@ export default function DropdownOptions({ options, changeOption, filterValue, ch
                         checked={checkedValue.length === 0}
                         onChange={() => { checkboxHandler('none') }}
                     />
+
+                    {/* here need to replace "select all" with value from props, will discuse this later */}
                     <span>select all</span>
                 </div>
                 }
