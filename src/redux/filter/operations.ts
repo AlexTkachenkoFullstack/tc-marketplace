@@ -6,7 +6,7 @@ export type KnownError = {
 };
 
 const instance = axios.create({
-  baseURL: 'https://backend-production-448a.up.railway.app/api/v1/',
+  baseURL: 'https://backend-production-7a95.up.railway.app/api/v1/',
 });
 
 export const fetchTypes = createAsyncThunk(

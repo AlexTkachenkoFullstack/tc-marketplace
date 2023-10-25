@@ -2,6 +2,8 @@ import styles from './CategoryBar.module.scss';
 import scrollRight from '../../assets/icons/arrow_right.svg';
 import scrollLeft from '../../assets/icons/arrow_back.svg';
 import { useEffect, useRef, useState } from 'react';
+// import { ProductCategory } from 'types';
+// import Category from 'types/Category';
 
 interface Props {
   categories: string[];
@@ -55,6 +57,9 @@ export const CategoryBar: React.FC<Props> = ({ categories, handleSelect }) => {
       containerRef.current.scrollLeft -= 200;
     }
   };
+
+  // eslint-disable-next-line no-lone-blocks
+  {console.log(categories)}
 
   return (
   <div className={styles.container}>
