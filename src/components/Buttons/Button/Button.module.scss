@@ -5,7 +5,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  // border: 1px solid $icons-color;
   background-color: var(--icon-bckg);
   cursor: pointer;
   user-select: none;
@@ -13,27 +12,13 @@
 
   &.disabled {
     pointer-events: none;
-    // color: $icons-color;
     border-color: var(--icon-bckg-disable);
-    // background-color: var(--main-background-color);
   }
 
   &.selected {
     border-color: transparent;
-    // background-color: var(--button-color);
     color: #fff;
   }
-
-  // &.element {
-  //   border-color: $elements-color;
-  // }
-
-  // &:not(.disabled, .selected) {
-  //   &:hover {
-  //     border: 1px solid var(--icon-hover);
-  //     background-color: var(--icon-hover-bckg);
-  //   }
-  // }
 }
 
 .content {
@@ -52,12 +37,7 @@
   position: absolute;
   top: -9px;
   left: 9px;
-  // border: 2px solid $white-color;
-  // background-color: $color-red;
   border-radius: 50%;
-
-  // @include buttonText;
   font-size: 9px;
   line-height: 1;
-  // color: $white-color;
 }
