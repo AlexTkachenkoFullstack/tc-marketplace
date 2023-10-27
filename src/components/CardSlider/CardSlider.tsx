@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import cn from 'classnames';
 import SwiperCore, { Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -18,67 +18,67 @@ import { ICar } from 'types/IСar';
 SwiperCore.use([Autoplay]);
 
 interface Props {
-  title?: string;
-  cars?:ICar[] | [];
+    title?: string;
+    cars?: ICar[] | [];
 }
 
-export const CardSlider: React.FC<Props> = ({ title, cars}) => {
-  const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
-  const [isPrevBtnDisabled, setIsPrevBtnDisabled] = useState(true);
-  const [isNextBtnDisabled, setIsNextBtnDisabled] = useState(false);
+export const CardSlider: React.FC<Props> = ({ title, cars }) => {
+    const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
+    const [isPrevBtnDisabled, setIsPrevBtnDisabled] = useState(true);
+    const [isNextBtnDisabled, setIsNextBtnDisabled] = useState(false);
 
-  const handleClick = (direction: string) => {
-    if (direction === 'right') {
-     swiperRef?.slideNext();
-    } else {
-      swiperRef?.slidePrev();
-    } 
-    setIsPrevBtnDisabled(() => swiperRef?.isBeginning as boolean);
-    setIsNextBtnDisabled(() =>  swiperRef?.isEnd as boolean);
-  };
-  return (
-    <section className={styles.slider}>
-      <div className="container">
-        <div className={styles.header}>
-          {title && <h2 className={styles.title}>{title}</h2>}
-          <div className={styles.navBtns}>
-            <CommonBtn
-              className={cn(styles.squareBtn, styles.squareBtn_left)}
-              isDisabled={isPrevBtnDisabled}
-              iconPath={ArrowLeft}
-              onClick={() => handleClick('left')}
-            />
-            <CommonBtn
-              className={cn(styles.squareBtn, styles.squareBtn_right)}
-              isDisabled={isNextBtnDisabled}
-              iconPath={ArrowRight}
-              onClick={() => handleClick('right')}
-            />
-          </div>
-        </div>
-      </div>
-      <div className={styles.content}>
-        <Swiper
-          onSwiper={setSwiperRef}
-          slidesPerView={'auto'}
-          spaceBetween={16}
-          className={"mySwiper"}
-          breakpoints={{
-            768: {
-              slidesPerView: 2,
-            },
-            1024: {
-              slidesPerView: 3,
-            }
-          }}
-        >
-          {cars?.map((car) => (
-            <SwiperSlide className={styles.slide} key={car.id}>
-              <CardItem car={car}/>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-    </section>
-  );
+    const handleClick = (direction: string) => {
+        if (direction === 'right') {
+            swiperRef?.slideNext();
+        } else {
+            swiperRef?.slidePrev();
+        }
+        setIsPrevBtnDisabled(() => swiperRef?.isBeginning as boolean);
+        setIsNextBtnDisabled(() => swiperRef?.isEnd as boolean);
+    };
+    return (
+        <section className={styles.slider}>
+            <div className="container">
+                <div className={styles.header}>
+                    {title && <h2 className={styles.title}>{title}</h2>}
+                    <div className={styles.navBtns}>
+                        <CommonBtn
+                            className={cn(styles.squareBtn, styles.squareBtn_left)}
+                            isDisabled={isPrevBtnDisabled}
+                            iconPath={ArrowLeft}
+                            onClick={() => handleClick('left')}
+                        />
+                        <CommonBtn
+                            className={cn(styles.squareBtn, styles.squareBtn_right)}
+                            isDisabled={isNextBtnDisabled}
+                            iconPath={ArrowRight}
+                            onClick={() => handleClick('right')}
+                        />
+                    </div>
+                </div>
+            </div>
+            <div className={styles.content}>
+                <Swiper
+                    onSwiper={setSwiperRef}
+                    slidesPerView={'auto'}
+                    spaceBetween={16}
+                    className={"mySwiper"}
+                    breakpoints={{
+                        768: {
+                            slidesPerView: 2,
+                        },
+                        1024: {
+                            slidesPerView: 3,
+                        }
+                    }}
+                >
+                    {cars?.map((car) => (
+                        <SwiperSlide className={styles.slide} key={car.id}>
+                            <CardItem car={car} />
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            </div>
+        </section>
+    );
 };

@@ -6,31 +6,31 @@ import { CardItem } from "components/CardItem";
 import { ICar } from "types/IСar";
 
 interface Props {
-  cars?:ICar[] | [];
+    cars?: ICar[] | [];
 }
 
 export const PopularGoods: React.FC<Props> = ({ cars }) => {
-  return (
-    <section className={styles.goods}>
-      <div className="container">
-        <div className={styles.content}>
-          <div className={styles.header}>
-            <h2 className={styles.title}>Популярні товари</h2>
+    return (
+        <section className={styles.goods}>
+            <div className="container">
+                <div className={styles.content}>
+                    <div className={styles.header}>
+                        <h2 className={styles.title}>Популярні товари</h2>
 
-            <NavLink to="goods" className={styles.moreBtn}>
-              Переглянути більше
-            </NavLink>
-          </div>
+                        <NavLink to="goods" className={styles.moreBtn}>
+                            Переглянути більше
+                        </NavLink>
+                    </div>
 
-          <div className={styles.catalog}>
-            {cars?.map((car) => (
-              <div className={styles.card} key={car.id}>
-                <CardItem car={car}/>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  )
+                    <div className={styles.catalog}>
+                        {cars?.map((car) => (
+                            <div className={styles.card} key={car.id}>
+                                <CardItem car={car} />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </section>
+    )
 };

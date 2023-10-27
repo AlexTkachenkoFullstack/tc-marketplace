@@ -10,49 +10,49 @@ import { CommonBtn } from "components/Buttons/CommonBtn";
 import { ICar } from "types/IСar";
 
 interface Props {
-  car?:ICar;
+    car?: ICar;
 }
 
 export const CardItem: React.FC<Props> = ({ car }) => {
-  const [isLiked, setIsLiked] = useState(false);
+    const [isLiked, setIsLiked] = useState(false);
 
-  return (
-    <article className={styles.card}>
-      <NavLink
-        to="cardItem ?????"
-        className={styles.photo}
-      >
-        <img
-          className={styles.img}
-          src={car?.fileUrl}
-          alt={car?.brand}
-        />
-      </NavLink>
+    return (
+        <article className={styles.card}>
+            <NavLink
+                to="cardItem ?????"
+                className={styles.photo}
+            >
+                <img
+                    className={styles.img}
+                    src={car?.fileUrl}
+                    alt={car?.brand}
+                />
+            </NavLink>
 
-      <div className={styles.col}>
-        <NavLink to="/Volkswagen_Touareg_2021 ?????" className={styles.link}>
-          <h3 className={styles.title}>{car?.brand} {car?.model} {car?.year}</h3>
-        </NavLink>
+            <div className={styles.col}>
+                <NavLink to="/Volkswagen_Touareg_2021 ?????" className={styles.link}>
+                    <h3 className={styles.title}>{car?.brand} {car?.model} {car?.year}</h3>
+                </NavLink>
 
-        <div>
-          <CommonBtn
-            iconPath={isLiked ? ActiveLikeImg : LikeImg }
-            className={cn(styles.likeBtn)}
-            onClick={() => setIsLiked(!isLiked)}
-          />
-        </div>
-      </div>
+                <div>
+                    <CommonBtn
+                        iconPath={isLiked ? ActiveLikeImg : LikeImg}
+                        className={cn(styles.likeBtn)}
+                        onClick={() => setIsLiked(!isLiked)}
+                    />
+                </div>
+            </div>
 
 
-      <p className={styles.price}>{car?.price} $</p>
+            <p className={styles.price}>{car?.price} $</p>
 
-      <ul className={styles.techSpecs}>
-        <li className={styles.techSpec}>{car && car.mileage !== undefined ? `${Math.floor(car.mileage / 1000)} тис. км` : "Нема данних"}</li>
-        <li className={styles.techSpec}>{car?.city}</li>
-        <li className={styles.techSpec}>{car?.transmission}</li>
-        <li className={styles.techSpec}>{car?.fuelType}</li>
-        <li className={styles.techSpec}>{car?.year} рік</li>
-      </ul>
-    </article>
-  )
+            <ul className={styles.techSpecs}>
+                <li className={styles.techSpec}>{car && car.mileage !== undefined ? `${Math.floor(car.mileage / 1000)} тис. км` : "Нема данних"}</li>
+                <li className={styles.techSpec}>{car?.city}</li>
+                <li className={styles.techSpec}>{car?.transmission}</li>
+                <li className={styles.techSpec}>{car?.fuelType}</li>
+                <li className={styles.techSpec}>{car?.year} рік</li>
+            </ul>
+        </article>
+    )
 };

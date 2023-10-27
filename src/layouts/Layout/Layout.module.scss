@@ -1,3 +1,9 @@
+.wrapper {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
 .main {
   display: flex;
   background-color: var(--main-background-color);

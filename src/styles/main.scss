@@ -6,6 +6,12 @@
 @import './utils/breakpoints';
 @import './utils/mixins';
 
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
 :root {
   margin: 0;
   padding: 0;

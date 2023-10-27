@@ -6,6 +6,7 @@
   box-sizing: border-box;
   border: none;
   height: 100%;
+  width: 100%;
 
   @media (min-width: $tablet-min-width) {
     margin-bottom: 8px;
@@ -168,9 +169,7 @@
 .searchInput {
   background: transparent;
   border: none;
-  display: flex;
   padding: 3px 0;
-  flex-grow: 1;
   width: 100%;
   margin: 0;
   outline: none;
@@ -179,3 +178,4 @@
   margin-right: 5px;
   font-weight: 500;
 }
+
