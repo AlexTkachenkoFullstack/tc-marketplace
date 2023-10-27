@@ -31,9 +31,11 @@ console.log(selectedCategory)
     return (
         <div className={styles.homeTop}>
             <div className={styles.container}>
+            <div className={styles.centered_container}> 
                 <h2 className={styles.title}>
                     Title
                 </h2>
+               
                 <CategoryBar
                     categories={categories.map((category)=>category.type)}
                     handleSelect={setSelectedCategory}
@@ -71,6 +73,8 @@ console.log(selectedCategory)
                         <button className={styles.search_more}>Розширений пошук</button>
                     </div>
                 </div>
+
+            </div>
 
             </div>
             {/* <GoToTopButton /> */}

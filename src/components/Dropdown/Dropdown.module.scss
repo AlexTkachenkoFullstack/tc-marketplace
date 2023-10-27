@@ -7,9 +7,10 @@
   border: none;
   height: 100%;
 
-  @media (min-width: 880px) {
+  @media (min-width: $tablet-min-width) {
     margin-bottom: 8px;
     flex-grow: 1;
+    
   }
 }
 
@@ -26,7 +27,6 @@
   border-radius: 12px;
   background-color: $white-color;
   color: #8A8B8B;
-
 }
 
 .trigger {
@@ -42,13 +42,11 @@
   padding-block: 0;
   border: none;
   border-radius: 100px;
-
   font-family: Roboto;
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
   color: #434343;
-
   cursor: pointer;
   background-color: $white-color;
 }
@@ -100,8 +98,8 @@
   box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.05);
   z-index: 10;
 
-  // #BIVcomment
-  //   dropdown custom thin scroll bar, maybe should be taken to separate mixin for reuse in another cooponents
+  //#BIVcomment
+  //dropdown custom thin scroll bar, maybe should be taken to separate mixin for reuse in another cooponents
   &::-webkit-scrollbar {
     width: 4px;
   }
