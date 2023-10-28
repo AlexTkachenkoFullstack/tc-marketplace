@@ -2,7 +2,7 @@
 /* eslint-disable react/require-default-props */
 import { FC, ReactNode } from 'react';
 import cn from 'classnames';
-import { NavLink } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';
 import styles from './Button.module.scss';
 
 type CommonProps = {
