@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 import styles from './RecoverPassword.module.scss';
-import axios from 'axios';
+// import axios from 'axios';
 
 export const RecoverPasswordPage: FC = () => {
   const [email, setEmail] = useState('');

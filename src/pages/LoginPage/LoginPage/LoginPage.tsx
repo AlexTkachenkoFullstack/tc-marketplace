@@ -5,15 +5,15 @@ import line from '../../../assets/images/horizontal-line.png';
 import eye from '../../../assets/icons/eye-open.svg';
 import eyeClose from '../../../assets/icons/eye-close.svg';
 import googleIcon from '../../../assets/icons/google.svg';
-import { NavLink, useNavigate, useSearchParams } from 'react-router-dom';
+import { NavLink, useSearchParams } from 'react-router-dom';
 import { formReducer, initialState } from 'helpers/formReducer';
 
 export const LoginPage: FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, dispatch] = useReducer(formReducer, initialState);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const[searchParams, setSearchParams]=useSearchParams()
+  const[searchParams]=useSearchParams()
   
 
   useEffect(()=>{ 
@@ -45,7 +45,7 @@ export const LoginPage: FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-        const { email, password } = formData;
+        // const { email, password } = formData;
 
     console.log(formData);
 

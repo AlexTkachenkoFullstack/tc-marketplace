@@ -37,7 +37,7 @@ export const SignUpPage: FC = () => {
     setPasswordError('');
     setConfirmPasswordError('');
 
-    const { name, email, password, confirmPassword } = formData;
+    const { name, password, confirmPassword } = formData;
 
     if (name.length < 2 || name.length > 50) {
       setNameError('Ім\'я має містити від 2 до 50 символів');
