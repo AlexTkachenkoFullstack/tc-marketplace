@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { Link } from 'react-router-dom';
-import cn from 'classnames';
+// import { Link } from 'react-router-dom';
+// import cn from 'classnames';
 import container from '../../styles/utils/container.module.scss';
 import styles from './Cart.module.scss';
 
