@@ -1,7 +1,6 @@
 /* eslint-disable */
 import { useState, FC } from 'react';
 import { NavLink } from 'react-router-dom';
-import cn from 'classnames';
 import { Logo } from '../Logo';
 import styles from './Header.module.scss';
 import menu from '../../assets/icons/menu.svg';
@@ -63,7 +62,7 @@ export const Header: FC = () => {
           <img src={favorite} alt="Улюблене" />
           <img src={point} className={styles.header__favorite_button_point} />
         </button>
-        <NavLink to="/login/sign-up" className={styles.header__login_button}>
+        <NavLink to="/login/log-in" className={styles.header__login_button}>
           <img className={styles.header__login_icon} src={account} alt="Акаунт" />
           <span className={styles.header__login_text}>Увійти</span>
         </NavLink>

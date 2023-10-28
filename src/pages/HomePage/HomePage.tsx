@@ -1,5 +1,4 @@
 import React, {useEffect, useState}from 'react';
-//import { GoToTopButton } from 'components/GoToTopButton/GoToTopButton';
 import GoToTop from 'components/GoToTop/GoToTop';
 import { HomeTop } from 'components/HomeTop/HomeTop';
 import styles from './HomePage.module.scss';
