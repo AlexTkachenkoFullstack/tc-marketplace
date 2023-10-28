@@ -1,10 +1,10 @@
-import React, { FC, useReducer, useState } from 'react';
+import React, { FC, useEffect, useReducer, useState } from 'react';
 import styles from './LoginPage.module.scss';
 import line from '../../../assets/images/horizontal-line.png';
 import eye from '../../../assets/icons/eye-open.svg';
 import eyeClose from '../../../assets/icons/eye-close.svg';
 import googleIcon from '../../../assets/icons/google.svg';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useSearchParams } from 'react-router-dom';
 import { formReducer, initialState } from 'helpers/formReducer';
 
 export const LoginPage: FC = () => {
@@ -12,6 +12,11 @@ export const LoginPage: FC = () => {
   const [formData, dispatch] = useReducer(formReducer, initialState);
   const navigate = useNavigate();
 
+  const[searchParams, setSearchParams]=useSearchParams()
+  console.log(searchParams)
+  useEffect(()=>{  console.log(searchParams.get('email'));
+},[searchParams])
+  
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   }
