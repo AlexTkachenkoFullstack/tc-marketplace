@@ -7,25 +7,25 @@
 
     .top-btn {
         font-size: 2.4rem;
-        width: 6rem;
-        height: 6rem;
+        width: 5rem;
+        height: 5rem;
         color: #fff;
         background-color: $color-black;
         box-shadow: $shadow-btn;
         border-radius: 50%;
         position: fixed;
-        bottom: 5rem;
-        right: 5rem;
+        bottom: 2rem;
+        right: 2rem;
         z-index: 999;
         display: flex;
         justify-content: center;
         align-items: center;
         cursor: pointer;
-        transition: opacity 1.2s ease, transform 1.1s ease;
+        transition: opacity 1.2s ease, transform 1.5s ease;
 
 
         &--icon {
-            animation: gototop 1.2s linear infinite alternate-reverse;
+            animation: gototop 1.5s ease-in infinite alternate-reverse;
         }
 
         @keyframes gototop {
@@ -37,6 +37,5 @@
                 transform: translateY(0.5rem)
             }
         }
-
     }
 }
