@@ -23,8 +23,8 @@ export const LoginPage: FC = () => {
       console.log('before',email, token)
       if(email && token){
         console.log('after',email, token)
-         const respons=await axios(`https://backend-production-7a95.up.railway.app/api/v1/authorization/register/verify-account?email=${email}&token=${token}`)
-        console.log(respons)
+        //  const respons=await axios(`https://backend-production-7a95.up.railway.app/api/v1/authorization/register/verify-account?email=${email}&token=${token}`)
+        // console.log(respons)
         } 
     } 
    verifyEmail()
