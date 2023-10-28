@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useReducer, useState } from 'react';
+import axios from 'axios';
 import styles from './LoginPage.module.scss';
 import line from '../../../assets/images/horizontal-line.png';
 import eye from '../../../assets/icons/eye-open.svg';
@@ -13,8 +14,20 @@ export const LoginPage: FC = () => {
   const navigate = useNavigate();
 
   const[searchParams, setSearchParams]=useSearchParams()
-  console.log(searchParams)
-  useEffect(()=>{  console.log(searchParams.get('email'));
+  
+
+  useEffect(()=>{ 
+    const verifyEmail=async()=>{
+      const email=searchParams.get('email');
+      const token=searchParams.get('token');
+      console.log('before',email, token)
+      if(email && token){
+        console.log('after',email, token)
+         const respons=await axios(`https://backend-production-7a95.up.railway.app/api/v1/authorization/register/verify-account?email=${email}&token=${token}`)
+        console.log(respons)
+        } 
+    } 
+   verifyEmail()
 },[searchParams])
   
   const togglePasswordVisibility = () => {
