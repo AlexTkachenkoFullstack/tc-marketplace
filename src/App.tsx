@@ -23,6 +23,14 @@ export const App: React.FC = () => {
                     <Route index element={<HomePage />} />
                     <Route path="home" element={<Navigate to="/" replace />} />
                     <Route path='/cc' element={<CatalogCard />} />
+
+                    <Route path="login/" element={<LoginLayout />}>
+                      <Route path="sign-up" element={<SignUpPage />} />
+                      <Route path="log-in" element={<LoginPage />} />
+                      <Route path="finish-registration" element={<ConfirmEmailPage />} />
+                      <Route path="recover" element={<RecoverPasswordPage />} />
+                      <Route path="recover/new" element={<NewPasswordPage />} />
+                    </Route>
                     <Route path="favorites" element={<FavoritesPage />} />
 
                 </Route>
