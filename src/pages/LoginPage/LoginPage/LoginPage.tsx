@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useReducer, useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import styles from './LoginPage.module.scss';
 import line from '../../../assets/images/horizontal-line.png';
 import eye from '../../../assets/icons/eye-open.svg';
