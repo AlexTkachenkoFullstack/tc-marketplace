@@ -7,10 +7,13 @@ import eyeClose from '../../../assets/icons/eye-close.svg';
 import googleIcon from '../../../assets/icons/google.svg';
 import { NavLink, useSearchParams } from 'react-router-dom';
 import { formReducer, initialState } from 'helpers/formReducer';
+import { useAppDispatch } from 'redux/hooks';
+import { loginThunk } from 'redux/auth/operations';
 
 export const LoginPage: FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, dispatch] = useReducer(formReducer, initialState);
+  const dispatchLogin=useAppDispatch()
   // const navigate = useNavigate();
 
   const[searchParams]=useSearchParams()
@@ -20,11 +23,15 @@ export const LoginPage: FC = () => {
     const verifyEmail=async()=>{
       const email=searchParams.get('email');
       const token=searchParams.get('token');
-      console.log('before',email, token)
       if(email && token){
-        console.log('after',email, token)
-         const respons=await axios(`https://backend-production-7a95.up.railway.app/api/v1/authorization/register/verify-account?email=${email}&token=${token}`)
-        console.log(respons)
+         try{
+          const respons=await axios(`https://backend-production-7a95.up.railway.app/api/v1/authorization/register/verify-account?email=${email}&token=${token}`)
+        if(respons.status===200){
+          console.log('Account has been verified')
+        }
+         }catch(error){
+          console.log('Account didn"t verify')
+         }
         } 
     } 
    verifyEmail()
@@ -44,10 +51,8 @@ export const LoginPage: FC = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
-        // const { email, password } = formData;
-
-    console.log(formData);
+        const { email, password } = formData;
+        dispatchLogin(loginThunk({email, password}))
 
     // navigate('/login/finish-registration');
   }

@@ -4,29 +4,49 @@ import { CategoryBar } from 'components/CategoryBar/CategoryBar';
 import { useEffect, useState } from 'react';
 import { Dropdown } from 'components/Dropdown/Dropdown';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { getFilterBrands, getFilterRegions, getFilterTypes } from 'redux/filter/selectors';
-import { fetchBrands, fetchRegions, fetchTypes } from 'redux/filter/operations';
+import { getFilterBrands, getFilterModels, getFilterRegions, getFilterTypes } from 'redux/filter/selectors';
+import { fetchBrands, fetchModels, fetchRegions, fetchTypes } from 'redux/filter/operations';
 import { IRegion } from 'types/IRegion';
 import { IType } from 'types/IType';
 import { IBrand } from 'types/IBrand';
-
-const models = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
-// const brands = ['Toyota', 'Ford', 'BMW', 'Audi', 'Lexus'];
-// const categories = ['Всі', 'Легкові', 'Мотоцикли', 'Електротранспорт', 'Причепи', 'Вантажівки', 'Водний транспорт'];
+import { IModel } from 'types/IModel';
 
 export const HomeTop = () => {
     const dispatch = useAppDispatch();
     const regions: IRegion[] = useAppSelector(getFilterRegions)
     const categories: IType[] = useAppSelector(getFilterTypes)
     const brands: IBrand[] = useAppSelector(getFilterBrands)
-    const [selectedCategory, setSelectedCategory] = useState<string>('легкові');
-    // const [active, setActive] = useState(false);
+    const models: IModel[]= useAppSelector(getFilterModels)
+    const [selectedCategory, setSelectedCategory] = useState<string>('Легкові')
+    const [isModelDissabled, setIsModelDissabled] = useState(false);
     useEffect(() => {
+        setIsModelDissabled(false)
         dispatch(fetchRegions())
         dispatch(fetchTypes())
-        dispatch(fetchBrands())
+        // dispatch(fetchBrands())
     }, [dispatch])
-    console.log(selectedCategory)
+
+    const handleSelectCategory = (category: string) => {
+        // setIsModelDissabled(false)
+        setSelectedCategory(category);
+      }
+
+      useEffect(()=>{
+        const type=categories.find(item=>item.type===selectedCategory);
+        if(type){
+            dispatch(fetchBrands(type.typeId))
+        }
+      },[categories, dispatch, selectedCategory])
+
+      useEffect(()=>{
+        const type=categories.find(item=>item.type===selectedCategory);
+        const brand=brands.find(item=>item.brand==='Audi')
+        if(type && brand){
+            dispatch(fetchModels({transportTypeId:type?.typeId, transportBrandId: brand?.brandId}))
+            // setIsModelDissabled(true)
+        }    
+      },[brands, categories, dispatch, selectedCategory])
+      
 
     return (
         <div className={styles.homeTop}>
@@ -38,7 +58,8 @@ export const HomeTop = () => {
                
                 <CategoryBar
                     categories={categories.map((category) => category.type)}
-                    handleSelect={setSelectedCategory}
+                    handleSelect={handleSelectCategory}
+                    selectedCategory={selectedCategory}
                 />
 
                 <div className={styles.container_bottom}>
@@ -52,10 +73,11 @@ export const HomeTop = () => {
                         />
 
                         <Dropdown
-                            options={models}
+                            options={models.map(item=>item.model)}
                             label='Модель'
                             startValue='Модель'
                             checkboxAllowed
+                            isModelDissabled={isModelDissabled}
                         // setActive={setActive}
                         />
 

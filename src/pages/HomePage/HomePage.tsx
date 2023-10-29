@@ -15,13 +15,14 @@ export const HomePage: React.FC = () => {
   const newCars=useAppSelector(getNewCars);
   const popularCars=useAppSelector(getPopularCars);
   const viewedCars=useAppSelector(getViewedCars);
-  const isAuth=useAppSelector(isAuthUser)
+  const isAuth = useAppSelector(isAuthUser)
   const [popularCarsToShow, setPopularCarsToShow]=useState<ICar[]>([])
   const [currentPage, setCurrentPage]=useState<number>(0);
   const [showButtonLoadMore, setShowButtonLoadMore]=useState<boolean>(true)
 
   const popularCarTotalPages=Math.ceil(popularCars.length/POPULARLIMIT);
 
+  
   const dispatch=useAppDispatch()
 
   useEffect(()=>{
