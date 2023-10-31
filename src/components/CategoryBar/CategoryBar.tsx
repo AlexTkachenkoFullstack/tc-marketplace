@@ -7,14 +7,14 @@ import { useEffect, useRef, useState } from 'react';
 
 interface Props {
   categories: string[];
-  handleSelect: React.Dispatch<React.SetStateAction<string>>;
+  handleSelect:(category:string)=>void;
+  selectedCategory:string
 }
 
-export const CategoryBar: React.FC<Props> = ({ categories, handleSelect }) => {
+export const CategoryBar: React.FC<Props> = ({ categories, handleSelect, selectedCategory }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [showLeftScrollButton, setShowLeftScrollButton] = useState(false);
   const [showRightScrollButton, setShowRightScrollButton] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState<string>("Всі");
 
   useEffect(() => {
     const container = containerRef.current;
@@ -41,11 +41,6 @@ export const CategoryBar: React.FC<Props> = ({ categories, handleSelect }) => {
     }
   }, []);
 
-  const handleSelectCategory = (category: string) => {
-    setSelectedCategory(category);
-    handleSelect(category);
-  }
-
   const handleScrollRight = () => {
     if (containerRef.current) {
       containerRef.current.scrollLeft += 200;
@@ -57,9 +52,6 @@ export const CategoryBar: React.FC<Props> = ({ categories, handleSelect }) => {
       containerRef.current.scrollLeft -= 200;
     }
   };
-
-  // eslint-disable-next-line no-lone-blocks
-  {console.log(categories)}
 
   return (
   <div className={styles.container}>
@@ -74,7 +66,7 @@ export const CategoryBar: React.FC<Props> = ({ categories, handleSelect }) => {
         <button
           className={`${styles.category} ${selectedCategory === category ? styles.selected : ''}`}
           key={category}
-          onClick={() => handleSelectCategory(category)}
+          onClick={() => handleSelect(category)}
         >
           {category}
         </button>

@@ -8,6 +8,8 @@ import plus from '../../assets/icons/add.svg';
 import favorite from '../../assets/icons/favorite.svg';
 import point from '../../assets/icons/point.svg';
 import account from '../../assets/icons/account_circle.svg';
+import { isAuthUser } from 'redux/auth/selectors';
+import { useAppSelector } from 'redux/hooks';
 
 export const links = [
   {
@@ -29,6 +31,7 @@ export const links = [
 ];
 
 export const Header: FC = () => {
+  const auth: boolean = useAppSelector(isAuthUser)
   // const [isMenuOpen, setIsMenuOpen] = useState(false);
   // const [activeLink, setActiveLink] = useState('');
 
@@ -62,10 +65,20 @@ export const Header: FC = () => {
           <img src={favorite} alt="Улюблене" />
           <img src={point} className={styles.header__favorite_button_point} />
         </button>
-        <NavLink to="/login/log-in" className={styles.header__login_button}>
-          <img className={styles.header__login_icon} src={account} alt="Акаунт" />
-          <span className={styles.header__login_text}>Увійти</span>
-        </NavLink>
+        
+        {auth 
+        ? (
+          <NavLink to="/" className={styles.header__login_button}> 
+                <img className={styles.header__login_icon} src={account} alt="Акаунт" />
+          </NavLink>
+          ) 
+        :  ( 
+           <NavLink to="/login/log-in" className={styles.header__login_button}>
+              <span className={styles.header__login_text}>Увійти</span>
+          </NavLink>
+          )
+        }
+        
       </div>
     </header>
   );

@@ -44,9 +44,32 @@ export const fetchTypes = createAsyncThunk(
 
   export const fetchBrands = createAsyncThunk(
     'filter/getBrands',
-    async (_, thunkAPI) => {
+    async (transportTypeId:number, thunkAPI) => {
       try { 
-        const response = await instance('main/brands'); 
+        const config = {
+          params: { transportTypeId },
+        };
+        const response = await instance('main/brands', config); 
+        return response.data;
+      } catch (err) {
+        const error: AxiosError<KnownError> = err as any;
+        if (!error.response) {
+          throw err;
+        }
+        return thunkAPI.rejectWithValue({ errorMessage: error.response.data });
+      }
+    }
+  );
+
+  export const fetchModels = createAsyncThunk(
+    'filter/getModels',
+    async ({ transportTypeId, transportBrandId }: { transportTypeId: number, transportBrandId: number }, thunkAPI) => {
+      try { 
+        const config = {
+          params: {transportTypeId, transportBrandId},
+        };
+        const response = await instance('main/models', config); 
+        console.log(response.data)
         return response.data;
       } catch (err) {
         const error: AxiosError<KnownError> = err as any;

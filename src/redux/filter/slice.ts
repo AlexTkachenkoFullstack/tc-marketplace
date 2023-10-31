@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, isAnyOf} from '@reduxjs/toolkit';
-import { fetchBrands, fetchRegions, fetchTypes } from './operations';
+import { fetchBrands, fetchModels, fetchRegions, fetchTypes } from './operations';
 import { IType } from 'types/IType';
 import { IRegion } from 'types/IRegion';
 import { IBrand } from 'types/IBrand';
@@ -48,7 +48,13 @@ const handleFulfildGetBrands=(state:IFilterState, action: PayloadAction<IBrand[]
     state.isLoading = false;
     state.error = null;
     state.brand = action.payload; 
-    }   
+    }
+    
+const handleFulfildGetModels=(state:IFilterState, action: PayloadAction<IModel[]>) => {
+    state.isLoading = false;
+    state.error = null;
+    state.models = action.payload; 
+    }
 
 export const filterSlice = createSlice({
     name: 'filter',
@@ -59,7 +65,8 @@ export const filterSlice = createSlice({
           .addCase(fetchRegions.fulfilled, handleFulfildGetRegions)
           .addCase(fetchTypes.fulfilled, handleFulfildGetTypes)
           .addCase(fetchBrands.fulfilled, handleFulfildGetBrands)
-          .addMatcher(isAnyOf(fetchRegions.pending,fetchTypes.pending, fetchBrands.pending), handlePending)
-          .addMatcher(isAnyOf(fetchRegions.rejected, fetchTypes.rejected, fetchBrands.rejected), handleRejected)
+          .addCase(fetchModels.fulfilled, handleFulfildGetModels)
+          .addMatcher(isAnyOf(fetchRegions.pending,fetchTypes.pending, fetchBrands.pending, fetchModels.pending), handlePending)
+          .addMatcher(isAnyOf(fetchRegions.rejected, fetchTypes.rejected, fetchBrands.rejected, fetchModels.rejected), handleRejected)
       },
   });

@@ -1,17 +1,42 @@
-import React, { FC, useReducer, useState } from 'react';
+import React, { FC, useEffect, useReducer, useState } from 'react';
+import axios from 'axios';
 import styles from './LoginPage.module.scss';
 import line from '../../../assets/images/horizontal-line.png';
 import eye from '../../../assets/icons/eye-open.svg';
 import eyeClose from '../../../assets/icons/eye-close.svg';
 import googleIcon from '../../../assets/icons/google.svg';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useSearchParams } from 'react-router-dom';
 import { formReducer, initialState } from 'helpers/formReducer';
+import { useAppDispatch } from 'redux/hooks';
+import { loginThunk } from 'redux/auth/operations';
 
 export const LoginPage: FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, dispatch] = useReducer(formReducer, initialState);
-  const navigate = useNavigate();
+  const dispatchLogin=useAppDispatch()
+  // const navigate = useNavigate();
 
+  const[searchParams]=useSearchParams()
+  
+
+  useEffect(()=>{ 
+    const verifyEmail=async()=>{
+      const email=searchParams.get('email');
+      const token=searchParams.get('token');
+      if(email && token){
+         try{
+          const respons=await axios(`https://backend-production-7a95.up.railway.app/api/v1/authorization/register/verify-account?email=${email}&token=${token}`)
+        if(respons.status===200){
+          console.log('Account has been verified')
+        }
+         }catch(error){
+          console.log('Account didn"t verify')
+         }
+        } 
+    } 
+   verifyEmail()
+},[searchParams])
+  
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   }
@@ -26,10 +51,8 @@ export const LoginPage: FC = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
         const { email, password } = formData;
-
-    console.log(formData);
+        dispatchLogin(loginThunk({email, password}))
 
     // navigate('/login/finish-registration');
   }

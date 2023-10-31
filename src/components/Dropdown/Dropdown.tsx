@@ -14,6 +14,7 @@ type Props = {
     startValue: string;
     options: string[];
     checkboxAllowed?: boolean;
+    isModelDissabled?:boolean
 };
 
 // usage guide:
@@ -24,15 +25,15 @@ export const Dropdown: FC<Props> = (props) => {
         label,
         startValue,
         options,
-        checkboxAllowed
+        checkboxAllowed,
+        isModelDissabled
     } = props;
 
     const [isActive, setIsActive] = useState(false);
     const [option, setOption] = useState(startValue);
     const [filterValue, setfilterValue] = useState('')
     const [checkedValue, setcheckedValue] = useState<string[]>([]);
-
-
+    
     const dropdownRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null)
 
@@ -92,6 +93,7 @@ export const Dropdown: FC<Props> = (props) => {
             <button
                 className={styles.trigger}
                 type="button"
+                disabled={isModelDissabled}
                 onClick={(event) => {
                     if (event.target === inputRef.current) return
                     setIsActive((prevState) => !prevState)
@@ -113,7 +115,6 @@ export const Dropdown: FC<Props> = (props) => {
                         placeholder={label}
                         value={filterValue}
                         ref={inputRef}
-
                     /> :
                         <div className={styles.text}>
                             {option}
