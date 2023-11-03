@@ -81,8 +81,9 @@ export const SignUpPage: FC = () => {
         }
         break;
       case 'password':
-        !(passwordError && value.length >= 8 && value.length <= 50 && /\d/.test(value) && /[a-z]/.test(value) && /[A-Z]/.test(value)) 
-        ? setPasswordError('Пароль має містити від 8 до 50 символів, нижнього і верхнього регістру і цифри')
+        !(passwordError && value.length >= 8 && value.length <= 50 && /\d/.test(value) && /[a-zA-Z]/.test(value))
+        
+        ? setPasswordError('Пароль має містити від 8 до 50 символів, хоча б одну букву і цифру')
         : setPasswordError('')
         
         break;
@@ -112,25 +113,6 @@ export const SignUpPage: FC = () => {
     setPasswordError('');
     setConfirmPasswordError('');
 
-    const { name, password, confirmPassword } = formData;
-
-    if (name.length < 2 || name.length > 50) {
-      setNameError('Ім\'я має містити від 2 до 50 символів');
-      return;
-    }
-    if (password.length < 8 || password.length > 50) {
-      setPasswordError('Пароль має містити від 8 до 50 символів');
-      return;
-    }
-    if (!/\d/.test(password) || !/[a-z]/.test(password) || !/[A-Z]/.test(password)) {
-      setPasswordError('Пароль не валідний');
-      return;
-    }
-    if (password !== confirmPassword) {
-      setConfirmPasswordError('Паролі не співпадають');
-      return;
-    }
-
     try {
       const URL = 'https://backend-production-7a95.up.railway.app/api/v1/authorization/register';
       const response = await axios.post(URL, formData)
@@ -150,7 +132,7 @@ export const SignUpPage: FC = () => {
          Вже є акаунт?<NavLink to="/login/log-in" className={styles.Login_login_link}>Увійти</NavLink>
       </span>
       <div className={styles.Container}>
-        <div className={styles.password_container}>
+        <div className={styles.input_container}>
         { nameHasValue ? (
             <label htmlFor="name" className={
               (activeField !== 'name' && nameError )
@@ -182,7 +164,7 @@ export const SignUpPage: FC = () => {
           )}
         </div>
 
-        <div className={styles.password_container}>
+        <div className={styles.input_container}>
         { emailHasValue ? (
             <label htmlFor="email" className={
               (activeField !== 'email' && emailError )
@@ -214,7 +196,7 @@ export const SignUpPage: FC = () => {
         {activeField !== 'email' && emailError.length > 0 && <span className={styles.Login_label_errorMessage}>{emailError}</span>}
         </div>
 
-        <div className={styles.password_container}>
+        <div className={styles.input_container}>
           { passwordHasValue ? (
             <label htmlFor="password" className={
               (activeField !== 'password' && passwordError )
@@ -224,7 +206,7 @@ export const SignUpPage: FC = () => {
              Введіть пароль
             </label>
           ) : null}
-          <div className={styles.input_container}>
+          <div >
             <input
               type={showPassword ? 'text' : 'password'}
               id="password"
@@ -244,18 +226,18 @@ export const SignUpPage: FC = () => {
               
               src={showPassword ? (activeField !== 'password' && passwordError ? redEye : eye) : (activeField !== 'password' && passwordError ? redEyeClose : eyeClose)}
               alt={showPassword ? 'hide password' : 'show password' }
-              className={styles.password_container_icon}
+              className={styles.input_container_icon}
               onClick={togglePasswordVisibility}
             />
           </div>
 
           {activeField !== 'password' && passwordError.length > 0 && (
-            <span className={styles.Login_label_errorMessage_password}>{passwordError}</span>
+            <span className={styles.Login_label_errorMessage}>{passwordError}</span>
 
           )}
         </div>
 
-        <div className={styles.password_container}>
+        <div className={styles.input_container}>
 
           { confirmPasswordHasValue ? (
             <label htmlFor="password" className={
@@ -267,7 +249,7 @@ export const SignUpPage: FC = () => {
             </label>
           ) : null}
           
-          <div className={styles.input_container}>
+          <div >
             <input
               type={showConfirmPassword ? 'text' : 'password'}
               id="confirmPassword"
@@ -286,7 +268,7 @@ export const SignUpPage: FC = () => {
             <img
               src={showConfirmPassword ? (confirmPasswordError ? redEye : eye) : (confirmPasswordError ? redEyeClose : eyeClose)}
               alt={showConfirmPassword ? 'hide password' : 'show password' }
-              className={styles.password_container_icon}
+              className={styles.input_container_icon}
               onClick={toggleConfirmPasswordVisibility}
             />
           </div>
