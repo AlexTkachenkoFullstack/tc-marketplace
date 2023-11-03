@@ -57,9 +57,7 @@
     }
 
     &_errorMessage {
-      position: absolute;
       bottom: -14px;
-      position: absolute;
       color: #f43d3d;
       font-family: Roboto;
       font-size: 11px;
@@ -164,19 +162,14 @@
   }
 }
 
-.input_container{
+.input_container {
   position: relative;
   display: flex;
+  flex-direction: column;
   width: 100%;
+  margin-bottom: 20px;
   margin-top: 0;
-}
-
-.password_container {
-  position: relative;
-  display: flex;
-  width: 100%;
-  margin-bottom: 25px;
-  margin-top: 0;
+  gap:2px;
   
   .Login_field {
     margin-bottom: 0;
@@ -193,15 +186,5 @@
 
     right: 20px;
     top: 11px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .Login_label_errorMessage_password {
-    bottom: -25px;
-  }
-
-  .password_container{
-    margin-bottom: 37px;
   }
 }
