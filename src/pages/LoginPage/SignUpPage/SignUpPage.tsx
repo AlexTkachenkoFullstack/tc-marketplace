@@ -82,13 +82,13 @@ export const SignUpPage: FC = () => {
         break;
       case 'password':
         !(passwordError && value.length >= 8 && value.length <= 50 && /\d/.test(value) && /[a-zA-Z]/.test(value))
-        
+
         ? setPasswordError('Пароль має містити від 8 до 50 символів, хоча б одну букву і цифру')
         : setPasswordError('')
-        
+
         break;
       case 'confirmPassword':
-        !(confirmPasswordError && value === formData.password) 
+        !(confirmPasswordError && value === formData.password)
          ? setConfirmPasswordError('Паролі не співпадають')
          : setConfirmPasswordError('')
         break;
@@ -101,11 +101,11 @@ export const SignUpPage: FC = () => {
   const handleBlur = (field: FieldKey) => {
     setActiveField(null);
   };
-  
+
   const handleFocus = (field: FieldKey) => {
     setActiveField(field);
   };
-  
+
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -158,7 +158,7 @@ export const SignUpPage: FC = () => {
             onChange={(e) => handleFieldChange('name', e.target.value)}
             required
           />
-          
+
           {activeField !== 'name' && nameError.length > 0 && (
             <span className={styles.Login_label_errorMessage}>{nameError}</span>
           )}
@@ -185,7 +185,7 @@ export const SignUpPage: FC = () => {
                 ? `${styles.Login_field} ${styles.Login_field_warning} ${styles.Login_field_error}`
                 : styles.Login_field
             }
-            
+
             value={formData.email}
             onChange={(e) => handleFieldChange('email', e.target.value)}
             onBlur={() => handleBlur('email')}
@@ -223,7 +223,7 @@ export const SignUpPage: FC = () => {
               required
             />
             <img
-              
+
               src={showPassword ? (activeField !== 'password' && passwordError ? redEye : eye) : (activeField !== 'password' && passwordError ? redEyeClose : eyeClose)}
               alt={showPassword ? 'hide password' : 'show password' }
               className={styles.input_container_icon}
@@ -248,7 +248,7 @@ export const SignUpPage: FC = () => {
              Підтвердіть пароль
             </label>
           ) : null}
-          
+
           <div >
             <input
               type={showConfirmPassword ? 'text' : 'password'}
@@ -290,4 +290,3 @@ export const SignUpPage: FC = () => {
     </form>
   );
 };
-
