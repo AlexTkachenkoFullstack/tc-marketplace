@@ -1,0 +1,36 @@
+@keyframes toast-slide-up {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+.toast {
+    position: fixed;
+    border-radius: 8px;     
+    left: 5%;
+    bottom: 5%;
+    display: flex;
+    padding: 20px 35px 20px 25px;
+    box-shadow: 0 6px 20px -5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    justify-content: flex-start;
+    align-items: flex-start;
+    animation: toast-slide-up 0.3s;
+    will-change: transform;
+}
+  
+  .toast .toast-content {
+    display: flex;
+    align-items: center;
+  }
+
+  .modal-close{
+    top: 3px;
+    right: 3px;
+    position: absolute;
+    border: none
+  }
+  
