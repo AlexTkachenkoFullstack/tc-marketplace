@@ -8,6 +8,7 @@ export const RecoverPasswordPage: FC = () => {
   const [sent, setSent] = useState(false);
   const [messageError, setMessageError] = useState('');
   const [visibleCounter, setVisibleCounter] = useState(false);
+  const [emailError, setEmailError] = useState('');
   const [countdown, setCountdown] = useState(60);
   let timer: NodeJS.Timeout | undefined;
 
@@ -52,6 +53,14 @@ export const RecoverPasswordPage: FC = () => {
   };
 
   const handleRecover = async () => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(userEmail)) {
+      setEmailError('E-mail має містити @ і бути валідною адресою!');
+      return;
+    } else {
+      setEmailError('');
+    }
+
     try {
       const URL = `https://backend-production-7a95.up.railway.app/api/v1/authorization/reset-password/send-code?email=${userEmail}`;
       await axios.put(URL);
@@ -71,7 +80,7 @@ export const RecoverPasswordPage: FC = () => {
         Введіть пошту, щоб відновити пароль
       </span>
 
-      <div>
+      <div className={styles.inputContainer}>
         <input
           type='email'
           placeholder='E-mail'
@@ -80,6 +89,12 @@ export const RecoverPasswordPage: FC = () => {
           onChange={(e) => handleFieldChange(e.target.value)}
           required
         />
+        {emailError.length > 0 && (
+            <span className={styles.inputContainer_errorMessage}>
+              {emailError}
+            </span>
+        )}
+      </div>
 
       <div>
         <button onClick={!sent ? handleRecover : redirectToMailService} className={styles.Login_btn}>
@@ -104,7 +119,6 @@ export const RecoverPasswordPage: FC = () => {
         >
           Відправити знову {visibleCounter && `(${countdown}с)`}
         </button>
-      </div>
       </div>
     </div>
   );
