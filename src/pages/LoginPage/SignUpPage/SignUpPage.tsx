@@ -83,13 +83,12 @@ export const SignUpPage: FC = () => {
           setEmailError('');
         }
         break;
-
-        case 'password':
-          // !(passwordError && value.length >= 8 && value.length <= 50 && /\d/.test(value) && /[a-zA-Z]/.test(value))
-          // ? setPasswordError('Пароль має містити від 8 до 50 символів, хоча б одну букву і цифру')
-          !(passwordError && value.length >= 8 && value.length <= 50 && /\d/.test(value) && /[a-z]/.test(value) && /[A-Z]/.test(value)) 
-          ? setPasswordError('Пароль має містити від 8 до 50 символів, нижнього і верхнього регістру і цифри')
-          : setPasswordError('')
+      case 'password':
+        !(passwordError && value.length >= 8 && value.length <= 50 && /\d/.test(value) && /[a-zA-Z]/.test(value))
+        
+        ? setPasswordError('Пароль має містити від 8 до 50 символів, хоча б одну букву і цифру')
+        : setPasswordError('')
+        
         break;
 
       case 'confirmPassword':
@@ -116,8 +115,6 @@ export const SignUpPage: FC = () => {
     setPasswordError('');
     setConfirmPasswordError('');
     setMessageError(false);
-
-    const { name, password, confirmPassword } = formData;
 
     try {
       const URL =
