@@ -7,6 +7,7 @@ type FormState = {
 
 type FormAction =
 | { type: 'UPDATE_FIELD'; field: string; value: string }
+| {type: 'TRIM'}
 | { type: 'RESET' };
 
 export const initialState: FormState = {
@@ -23,6 +24,17 @@ export function formReducer (state: FormState, action: FormAction): FormState {
         ...state,
         [action.field]: action.value,
       };
+
+    case 'TRIM':
+      const trimmedState: FormState = {
+        name: state.name.replace(/\s+/g, ' ').trim(),
+        email: state.email.trim(),
+        password: state.password.trim(),
+        confirmPassword: state.confirmPassword.trim(),
+      };
+
+      return trimmedState;
+
     case 'RESET':
       return initialState;
     default:
