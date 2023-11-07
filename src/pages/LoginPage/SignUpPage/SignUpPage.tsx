@@ -27,7 +27,7 @@ export const SignUpPage: FC = () => {
   const [passwordHasValue, setPasswordHasValue] = useState(false);
   const [confirmPasswordHasValue, setConfirmPasswordHasValue] = useState(false);
 
-  const [messageError, setMessageError] = useState(false);
+  const [messageError, setMessageError] = useState('');
 
   const [activeField, setActiveField] = useState<FieldKey | null>(null);
 
@@ -50,32 +50,22 @@ export const SignUpPage: FC = () => {
       value,
     });
 
-    switch (field) {
-      case 'name':
-        setNameHasValue(!!value);
-        break;
-      case 'email':
-        setEmailHasValue(!!value);
-        break;
-      case 'password':
-        setPasswordHasValue(!!value);
-        break;
-      case 'confirmPassword':
-        setConfirmPasswordHasValue(!!value);
-        break;
-      default:
-        break;
-    }
-
     // Перевірка на валідність та зняття помилок
     switch (field) {
       case 'name':
-        !(value.length >= 2 && value.length <= 50)
-          ? setNameError("Ім'я має містити від 2 до 50 символів!")
+        setNameHasValue(!!value);
+
+        const pattern = /^[a-zA-Zа-яА-ЯёЁіІїЇэЭ'` ]*$/;
+
+        (value.trim().length < 2) || (value.trim().length > 50) || !(pattern.test(value))
+          ? setNameError("Ім'я має бути від 2 до 50 символів та містити лише літери!")
           : setNameError('');
+
         break;
 
       case 'email':
+        setEmailHasValue(!!value);
+
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!(value && emailRegex.test(value))) {
           setEmailError('E-mail має містити @ і бути валідною адресою!');
@@ -83,25 +73,36 @@ export const SignUpPage: FC = () => {
           setEmailError('');
         }
         break;
+
       case 'password':
-        !(passwordError && value.length >= 8 && value.length <= 50 && /\d/.test(value) && /[a-zA-Z]/.test(value))
-        
-        ? setPasswordError('Пароль має містити від 8 до 50 символів, хоча б одну букву і цифру')
-        : setPasswordError('')
-        
+        setPasswordHasValue(!!value);
+
+        (
+          (value.length < 8)
+          || (value.length > 50)
+          || !(/\d/.test(value))
+          || !(/[a-zA-Z]/.test(value))
+        ) ? setPasswordError('Пароль має містити від 8 до 50 символів, хоча б одну букву і цифру')
+          : setPasswordError('')
+
         break;
 
       case 'confirmPassword':
-        !(confirmPasswordError && value === formData.password)
-          ? setConfirmPasswordError('Паролі не співпадають!')
-          : setConfirmPasswordError('');
+        setConfirmPasswordHasValue(!!value);
+
+        (value !== formData.password)
+        ? setConfirmPasswordError('Паролі не співпадають!')
+        : setConfirmPasswordError('');
+
         break;
+
       default:
         break;
     }
   };
 
   const handleBlur = (field: FieldKey) => {
+    dispatch({ type: 'TRIM' });
     setActiveField(null);
   };
 
@@ -114,19 +115,24 @@ export const SignUpPage: FC = () => {
     setNameError('');
     setPasswordError('');
     setConfirmPasswordError('');
-    setMessageError(false);
+    setMessageError('');
 
     try {
-      const URL =
-        'https://backend-production-7a95.up.railway.app/api/v1/authorization/register';
+      const URL = 'https://backend-production-7a95.up.railway.app/api/v1/authorization/register';
       const response = await axios.post(URL, formData);
 
       navigate(`/login/finish-registration?email=${formData.email}`);
       dispatch({ type: 'RESET' });
-      console.log('Успішно відправлено:', response.data);
-    } catch (error) {
-      console.error('Помилка відправки POST-запиту:', error);
-      setMessageError(true);
+    } catch (error: any) {
+      if (error.response && error.response.status === 409) {
+        setMessageError(
+          'Акаунт з такими даними вже зареєстровано. Перевірте пошту для завершення реєстрації'
+        );
+      } else {
+        setMessageError('Network error');
+      }
+
+      setTimeout(() => setMessageError(''), 4500);
     }
   };
 
@@ -270,7 +276,7 @@ export const SignUpPage: FC = () => {
             <label
               htmlFor="password"
               className={
-                confirmPasswordError
+                activeField !== 'confirmPassword' && confirmPasswordError
                   ? `${styles.Login_label_red}`
                   : `${styles.Login_label}`
               }
@@ -285,7 +291,7 @@ export const SignUpPage: FC = () => {
               id="confirmPassword"
               placeholder="Підтвердіть пароль"
               className={
-                confirmPasswordError
+                activeField !== 'confirmPassword' && confirmPasswordError
                   ? `${styles.Login_field} ${styles.Login_field_warning} ${styles.Login_field_error}`
                   : styles.Login_field
               }
@@ -300,10 +306,10 @@ export const SignUpPage: FC = () => {
             <img
               src={
                 showConfirmPassword
-                  ? confirmPasswordError
+                  ? confirmPasswordError && activeField !== 'confirmPassword'
                     ? redEye
                     : eye
-                  : confirmPasswordError
+                  : confirmPasswordError && activeField !== 'confirmPassword'
                   ? redEyeClose
                   : eyeClose
               }
@@ -313,7 +319,7 @@ export const SignUpPage: FC = () => {
             />
           </div>
 
-          {confirmPasswordError.length > 0 && (
+          {activeField !== 'confirmPassword' && confirmPasswordError.length > 0 && (
             <span className={styles.Login_label_errorMessage}>
               {confirmPasswordError}
             </span>
@@ -325,9 +331,9 @@ export const SignUpPage: FC = () => {
         </button>
 
         <>
-          {messageError &&
+          {messageError.length > 0 &&
             ShowToast({
-              label: 'Пошта, яку ви ввели, вже існує в нашій системі',
+              label: messageError,
               timer: 4500,
               backgroundColor: '#f1a9a9b7',
               color: '#ff3838',
