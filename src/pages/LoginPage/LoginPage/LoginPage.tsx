@@ -8,13 +8,13 @@ import googleIcon from '../../../assets/icons/google.svg';
 import { NavLink, useSearchParams } from 'react-router-dom';
 import { formReducer, initialState } from 'helpers/formReducer';
 import { useAppDispatch } from 'redux/hooks';
-import { loginThunk } from 'redux/auth/operations';
+import { KnownError, loginThunk } from 'redux/auth/operations';
 import ShowToast from '../../../components/Notification/Toast';
 
 export const LoginPage: FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, dispatch] = useReducer(formReducer, initialState);
-  const [messageError, setMessageError] = useState(false);
+  const [messageError, setMessageError] = useState('');
   const dispatchLogin = useAppDispatch();
   const [searchParams] = useSearchParams();
 
@@ -32,7 +32,6 @@ export const LoginPage: FC = () => {
           }
         } catch (error) {
           console.log("Account didn't verify");
-          setMessageError(true);
         }
       }
     };
@@ -54,19 +53,18 @@ export const LoginPage: FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const { email, password } = formData;
+    setMessageError('');
 
-    try {
-      await dispatchLogin(loginThunk({ email, password }));
-      setMessageError(false);
-    } catch (error: any) {
-      if (error.response) {
-        if (error.response.status === 401 || error.response.status === 404) {
-          setMessageError(true);
-        }
-      } else {
-        setMessageError(true);
-      }
+    const result = await dispatchLogin(loginThunk({ email, password }));
+    const response = result.payload;
+
+    if (!response) {
+      setMessageError('Something went wrong')
+    } else if (response.status === 403) {
+      setMessageError('Невірний пароль або електронна пошта. Будь ласка, спробуйте ще раз.');
     }
+
+      setTimeout(() => setMessageError(''), 4500);
   };
 
   return (
@@ -111,10 +109,9 @@ export const LoginPage: FC = () => {
         </button>
 
         <>
-          {messageError &&
+          {messageError.length > 0 &&
             ShowToast({
-              label:
-                'Невірний пароль або електронна пошта. Будь ласка, спробуйте ще раз.',
+              label: messageError,
               timer: 4500,
               backgroundColor: '#f1a9a9b7',
               color: '#ff3838',
