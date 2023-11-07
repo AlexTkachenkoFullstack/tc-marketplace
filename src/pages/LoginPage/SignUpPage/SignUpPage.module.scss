@@ -3,6 +3,24 @@
   position: relative;
 }
 
+.message {
+  padding: 10px;
+  margin-top: 10px;
+  text-align: center;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.success {
+  background-color: #4caf50; 
+}
+
+.error {
+  background-color: #f44336; 
+  color: #fff;
+}
+
+
 .Login {
   justify-self: center;
 
