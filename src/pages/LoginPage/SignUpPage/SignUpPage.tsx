@@ -27,7 +27,7 @@ export const SignUpPage: FC = () => {
   const [passwordHasValue, setPasswordHasValue] = useState(false);
   const [confirmPasswordHasValue, setConfirmPasswordHasValue] = useState(false);
 
-  const [messageError, setMessageError] = useState(false);
+  const [messageError, setMessageError] = useState('');
 
   const [activeField, setActiveField] = useState<FieldKey | null>(null);
 
@@ -115,19 +115,24 @@ export const SignUpPage: FC = () => {
     setNameError('');
     setPasswordError('');
     setConfirmPasswordError('');
-    setMessageError(false);
+    setMessageError('');
 
     try {
-      const URL =
-        'https://backend-production-7a95.up.railway.app/api/v1/authorization/register';
+      const URL = 'https://backend-production-7a95.up.railway.app/api/v1/authorization/register';
       const response = await axios.post(URL, formData);
 
       navigate(`/login/finish-registration?email=${formData.email}`);
       dispatch({ type: 'RESET' });
-      console.log('Успішно відправлено:', response.data);
-    } catch (error) {
-      console.error('Помилка відправки POST-запиту:', error);
-      setMessageError(true);
+    } catch (error: any) {
+      if (error.response && error.response.status === 409) {
+        setMessageError(
+          'Акаунт з такими даними вже зареєстровано. Перевірте пошту для завершення реєстрації'
+        );
+      } else {
+        setMessageError('Network error');
+      }
+
+      setTimeout(() => setMessageError(''), 4500);
     }
   };
 
@@ -326,9 +331,9 @@ export const SignUpPage: FC = () => {
         </button>
 
         <>
-          {messageError &&
+          {messageError.length > 0 &&
             ShowToast({
-              label: 'Пошта, яку ви ввели, вже існує в нашій системі',
+              label: messageError,
               timer: 4500,
               backgroundColor: '#f1a9a9b7',
               color: '#ff3838',
