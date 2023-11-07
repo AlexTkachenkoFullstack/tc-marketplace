@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import styles from './ConfirmEmailPage.module.scss';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
@@ -24,7 +24,6 @@ export const ConfirmEmailPage: FC = () => {
       setVisibleCounter(true);
       setCountdown(60);
 
-      console.log('Успішно відправлено:', response.data);
     } catch (error) {
       console.error('Помилка відправки PUT-запиту:', error);
     }
