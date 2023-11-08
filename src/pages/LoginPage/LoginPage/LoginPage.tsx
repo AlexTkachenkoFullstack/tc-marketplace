@@ -27,7 +27,7 @@ export const LoginPage: FC = () => {
       if (email && token) {
         try {
           const response = await axios(
-            `https://backend-production-7a95.up.railway.app/api/v1/authorization/register/verify-account?email=${email}&token=${token}`
+            `http://138.68.113.54:8080/api/v1/authorization/register/verify-account?email=${email}&token=${token}`
           );
           if (response.status === 200) {
             console.log('Account has been verified');
