@@ -8,7 +8,7 @@ import googleIcon from '../../../assets/icons/google.svg';
 import { NavLink, useSearchParams } from 'react-router-dom';
 import { formReducer, initialState } from 'helpers/formReducer';
 import { useAppDispatch } from 'redux/hooks';
-import { KnownError, loginThunk } from 'redux/auth/operations';
+import { loginThunk } from 'redux/auth/operations';
 import ShowToast from '../../../components/Notification/Toast';
 
 export const LoginPage: FC = () => {

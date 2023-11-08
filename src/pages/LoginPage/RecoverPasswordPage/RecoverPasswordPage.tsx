@@ -13,7 +13,7 @@ export const RecoverPasswordPage: FC = () => {
   const [inputFocused, setInputFocused] = useState(false);
   const [emailHasValue, setEmailHasValue] = useState(false);
   const [activeField, setActiveField] = useState<Email | null>(null);
-
+  console.log(activeField);
   type Email = string;
 
   let timer: NodeJS.Timeout | undefined;
