@@ -17,6 +17,8 @@ export const LoginPage: FC = () => {
   const [messageError, setMessageError] = useState('');
   const dispatchLogin = useAppDispatch();
   const [searchParams] = useSearchParams();
+  const [emailHasValue, setEmailHasValue] = useState(false);
+  const [passwordHasValue, setPasswordHasValue] = useState(false);
 
   useEffect(() => {
     const verifyEmail = async () => {
@@ -48,18 +50,34 @@ export const LoginPage: FC = () => {
       field,
       value,
     });
-  };
 
+    // Перевірка на валідність та зняття помилок
+    switch (field) {
+
+      case 'email':
+        setEmailHasValue(!!value);
+        break;
+
+      case 'password':
+        setPasswordHasValue(!!value);
+        break;
+
+    }
+  };
+  
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const { email, password } = formData;
     setMessageError('');
+    
 
     const result = await dispatchLogin(loginThunk({ email, password }));
     const response = result.payload;
 
     if (!response) {
-      setMessageError('Something went wrong')
+      setMessageError('Упс, сталася помилка. Спробуйте пізніше.')
+    } else if (response.status === 404) {
+      setMessageError('Помилка входу: Акаунту з вказаною адресою електронної пошти не існує.');
     } else if (response.status === 403) {
       setMessageError('Невірний пароль або електронна пошта. Будь ласка, спробуйте ще раз.');
     }
@@ -77,17 +95,47 @@ export const LoginPage: FC = () => {
         </NavLink>
       </span>
 
-      <div>
+      <div className={styles.input_container}>
+      {emailHasValue ? (
+            <label
+              htmlFor="email"
+              className={
+               
+                  
+                  styles.Login_label
+              }
+            >
+              E-mail
+            </label>
+          ) : null}
+
         <input
           type="email"
           placeholder="E-mail"
+          id="name"
           className={styles.Login_field}
+
           value={formData.email}
           onChange={(e) => handleFieldChange('email', e.target.value)}
+          
           required
         />
+        </div>
 
-        <div className={styles.password_container}>
+      
+        <div className={styles.input_container}>
+        {passwordHasValue ? (
+            <label
+              htmlFor="password"
+              className={
+                
+                styles.Login_label
+              }
+            >
+              Введіть пароль
+            </label>
+          ) : null}
+
           <input
             type={showPassword ? 'text' : 'password'}
             placeholder="Введіть пароль"
@@ -102,7 +150,7 @@ export const LoginPage: FC = () => {
             className={styles.password_container_icon}
             onClick={togglePasswordVisibility}
           />
-        </div>
+      </div>
 
         <button type="submit" className={styles.Login_btn}>
           Увійти
@@ -132,7 +180,7 @@ export const LoginPage: FC = () => {
             className={styles.Login_googleBtn_icon}
           />
         </button>
-      </div>
+      
     </form>
   );
 };
