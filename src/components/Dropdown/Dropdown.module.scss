@@ -52,9 +52,8 @@
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
-  color: #434343;
+  color: $color-grey;
   cursor: pointer;
-  background-color: $white-color;
 }
 
 .trigger_content {
@@ -67,6 +66,7 @@
   padding: 0px 18px 0px 22px;
   border-radius: 1000px;
   background-color: none;
+  background-color: $white-color;
 
   &_active {
     background-color: $background-color-white;
