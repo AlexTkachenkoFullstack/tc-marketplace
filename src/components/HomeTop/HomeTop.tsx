@@ -18,8 +18,9 @@ export const HomeTop = () => {
     const brands: IBrand[] = useAppSelector(getFilterBrands)
     const models: IModel[] = useAppSelector(getFilterModels)
     const [selectedCategory, setSelectedCategory] = useState<string>('Легкові')
-
+    // стейт для фетчу марки з дропдауну
     const [carMark, setCarMark] = useState<string>('Марка')
+    //    
     const [isModelDissabled, setIsModelDissabled] = useState(false);
     useEffect(() => {
         setIsModelDissabled(false)
@@ -72,8 +73,8 @@ export const HomeTop = () => {
                                 options={[...brands.map((brand) => brand.brand)].sort((a, b) => a.localeCompare(b))}
                                 label='Марка'
                                 startValue='Марка'
-                                setPropsOption={setCarMark}
                                 propsOption={carMark}
+                                setPropsOption={setCarMark}
 
                             />
 
@@ -110,7 +111,6 @@ export const HomeTop = () => {
                 </div>
 
             </div>
-            {/* <GoToTopButton /> */}
         </div>
     );
 };

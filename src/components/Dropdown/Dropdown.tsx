@@ -71,6 +71,8 @@ export const Dropdown: FC<Props> = (props) => {
         }
         if (setPropsOption) {
             setPropsOption(newOption)
+            setOption(newOption)
+            closeDropdown()
             return
         }
         setOption(newOption)
@@ -78,6 +80,9 @@ export const Dropdown: FC<Props> = (props) => {
     };
 
     const renderPlaceholder = (): string => {
+        if (setPropsOption && propsOption) {
+            return propsOption
+        }
         const length = option.length
         if (length === 1) return option[0]
         if (length > 1 && length < 5) return `Обрано ${length} варіанти`
