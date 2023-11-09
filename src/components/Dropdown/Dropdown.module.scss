@@ -11,7 +11,6 @@
   @media (min-width: $tablet-min-width) {
     margin-bottom: 8px;
     flex-grow: 1;
-    
   }
 }
 
@@ -28,6 +27,11 @@
   border-radius: 12px;
   background-color: $white-color;
   color: #8A8B8B;
+  cursor: default;
+
+  &::selection {
+    background: transparent;
+  }
 }
 
 
@@ -48,9 +52,8 @@
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
-  color: #434343;
+  color: $color-grey;
   cursor: pointer;
-  background-color: $white-color;
 }
 
 .trigger_content {
@@ -63,6 +66,7 @@
   padding: 0px 18px 0px 22px;
   border-radius: 1000px;
   background-color: none;
+  background-color: $white-color;
 
   &_active {
     background-color: $background-color-white;
@@ -75,8 +79,19 @@
 }
 
 .text {
-  pointer-events: none;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  flex: 1 0 0;
+  overflow: hidden;
+  color: $color-grey;
+  text-overflow: ellipsis;
 
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0.1px;
 }
 
 .icon {
@@ -86,97 +101,3 @@
 .icons {
   display: flex;
 }
-
-.list {
-  position: absolute;
-  top: 55px;
-  width: 100%;
-  max-height: 300px;
-  overflow-y: auto;
-  scroll-behavior: smooth;
-  border: none;
-  border-radius: 21px;
-  background-color: $white-color;
-  box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.05);
-  z-index: 10;
-
-  //#BIVcomment
-  //dropdown custom thin scroll bar, maybe should be taken to separate mixin for reuse in another cooponents
-  &::-webkit-scrollbar {
-    width: 4px;
-  }
-
-  &::-webkit-scrollbar-track {
-    $margin: 15px;
-    margin-top: $margin;
-    margin-bottom: $margin;
-    background: $background-color-white;
-    border-radius: 100px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: $hover-gray;
-    border-radius: 100px;
-    padding: 2px 0;
-
-    // #Bivcomment
-    // active color for scrollbar, not in design, so maybe it's temporary, will discuse about it later
-    &:active {
-      background: $color-dark-grey;
-    }
-  }
-}
-
-.listItem {
-  position: relative;
-  color: $color-grey;
-  width: 100%;
-  font-family: Roboto;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.listItem_Inactive {
-  cursor: default;
-}
-
-
-.listLink {
-  margin: 2px;
-  padding: 10px 16px;
-  display: block;
-  height: 100%;
-  border-radius: 22px;
-
-  transition:
-    color 0.3s ease,
-    background-color 0.3s ease;
-
-  &:hover {
-    color: $white-color;
-    background-color: $hover-gray;
-  }
-}
-
-.listLink_inactive {
-  &:hover {
-    color: inherit;
-    background: none;
-  }
-}
-
-.searchInput {
-  background: transparent;
-  border: none;
-  padding: 3px 0;
-  width: 100%;
-  margin: 0;
-  outline: none;
-  font-family: Roboto;
-  font-size: 16px;
-  margin-right: 5px;
-  font-weight: 500;
-}
-

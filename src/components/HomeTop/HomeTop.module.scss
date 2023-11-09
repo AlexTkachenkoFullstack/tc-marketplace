@@ -17,7 +17,7 @@
 .container {
   padding: 100px 20px;
   max-width: 993px;
-  margin: 0 auto;  
+  margin: 0 auto;
 
   @media (min-width: 880px) {
     padding-top: 150px
@@ -60,7 +60,14 @@
   @media (min-width: 880px) {
     min-width: 768px;
     margin-right: 8px;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(100px, 1fr));
+
+    &> {
+      margin: 0;
+      box-sizing: border-box;
+      border: none;
+    }
 
     div:first-child button {
       border-top-right-radius: 0px;
@@ -83,7 +90,7 @@
       height: 20px;
       z-index: 3;
 
-      right: calc(100% / 3 - 5px);
+      right: calc(100% / 3);
       top: calc(48px / 2 - 10px);
       background: url('../../assets/icons/line.svg') no-repeat;
     }
@@ -95,36 +102,36 @@
       height: 20px;
       z-index: 3;
 
-      left: calc(100% / 3 + 6px);
+      left: calc(100% / 3);
       top: calc(48px / 2 - 10px);
       background: url('../../assets/icons/line.svg') no-repeat;
     }
   }
-  
+
 }
 
 
 .centered_container {
   @media (min-width: $mobile-min-width) {
-      width: 100%;
-      max-width: calc(100% - 10%);
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: calc(100% - 10%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   @media (min-width:$desktop-min-width) {
-      max-width: 850px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+    max-width: 850px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 
 @media (min-width: $desktop-min-width) {
-  .centered_container{
+  .centered_container {
     max-width: 850px;
     position: absolute;
     top: 50%;
@@ -165,7 +172,7 @@
     cursor: pointer;
   }
 
-    &_more {
+  &_more {
     color: $background-color-white;
     background-color: $color-grey;
     border-radius: 100px;
@@ -187,5 +194,3 @@
     flex-direction: column;
   }
 }
-
-

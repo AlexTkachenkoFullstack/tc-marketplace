@@ -16,8 +16,11 @@ export const HomeTop = () => {
     const regions: IRegion[] = useAppSelector(getFilterRegions)
     const categories: IType[] = useAppSelector(getFilterTypes)
     const brands: IBrand[] = useAppSelector(getFilterBrands)
-    const models: IModel[]= useAppSelector(getFilterModels)
+    const models: IModel[] = useAppSelector(getFilterModels)
     const [selectedCategory, setSelectedCategory] = useState<string>('Легкові')
+    // стейт для фетчу марки з дропдауну
+    const [carMark, setCarMark] = useState<string>('Марка')
+    //    
     const [isModelDissabled, setIsModelDissabled] = useState(false);
     useEffect(() => {
         setIsModelDissabled(false)
@@ -29,79 +32,85 @@ export const HomeTop = () => {
     const handleSelectCategory = (category: string) => {
         // setIsModelDissabled(false)
         setSelectedCategory(category);
-      }
+    }
 
-      useEffect(()=>{
-        const type=categories.find(item=>item.type===selectedCategory);
-        if(type){
+    useEffect(() => {
+        const type = categories.find(item => item.type === selectedCategory);
+        if (type) {
             dispatch(fetchBrands(type.typeId))
         }
-      },[categories, dispatch, selectedCategory])
+    }, [categories, dispatch, selectedCategory])
 
-      useEffect(()=>{
-        const type=categories.find(item=>item.type===selectedCategory);
-        const brand=brands.find(item=>item.brand==='Audi')
-        if(type && brand){
-            dispatch(fetchModels({transportTypeId:type?.typeId, transportBrandId: brand?.brandId}))
+    useEffect(() => {
+        const type = categories.find(item => item.type === selectedCategory);
+        const brand = brands.find(item => item.brand === 'Audi')
+        if (type && brand) {
+            dispatch(fetchModels({ transportTypeId: type?.typeId, transportBrandId: brand?.brandId }))
             // setIsModelDissabled(true)
-        }    
-      },[brands, categories, dispatch, selectedCategory])
-      
+        }
+    }, [brands, categories, dispatch, selectedCategory])
+
 
     return (
         <div className={styles.homeTop}>
             <div className={styles.container}>
-            <div className={styles.centered_container}> 
-                <h2 className={styles.title}>
-                    Title
-                </h2>
-               
-                <CategoryBar
-                    categories={categories.map((category) => category.type)}
-                    handleSelect={handleSelectCategory}
-                    selectedCategory={selectedCategory}
-                />
+                <div className={styles.centered_container}>
+                    <h2 className={styles.title}>
+                        Title
+                    </h2>
 
-                <div className={styles.container_bottom}>
-                    <div className={styles.select_bar}>
+                    <CategoryBar
+                        categories={categories.map((category) => category.type)}
+                        handleSelect={handleSelectCategory}
+                        selectedCategory={selectedCategory}
+                    />
+
+                    <div className={styles.container_bottom}>
+                        <div className={styles.select_bar}>
 
 
-                        <Dropdown
-                            options={[...brands.map((brand) => brand.brand)].sort((a, b) => a.localeCompare(b))}
-                            label='Марка'
-                            startValue='Марка'
-                        />
+                            <Dropdown
+                                options={[...brands.map((brand) => brand.brand)].sort((a, b) => a.localeCompare(b))}
+                                label='Марка'
+                                startValue='Марка'
+                                propsOption={carMark}
+                                setPropsOption={setCarMark}
 
-                        <Dropdown
-                            options={models.map(item=>item.model)}
-                            label='Модель'
-                            startValue='Модель'
-                            checkboxAllowed
-                            isModelDissabled={isModelDissabled}
-                        // setActive={setActive}
-                        />
+                            />
 
-                        <Dropdown
-                            options={regions.map((region) => region.region)}
-                            label='Регіон'
-                            startValue='Регіон'
-                            checkboxAllowed
-                        />
+                            <Dropdown
+                                options={models.map(item => item.model)}
+                                label='Модель'
+                                startValue='Модель'
+                                checkboxAllowed
+                                isDissabled={isModelDissabled}
+                                allOptionsLabel='Всі марки'
+
+                            // setActive={setActive}
+                            />
+
+                            <Dropdown
+                                options={regions.map((region) => region.region)}
+                                label='Регіон'
+                                startValue='Регіон'
+                                checkboxAllowed
+                                allOptionsLabel='Вся Україна'
+
+                            />
+                        </div>
+
+                        <div className={styles.search}>
+                            <button className={styles.search_button}>
+                                <span className={styles.search_button_text}>Шукати</span>
+                                <img src={arrow} alt="search" />
+                            </button>
+                            <button className={styles.search_more}>Розширений пошук</button>
+                        </div>
                     </div>
 
-                    <div className={styles.search}>
-                        <button className={styles.search_button}>
-                            <span className={styles.search_button_text}>Шукати</span>
-                            <img src={arrow} alt="search" />
-                        </button>
-                        <button className={styles.search_more}>Розширений пошук</button>
-                    </div>
                 </div>
 
             </div>
-
-            </div>
-            {/* <GoToTopButton /> */}
         </div>
     );
 };
