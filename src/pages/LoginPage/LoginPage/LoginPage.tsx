@@ -60,7 +60,7 @@ export const LoginPage: FC = () => {
 
     if (!response) {
       setMessageError('Something went wrong')
-    } else if (response.status === 403) {
+    } else if (response.status === 403 || response.status === 404) {
       setMessageError('Невірний пароль або електронна пошта. Будь ласка, спробуйте ще раз.');
     }
 

@@ -50,7 +50,7 @@
   }
 
   &_label {
-    position: relative;
+    position: absolute;
     top: -8px;
     color: #797979;
     font-family: Roboto;
@@ -61,9 +61,21 @@
     border-radius: 12px;
     z-index: 1;
 
-    &_errorMessage {
+    &_red{
       position: absolute;
-      bottom: 30px;
+      top: -8px;
+      color: red;
+      font-family: Roboto;
+      font-size: 11px;
+      margin-left: 13px;
+      padding: 3px 6px;
+      background-color: white;
+      border-radius: 12px;
+      z-index: 1;
+    }
+
+    &_errorMessage {
+      bottom: -14px;
       color: #f43d3d;
       font-family: Roboto;
       font-size: 11px;
