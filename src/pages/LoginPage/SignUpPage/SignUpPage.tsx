@@ -26,7 +26,6 @@ export const SignUpPage: FC = () => {
   const [emailHasValue, setEmailHasValue] = useState(false);
   const [passwordHasValue, setPasswordHasValue] = useState(false);
   const [confirmPasswordHasValue, setConfirmPasswordHasValue] = useState(false);
-
   const [messageError, setMessageError] = useState('');
 
   const [activeField, setActiveField] = useState<FieldKey | null>(null);
@@ -57,8 +56,12 @@ export const SignUpPage: FC = () => {
 
         const pattern = /^[a-zA-Zа-яА-ЯёЁіІїЇэЭ'` ]*$/;
 
-        (value.trim().length < 2) || (value.trim().length > 50) || !(pattern.test(value))
-          ? setNameError("Ім'я має бути від 2 до 50 символів та містити лише літери!")
+        value.trim().length < 2 ||
+        value.trim().length > 50 ||
+        !pattern.test(value)
+          ? setNameError(
+              "Ім'я має бути від 2 до 50 символів та містити лише літери!"
+            )
           : setNameError('');
 
         break;
@@ -77,22 +80,23 @@ export const SignUpPage: FC = () => {
       case 'password':
         setPasswordHasValue(!!value);
 
-        (
-          (value.length < 8)
-          || (value.length > 50)
-          || !(/\d/.test(value))
-          || !(/[a-zA-Z]/.test(value))
-        ) ? setPasswordError('Пароль має містити від 8 до 50 символів, хоча б одну букву і цифру')
-          : setPasswordError('')
+        value.length < 8 ||
+        value.length > 50 ||
+        !/\d/.test(value) ||
+        !/[a-zA-Z]/.test(value)
+          ? setPasswordError(
+              'Пароль має містити від 8 до 50 символів, хоча б одну букву і цифру'
+            )
+          : setPasswordError('');
 
         break;
 
       case 'confirmPassword':
         setConfirmPasswordHasValue(!!value);
 
-        (value !== formData.password)
-        ? setConfirmPasswordError('Паролі не співпадають!')
-        : setConfirmPasswordError('');
+        value !== formData.password
+          ? setConfirmPasswordError('Паролі не співпадають!')
+          : setConfirmPasswordError('');
 
         break;
 
@@ -118,8 +122,10 @@ export const SignUpPage: FC = () => {
     setMessageError('');
 
     try {
-      const URL = 'https://backend-production-7a95.up.railway.app/api/v1/authorization/register';
-      const response = await axios.post(URL, formData);
+      const URL =
+      'http://138.68.113.54:8080/api/v1/authorization/register';
+
+       await axios.post(URL, formData);
 
       navigate(`/login/finish-registration?email=${formData.email}`);
       dispatch({ type: 'RESET' });
@@ -159,6 +165,7 @@ export const SignUpPage: FC = () => {
               Введіть повне ім'я
             </label>
           ) : null}
+
           <input
             ref={inputRef}
             type="text"
@@ -319,11 +326,12 @@ export const SignUpPage: FC = () => {
             />
           </div>
 
-          {activeField !== 'confirmPassword' && confirmPasswordError.length > 0 && (
-            <span className={styles.Login_label_errorMessage}>
-              {confirmPasswordError}
-            </span>
-          )}
+          {activeField !== 'confirmPassword' &&
+            confirmPasswordError.length > 0 && (
+              <span className={styles.Login_label_errorMessage}>
+                {confirmPasswordError}
+              </span>
+            )}
         </div>
 
         <button type="submit" className={styles.Login_btn}>

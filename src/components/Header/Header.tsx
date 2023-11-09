@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { useState, FC } from 'react';
+import { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Logo } from '../Logo';
 import styles from './Header.module.scss';
@@ -33,7 +33,7 @@ export const links = [
 
 export const Header: FC = () => {
   const auth: boolean = useAppSelector(isAuthUser)
-  const dispatchLogin = useAppDispatch();
+  const dispatchLogout = useAppDispatch();
   // const [isMenuOpen, setIsMenuOpen] = useState(false);
   // const [activeLink, setActiveLink] = useState('');
 
@@ -41,19 +41,8 @@ export const Header: FC = () => {
   //   setIsMenuOpen(!isMenuOpen);
   // };
 
-  const handleLogout = async () => {
-    try {
-      await dispatchLogin(logoutThunk())
-        .then((resultAction) => {
-          if (logoutThunk.fulfilled.match(resultAction)) {
-            console.log('Loged out')
-          } else if (logoutThunk.rejected.match(resultAction)) {
-            console.log('Failed to log out');
-          }
-        });
-    } catch (error: any) {
-      console.error(error);
-    }
+  const handleLogout = () => {
+       dispatchLogout(logoutThunk())
   }
 
   return (

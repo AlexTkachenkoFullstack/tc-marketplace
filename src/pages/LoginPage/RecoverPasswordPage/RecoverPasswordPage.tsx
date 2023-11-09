@@ -10,10 +10,28 @@ export const RecoverPasswordPage: FC = () => {
   const [visibleCounter, setVisibleCounter] = useState(false);
   const [emailError, setEmailError] = useState('');
   const [countdown, setCountdown] = useState(60);
+  const [inputFocused, setInputFocused] = useState(false);
+  const [emailHasValue, setEmailHasValue] = useState(false);
+  const [activeField, setActiveField] = useState<Email | null>(null);
+  console.log(activeField);
+  type Email = string;
+
   let timer: NodeJS.Timeout | undefined;
+
+  const handleInputFocus = () => {
+    setInputFocused(true);
+    setActiveField('email');
+  };
+
+  const handleInputBlur = () => {
+    setInputFocused(false);
+    setActiveField(null);
+  };
 
   const handleFieldChange = (value: string) => {
     setUserEmail(value);
+    setEmailHasValue(!!value);
+    setEmailError('');
   };
 
   const handleResend = () => {
@@ -37,7 +55,7 @@ export const RecoverPasswordPage: FC = () => {
         return 0;
       });
     }, 1000);
-  }
+  };
 
   const redirectToMailService = () => {
     const parts = userEmail.split('@');
@@ -49,7 +67,7 @@ export const RecoverPasswordPage: FC = () => {
         mailServiceURL = 'https://mail.google.com';
       }
       window.open(mailServiceURL, '_blank');
-    };
+    }
   };
 
   const handleRecover = async () => {
@@ -62,7 +80,7 @@ export const RecoverPasswordPage: FC = () => {
     }
 
     try {
-      const URL = `https://backend-production-7a95.up.railway.app/api/v1/authorization/reset-password/send-code?email=${userEmail}`;
+      const URL = `http://138.68.113.54:8080/api/v1/authorization/reset-password/send-code?email=${userEmail}`;
       await axios.put(URL);
 
       setSent(true);
@@ -71,7 +89,7 @@ export const RecoverPasswordPage: FC = () => {
     }
 
     setTimeout(() => setMessageError(''), 4500);
-  }
+  };
 
   return (
     <div className={styles.Login_container}>
@@ -81,23 +99,45 @@ export const RecoverPasswordPage: FC = () => {
       </span>
 
       <div className={styles.inputContainer}>
+        {emailHasValue ? (
+          <label
+            htmlFor="email"
+            className={
+                emailError && !inputFocused
+                ? `${styles.Login_label_red}`
+                : `${styles.Login_label}`
+            }
+    
+          >
+            E-mail
+          </label>
+        ) : null}
         <input
-          type='email'
-          placeholder='E-mail'
-          className={styles.Login_field}
+          type="email"
+          placeholder="E-mail"
+          className={
+             emailError && !inputFocused
+              ? `${styles.Login_field} ${styles.Login_field_warning} ${styles.Login_field_error}`
+              : `${styles.Login_field}`
+          }
           value={userEmail}
           onChange={(e) => handleFieldChange(e.target.value)}
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
           required
         />
-        {emailError.length > 0 && (
-            <span className={styles.inputContainer_errorMessage}>
-              {emailError}
-            </span>
+        {emailError.length > 0 && !inputFocused && (
+          <span className={styles.inputContainer_errorMessage}>
+            {emailError}
+          </span>
         )}
       </div>
 
       <div>
-        <button onClick={!sent ? handleRecover : redirectToMailService} className={styles.Login_btn}>
+        <button
+          onClick={!sent ? handleRecover : redirectToMailService}
+          className={styles.Login_btn}
+        >
           {!sent ? 'Відновити пароль' : 'Перевірити пошту'}
         </button>
 
@@ -114,7 +154,9 @@ export const RecoverPasswordPage: FC = () => {
 
         <button
           onClick={handleResend}
-          className={visibleCounter? styles.Login__resend_disable : styles.Login__resend}
+          className={
+            visibleCounter ? styles.Login__resend_disable : styles.Login__resend
+          }
           disabled={visibleCounter}
         >
           Відправити знову {visibleCounter && `(${countdown}с)`}

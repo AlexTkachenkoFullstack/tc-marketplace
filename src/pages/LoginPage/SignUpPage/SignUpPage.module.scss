@@ -12,11 +12,11 @@
 }
 
 .success {
-  background-color: #4caf50;
+  background-color: #4caf50; 
 }
 
 .error {
-  background-color: #f44336;
+  background-color: #f44336; 
   color: #fff;
 }
 
@@ -91,6 +91,7 @@
         margin-left: 10px;
       }
     }
+
   }
 
   &_login {
@@ -132,9 +133,9 @@
     &:focus {
       outline: none;
     }
-
+      
   }
-
+  
   &_btn {
     width: 100%;
     height: 52px;
@@ -186,12 +187,13 @@
   margin-bottom: 20px;
   margin-top: 0;
   gap:2px;
-
+  
   .Login_field {
     margin-bottom: 0;
 
     &_warning{
       border: 1px solid red;
+      color: red;
     }
   }
 
@@ -204,3 +206,4 @@
     top: 11px;
   }
 }
+
