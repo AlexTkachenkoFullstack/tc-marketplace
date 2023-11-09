@@ -7,18 +7,19 @@ import arrowDown from '../../assets/icons/arrow-down.svg';
 import close from '../../assets/icons/close.svg';
 
 import useClickOutside from 'helpers/hooks/useClickOutside';
-import DropdownOptions from './components/DropdownOptions';
+import DropdownList from './components/DropdownList';
+import DropdownInput from './components/DropdownInput';
 
 type Props = {
     label: string;
     startValue: string;
     options: string[];
     checkboxAllowed?: boolean;
-    isModelDissabled?:boolean
+    isDissabled?: boolean,
+    propsOption?: string,
+    setPropsOption?: React.Dispatch<React.SetStateAction<string>>,
+    allOptionsLabel?: string
 };
-
-// usage guide:
-// if need checkbox, add checkboxAlo
 
 export const Dropdown: FC<Props> = (props) => {
     const {
@@ -26,60 +27,94 @@ export const Dropdown: FC<Props> = (props) => {
         startValue,
         options,
         checkboxAllowed,
-        isModelDissabled
+        isDissabled,
+        propsOption,
+        setPropsOption, allOptionsLabel
     } = props;
 
     const [isActive, setIsActive] = useState(false);
-    const [option, setOption] = useState(startValue);
+    const [option, setOption] = useState<string | string[]>(startValue);
     const [filterValue, setfilterValue] = useState('')
-    const [checkedValue, setcheckedValue] = useState<string[]>([]);
-    
+    const [checkedValue, setCheckedValue] = useState<string[]>([]);
+
     const dropdownRef = useRef<HTMLDivElement>(null);
-    const inputRef = useRef<HTMLInputElement>(null)
 
-    const changeOption = (newOption: string) => {
-
-        // here change value for multi check for Redux
-        if (checkedValue.length !== 0) {
-            setcheckedValue([...checkedValue, newOption])
-            setOption([...checkedValue, newOption].join(', '))
-            setIsActive(false)
+    const setChecked = (newOption: string) => {
+        const newState = [...checkedValue, newOption]
+        setCheckedValue(newState)
+        setOption(newState)
+    }
+    const setUnchecked = (newOption: string) => {
+        const newState = checkedValue.filter(value => value !== newOption)
+        if (newState.length === 0) {
+            setCheckedValue([])
+            setOption(startValue)
             return
         }
-        setOption(newOption);
-        setIsActive(false);
+        setCheckedValue(newState)
+        setOption(newState)
+    }
+
+    const closeDropdown = () => {
+        setIsActive(false)
+        setfilterValue('')
+    }
+
+    const changeOption = (newOption: string) => {
+        if (checkboxAllowed) {
+            if (checkedValue.includes(newOption)) {
+                setUnchecked(newOption)
+                return
+            }
+            setChecked(newOption)
+            return
+        }
+        if (setPropsOption) {
+            setPropsOption(newOption)
+            return
+        }
+        setOption(newOption)
+        closeDropdown()
     };
 
+    const renderPlaceholder = (): string => {
+        const length = option.length
+        if (length === 1) return option[0]
+        if (length > 1 && length < 5) return `Обрано ${length} варіанти`
+        return `Обрано ${length} варіантів`
+    }
 
     const filterValueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         setfilterValue(e.target.value)
     }
 
+    const checkboxHandler = (currentOption: string) => {
+        if (currentOption === 'none') {
+            setCheckedValue([])
+            setOption(startValue)
+            return
+        }
+        if (checkedValue.includes(currentOption)) {
+            setUnchecked(currentOption)
+            return
+        }
+        setChecked(currentOption)
+    }
+
     useClickOutside(dropdownRef, useCallback(() => {
-        setIsActive(false);
+        closeDropdown()
     }, []));
+
+
+    useEffect(() => {
+        setfilterValue('')
+        setCheckedValue([])
+    }, [])
+
 
     useEffect(() => {
         setOption(startValue);
     }, [startValue]);
-
-
-    const checkboxHandler = (currentOption: string) => {
-        if (currentOption === 'none') {
-            setcheckedValue([])
-            return
-        }
-        if (checkedValue.includes(currentOption)) {
-            setcheckedValue(checkedValue.filter(option => option !== currentOption))
-            return
-        }
-        setcheckedValue([...checkedValue, currentOption])
-    }
-
-    useEffect(() => {
-        setfilterValue('')
-        setcheckedValue([])
-    }, [])
 
     return (
         <div
@@ -93,9 +128,9 @@ export const Dropdown: FC<Props> = (props) => {
             <button
                 className={styles.trigger}
                 type="button"
-                disabled={isModelDissabled}
-                onClick={(event) => {
-                    if (event.target === inputRef.current) return
+                disabled={isDissabled}
+                onClick={() => {
+                    setfilterValue('')
                     setIsActive((prevState) => !prevState)
                 }
                 }
@@ -103,21 +138,18 @@ export const Dropdown: FC<Props> = (props) => {
                 <div className={`${styles.trigger_content} ${isActive ? styles.trigger_content_active : ''}`}
                 >
 
-                    {isActive ? <input
-                        // #BIVComment
-                        // can't use autofocus or blur option, because it's create conflict with parrent button and should broke select in list below
-                        onKeyUp={(e) => {
-                            if (e.key === ' ') { e.preventDefault() }
-                        }}
-                        className={styles.searchInput}
-                        type="text"
-                        onChange={filterValueHandler}
-                        placeholder={label}
-                        value={filterValue}
-                        ref={inputRef}
+                    {isActive ? <DropdownInput
+                        {...props}
+                        option={option}
+                        filterValue={filterValue}
+                        filterValueHandler={filterValueHandler}
+                        placeholder={renderPlaceholder()}
                     /> :
                         <div className={styles.text}>
-                            {option}
+                            {Array.isArray(option) ?
+                                renderPlaceholder()
+                                : option
+                            }
                         </div>}
 
                     <div className={styles.icons}>
@@ -138,15 +170,17 @@ export const Dropdown: FC<Props> = (props) => {
                 </div>
             </button>
 
-            {isActive && <DropdownOptions
-                filterValue={filterValue}
-                options={options}
-                changeOption={changeOption}
-                checkboxHandler={checkboxHandler}
-                checkboxAllowed={checkboxAllowed}
-                checkedValue={checkedValue}
-
-            />}
+            {isActive &&
+                <DropdownList
+                    options={options}
+                    checkboxAllowed={checkboxAllowed}
+                    filterValue={filterValue}
+                    checkedValue={checkedValue}
+                    checkboxHandler={checkboxHandler}
+                    changeOption={changeOption}
+                    allOptionsLabel={allOptionsLabel}
+                />
+            }
 
         </div>
     );

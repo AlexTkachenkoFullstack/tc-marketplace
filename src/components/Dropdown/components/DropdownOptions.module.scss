@@ -1,93 +1,6 @@
-@import '../../../styles/main.scss';
+@import 'src/styles/main.scss';
 
-
-.list {
-  position: absolute;
-  top: 55px;
-  width: calc(100%);
-  max-height: 300px;
-  overflow-y: auto;
-  scroll-behavior: smooth;
-  border: none;
-  border-radius: 21px;
-  background-color: $white-color;
-  box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.05);
-  z-index: 10;
-
-  // #BIVcomment
-  //   dropdown custom thin scroll bar, maybe should be taken to separate mixin for reuse in another cooponents
-  &::-webkit-scrollbar {
-    width: 4px;
-  }
-
-  &::-webkit-scrollbar-track {
-    $margin: 15px;
-    margin-top: $margin;
-    margin-bottom: $margin;
-    background: $background-color-white;
-    border-radius: 100px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: $hover-gray;
-    border-radius: 100px;
-    padding: 2px 0;
-
-    &:active {
-      background: $color-dark-grey;
-    }
-  }
-}
-
-.listItem {
-  position: relative;
-  color: $color-grey;
-  width: 100%;
-  font-family: Roboto;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  cursor: pointer;
-
-
-}
-
-.listItem_Inactive {
-  cursor: default;
-}
-
-
-.listLink {
-  margin: 2px;
-  padding: 10px 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  height: 100%;
-  border-radius: 22px;
-
-  transition:
-    color 0.3s ease,
-    background-color 0.3s ease;
-
-  &:hover {
-    color: $color-grey;
-    background-color: $background-color-white;
-
-
-  }
-
-  &_checked {
-    background: $hover-gray;
-    color: #fff;
-
-
-    &:hover {
-      color: #fff;
-      background: $hover-gray;
-    }
-  }
-
+@mixin customCheckbox {
   input[type="checkbox"] {
     -webkit-appearance: none;
     $size: 18px;
@@ -140,13 +53,94 @@
       }
     }
   }
+}
 
+.listItem {
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.15px;
+  cursor: pointer;
 
 }
 
+.listItem_Inactive {
+  cursor: default;
+}
+
+
+.listLink {
+  margin: 2px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+  border-radius: 22px;
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease;
+
+  &>span::selection {
+    background: transparent;
+  }
+
+  &:hover {
+    color: $color-grey;
+    background-color: $background-color-white;
+
+
+  }
+
+  &_checked {
+    background: $hover-gray;
+    color: #fff;
+
+
+    &:hover {
+      color: #fff;
+      background: $hover-gray;
+    }
+  }
+
+  @include customCheckbox()
+}
+
 .listLink_inactive {
+  &::selection {
+    background: transparent;
+  }
+
   &:hover {
     color: inherit;
     background: none;
+  }
+}
+
+
+.listTitle {
+  margin: 2px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+  border-radius: 22px;
+  color: $color-grey;
+  transition: color 0.3s ease,
+    background-color 0.3s ease;
+
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+  pointer-events: none;
+
+  &::selection {
+    background: transparent;
   }
 }
