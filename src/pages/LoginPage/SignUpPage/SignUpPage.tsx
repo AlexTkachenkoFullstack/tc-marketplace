@@ -123,9 +123,9 @@ export const SignUpPage: FC = () => {
 
     try {
       const URL =
-        'https://backend-production-7a95.up.railway.app/api/v1/authorization/register';
+      'http://138.68.113.54:8080/api/v1/authorization/register';
 
-      const response = await axios.post(URL, formData);
+       await axios.post(URL, formData);
 
       navigate(`/login/finish-registration?email=${formData.email}`);
       dispatch({ type: 'RESET' });

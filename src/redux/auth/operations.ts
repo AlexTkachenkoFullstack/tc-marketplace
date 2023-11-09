@@ -6,7 +6,7 @@ export type KnownError = {
 };
 
 const instance = axios.create({
-  baseURL: 'https://backend-production-7a95.up.railway.app/api/v1/',
+  baseURL: 'http://138.68.113.54:8080/api/v1/',
 });
 
 export const setAuthHeader = (token:string) => {
@@ -23,11 +23,9 @@ export const loginThunk = createAsyncThunk(
     try {
       const response = await instance.post('authorization/login', credentials);
       setAuthHeader(response.data.token);
-
       return response.data;
     } catch (err) {
       const error: AxiosError<KnownError> = err as any;
-
       if (!error.response) {
         throw err;
       }
@@ -43,9 +41,8 @@ export const logoutThunk = createAsyncThunk(
   'auth/logout',
   async (_, thunkAPI) => {
   try {
-    localStorage.removeItem('authToken');
+    // await instance.    нужен эндпоинт;
     delAuthHeader();
-    return;
   } catch (err: any) {
     console.error(err);
     return thunkAPI.rejectWithValue({ errorMessage: 'Failed to log out' });

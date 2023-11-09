@@ -2,7 +2,7 @@ import React, { SyntheticEvent, useEffect, useRef } from 'react';
 import './Toast.scss';
 import { ShowToast, HideToast } from './ShowToast';
 
-const TOAST_CONTAINER_ID = 'toast' as const;
+// const TOAST_CONTAINER_ID = 'toast' as const;
 const TOAST_TIME_MS = 4500 as const;
 
 interface ToastProperties {
