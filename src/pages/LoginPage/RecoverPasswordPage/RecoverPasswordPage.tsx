@@ -1,18 +1,42 @@
 import { FC, useState } from 'react';
 import styles from './RecoverPassword.module.scss';
-// import axios from 'axios';
+import axios from 'axios';
+import { ShowToast } from 'components/Notification/ShowToast';
 
 export const RecoverPasswordPage: FC = () => {
-  const [email, setEmail] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [sent, setSent] = useState(false);
+  const [messageError, setMessageError] = useState('');
   const [visibleCounter, setVisibleCounter] = useState(false);
+  const [emailError, setEmailError] = useState('');
   const [countdown, setCountdown] = useState(60);
+  const [inputFocused, setInputFocused] = useState(false);
+  const [emailHasValue, setEmailHasValue] = useState(false);
+  const [activeField, setActiveField] = useState<Email | null>(null);
+  console.log(activeField);
+  type Email = string;
+
   let timer: NodeJS.Timeout | undefined;
 
+  const handleInputFocus = () => {
+    setInputFocused(true);
+    setActiveField('email');
+  };
+
+  const handleInputBlur = () => {
+    setInputFocused(false);
+    setActiveField(null);
+  };
+
   const handleFieldChange = (value: string) => {
-    setEmail(value);
+    setUserEmail(value);
+    setEmailHasValue(!!value);
+    setEmailError('');
   };
 
   const handleResend = () => {
+    if (userEmail.length === 0) return;
+    handleRecover();
     if (timer) {
       clearTimeout(timer);
     }
@@ -31,11 +55,41 @@ export const RecoverPasswordPage: FC = () => {
         return 0;
       });
     }, 1000);
-  }
+  };
 
-  const handleRecover = () => {
-    // axios.post()
-  }
+  const redirectToMailService = () => {
+    const parts = userEmail.split('@');
+    if (parts.length === 2) {
+      const domain = parts[1];
+      let mailServiceURL = `https://mail.${domain}`;
+
+      if (domain === 'gmail.com') {
+        mailServiceURL = 'https://mail.google.com';
+      }
+      window.open(mailServiceURL, '_blank');
+    }
+  };
+
+  const handleRecover = async () => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(userEmail)) {
+      setEmailError('E-mail має містити @ і бути валідною адресою!');
+      return;
+    } else {
+      setEmailError('');
+    }
+
+    try {
+      const URL = `http://138.68.113.54:8080/api/v1/authorization/reset-password/send-code?email=${userEmail}`;
+      await axios.put(URL);
+
+      setSent(true);
+    } catch (error: any) {
+      setMessageError('Something went wrong');
+    }
+
+    setTimeout(() => setMessageError(''), 4500);
+  };
 
   return (
     <div className={styles.Login_container}>
@@ -44,29 +98,69 @@ export const RecoverPasswordPage: FC = () => {
         Введіть пошту, щоб відновити пароль
       </span>
 
-      <div>
+      <div className={styles.inputContainer}>
+        {emailHasValue ? (
+          <label
+            htmlFor="email"
+            className={
+                emailError && !inputFocused
+                ? `${styles.Login_label_red}`
+                : `${styles.Login_label}`
+            }
+    
+          >
+            E-mail
+          </label>
+        ) : null}
         <input
-          type='email'
-          placeholder='E-mail'
-          className={styles.Login_field}
-          value={email}
+          type="email"
+          placeholder="E-mail"
+          className={
+             emailError && !inputFocused
+              ? `${styles.Login_field} ${styles.Login_field_warning} ${styles.Login_field_error}`
+              : `${styles.Login_field}`
+          }
+          value={userEmail}
           onChange={(e) => handleFieldChange(e.target.value)}
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
           required
         />
+        {emailError.length > 0 && !inputFocused && (
+          <span className={styles.inputContainer_errorMessage}>
+            {emailError}
+          </span>
+        )}
+      </div>
 
       <div>
-        <button onClick={handleRecover} className={styles.Login_btn}>
-          Відновити пароль
+        <button
+          onClick={!sent ? handleRecover : redirectToMailService}
+          className={styles.Login_btn}
+        >
+          {!sent ? 'Відновити пароль' : 'Перевірити пошту'}
         </button>
+
+        <>
+          {messageError.length > 0 &&
+            ShowToast({
+              label: messageError,
+              timer: 4500,
+              backgroundColor: '#f1a9a9b7',
+              color: '#ff3838',
+              borderColor: '#ff3838',
+            })}
+        </>
 
         <button
           onClick={handleResend}
-          className={visibleCounter? styles.Login__resend_disable : styles.Login__resend}
+          className={
+            visibleCounter ? styles.Login__resend_disable : styles.Login__resend
+          }
           disabled={visibleCounter}
         >
           Відправити знову {visibleCounter && `(${countdown}с)`}
         </button>
-      </div>
       </div>
     </div>
   );

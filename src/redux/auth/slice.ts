@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
 import {
-  loginThunk,
+  loginThunk, logoutThunk,
 } from './operations';
 
 interface IUser{
@@ -30,7 +30,7 @@ const handleFulfild = (state:IUser) => {
 };
 
 const handleRejected = (state:IUser, action: PayloadAction<unknown>) => {
-  state.isLoading = false; 
+  state.isLoading = false;
    if (typeof action.payload === 'object' && action.payload && 'errorMessage' in action.payload) {
       const errorMessage = action.payload as { errorMessage: { errorMessage: string } };
       state.error = errorMessage.errorMessage.errorMessage;
@@ -44,6 +44,11 @@ const handleFulfildLogIn = (state:IUser, action: PayloadAction<{token:string}>) 
   state.token=action.payload.token;
 };
 
+const handleFulfilledLogout = (state:IUser) => {
+  handleFulfild(state);
+  state.token = null;
+};
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -51,7 +56,8 @@ export const authSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(loginThunk.fulfilled, handleFulfildLogIn)
-      .addMatcher(isAnyOf(loginThunk.pending,),handlePending)
-      .addMatcher(isAnyOf(loginThunk.rejected,), handleRejected);
+      .addCase(logoutThunk.fulfilled, handleFulfilledLogout)
+      .addMatcher(isAnyOf(loginThunk.pending, logoutThunk.pending),handlePending)
+      .addMatcher(isAnyOf(loginThunk.rejected, logoutThunk.rejected), handleRejected);
   },
 });

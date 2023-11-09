@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import styles from './ConfirmEmailPage.module.scss';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
@@ -14,8 +14,8 @@ export const ConfirmEmailPage: FC = () => {
 
   const handleResend = async () => {
     try {
-      const URL = `https://backend-production-7a95.up.railway.app/api/v1/authorization/register/resend-code?email=${paramValue}`;
-      const response = await axios.put(URL)
+      const URL = `http://138.68.113.54:8080/api/v1/authorization/register/resend-code?email=${paramValue}`;
+      await axios.put(URL)
 
       if (timer) {
         clearTimeout(timer);
@@ -24,7 +24,6 @@ export const ConfirmEmailPage: FC = () => {
       setVisibleCounter(true);
       setCountdown(60);
 
-      console.log('Успішно відправлено:', response.data);
     } catch (error) {
       console.error('Помилка відправки PUT-запиту:', error);
     }

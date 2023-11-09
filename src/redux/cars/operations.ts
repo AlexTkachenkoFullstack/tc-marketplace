@@ -7,7 +7,7 @@ export type KnownError = {
 };
 
 const instance = axios.create({
-  baseURL: 'https://backend-production-7a95.up.railway.app/api/v1/',
+  baseURL: 'http://138.68.113.54:8080/api/v1/',
 });
 
 export const setAuthHeader = (token:string) => {

@@ -1,6 +1,25 @@
+@import '../../../styles/utils/variables';
 .Container {
   position: relative;
 }
+
+.message {
+  padding: 10px;
+  margin-top: 10px;
+  text-align: center;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.success {
+  background-color: #4caf50; 
+}
+
+.error {
+  background-color: #f44336; 
+  color: #fff;
+}
+
 
 .Login {
   justify-self: center;
@@ -32,29 +51,47 @@
 
   &_label {
     position: absolute;
-    top: -19px;
-    color: #f43d3d;
+    top: -8px;
+    color: #797979;
     font-family: Roboto;
     font-size: 11px;
-    margin-left: 10px;
+    margin-left: 13px;
+    padding: 3px 6px;
+    background-color: white;
+    border-radius: 12px;
+    z-index: 1;
 
-    &_warning {
-      display: inline-block;
-      border: 1px solid #f43d3d;
-      padding: 2px 6px;
-      border-radius: 50%;
-      margin-bottom: 2px;
-      margin-right: 2px;
+    &_red{
+      position: absolute;
+      top: -8px;
+      color: red;
+      font-family: Roboto;
+      font-size: 11px;
+      margin-left: 13px;
+      padding: 3px 6px;
+      background-color: white;
+      border-radius: 12px;
+      z-index: 1;
     }
 
-    &_password {
-      position: absolute;
-      top: -19px;
+    &_errorMessage {
+      bottom: -14px;
       color: #f43d3d;
       font-family: Roboto;
       font-size: 11px;
       margin-left: 10px;
+
+      &_password{
+        position: absolute;
+        bottom: -14px;
+        position: absolute;
+        color: #f43d3d;
+        font-family: Roboto;
+        font-size: 11px;
+        margin-left: 10px;
+      }
     }
+
   }
 
   &_login {
@@ -76,12 +113,16 @@
 
   &_field {
     width: 100%;
-    margin-bottom: 24px;
     box-sizing: border-box;
     height: 40px;
     border: 1px solid #E4E4E4;
     border-radius: 32px;
     padding: 10px 20px;
+    margin-bottom: 24px;
+
+    &_error{
+      color: red;
+    }
 
     &::placeholder {
       font-family: Roboto;
@@ -89,11 +130,12 @@
       color: #434343;
     }
 
-    &_warning {
-      border-color: #f43d3d;
+    &:focus {
+      outline: none;
     }
+      
   }
-
+  
   &_btn {
     width: 100%;
     height: 52px;
@@ -137,13 +179,22 @@
   }
 }
 
-.password_container {
+.input_container {
   position: relative;
   display: flex;
-  margin-bottom: 24px;
-
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 20px;
+  margin-top: 0;
+  gap:2px;
+  
   .Login_field {
     margin-bottom: 0;
+
+    &_warning{
+      border: 1px solid red;
+      color: red;
+    }
   }
 
   &_icon {
