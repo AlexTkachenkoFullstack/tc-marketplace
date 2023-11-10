@@ -6,7 +6,7 @@ export type KnownError = {
 };
 
 const instance = axios.create({
-  baseURL: 'http://138.68.113.54:8080/api/v1/',
+  baseURL: 'https://138.68.113.54:8080/api/v1/',
 });
 
 export const fetchTypes = createAsyncThunk(
