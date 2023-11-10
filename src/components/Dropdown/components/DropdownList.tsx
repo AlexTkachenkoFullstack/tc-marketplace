@@ -13,7 +13,7 @@ type Props = {
 }
 
 export default function DropdownList(props: Props) {
-    const { checkedValue, filterValue, checkboxAllowed, options, checkboxHandler } = props
+    const { checkedValue, filterValue, checkboxAllowed, options } = props
 
     const filterOptionsFunc = (text: string) => {
         if (filterValue.length === 0) return true
