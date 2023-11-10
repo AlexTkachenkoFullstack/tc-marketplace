@@ -73,8 +73,8 @@ export const CardSlider: React.FC<Props> = ({ title, cars }) => {
                     }}
                 >
                     {cars?.map((car) => (
-                        <SwiperSlide className={styles.slide} key={car.id}>
-                            <CardItem car={car} />
+                        <SwiperSlide className={styles.slide}>
+                            <CardItem car={car} key={car.id} />
                         </SwiperSlide>
                     ))}
                 </Swiper>

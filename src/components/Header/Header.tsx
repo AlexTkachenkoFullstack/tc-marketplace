@@ -51,7 +51,7 @@ export const Header: FC = () => {
         <button className={styles.header__burger}>
           <img src={menu} alt="Меню" />
         </button>
-        <NavLink to="/"><Logo className={styles.header__logo} /></NavLink>
+        <Logo className={styles.header__logo} />
 
         <nav className={styles.header__nav}>
           <a className={styles.header__nav_link} href="#">Link</a>
