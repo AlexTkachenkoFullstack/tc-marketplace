@@ -1,4 +1,11 @@
 import React, { FC, useRef, useReducer, useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+import { formReducer, initialState } from 'helpers/formReducer';
+
+import ShowToast from '../../../components/Notification/Toast';
+
 import styles from './SignUpPage.module.scss';
 import line from '../../../assets/images/horizontal-line.png';
 import eye from '../../../assets/icons/eye-open.svg';
@@ -6,10 +13,6 @@ import eyeClose from '../../../assets/icons/eye-close.svg';
 import redEye from '../../../assets/icons/eye-open-red.svg';
 import redEyeClose from '../../../assets/icons/eye-close-red.svg';
 import googleIcon from '../../../assets/icons/google.svg';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { formReducer, initialState } from 'helpers/formReducer';
-import axios from 'axios';
-import ShowToast from '../../../components/Notification/Toast';
 
 export const SignUpPage: FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -135,7 +138,7 @@ export const SignUpPage: FC = () => {
           'Акаунт з такими даними вже зареєстровано. Перевірте пошту для завершення реєстрації'
         );
       } else {
-        setMessageError('Network error');
+        setMessageError('Упс, сталася помилка. Спробуйте пізніше.');
       }
 
       setTimeout(() => setMessageError(''), 4500);
