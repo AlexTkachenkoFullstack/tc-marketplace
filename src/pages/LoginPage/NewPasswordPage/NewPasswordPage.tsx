@@ -22,7 +22,7 @@ export const NewPasswordPage: FC = () => {
       const token = searchParams.get('token');
       if (email && token) {
         try {
-          const response = await axios(
+          const response = await axios.get(
             `http://138.68.113.54:8080/api/v1/authorization/reset-password?email=${email}&token=${token}`
           );
           if (response.status === 200) {

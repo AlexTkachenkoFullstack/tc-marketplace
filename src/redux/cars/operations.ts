@@ -39,7 +39,7 @@ export const fetchViewedCars = createAsyncThunk(
 export const fetchNewCars = createAsyncThunk(
   'cars/getNew',
   async (_, thunkAPI) => {
-    try {  
+    try {
       const response = await instance(`main/new-transports`);
       return response.data;
     } catch (err) {
@@ -55,7 +55,7 @@ export const fetchNewCars = createAsyncThunk(
 export const fetchPopularCars = createAsyncThunk(
   'cars/getPopular',
   async (_, thunkAPI) => {
-    try {  
+    try {
       const response = await instance(`main/popular-transports`);
       return response.data;
     } catch (err) {

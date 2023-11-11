@@ -26,7 +26,7 @@ export const LoginPage: FC = () => {
       const token = searchParams.get('token');
       if (email && token) {
         try {
-          const response = await axios(
+          const response = await axios.get(
             `http://138.68.113.54:8080/api/v1/authorization/register/verify-account?email=${email}&token=${token}`
           );
           if (response.status === 200) {
@@ -64,12 +64,12 @@ export const LoginPage: FC = () => {
 
     }
   };
-  
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const { email, password } = formData;
     setMessageError('');
-    
+
 
     const result = await dispatchLogin(loginThunk({ email, password }));
     const response = result.payload;
@@ -100,8 +100,8 @@ export const LoginPage: FC = () => {
             <label
               htmlFor="email"
               className={
-               
-                  
+
+
                   styles.Login_label
               }
             >
@@ -117,18 +117,18 @@ export const LoginPage: FC = () => {
 
           value={formData.email}
           onChange={(e) => handleFieldChange('email', e.target.value)}
-          
+
           required
         />
         </div>
 
-      
+
         <div className={styles.input_container}>
         {passwordHasValue ? (
             <label
               htmlFor="password"
               className={
-                
+
                 styles.Login_label
               }
             >
@@ -180,7 +180,7 @@ export const LoginPage: FC = () => {
             className={styles.Login_googleBtn_icon}
           />
         </button>
-      
+
     </form>
   );
 };
