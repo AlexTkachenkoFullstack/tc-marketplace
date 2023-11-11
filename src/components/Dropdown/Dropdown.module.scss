@@ -5,7 +5,7 @@
   margin-bottom: 16px;
   box-sizing: border-box;
   border: none;
-  height: 100%;
+  height: min-content;
   width: 100%;
 
   @media (min-width: $tablet-min-width) {
@@ -13,6 +13,8 @@
     flex-grow: 1;
   }
 }
+
+
 
 .label {
   position: absolute;
@@ -43,8 +45,8 @@
   justify-content: center;
   border: none;
   height: 48px;
-  padding-inline-start: 0;
-  padding-inline-end: 0;
+  padding-inline-start: 4px;
+  padding-inline-end: 4px;
   padding-block: 0;
   border: none;
   border-radius: 100px;
@@ -54,12 +56,16 @@
   font-weight: 600;
   color: $color-grey;
   cursor: pointer;
+  background-color: $white-color;
+
 }
+
+
 
 .trigger_content {
   display: flex;
   box-sizing: border-box;
-  width: calc(100% - 10px);
+  width: calc(100%);
   height: calc(100% - 10px);
   justify-content: space-between;
   align-items: center;

@@ -18,8 +18,10 @@ export const HomeTop = () => {
     const brands: IBrand[] = useAppSelector(getFilterBrands)
     const models: IModel[] = useAppSelector(getFilterModels)
     const [selectedCategory, setSelectedCategory] = useState<string>('Легкові')
-    // стейт для фетчу марки з дропдауну
-    const [carMark, setCarMark] = useState<string>('Марка')
+    // select state for dropdown
+    const [carMark, setCarMark] = useState<string | string[]>('Всі марки')
+    const [carModel, setCarModels] = useState<string | string[]>('Всі моделі')
+    const [selectedRegions, setSelectedRegions] = useState<string | string[]>('Всі регіон')
     //    
     const [isModelDissabled, setIsModelDissabled] = useState(false);
     useEffect(() => {
@@ -72,10 +74,9 @@ export const HomeTop = () => {
                             <Dropdown
                                 options={[...brands.map((brand) => brand.brand)].sort((a, b) => a.localeCompare(b))}
                                 label='Марка'
-                                startValue='Марка'
-                                propsOption={carMark}
-                                setPropsOption={setCarMark}
-
+                                startValue='Всі моделі'
+                                option={carMark}
+                                setOption={setCarMark}
                             />
 
                             <Dropdown
@@ -85,9 +86,8 @@ export const HomeTop = () => {
                                 checkboxAllowed
                                 isDissabled={isModelDissabled}
                                 allOptionsLabel='Всі марки'
-
-                            // setActive={setActive}
-                            />
+                                option={carModel}
+                                setOption={setCarModels} />
 
                             <Dropdown
                                 options={regions.map((region) => region.region)}
@@ -95,6 +95,8 @@ export const HomeTop = () => {
                                 startValue='Регіон'
                                 checkboxAllowed
                                 allOptionsLabel='Вся Україна'
+                                option={selectedRegions}
+                                setOption={setSelectedRegions}
 
                             />
                         </div>

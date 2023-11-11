@@ -16,8 +16,8 @@ type Props = {
     options: string[];
     checkboxAllowed?: boolean;
     isDissabled?: boolean,
-    propsOption?: string,
-    setPropsOption?: React.Dispatch<React.SetStateAction<string>>,
+    option: string | string[],
+    setOption: React.Dispatch<React.SetStateAction<string | string[]>>,
     allOptionsLabel?: string
 };
 
@@ -28,12 +28,13 @@ export const Dropdown: FC<Props> = (props) => {
         options,
         checkboxAllowed,
         isDissabled,
-        propsOption,
-        setPropsOption, allOptionsLabel
+        allOptionsLabel,
+        option,
+        setOption
     } = props;
 
     const [isActive, setIsActive] = useState(false);
-    const [option, setOption] = useState<string | string[]>(startValue);
+    // const [option, setOption] = useState<string | string[]>(startValue);
     const [filterValue, setfilterValue] = useState('')
     const [checkedValue, setCheckedValue] = useState<string[]>([]);
 
@@ -69,20 +70,13 @@ export const Dropdown: FC<Props> = (props) => {
             setChecked(newOption)
             return
         }
-        if (setPropsOption) {
-            setPropsOption(newOption)
-            setOption(newOption)
-            closeDropdown()
-            return
-        }
+
         setOption(newOption)
         closeDropdown()
     };
 
     const renderPlaceholder = (): string => {
-        if (setPropsOption && propsOption) {
-            return propsOption
-        }
+
         const length = option.length
         if (length === 1) return option[0]
         if (length > 1 && length < 5) return `Обрано ${length} варіанти`
@@ -131,10 +125,11 @@ export const Dropdown: FC<Props> = (props) => {
             )}
 
             <button
-                className={styles.trigger}
+                className={`${styles.trigger} ${isActive ? styles.trigger_active : ''}`}
                 type="button"
                 disabled={isDissabled}
                 onClick={() => {
+
                     setfilterValue('')
                     setIsActive((prevState) => !prevState)
                 }
@@ -157,7 +152,15 @@ export const Dropdown: FC<Props> = (props) => {
                             }
                         </div>}
 
-                    <div className={styles.icons}>
+                    <div className={styles.icons}
+                        onClick={(e) => {
+                            if (isActive && filterValue.length > 0) {
+
+                                e.stopPropagation()
+                                setfilterValue('')
+                            }
+                        }}
+                    >
                         {!isActive ? (
                             <img
                                 src={arrowDown}
@@ -169,6 +172,7 @@ export const Dropdown: FC<Props> = (props) => {
                                 src={close}
                                 alt="close"
                                 className={styles.icon}
+
                             />
                         )}
                     </div>
