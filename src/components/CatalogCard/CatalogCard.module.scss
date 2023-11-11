@@ -100,32 +100,7 @@
   }
 }
 
-.property {
-  display: flex;
-  flex-basis: 40%;
-  align-items: center;
-  text-wrap: nowrap;
-  gap: 8px;
-  font-family: Roboto;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 20px;
-  letter-spacing: 0.15px;
 
-  @include onTablet {
-    flex-basis: auto;
-  }
-
-  img {
-    $size: 16px;
-    width: $size;
-    height: $size;
-    background: $color-grey;
-    object-fit: contain;
-    border-radius: 4px;
-  }
-}
 
 .description__text {
   display: -webkit-box;

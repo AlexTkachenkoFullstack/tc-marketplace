@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import style from './CatalogCard.module.scss'
+import styles from './CatalogCard.module.scss'
 import clockSvg from 'assets/icons/clock.svg'
 import { CommonBtn } from 'components/Buttons/CommonBtn'
 import LikeImg from 'assets/icons/favorite.svg';
@@ -7,6 +7,7 @@ import add from 'assets/icons/add.svg'
 import ActiveLikeImg from 'assets/icons/favorite-active.svg';
 import option_dots from 'assets/icons/option_dots.svg'
 import { ICar } from 'types/IСar';
+import { CardProperty } from 'components/CardProperty/CardProperty';
 
 type Props = {
     car?: ICar
@@ -17,10 +18,6 @@ export default function CatalogCard({ car }: Props) {
     const [optionsVisible, setOptionsVisible] = useState(false)
     const [modalVisible, setModalVisible] = useState(false)
     const modalRef = useRef<HTMLDivElement>(null)
-    // temp
-    const renderProperty = ({ icon, name }: { icon: string, name?: string }) => {
-        return <div className={style.property}><img src={icon} alt='icon' /><span>{name}</span></div>
-    }
 
     const mileageToString = (mileage: number) => {
         const string = mileage.toString()
@@ -31,8 +28,6 @@ export default function CatalogCard({ car }: Props) {
     const optionClickHandle = () => {
         setOptionsVisible(prev => !prev)
     }
-
-
 
     const getPriceString = (number: number) => {
         return `${number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} $`;
@@ -96,27 +91,25 @@ export default function CatalogCard({ car }: Props) {
         }
     }
 
-    // #BIVComment
-    // temp description
-    const tempFish = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad magni, fugiat saepe totam amet excepturi eligendi dolore! Excepturi nihil, voluptatum corporis beatae praesentium, doloribus quasi voluptate veritatis iure dicta adipisci, quidem ipsa vero. Aliquam, quas sit tenetur expedita illo aliquid quae est dignissimos necessitatibus quo corrupti sequi nostrum qui saepe libero doloremque dicta quod ullam tempore. Eos adipisci voluptates eveniet obcaecati sequi earum doloremque laborum. Beatae quidem nulla dicta, eligendi totam nobis eum dolore distinctio dignissimos omnis odio sit illo saepe! Omnis dolorem possimus minima unde architecto doloremque sed ratione est exercitationem! Eveniet voluptatibus totam doloremque labore maxime, asperiores velit incidunt aut vero magni fugiat cupiditate impedit non sed earum amet magnam unde odit deserunt eum repellat explicabo eius? Id totam odio porro. Hic libero corporis asperiores saepe et sequi dolores ratione possimus fugit! Fugit eius pariatur maxime? Provident perferendis aliquam repellendus fugit, a ut, magni consequuntur error ratione illo at et obcaecati repellat molestias animi ipsa consectetur officia deleniti porro, id cumque veritatis ad illum debitis! Cumque ex fugit recusandae eum eligendi dignissimos, beatae accusantium in rem facere eaque id tempore incidunt a quod quaerat voluptatibus sint, obcaecati quam quidem quasi! Nihil dolores, repellendus totam eos magni fugit ducimus.'
+
     return (
         <>
-            <div className={style.container}>
-                <img alt='car_image' src={car?.fileUrl || 'https://cdn2.riastatic.com/photosnew/auto/photo/volkswagen_touareg__516475592hd.webp'} className={style.image} />
-                <div className={style.header}>
+            <div className={styles.container}>
+                <img alt='car_image' src={car?.fileUrl || 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg'} className={styles.image} />
+                <div className={styles.header}>
                     <div>
-                        <p className={style.title}>{`${car?.brand || tempFish} ${car?.model || 'Model'}`}</p>
-                        <p className={style.price}>{getPriceString(car?.price || 2000000 /* 20000 temp value for test, this should delete */)}</p>
+                        <p className={styles.title}>{`${car?.brand} ${car?.model || 'Model'}`}</p>
+                        <p className={styles.price}>{getPriceString(car?.price || 2000000 /* 20000 temp value for test, this should delete */)}</p>
                     </div>
                     <div>
-                        <div className={style.buttons}>
+                        <div className={styles.buttons}>
                             <CommonBtn
                                 iconPath={isLiked ? ActiveLikeImg : LikeImg}
-                                className={style.likeBtn}
+                                className={styles.likeBtn}
                                 onClick={() => setIsLiked(!isLiked)}
                             />
                             <button
-                                className={style.optionBtn}
+                                className={styles.optionBtn}
                                 onClick={optionClickHandle}
                                 onMouseLeave={() => {
                                     optionsVisible && setOptionsVisible(false)
@@ -124,7 +117,7 @@ export default function CatalogCard({ car }: Props) {
                             >
                                 <img src={option_dots} alt="option icon" />
 
-                                {optionsVisible && <ul className={style.droplist}>
+                                {optionsVisible && <ul className={styles.droplist}>
                                     <li onClick={optionHanler}><span>Не показувати цю машину</span></li>
                                     <li onClick={optionHanler}><span>Не показувати повідомлення від цього автора</span></li>
                                 </ul>}
@@ -132,21 +125,18 @@ export default function CatalogCard({ car }: Props) {
                         </div>
                     </div>
                 </div>
-                <div className={style.description}>
-                    <div className={style.properties}>
-                        {renderProperty({ icon: add, name: mileageToString(car?.mileage || 9999999) })}
-                        {renderProperty({ icon: add, name: car?.city || 'City' })}
-                        {renderProperty({ icon: add, name: car?.fuelType || 'Fuel type' })}
-                        {renderProperty({ icon: add, name: car?.transmission || 'Transmission' })}
+                <div className={styles.description}>
+                    <div className={styles.properties}>
+                        <CardProperty icon={add} name={mileageToString(car!.mileage) || 'no mileage'} />
+                        <CardProperty icon={add} name={car?.city || 'city'} />
+                        <CardProperty icon={add} name={car?.fuelType || 'Fuel type'} />
+                        <CardProperty icon={add} name={car?.transmission || 'transmission'} />
+
                     </div>
-                    <p className={style.description__text}>
-                        {/* #BIV
-                        temp fish, replace with description
-                        from this
-                        */}
-                        {tempFish}
+                    <p className={styles.description__text}>
+                        {car?.description}
                     </p>
-                    <div className={style.date}>
+                    <div className={styles.date}>
                         <img src={clockSvg} alt="icon" />
                         <span>{getDateString('2023-10-16T18:06:03.932606')}</span>
                     </div>
@@ -154,11 +144,11 @@ export default function CatalogCard({ car }: Props) {
             </div>
 
 
-            {modalVisible && <div className={style.modal} onClick={(e) => {
+            {modalVisible && <div className={styles.modal} onClick={(e) => {
                 if (e.target === modalRef.current || modalRef.current!.contains(e.target as Node)) return
                 setModalVisible(false)
             }} >
-                <div className={style.modal__content} ref={modalRef}>
+                <div className={styles.modal__content} ref={modalRef}>
                     <p>are you sure?</p>
                     <button onClick={modalButtonHundler}>yes</button>
                     <button onClick={modalButtonHundler}>no</button>
