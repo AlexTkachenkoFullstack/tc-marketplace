@@ -54,7 +54,9 @@ export const Header: FC = () => {
         <Logo className={styles.header__logo} />
 
         <nav className={styles.header__nav}>
-          <a className={styles.header__nav_link} href="#">Link</a>
+        <NavLink to="/user">
+               Link
+          </NavLink>
           <a className={styles.header__nav_link} href="#">Link</a>
           <a className={styles.header__nav_link} href="#">Link</a>
           <a className={styles.header__nav_link} href="#">Link</a>
