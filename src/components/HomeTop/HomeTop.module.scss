@@ -61,17 +61,14 @@
     min-width: 768px;
     margin-right: 8px;
     display: grid;
-    grid-template-columns: repeat(3, minmax(100px, 1fr));
+    height: min-content;
 
-    &> {
-      margin: 0;
-      box-sizing: border-box;
-      border: none;
-    }
+    grid-template-columns: repeat(3, minmax(100px, 1fr));
 
     div:first-child button {
       border-top-right-radius: 0px;
       border-bottom-right-radius: 0px;
+
     }
 
     div:nth-child(2) button {
