@@ -11,7 +11,6 @@ import { LoginPage } from 'pages/LoginPage/LoginPage/LoginPage';
 import { ConfirmEmailPage } from 'pages/LoginPage/ConfirmEmailPage/ConfirmEmailPage';
 import { RecoverPasswordPage } from 'pages/LoginPage/RecoverPasswordPage/RecoverPasswordPage';
 import { NewPasswordPage } from 'pages/LoginPage/NewPasswordPage/NewPasswordPage';
-import CatalogCard from 'components/CatalogCard/CatalogCard';
 import RestrictedRoute from 'components/RestrictedRoute';
 // import { useAppDispatch } from 'redux/hooks';
 // import { loginThunk } from 'redux/auth/operations';
@@ -23,14 +22,12 @@ export const App: React.FC = () => {
                 <Route path="/" element={<Layout />}>
                     <Route index element={<HomePage />} />
                     <Route path="home" element={<Navigate to="/" replace />} />
-                    <Route path='/cc' element={<CatalogCard />} />
-
                     <Route path="login/" element={<LoginLayout />}>
-                      <Route path="sign-up" element={<RestrictedRoute  redirectTo='/' component={<SignUpPage />}/>} />
-                      <Route path="log-in" element={<RestrictedRoute  redirectTo='/' component={<LoginPage />} />} />
-                      <Route path="finish-registration" element={<RestrictedRoute  redirectTo='/' component={<ConfirmEmailPage />} />} />
-                      <Route path="recover" element={<RestrictedRoute  redirectTo='/' component={<RecoverPasswordPage />} />} />
-                      <Route path="recover/new" element={<RestrictedRoute  redirectTo='/' component={<NewPasswordPage />} />} />
+                        <Route path="sign-up" element={<RestrictedRoute redirectTo='/' component={<SignUpPage />} />} />
+                        <Route path="log-in" element={<RestrictedRoute redirectTo='/' component={<LoginPage />} />} />
+                        <Route path="finish-registration" element={<RestrictedRoute redirectTo='/' component={<ConfirmEmailPage />} />} />
+                        <Route path="recover" element={<RestrictedRoute redirectTo='/' component={<RecoverPasswordPage />} />} />
+                        <Route path="recover/new" element={<RestrictedRoute redirectTo='/' component={<NewPasswordPage />} />} />
                     </Route>
                     <Route path="favorites" element={<FavoritesPage />} />
 
