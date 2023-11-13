@@ -6,6 +6,7 @@ import { ICar } from 'types/IСar';
     recentlyViewedCars:ICar[] | [];
     popularCars: ICar[] | [];
     newCars:ICar[] | [],
+    filtredCars:ICar[] | [],
     error: unknown;
     isLoading:boolean;
   }
@@ -14,6 +15,7 @@ const initialState:CarsState = {
     recentlyViewedCars:[],
     popularCars:[],
     newCars:[],
+    filtredCars:[],
     error: null,
     isLoading: false,
   };

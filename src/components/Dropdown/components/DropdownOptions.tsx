@@ -15,7 +15,6 @@ export const DropdownOption = ({
     checkboxAllowed,
     changeOption,
     checkboxHandler }: DropdownOptionProps) => {
-
     const clickHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const target = e.target as typeof e.target & {
             type: string,
