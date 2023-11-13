@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/tc-marketplace/static/css/main.4a6d3566.css",
-    "main.js": "/tc-marketplace/static/js/main.8249ab04.js",
+    "main.css": "/tc-marketplace/static/css/main.e54d7faa.css",
+    "main.js": "/tc-marketplace/static/js/main.0da96b83.js",
     "static/media/test8.jpeg": "/tc-marketplace/static/media/test8.080c4ee1c4bad87350e8.jpeg",
     "static/media/logo.svg": "/tc-marketplace/static/media/logo.7965a18df6fd59bcd3f8379349e850f8.svg",
     "static/media/google.svg": "/tc-marketplace/static/media/google.f8517734dd1d980942f173c58bc1e4eb.svg",
@@ -21,15 +21,15 @@
     "index.html": "/tc-marketplace/index.html",
     "static/media/eye-open.svg": "/tc-marketplace/static/media/eye-open.e18f6729e297cf78b3762d20c6fb938a.svg",
     "static/media/eye-open-red.svg": "/tc-marketplace/static/media/eye-open-red.c9ed16d75ddabf917cbb2653991c341b.svg",
-    "static/media/option_dots.svg": "/tc-marketplace/static/media/option_dots.aca17780d6086b26c3a91d8b2a9e6bdd.svg",
     "static/media/add.svg": "/tc-marketplace/static/media/add.f1c642def307d73bcce1a1d223031cee.svg",
+    "static/media/empty_icon.svg": "/tc-marketplace/static/media/empty_icon.79c4980f2f2322dbe853ff455016adf3.svg",
     "static/media/line.svg": "/tc-marketplace/static/media/line.63befb63f000ebd4c502.svg",
     "static/media/point.svg": "/tc-marketplace/static/media/point.eb5f67a2c8c41fd461c5fbbfb682533f.svg",
-    "main.4a6d3566.css.map": "/tc-marketplace/static/css/main.4a6d3566.css.map",
-    "main.8249ab04.js.map": "/tc-marketplace/static/js/main.8249ab04.js.map"
+    "main.e54d7faa.css.map": "/tc-marketplace/static/css/main.e54d7faa.css.map",
+    "main.0da96b83.js.map": "/tc-marketplace/static/js/main.0da96b83.js.map"
   },
   "entrypoints": [
-    "static/css/main.4a6d3566.css",
-    "static/js/main.8249ab04.js"
+    "static/css/main.e54d7faa.css",
+    "static/js/main.0da96b83.js"
   ]
 }
