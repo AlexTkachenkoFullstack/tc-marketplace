@@ -13,9 +13,11 @@ $background-color-white: #E4E4E4;
 $color-hover-border: #8A8B8B;
 $white-color: #FEFFFF;
 $hover-gray: #797979;
+$color-light: #F0F0F0;
 
 $font-size-root: 16px;
-$font-family-main: 'Roboto', sans-serif;
+$font-family-main: 'Roboto',
+sans-serif;
 
 $effectDuration: 0.3s ease;
 $shadow-btn: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
@@ -41,11 +43,11 @@ $color-btn-text: #FEFFFF;
 }
 
 %form-error-label {
-    bottom: -14px;
-    color: #f43d3d;
-    font-family: Roboto;
-    font-size: 11px;
-    margin-left: 10px;
+  bottom: -14px;
+  color: #f43d3d;
+  font-family: Roboto;
+  font-size: 11px;
+  margin-left: 10px;
 }
 
 %form-field {
@@ -80,37 +82,37 @@ $color-btn-text: #FEFFFF;
 }
 
 %link {
-    display: inline-block;
-    color: #797979;
-    text-decoration: underline;
+  display: inline-block;
+  color: #797979;
+  text-decoration: underline;
 }
 
 %form-top-styles {
-    font-family: $font-roboto;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 20px;
-    color: $color-gray;
-    margin-bottom: 32px;
+  font-family: $font-roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  color: $color-gray;
+  margin-bottom: 32px;
 }
 
 @mixin form-title-styles {
-    font-family: Roboto;
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 800;
-    color: #434343;
-    margin-bottom: 12px;
+  font-family: Roboto;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 800;
+  color: #434343;
+  margin-bottom: 12px;
 }
 
 @mixin form-container-styles {
-    margin-top: 43px;
-    height: fit-content;
-    width: 320px;
-    display: flex;
-    flex-direction: column;
-  }
+  margin-top: 43px;
+  height: fit-content;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+}
 
 @mixin form-inputContainer-styles {
   position: relative;
@@ -137,6 +139,3 @@ $color-btn-text: #FEFFFF;
   background-color: $color-btn;
   color: $color-btn-text;
 }
-
-
-
