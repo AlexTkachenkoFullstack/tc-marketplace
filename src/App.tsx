@@ -4,6 +4,7 @@ import './styles/main.scss';
 
 import { Layout } from './layouts/Layout';
 import { HomePage } from './pages/HomePage';
+import { UserPage } from 'pages/UserPage/UserPage';
 import { FavoritesPage } from 'pages/Favourites';
 import { LoginLayout } from 'pages/LoginPage/LoginLayout';
 import { SignUpPage } from 'pages/LoginPage/SignUpPage/SignUpPage';
@@ -22,6 +23,7 @@ export const App: React.FC = () => {
                 <Route path="/" element={<Layout />}>
                     <Route index element={<HomePage />} />
                     <Route path="home" element={<Navigate to="/" replace />} />
+                    <Route path="user" element={<UserPage />} />
                     <Route path="login/" element={<LoginLayout />}>
                         <Route path="sign-up" element={<RestrictedRoute redirectTo='/' component={<SignUpPage />} />} />
                         <Route path="log-in" element={<RestrictedRoute redirectTo='/' component={<LoginPage />} />} />
