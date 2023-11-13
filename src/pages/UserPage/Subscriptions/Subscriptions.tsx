@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Pending.module.scss';
+// import styles from './Pending.module.scss';
 
 const Subscriptions: React.FC = () => {
   return (

@@ -29,7 +29,7 @@ const Card: React.FC<CardProps> = ({ data }) => {
   return (
     <div>
       <div className={styles.card}>
-        <img src={data.imageUrl} alt="Car Image" className={styles.card_img} />
+        <img src={data.imageUrl} alt="Car_image" className={styles.card_img} />
         <div className={styles.card_info}>
           <h3 className={styles.card_info_title}>{data.title}</h3>
           <p className={styles.card_info_price}>{data.price}</p>
