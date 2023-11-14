@@ -1,0 +1,40 @@
+@import '../../styles/utils/variables';
+
+.userPage {
+    .container {
+        padding: 40px;
+        margin: 0 auto;
+    }
+
+    &_title {
+        @include form-title-styles;
+        margin-bottom: 0;
+    }
+
+    .tabs {
+        display: flex;
+        padding: 40px 0 8px;
+        
+
+        .tab {
+            color: $color-dark-grey;
+            font-family: $font-roboto;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 400;
+            white-space: nowrap;
+            padding: 10px;
+            background-color: transparent;
+            cursor: pointer;
+            box-sizing: border-box;
+            border:none;
+            transition: color 0.1s, font-weight 0.1s;
+
+            &:hover,
+            &.active {
+                color: $color-grey;
+                font-weight: 600;
+            }
+        }
+    }
+}

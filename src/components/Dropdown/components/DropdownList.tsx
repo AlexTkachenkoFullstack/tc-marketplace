@@ -44,7 +44,8 @@ export default function DropdownList(props: Props) {
                 <DropdownInfoOption text='Обрані:' />
                 <DropdownSelectAllOption {...props} />
                 {checkedValue.map(currentOption =>
-                    <DropdownOption
+                    <DropdownOption 
+                        key={currentOption}
                         {...props}
                         currentOption={currentOption}
                     />

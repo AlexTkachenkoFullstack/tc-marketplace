@@ -6,7 +6,7 @@ export type KnownError = {
 };
 
 const instance = axios.create({
-  baseURL: 'https://138.68.113.54:8080/api/v1/',
+  baseURL: 'http://134.209.230.247:8080/api/v1/',
 });
 
 export const fetchTypes = createAsyncThunk(
@@ -69,7 +69,6 @@ export const fetchTypes = createAsyncThunk(
           params: {transportTypeId, transportBrandId},
         };
         const response = await instance('main/models', config); 
-        console.log(response.data)
         return response.data;
       } catch (err) {
         const error: AxiosError<KnownError> = err as any;
@@ -80,3 +79,5 @@ export const fetchTypes = createAsyncThunk(
       }
     }
   );
+
+  
