@@ -90,6 +90,27 @@ $color-red: #f43d3d;
   margin-bottom: 32px;
 }
 
+%tab-styles {
+  color: $color-dark-grey;
+  font-family: $font-family-main;
+  font-style: normal;
+  font-weight: 400;
+  white-space: nowrap;
+  padding: 10px;
+  background-color: transparent;
+  cursor: pointer;
+  box-sizing: border-box;
+  border:none;
+  transition: color 0.1s, font-weight 0.1s;
+
+
+  &:hover,
+  &.active {
+    color: $color-grey;
+    font-weight: 600;
+  }
+}
+
 @mixin form-title-styles {
   font-family: Roboto;
   font-size: 32px;
