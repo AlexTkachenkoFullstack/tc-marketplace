@@ -1,6 +1,6 @@
 {
   "name": "tc-marketplace",
-  "homepage": "https://AlexTkachenkoFullstack.github.io/tc-marketplace",
+  "homepage": "https://market-place-tc.netlify.app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
