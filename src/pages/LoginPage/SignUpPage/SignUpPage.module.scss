@@ -27,7 +27,7 @@
   &_label {
     position: absolute;
     top: -8px;
-    color: $color-gray;
+    color: $hover-gray;
     @extend %form-label;
 
     &_red{
