@@ -1,6 +1,8 @@
 @import '../../styles/main.scss';
 
 .header {
+  position: fixed;
+  width: 100vw;
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
@@ -8,6 +10,7 @@
   height: 56px;
   padding: 8px 20px;
   background-color: $white-color;
+  z-index: 3;
 
   @media (min-width: 768px) {
     height: 68px;

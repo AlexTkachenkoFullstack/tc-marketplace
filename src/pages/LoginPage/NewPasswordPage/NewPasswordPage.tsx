@@ -23,7 +23,7 @@ export const NewPasswordPage: FC = () => {
       if (email && token) {
         try {
           const response = await axios.get(
-            `http://134.209.230.247:8080/api/v1/authorization/reset-password?email=${email}&token=${token}`
+            `http://api.pawo.space/api/v1/authorization/reset-password?email=${email}&token=${token}`
           );
           if (response.status === 200) {
             console.log('Account has been verified');
