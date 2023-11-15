@@ -32,7 +32,7 @@ export const links = [
 ];
 
 export const Header: FC = () => {
-  const auth: boolean = useAppSelector(isAuthUser)
+  const auth: string | null = useAppSelector(isAuthUser)
   const dispatchLogout = useAppDispatch();
   // const [isMenuOpen, setIsMenuOpen] = useState(false);
   // const [activeLink, setActiveLink] = useState('');
@@ -42,6 +42,7 @@ export const Header: FC = () => {
   // };
 
   const handleLogout = () => {
+    console.log(auth)
        dispatchLogout(logoutThunk())
   }
 
