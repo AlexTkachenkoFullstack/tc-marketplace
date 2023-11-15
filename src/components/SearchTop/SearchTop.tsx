@@ -1,9 +1,9 @@
 import React from 'react';
-import styles from './SearchTop.module.scss';
+import styles from './SearchTop.module.css';
 
 export const SearchTop: React.FC = () => {
   return (
-    <div className={styles.SearchTop}>
+    <div>
       
     </div>
   );
