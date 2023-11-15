@@ -126,7 +126,7 @@ export const SignUpPage: FC = () => {
 
     try {
       const URL =
-      'http://138.68.113.54:8080/api/v1/authorization/register';
+      'http://134.209.230.247:8080/api/v1/authorization/register';
 
        await axios.post(URL, formData);
 
