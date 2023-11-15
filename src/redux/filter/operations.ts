@@ -8,14 +8,14 @@ export type KnownError = {
 };
 
 const instance = axios.create({
-  baseURL: 'http://134.209.230.247:8080/api/v1/',
+  baseURL: 'http://api.pawo.space/api/v1/',
 });
 
 export const fetchTypes = createAsyncThunk(
     'filter/getTypes',
     async (_, thunkAPI) => {
-      try { 
-        const response = await instance('main/types'); 
+      try {
+        const response = await instance('main/types');
         return response.data;
       } catch (err) {
         const error: AxiosError<KnownError> = err as any;
@@ -31,8 +31,8 @@ export const fetchTypes = createAsyncThunk(
   export const fetchRegions = createAsyncThunk(
     'filter/getRegions',
     async (_, thunkAPI) => {
-      try { 
-        const response = await instance('main/regions'); 
+      try {
+        const response = await instance('main/regions');
         return response.data;
       } catch (err) {
         const error: AxiosError<KnownError> = err as any;
@@ -47,11 +47,11 @@ export const fetchTypes = createAsyncThunk(
   export const fetchBrands = createAsyncThunk(
     'filter/getBrands',
     async (transportTypeId:number, thunkAPI) => {
-      try { 
+      try {
         const config = {
           params: { transportTypeId },
         };
-        const response = await instance('main/brands', config); 
+        const response = await instance('main/brands', config);
         return response.data;
       } catch (err) {
         const error: AxiosError<KnownError> = err as any;
@@ -66,11 +66,11 @@ export const fetchTypes = createAsyncThunk(
   export const fetchModels = createAsyncThunk(
     'filter/getModels',
     async ({ transportTypeId, transportBrandId }: { transportTypeId: number, transportBrandId: number }, thunkAPI) => {
-      try { 
+      try {
         const config = {
           params: {transportTypeId, transportBrandId},
         };
-        const response = await instance('main/models', config); 
+        const response = await instance('main/models', config);
         return response.data;
       } catch (err) {
         const error: AxiosError<KnownError> = err as any;
@@ -82,7 +82,7 @@ export const fetchTypes = createAsyncThunk(
     }
   );
 
-  
+
   export const fetchFiltredCars = createAsyncThunk(
     'cars/getFiltredCar',
     async (searchConfig:{page:number, searchParams:ISearchParams}, thunkAPI) => {
@@ -102,3 +102,4 @@ export const fetchTypes = createAsyncThunk(
       }
     }
   );
+

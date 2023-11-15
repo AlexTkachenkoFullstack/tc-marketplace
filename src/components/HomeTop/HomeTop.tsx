@@ -11,7 +11,9 @@ import { IType } from 'types/IType';
 import { IBrand } from 'types/IBrand';
 import { IModel } from 'types/IModel';
 import { ISearchParams } from 'types/ISearchParam';
-import { changeFiltredParams } from 'redux/filter/slice';
+
+import {useNavigate } from 'react-router-dom';
+//import {Advancedsearch} from 'pages/AdvancedSearchPage/AdvancedSearch';
 
 export const HomeTop = () => {
     const dispatch = useAppDispatch();
@@ -77,6 +79,12 @@ export const HomeTop = () => {
         dispatch(fetchFiltredCars(searchConfig))
     }
 
+    const navigate = useNavigate();
+
+    const handleAdvancedSearchClick = () => {
+        navigate('/advanced-search');
+    };
+
     return (
         <div className={styles.homeTop}>
             <div className={styles.container}>
@@ -136,7 +144,10 @@ export const HomeTop = () => {
                                 <span className={styles.search_button_text}>Шукати</span>
                                 <img src={arrow} alt="search" />
                             </button>
-                            <button className={styles.search_more}>Розширений пошук</button>
+
+                            <button className={styles.search_more} onClick={handleAdvancedSearchClick}>Розширений пошук</button>
+                           
+                            
                         </div>
                     </div>
 
