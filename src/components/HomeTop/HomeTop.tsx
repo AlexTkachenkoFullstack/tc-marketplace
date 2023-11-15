@@ -29,7 +29,7 @@ export const HomeTop = () => {
     const [carModel, setCarModel] = useState<string | string[]>('Всі моделі')
     const [selectedRegions, setSelectedRegions] = useState<string | string[]>('Всі регіон')
     
-
+console.log(transportTypeId)
     useEffect(() => {
         dispatch(fetchRegions())
         dispatch(fetchTypes())
