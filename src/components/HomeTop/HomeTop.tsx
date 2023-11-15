@@ -1,4 +1,3 @@
-import { NavLink } from 'react-router-dom';
 import styles from './HomeTop.module.scss';
 import arrow from '../../assets/icons/arrow-white.svg';
 import { CategoryBar } from 'components/CategoryBar/CategoryBar';
@@ -13,7 +12,7 @@ import { IBrand } from 'types/IBrand';
 import { IModel } from 'types/IModel';
 import { fetchFiltredCars } from 'redux/cars/operations';
 import { ISearchParams } from 'types/ISearchParam';
-import { Link, useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 //import {Advancedsearch} from 'pages/AdvancedSearchPage/AdvancedSearch';
 
 export const HomeTop = () => {
@@ -132,10 +131,7 @@ export const HomeTop = () => {
                                 <img src={arrow} alt="search" />
                             </button>
 
-                            <NavLink to="/advanced-search" >
-                                <button className={styles.search_more}>Розширений пошук</button>
-                            </NavLink>
-                            {/* <button className={styles.search_more} onClick={handleAdvancedSearchClick}>Розширений пошук</button> */}
+                            <button className={styles.search_more} onClick={handleAdvancedSearchClick}>Розширений пошук</button>
                            
                             
                         </div>
