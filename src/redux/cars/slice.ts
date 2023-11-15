@@ -38,19 +38,19 @@ const initialState:CarsState = {
 const handleFulfildGetViewed=(state:CarsState, action: PayloadAction<ICar[]>) => {
   state.isLoading = false;
   state.error = null;
-  state.recentlyViewedCars = [...state.recentlyViewedCars, ...action.payload]; 
+  state.recentlyViewedCars = action.payload; 
   }
 
   const handleFulfildGetNew=(state:CarsState, action: PayloadAction<ICar[]>) => {
     state.isLoading = false;
     state.error = null;
-    state.newCars = [...state.newCars, ...action.payload]; 
+    state.newCars = action.payload; 
     }
 
     const handleFulfildGetPopular=(state:CarsState, action: PayloadAction<ICar[]>) => {
       state.isLoading = false;
       state.error = null;
-      state.popularCars = [...state.popularCars, ...action.payload]; 
+      state.popularCars = action.payload; 
       }
 
 export const carsSlice = createSlice({

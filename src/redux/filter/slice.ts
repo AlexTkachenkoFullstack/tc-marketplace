@@ -12,6 +12,12 @@ interface IFilterState {
     models:IModel[] | [],
     error: unknown;
     isLoading:boolean;
+    select:{
+      transportTypeId:number | null;
+      brandId:number[] | [];
+      modelId:number[] | [];
+      regionId:number[] | [];
+    }
   }
 
 const initialState:IFilterState = {
@@ -19,6 +25,12 @@ const initialState:IFilterState = {
     types:[],
     brand:[],
     models:[],
+    select:{
+      transportTypeId:null,
+      brandId:[],
+      modelId:[],
+      regionId:[]
+    },
     error: null,
     isLoading: false,
   };
@@ -59,7 +71,11 @@ const handleFulfildGetModels=(state:IFilterState, action: PayloadAction<IModel[]
 export const filterSlice = createSlice({
     name: 'filter',
     initialState,
-    reducers: {},
+    reducers: {
+      changeFiltredParams(state, action: PayloadAction<{transportTypeId:number} | {brandId:number[]} | {modelId:number[]} | {regionId:number[]}>) {
+        state.select = {...state.select, ...action.payload};
+      },
+    },
     extraReducers: (builder) => {
         builder
           .addCase(fetchRegions.fulfilled, handleFulfildGetRegions)
@@ -70,3 +86,5 @@ export const filterSlice = createSlice({
           .addMatcher(isAnyOf(fetchRegions.rejected, fetchTypes.rejected, fetchBrands.rejected, fetchModels.rejected), handleRejected)
       },
   });
+
+  export const { changeFiltredParams } = filterSlice.actions;

@@ -1,5 +1,5 @@
 export interface ISearchParams{
-        transportTypeId?: number,
+        transportTypeId?: number | null,
         brandId?: number [],
         modelId?: number [],
         regionId?: number [],

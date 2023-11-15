@@ -1,8 +1,7 @@
-import { paramsSerializer } from './../../utils/paramsSerializer';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 import { RootState } from 'redux/store';
-import { ISearchParams } from 'types/ISearchParam';
+
 
 export type KnownError = {
   errorMessage: string;
@@ -19,7 +18,7 @@ export const setAuthHeader = (token:string) => {
 export const fetchViewedCars = createAsyncThunk(
   'cars/getViewed',
   async (_, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState;;
+    const state = thunkAPI.getState() as RootState;
     const persistToken = state.auth.token;
     if (persistToken === null) {
       return thunkAPI.rejectWithValue('Unable to fetch user');
@@ -71,22 +70,3 @@ export const fetchPopularCars = createAsyncThunk(
 );
 
 
-export const fetchFiltredCars = createAsyncThunk(
-  'cars/getFiltredCar',
-  async (searchConfig:{page:number, searchParams:ISearchParams}, thunkAPI) => {
-    try {
-      const config = {
-        params: searchConfig.searchParams,
-        paramsSerializer
-      };
-      const response = await instance(`catalog/search/page/${searchConfig.page}/limit/6/`, config);
-      return response.data;
-    } catch (err) {
-      const error: AxiosError<KnownError> = err as any;
-      if (!error.response) {
-        throw err;
-      }
-      return thunkAPI.rejectWithValue({ errorMessage: error.response.data });
-    }
-  }
-);

@@ -4,14 +4,14 @@ import { CategoryBar } from 'components/CategoryBar/CategoryBar';
 import { useEffect, useState } from 'react';
 import { Dropdown } from 'components/Dropdown/Dropdown';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { getFilterBrands, getFilterModels, getFilterRegions, getFilterTypes } from 'redux/filter/selectors';
-import { fetchBrands, fetchModels, fetchRegions, fetchTypes } from 'redux/filter/operations';
+import { getFilterBrands, getFilterModels, getFilterRegions, getFilterTypes, getSelectedCars } from 'redux/filter/selectors';
+import { fetchBrands, fetchModels, fetchRegions, fetchTypes, fetchFiltredCars } from 'redux/filter/operations';
 import { IRegion } from 'types/IRegion';
 import { IType } from 'types/IType';
 import { IBrand } from 'types/IBrand';
 import { IModel } from 'types/IModel';
-import { fetchFiltredCars } from 'redux/cars/operations';
 import { ISearchParams } from 'types/ISearchParam';
+import { changeFiltredParams } from 'redux/filter/slice';
 
 export const HomeTop = () => {
     const dispatch = useAppDispatch();
@@ -19,11 +19,14 @@ export const HomeTop = () => {
     const categories: IType[] = useAppSelector(getFilterTypes)
     const brands: IBrand[] = useAppSelector(getFilterBrands)
     const models: IModel[] = useAppSelector(getFilterModels)
+    const selectedCars=useAppSelector(getSelectedCars)
     const [selectedCategory, setSelectedCategory] = useState<string>('Легкові')
+    const [transportTypeId, setTransportTypeId] = useState<number | null>(null)
     // select state for dropdown
     const [carMark, setCarMark] = useState<string | string[]>('Всі марки')
     const [carModel, setCarModel] = useState<string | string[]>('Всі моделі')
     const [selectedRegions, setSelectedRegions] = useState<string | string[]>('Всі регіон')
+    
 
     useEffect(() => {
         dispatch(fetchRegions())
@@ -37,6 +40,7 @@ export const HomeTop = () => {
 
     useEffect(() => {
         const type = categories.find(item => item.type === selectedCategory);
+        type && setTransportTypeId(type?.typeId)
         if (type) {
             dispatch(fetchBrands(type.typeId))
         }
@@ -55,7 +59,17 @@ export const HomeTop = () => {
     },[carMark])
 
     const getSearchResult=()=>{
-        const searchParams:Pick<ISearchParams, 'brandId' | 'modelId' | 'regionId'>={brandId:[7],modelId:[],regionId:[]}     
+        console.log(selectedCars.transportTypeId)
+        if(!selectedCars.transportTypeId){
+            return
+        }
+        // dispatch(changeFiltredParams({transportTypeId}))
+        const searchParams:Pick<ISearchParams, 'transportTypeId' | 'brandId' | 'modelId' | 'regionId'>={
+            transportTypeId:selectedCars.transportTypeId, 
+            brandId:selectedCars.brandId,
+            modelId:selectedCars.modelId,
+            regionId:selectedCars.regionId
+        }     
         const searchConfig = {
            page:0,
            searchParams

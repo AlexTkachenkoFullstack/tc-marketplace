@@ -1,5 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
+import { ISearchParams } from 'types/ISearchParam';
+import { paramsSerializer } from './../../utils/paramsSerializer';
 
 export type KnownError = {
   errorMessage: string;
@@ -81,3 +83,22 @@ export const fetchTypes = createAsyncThunk(
   );
 
   
+  export const fetchFiltredCars = createAsyncThunk(
+    'cars/getFiltredCar',
+    async (searchConfig:{page:number, searchParams:ISearchParams}, thunkAPI) => {
+      try {
+        const config = {
+          params: searchConfig.searchParams,
+          paramsSerializer
+        };
+        const response = await instance(`catalog/search/page/${searchConfig.page}/limit/6/`, config);
+        return response.data;
+      } catch (err) {
+        const error: AxiosError<KnownError> = err as any;
+        if (!error.response) {
+          throw err;
+        }
+        return thunkAPI.rejectWithValue({ errorMessage: error.response.data });
+      }
+    }
+  );
