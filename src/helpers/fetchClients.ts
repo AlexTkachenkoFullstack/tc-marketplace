@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const BASE_URL = 'https://backend-production-448a.up.railway.app/api/v1/main';
+const BASE_URL = 'http://api.pawo.space/api/v1/main';
 
 type RequestMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE';
 

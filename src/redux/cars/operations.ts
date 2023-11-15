@@ -9,7 +9,7 @@ export type KnownError = {
 };
 
 const instance = axios.create({
-  baseURL: 'http://134.209.230.247:8080/api/v1/',
+  baseURL: 'http://api.pawo.space/api/v1/',
 });
 
 export const setAuthHeader = (token:string) => {
