@@ -10,7 +10,7 @@ interface RestrictedRouteProps {
   }
  
  const RestrictedRoute:React.FC<RestrictedRouteProps> = ({component, redirectTo}) => { 
-  const auth: boolean = useAppSelector(isAuthUser)
+  const auth: string | null = useAppSelector(isAuthUser)
 
   return (
      <>
