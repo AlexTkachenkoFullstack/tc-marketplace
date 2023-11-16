@@ -126,7 +126,7 @@ export const SignUpPage: FC = () => {
 
     try {
       const URL =
-      'http://134.209.230.247:8080/api/v1/authorization/register';
+      'http://api.pawo.space/api/v1/authorization/register';
 
        await axios.post(URL, formData);
 
