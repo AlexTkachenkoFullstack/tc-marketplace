@@ -32,7 +32,7 @@ export const links = [
 ];
 
 export const Header: FC = () => {
-  const auth: string | null = useAppSelector(isAuthUser)
+  const auth: boolean = useAppSelector(isAuthUser)
   const dispatchLogout = useAppDispatch();
   // const [isMenuOpen, setIsMenuOpen] = useState(false);
   // const [activeLink, setActiveLink] = useState('');
