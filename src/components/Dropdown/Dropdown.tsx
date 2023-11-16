@@ -32,7 +32,7 @@ export const Dropdown: FC<Props> = (props) => {
         allOptionsLabel,
         option,
         carMark,
-        setOption
+        setOption,
     } = props;
 
     const [isActive, setIsActive] = useState(false);

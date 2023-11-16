@@ -40,13 +40,13 @@ export const loginThunk = createAsyncThunk(
 export const logoutThunk = createAsyncThunk(
   'auth/logout',
   async (_, thunkAPI) => {
-  // try {
+  try {
     const response= await instance.post('authorization/logout');
     console.log('res',response)
     delAuthHeader();
-  // } catch (err: any) {
-  //   console.error('err',err);
-  //   return thunkAPI.rejectWithValue({ errorMessage: 'Failed to log out' });
-  // }
+  } catch (err: any) {
+    console.error('err',err);
+    return thunkAPI.rejectWithValue({ errorMessage: 'Failed to log out' });
+  }
 });
 

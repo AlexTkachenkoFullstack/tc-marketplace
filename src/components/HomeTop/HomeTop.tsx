@@ -4,7 +4,7 @@ import { CategoryBar } from 'components/CategoryBar/CategoryBar';
 import { useEffect, useState } from 'react';
 import { Dropdown } from 'components/Dropdown/Dropdown';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { getFilterBrands, getFilterModels, getFilterRegions, getFilterTypes, getSelectedCars } from 'redux/filter/selectors';
+import { getFilterBrands, getFilterModels, getFilterRegions, getFilterTypes } from 'redux/filter/selectors';
 import { fetchBrands, fetchModels, fetchRegions, fetchTypes, fetchFiltredCars } from 'redux/filter/operations';
 import { IRegion } from 'types/IRegion';
 import { IType } from 'types/IType';
@@ -13,6 +13,8 @@ import { IModel } from 'types/IModel';
 import { ISearchParams } from 'types/ISearchParam';
 
 import {useNavigate } from 'react-router-dom';
+import { getArrayModelsOfId, getArrayOfId } from 'utils/getArrayOfId';
+import { changeFiltredParams, cleanFiltredStore } from 'redux/filter/slice';
 //import {Advancedsearch} from 'pages/AdvancedSearchPage/AdvancedSearch';
 
 export const HomeTop = () => {
@@ -21,15 +23,15 @@ export const HomeTop = () => {
     const categories: IType[] = useAppSelector(getFilterTypes)
     const brands: IBrand[] = useAppSelector(getFilterBrands)
     const models: IModel[] = useAppSelector(getFilterModels)
-    const selectedCars=useAppSelector(getSelectedCars)
     const [selectedCategory, setSelectedCategory] = useState<string>('Легкові')
     const [transportTypeId, setTransportTypeId] = useState<number | null>(null)
     // select state for dropdown
     const [carMark, setCarMark] = useState<string | string[]>('Всі марки')
+    const [brandId, setBrandId] = useState<number []| []>([])
     const [carModel, setCarModel] = useState<string | string[]>('Всі моделі')
     const [selectedRegions, setSelectedRegions] = useState<string | string[]>('Всі регіон')
-    
-console.log(transportTypeId)
+ 
+
     useEffect(() => {
         dispatch(fetchRegions())
         dispatch(fetchTypes())
@@ -37,6 +39,7 @@ console.log(transportTypeId)
 
     const handleSelectCategory = (category: string) => {
         setCarMark('Всі марки')
+        setBrandId([])
         setSelectedCategory(category);
     }
 
@@ -52,6 +55,7 @@ console.log(transportTypeId)
         const type = categories.find(item => item.type === selectedCategory);
         const brand = brands.find(item => item.brand === carMark)
         if (type && brand) {
+            setBrandId([brand?.brandId])
             dispatch(fetchModels({ transportTypeId: type?.typeId, transportBrandId: brand?.brandId }))
         }
     }, [brands, carMark, categories, dispatch, selectedCategory])
@@ -61,16 +65,15 @@ console.log(transportTypeId)
     },[carMark])
 
     const getSearchResult=()=>{
-        console.log(selectedCars.transportTypeId)
-        if(!selectedCars.transportTypeId){
-            return
-        }
-        // dispatch(changeFiltredParams({transportTypeId}))
+        dispatch(cleanFiltredStore())
+        const regionId=getArrayOfId(regions, selectedRegions)
+        const modelId=getArrayModelsOfId(models,carModel)
+        dispatch(changeFiltredParams({transportTypeId, brandId, modelId, regionId}))
         const searchParams:Pick<ISearchParams, 'transportTypeId' | 'brandId' | 'modelId' | 'regionId'>={
-            transportTypeId:selectedCars.transportTypeId, 
-            brandId:selectedCars.brandId,
-            modelId:selectedCars.modelId,
-            regionId:selectedCars.regionId
+            transportTypeId, 
+            brandId,
+            modelId,
+            regionId
         }     
         const searchConfig = {
            page:0,
@@ -125,6 +128,7 @@ console.log(transportTypeId)
                                 option={carModel}
                                 setOption={setCarModel} 
                                 carMark={carMark}
+                           
                                 />
 
                             <Dropdown
@@ -135,7 +139,7 @@ console.log(transportTypeId)
                                 allOptionsLabel='Вся Україна'
                                 option={selectedRegions}
                                 setOption={setSelectedRegions}
-
+                               
                             />
                         </div>
 
