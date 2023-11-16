@@ -93,7 +93,7 @@ export const HomeTop = () => {
             <div className={styles.container}>
                 <div className={styles.centered_container}>
                     <h2 className={styles.title}>
-                        Title
+                        Your marketplace
                     </h2>
 
                     <CategoryBar
