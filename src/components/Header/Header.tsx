@@ -42,6 +42,7 @@ export const Header: FC = () => {
   // };
 
   const handleLogout = () => {
+    console.log(auth)
        dispatchLogout(logoutThunk())
   }
 
@@ -72,7 +73,7 @@ export const Header: FC = () => {
           <img src={point} className={styles.header__favorite_button_point} />
         </button>
 
-        {!auth
+        {auth
         ? (
           <div className={styles.header__auth_container}>
               <NavLink to="/user" >

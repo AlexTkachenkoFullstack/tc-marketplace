@@ -23,7 +23,7 @@ export const NewPasswordPage: FC = () => {
       if (email && token) {
         try {
           const response = await axios.get(
-            `http://134.209.230.247:8080/api/v1/authorization/reset-password?email=${email}&token=${token}`
+            `http://api.pawo.space/api/v1/authorization/reset-password?email=${email}&token=${token}`
           );
           if (response.status === 200) {
             console.log('Account has been verified');
@@ -54,7 +54,7 @@ export const NewPasswordPage: FC = () => {
 
   const handleSubmit = async () => {
     try {
-      const URL = 'https://backend-production-7a95.up.railway.app/api/v1/authorization/reset-password';
+      const URL = 'http://api.pawo.space/api/v1/authorization/reset-password';
       const email = searchParams.get('email') as string;
       const formData = {
         email: email,

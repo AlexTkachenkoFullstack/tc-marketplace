@@ -6,7 +6,7 @@ export type KnownError = {
 };
 
 const instance = axios.create({
-  baseURL: 'http://134.209.230.247:8080/api/v1/',
+  baseURL: 'http://api.pawo.space/api/v1/',
 });
 
 export const setAuthHeader = (token:string) => {
@@ -41,10 +41,11 @@ export const logoutThunk = createAsyncThunk(
   'auth/logout',
   async (_, thunkAPI) => {
   try {
-    // await instance.    нужен эндпоинт;
+    const response= await instance.post('authorization/logout');
+    console.log('res',response)
     delAuthHeader();
   } catch (err: any) {
-    console.error(err);
+    console.error('err',err);
     return thunkAPI.rejectWithValue({ errorMessage: 'Failed to log out' });
   }
 });

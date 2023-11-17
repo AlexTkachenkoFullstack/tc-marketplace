@@ -5,13 +5,17 @@ import { useEffect, useState } from 'react';
 import { Dropdown } from 'components/Dropdown/Dropdown';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { getFilterBrands, getFilterModels, getFilterRegions, getFilterTypes } from 'redux/filter/selectors';
-import { fetchBrands, fetchModels, fetchRegions, fetchTypes } from 'redux/filter/operations';
+import { fetchBrands, fetchModels, fetchRegions, fetchTypes, fetchFiltredCars } from 'redux/filter/operations';
 import { IRegion } from 'types/IRegion';
 import { IType } from 'types/IType';
 import { IBrand } from 'types/IBrand';
 import { IModel } from 'types/IModel';
-import { fetchFiltredCars } from 'redux/cars/operations';
 import { ISearchParams } from 'types/ISearchParam';
+
+import {useNavigate } from 'react-router-dom';
+import { getArrayModelsOfId, getArrayOfId } from 'utils/getArrayOfId';
+import { changeFiltredParams, cleanFiltredStore } from 'redux/filter/slice';
+//import {Advancedsearch} from 'pages/AdvancedSearchPage/AdvancedSearch';
 
 export const HomeTop = () => {
     const dispatch = useAppDispatch();
@@ -20,10 +24,13 @@ export const HomeTop = () => {
     const brands: IBrand[] = useAppSelector(getFilterBrands)
     const models: IModel[] = useAppSelector(getFilterModels)
     const [selectedCategory, setSelectedCategory] = useState<string>('Легкові')
+    const [transportTypeId, setTransportTypeId] = useState<number | null>(null)
     // select state for dropdown
     const [carMark, setCarMark] = useState<string | string[]>('Всі марки')
+    const [brandId, setBrandId] = useState<number []| []>([])
     const [carModel, setCarModel] = useState<string | string[]>('Всі моделі')
     const [selectedRegions, setSelectedRegions] = useState<string | string[]>('Всі регіон')
+ 
 
     useEffect(() => {
         dispatch(fetchRegions())
@@ -32,11 +39,13 @@ export const HomeTop = () => {
 
     const handleSelectCategory = (category: string) => {
         setCarMark('Всі марки')
+        setBrandId([])
         setSelectedCategory(category);
     }
 
     useEffect(() => {
         const type = categories.find(item => item.type === selectedCategory);
+        type && setTransportTypeId(type?.typeId)
         if (type) {
             dispatch(fetchBrands(type.typeId))
         }
@@ -46,6 +55,7 @@ export const HomeTop = () => {
         const type = categories.find(item => item.type === selectedCategory);
         const brand = brands.find(item => item.brand === carMark)
         if (type && brand) {
+            setBrandId([brand?.brandId])
             dispatch(fetchModels({ transportTypeId: type?.typeId, transportBrandId: brand?.brandId }))
         }
     }, [brands, carMark, categories, dispatch, selectedCategory])
@@ -55,7 +65,16 @@ export const HomeTop = () => {
     },[carMark])
 
     const getSearchResult=()=>{
-        const searchParams:Pick<ISearchParams, 'brandId' | 'modelId' | 'regionId'>={brandId:[7],modelId:[],regionId:[]}     
+        dispatch(cleanFiltredStore())
+        const regionId=getArrayOfId(regions, selectedRegions)
+        const modelId=getArrayModelsOfId(models,carModel)
+        dispatch(changeFiltredParams({transportTypeId, brandId, modelId, regionId}))
+        const searchParams:Pick<ISearchParams, 'transportTypeId' | 'brandId' | 'modelId' | 'regionId'>={
+            transportTypeId, 
+            brandId,
+            modelId,
+            regionId
+        }     
         const searchConfig = {
            page:0,
            searchParams
@@ -63,12 +82,18 @@ export const HomeTop = () => {
         dispatch(fetchFiltredCars(searchConfig))
     }
 
+    const navigate = useNavigate();
+
+    const handleAdvancedSearchClick = () => {
+        navigate('/advanced-search');
+    };
+
     return (
         <div className={styles.homeTop}>
             <div className={styles.container}>
                 <div className={styles.centered_container}>
                     <h2 className={styles.title}>
-                        Title
+                        Your marketplace
                     </h2>
 
                     <CategoryBar
@@ -103,6 +128,7 @@ export const HomeTop = () => {
                                 option={carModel}
                                 setOption={setCarModel} 
                                 carMark={carMark}
+                           
                                 />
 
                             <Dropdown
@@ -113,7 +139,7 @@ export const HomeTop = () => {
                                 allOptionsLabel='Вся Україна'
                                 option={selectedRegions}
                                 setOption={setSelectedRegions}
-
+                               
                             />
                         </div>
 
@@ -122,7 +148,10 @@ export const HomeTop = () => {
                                 <span className={styles.search_button_text}>Шукати</span>
                                 <img src={arrow} alt="search" />
                             </button>
-                            <button className={styles.search_more}>Розширений пошук</button>
+
+                            <button className={styles.search_more} onClick={handleAdvancedSearchClick}>Розширений пошук</button>
+                           
+                            
                         </div>
                     </div>
 
