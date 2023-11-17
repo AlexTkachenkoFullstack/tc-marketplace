@@ -5,7 +5,12 @@ type Props = {
     min: number,
     max: number,
     minDistance?: number
-    placeholder?: string
+    placeholder?: string,
+    minValue: number,
+    maxValue: number,
+    setMinValue: (newValue: number) => void,
+    setMaxValue: (newValue: number) => void
+
 }
 
 type InputProps = {
@@ -36,12 +41,12 @@ const NumInput = ({ value,
     )
 }
 
-export default function InputRange({ min, max, minDistance = 100, placeholder }: Props) {
+export default function InputRange({ min, max, minDistance = 100, placeholder, maxValue, minValue, setMaxValue, setMinValue }: Props) {
     const startMin = min + max * 0.1
     const startMax = max - max * 0.1
 
-    const [minValue, setMinValue] = useState(startMin)
-    const [maxValue, setMaxValue] = useState(startMax)
+    // const [minValue, setMinValue] = useState(startMin)
+    // const [maxValue, setMaxValue] = useState(startMax)
 
 
     const inputHandler = (e: React.ChangeEvent<HTMLInputElement>, valueChangeFunc: (newValue: number) => void) => {
@@ -139,22 +144,3 @@ export default function InputRange({ min, max, minDistance = 100, placeholder }:
         </div>
     )
 }
-
-// const maxValueChange = (newValue: number) => {
-//     if (newValue - minDistance <= minValue) {
-//         const diference = minValue + minDistance - newValue
-//         if (minValue - diference <= 0) {
-//             setMinValue(min)
-//             setMaxValue(min + minDistance)
-//             return
-//         }
-//         setMinValue(prev => prev - diference)
-//         setMaxValue(newValue)
-//         return
-//     }
-//     if (newValue > max) {
-//         setMaxValue(max)
-//         return
-//     }
-//     setMaxValue(newValue)
-// }

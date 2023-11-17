@@ -98,7 +98,7 @@ export default function CatalogCard({ car }: Props) {
                 <img alt='car_image' src={car?.fileUrl || 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg'} className={styles.image} />
                 <div className={styles.header}>
                     <div>
-                        <p className={styles.title}>{`${car?.brand} ${car?.model || 'Model'}`}</p>
+                        <p className={styles.title}>{`${car?.brand || 'brand'} ${car?.model || 'Model'}`}</p>
                         <p className={styles.price}>{getPriceString(car?.price || 2000000 /* 20000 temp value for test, this should delete */)}</p>
                     </div>
                     <div>
@@ -127,7 +127,7 @@ export default function CatalogCard({ car }: Props) {
                 </div>
                 <div className={styles.description}>
                     <div className={styles.properties}>
-                        <CardProperty icon={add} name={mileageToString(car!.mileage) || 'no mileage'} />
+                        <CardProperty icon={add} name={car?.mileage ? mileageToString(car!.mileage) : 'no mileage'} />
                         <CardProperty icon={add} name={car?.city || 'city'} />
                         <CardProperty icon={add} name={car?.fuelType || 'Fuel type'} />
                         <CardProperty icon={add} name={car?.transmission || 'transmission'} />

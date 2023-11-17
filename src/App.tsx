@@ -13,7 +13,6 @@ import { ConfirmEmailPage } from 'pages/LoginPage/ConfirmEmailPage/ConfirmEmailP
 import { RecoverPasswordPage } from 'pages/LoginPage/RecoverPasswordPage/RecoverPasswordPage';
 import { NewPasswordPage } from 'pages/LoginPage/NewPasswordPage/NewPasswordPage';
 import RestrictedRoute from 'components/RestrictedRoute';
-import UserPageCard from 'components/UserPageCard/UserPageCard';
 // import { useAppDispatch } from 'redux/hooks';
 // import { loginThunk } from 'redux/auth/operations';
 
@@ -24,6 +23,7 @@ export const App: React.FC = () => {
                 <Route path="/" element={<Layout />}>
                     <Route index element={<HomePage />} />
                     <Route path="home" element={<Navigate to="/" replace />} />
+                    <Route path="user" element={<UserPage />} />
                     <Route path="login/" element={<LoginLayout />}>
                         <Route path="sign-up" element={<RestrictedRoute redirectTo='/' component={<SignUpPage />} />} />
                         <Route path="log-in" element={<RestrictedRoute redirectTo='/' component={<LoginPage />} />} />

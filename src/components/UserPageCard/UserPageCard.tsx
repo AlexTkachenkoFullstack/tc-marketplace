@@ -11,8 +11,20 @@ import add from 'assets/icons/add.svg'
 import { ICar } from 'types/IСar'
 import { CardProperty } from 'components/CardProperty/CardProperty'
 
-type Props = {
-    // car: ICar
+type CardProps = {
+    car: {
+        fileUrl: string;
+        // title: string;
+        brand: string,
+        model: string,
+        price: number;
+        views: number;
+        phoneViews: number;
+        likes: number;
+        created: string;
+        updated: string;
+        description: string;
+    }
 }
 const car: ICar = {
     id: 1234123,
@@ -33,8 +45,8 @@ const car: ICar = {
 
 
 export default function UserPageCard({
-    // car
-}: Props) {
+    car
+}: CardProps) {
 
 
     const getPriceString = (number: number) => {
@@ -90,13 +102,13 @@ export default function UserPageCard({
                 <div className={styles.properties}>
                     {/* to do */}
                     {/* change property params when will be correct type or interface */}
-                    <CardProperty icon={eyeOpen} name={`${car.mileage} переглядів` || 'нема переглядів'} />
+                    <CardProperty icon={eyeOpen} name={`${car.views} переглядів` || 'нема переглядів'} />
                     {/* to do */}
                     {/* change property params when will be correct type or interface */}
-                    <CardProperty icon={add} name={`${car.engineDisplacement}` || 'нема показів телефону'} />
+                    <CardProperty icon={add} name={`${car.phoneViews}` || 'нема показів телефону'} />
                     {/* to do */}
                     {/* change property params when will be correct type or interface */}
-                    <CardProperty icon={favorite} name={car.mileage.toString()} />
+                    <CardProperty icon={favorite} name={car.likes.toString()} />
                     {/* to do */}
                     {/* change property params when will be correct type or interface */}
                     <CardProperty icon={clockSvg} name={getDateString(car.created)} />
@@ -104,7 +116,7 @@ export default function UserPageCard({
                     {/* change property params when will be correct type or interface 
                     Contact with backend and consult about car update date
                     */}
-                    <CardProperty icon={clockSvg} name={getDateString(car.created)} />
+                    <CardProperty icon={clockSvg} name={getDateString(car.updated)} />
                 </div>
                 <p className={styles.description__text}>
                     {car?.description}
