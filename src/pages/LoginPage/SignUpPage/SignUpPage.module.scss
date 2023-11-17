@@ -17,7 +17,7 @@
   }
 
   &_title {
-    @include form-title-styles;
+    @include title-styles;
 
     @media (min-width: 1024px) {
       font-size: 44px;
@@ -27,7 +27,7 @@
   &_label {
     position: absolute;
     top: -8px;
-    color: $color-gray;
+    color: $hover-gray;
     @extend %form-label;
 
     &_red{

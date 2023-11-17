@@ -1,6 +1,8 @@
 @import '../../styles/main.scss';
 
 .header {
+  position: fixed;
+  width: 100vw;
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
@@ -8,6 +10,7 @@
   height: 56px;
   padding: 8px 20px;
   background-color: $white-color;
+  z-index: 3;
 
   @media (min-width: 768px) {
     height: 68px;
@@ -93,6 +96,17 @@
   &_icon {
     font-size: 16px;
   }
+}
+
+&__auth_container{
+  display: flex;
+  align-items: center;
+}
+
+&__login_icon{
+  width:24px;
+  height: 24px;
+  cursor: pointer;
 }
 
   &__favorite_button,

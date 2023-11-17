@@ -18,7 +18,8 @@ type Props = {
     isDissabled?: boolean,
     option: string | string[],
     setOption: React.Dispatch<React.SetStateAction<string | string[]>>,
-    allOptionsLabel?: string
+    allOptionsLabel?: string,
+    carMark?: string | string[],
 };
 
 export const Dropdown: FC<Props> = (props) => {
@@ -30,7 +31,8 @@ export const Dropdown: FC<Props> = (props) => {
         isDissabled,
         allOptionsLabel,
         option,
-        setOption
+        carMark,
+        setOption,
     } = props;
 
     const [isActive, setIsActive] = useState(false);
@@ -39,6 +41,12 @@ export const Dropdown: FC<Props> = (props) => {
     const [checkedValue, setCheckedValue] = useState<string[]>([]);
 
     const dropdownRef = useRef<HTMLDivElement>(null);
+
+    useEffect(()=>{
+        setCheckedValue([])
+    },[carMark])
+        
+    
 
     const setChecked = (newOption: string) => {
         const newState = [...checkedValue, newOption]
@@ -113,7 +121,7 @@ export const Dropdown: FC<Props> = (props) => {
 
     useEffect(() => {
         setOption(startValue);
-    }, [startValue]);
+    }, [setOption, startValue]);
 
     return (
         <div

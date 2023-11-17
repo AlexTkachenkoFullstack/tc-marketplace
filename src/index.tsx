@@ -11,7 +11,7 @@ const root = createRoot(container);
 root.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <Router>
+      <Router >
         <App />
       </Router>
     </PersistGate>

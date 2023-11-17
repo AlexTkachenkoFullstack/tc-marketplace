@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction, isAnyOf} from '@reduxjs/toolkit';
-import { fetchBrands, fetchModels, fetchRegions, fetchTypes } from './operations';
+import { fetchBrands, fetchFiltredCars, fetchModels, fetchRegions, fetchTypes } from './operations';
 import { IType } from 'types/IType';
 import { IRegion } from 'types/IRegion';
 import { IBrand } from 'types/IBrand';
 import { IModel } from 'types/IModel';
+import { ICar } from 'types/IСar';
 
 interface IFilterState {
     regions:IRegion[] | [],
@@ -12,6 +13,13 @@ interface IFilterState {
     models:IModel[] | [],
     error: unknown;
     isLoading:boolean;
+    select:{
+      transportTypeId:number | null;
+      brandId:number []| null;
+      modelId:number[] | [];
+      regionId:number[] | [];
+    },
+    filtredCars:ICar[] | []
   }
 
 const initialState:IFilterState = {
@@ -19,6 +27,13 @@ const initialState:IFilterState = {
     types:[],
     brand:[],
     models:[],
+    select:{
+      transportTypeId:null,
+      brandId:[],
+      modelId:[],
+      regionId:[]
+    },
+    filtredCars:[],
     error: null,
     isLoading: false,
   };
@@ -56,17 +71,31 @@ const handleFulfildGetModels=(state:IFilterState, action: PayloadAction<IModel[]
     state.models = action.payload; 
     }
 
+const handleFulfildGetFiltredCars=(state:IFilterState, action: PayloadAction<ICar[]>) => {
+      state.isLoading = false;
+      state.error = null;
+      state.filtredCars = [...state.filtredCars, ...action.payload]; 
+      } 
+
 export const filterSlice = createSlice({
     name: 'filter',
     initialState,
-    reducers: {},
+    reducers: {
+      changeFiltredParams(state, action: PayloadAction<{transportTypeId:number | null} | {brandId:number [] | null} | {modelId:number[]} | {regionId:number[]}>) {
+        state.select = {...state.select, ...action.payload};
+      },
+      cleanFiltredStore(state){state.filtredCars=[]}
+    },
     extraReducers: (builder) => {
         builder
           .addCase(fetchRegions.fulfilled, handleFulfildGetRegions)
           .addCase(fetchTypes.fulfilled, handleFulfildGetTypes)
           .addCase(fetchBrands.fulfilled, handleFulfildGetBrands)
           .addCase(fetchModels.fulfilled, handleFulfildGetModels)
-          .addMatcher(isAnyOf(fetchRegions.pending,fetchTypes.pending, fetchBrands.pending, fetchModels.pending), handlePending)
-          .addMatcher(isAnyOf(fetchRegions.rejected, fetchTypes.rejected, fetchBrands.rejected, fetchModels.rejected), handleRejected)
+          .addCase(fetchFiltredCars.fulfilled, handleFulfildGetFiltredCars)
+          .addMatcher(isAnyOf(fetchRegions.pending,fetchTypes.pending, fetchBrands.pending, fetchModels.pending, fetchFiltredCars.pending), handlePending)
+          .addMatcher(isAnyOf(fetchRegions.rejected, fetchTypes.rejected, fetchBrands.rejected, fetchModels.rejected, fetchFiltredCars.rejected), handleRejected)
       },
   });
+
+  export const { changeFiltredParams, cleanFiltredStore } = filterSlice.actions;

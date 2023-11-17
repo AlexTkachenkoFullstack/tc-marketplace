@@ -42,6 +42,7 @@ export const Header: FC = () => {
   // };
 
   const handleLogout = () => {
+    console.log(auth)
        dispatchLogout(logoutThunk())
   }
 
@@ -54,9 +55,7 @@ export const Header: FC = () => {
         <Logo className={styles.header__logo} />
 
         <nav className={styles.header__nav}>
-        <NavLink to="/user">
-               Link
-          </NavLink>
+          <a className={styles.header__nav_link} href="#">Link</a>
           <a className={styles.header__nav_link} href="#">Link</a>
           <a className={styles.header__nav_link} href="#">Link</a>
           <a className={styles.header__nav_link} href="#">Link</a>
@@ -76,12 +75,17 @@ export const Header: FC = () => {
 
         {auth
         ? (
-          <button
-            className={styles.header__login_button}
-            onClick={handleLogout}
-          >
-                <img className={styles.header__login_icon} src={account} alt="Акаунт" /> Вийти
-          </button>
+          <div className={styles.header__auth_container}>
+              <NavLink to="/user" >
+                <img className={styles.header__login_icon} src={account} alt="Акаунт" />
+              </NavLink>
+              <button
+                className={styles.header__login_button}
+                onClick={handleLogout}
+              >
+                <span className={styles.header__login_text}>Вийти</span>
+               </button>
+          </div>
           )
         :  (
            <NavLink to="/login/log-in" className={styles.header__login_button}>

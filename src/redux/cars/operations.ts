@@ -2,12 +2,13 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 import { RootState } from 'redux/store';
 
+
 export type KnownError = {
   errorMessage: string;
 };
 
 const instance = axios.create({
-  baseURL: 'http://138.68.113.54:8080/api/v1/',
+  baseURL: 'http://api.pawo.space/api/v1/',
 });
 
 export const setAuthHeader = (token:string) => {
@@ -17,7 +18,7 @@ export const setAuthHeader = (token:string) => {
 export const fetchViewedCars = createAsyncThunk(
   'cars/getViewed',
   async (_, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState;;
+    const state = thunkAPI.getState() as RootState;
     const persistToken = state.auth.token;
     if (persistToken === null) {
       return thunkAPI.rejectWithValue('Unable to fetch user');
@@ -67,3 +68,6 @@ export const fetchPopularCars = createAsyncThunk(
     }
   }
 );
+
+
+
