@@ -8,7 +8,7 @@ import DeactivatedCard from './Card/DeactivatedCard';
 import DeletedCard from './Card/DeletedCard';
 import { useAppSelector } from 'redux/hooks';
 import { getToken } from 'redux/auth/selectors';
-import { ICar } from 'types/IСar';
+import { IAd } from 'types/IAd';
 
 enum Tab {
   active,
@@ -32,10 +32,10 @@ const setAuthHeader = (token:string) => {
 
 const MyAds: React.FC = () => {
   const [activeTab, setActiveTab] = useState<Tab>(Tab.active);
-  const [activeCars, setActiveCars]=useState<ICar[] | []>([]);
-  const [deletedCars, setDeletedCars]=useState<ICar[] | []>([]);
-  const [pendingCars, setPendingCars]=useState<ICar[] | []>([]);
-  const [inactiveCars, setInactiveCars]=useState<ICar[] | []>([])
+  const [activeCars, setActiveCars]=useState<IAd[] | []>([]);
+  const [deletedCars, setDeletedCars]=useState<IAd[] | []>([]);
+  const [pendingCars, setPendingCars]=useState<IAd[] | []>([]);
+  const [inactiveCars, setInactiveCars]=useState<IAd[] | []>([])
   const token=useAppSelector(getToken)
 
   useEffect(()=>{
