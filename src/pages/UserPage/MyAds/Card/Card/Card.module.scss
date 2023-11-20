@@ -1,124 +1,166 @@
-@import '../../../../../styles/utils/variables';
+@import '/src/styles/main.scss';
 
-.card {
-  display: flex;
-  flex-direction: row;
-  background: transoarent;
-  //width: 100%; 
-  padding: 10px;
-  height: 284px;
+.container {
+  display: grid;
+  position: relative;
+  //   max-width: 994px;
+  width: 100%;
+  row-gap: 12px;
+  column-gap: 16px;
+  margin-bottom: 24px;
+  margin: 0 auto;
+  grid-template-columns: minmax(280px, 1fr);
+  grid-template-areas: 'image''header''description';
   margin-bottom: 24px;
 
   &:hover {
-    background: #f7f7f7;
+    background: $white-color;
     border-radius: 8px;
   }
 
-  &_img {
-    height: 100%;
-    border-radius: 8px;
-    width: 384px;
+  @include onTablet {
+    padding: 0;
+    height: 280px;
+    grid-template-columns: 384px 1fr;
+    grid-template-rows: min-content 1fr;
+    grid-template-areas: 'image header''image description';
   }
+}
 
-  &_info {
-    display: flex;
-    flex-direction: column;
-    padding: 0px 16px;
+.image {
+  grid-area: image;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  margin: 0 auto;
+  flex-shrink: 0;
+  background-color: $color-grey;
+}
 
-    &_title {
-      color: var(--Black, #434343);
-      font-family: Roboto;
-      font-size: 22px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 120%;
-    }
+.header {
+  grid-area: header;
+  display: flex;
+  justify-content: space-between;
+}
 
-    &_price {
-      color: var(--Black, #434343);
-      font-family: Roboto;
-      font-size: 22px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 120%;
-      padding: 12px 0px;
-    }
+.header {
+  grid-area: header;
+  display: flex;
+  justify-content: space-between;
+}
 
-    &_meta {
-      display: flex;
-      gap: 16px;
-      color: var(--Dark-Gray, #606060);
+.title {
 
-      /* text */
-      font-family: Roboto;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 20px;
-      letter-spacing: 0.15px;
-    }
 
-    &_views,
-    &_phoneViews,
-    &_likes,
-    &_createdAt,
-    &_updatedAt {
-      display: flex;
-      flex-wrap: nowrap;
-      gap: 8px;
-    }
+  font-family: Roboto;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 110%;
+  cursor: pointer;
+  overflow: hidden;
 
-    &_description {
-      color: var(--Black, #434343);
-      font-family: Roboto;
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 24px;
-      letter-spacing: 0.5px;
-      // padding: 12px 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  flex: 1 0 0;
 
-      max-height: 128px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-
-      display: -webkit-box;
-      -webkit-line-clamp: 5;
-      -webkit-box-orient: vertical;
-    }
+  @include onTablet {
+    margin-bottom: 12px;
+    color: $color-grey;
+    font-family: Roboto;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+    max-height: 52px;
 
   }
 
-
-  .description__buttons {
-    display: flex;
-    gap: 12px;
-
-
+  &:hover {
+    text-decoration: underline;
   }
 
-  .button {
-    color: var(--Color, #797979);
-    text-align: center;
+}
 
+.price {
+  color: $color-grey;
+  font-family: Roboto;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+
+}
+
+.description {
+  grid-area: description;
+
+}
+
+.properties {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+
+  @include onTablet {
+    justify-content: flex-start;
+  }
+}
+
+.description__text {
+  display: -webkit-box;
+  margin-bottom: 12px;
+  height: 75px;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  color: $color-grey;
+  //   max-width: 544px;
+
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+
+  @include onTablet {
+    height: 118px;
+    -webkit-line-clamp: 5;
+  }
+}
+
+
+.description__buttons {
+  display: flex;
+  gap: 12px;
+
+  &>button {
+    outline: none;
+    border: none;
     font-family: Roboto;
     font-size: 14px;
     font-style: normal;
     font-weight: 600;
     line-height: 20px;
     letter-spacing: 0.1px;
-    padding: 10px 12px;
-    border: none;
     border-radius: 24px;
-
-    &:hover {
-      background: #E4E4E4;
-      color: #434343;
-    }
   }
+}
 
+.button_primary {
+  padding: 10px 12px;
+  background: $background-color-white;
+  color: $color-gray;
+}
 
-  .icon {
-    width: 16px;
-    height: 16px;
-  }
+.button_secondary {
+  padding: 10px 8px;
+  background: $white-color;
+  color: $hover-gray;
+
+}
