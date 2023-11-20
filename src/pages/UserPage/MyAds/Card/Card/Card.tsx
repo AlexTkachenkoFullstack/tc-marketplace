@@ -4,14 +4,14 @@ import eye from 'assets/icons/eye-open.svg';
 import empty from 'assets/icons/empty_icon.svg';
 import favorite from 'assets/icons/favorite.svg';
 import clock from 'assets/icons/clock.svg';
+import { ICar } from 'types/IСar';
+import { convertDate } from 'utils/convertDate';
 
 export interface CardProps {
     data: {
         imageUrl: string;
-        // title: string;
-        brand: string,
-        model: string,
-        price: number;
+        title: string;
+        price: string;
         views: number;
         phoneViews: number;
         likes: number;
@@ -33,8 +33,7 @@ const Card: React.FC<CardProps> = ({ data }) => {
             <div className={styles.card}>
                 <img src={data.imageUrl} alt="Car_image" className={styles.card_img} />
                 <div className={styles.card_info}>
-                    {/* <h3 className={styles.card_info_title}>{data.title}</h3> */}
-                    <h3 className={styles.card_info_title}>{`${data.brand || ""} ${data.model || ''}`}</h3>
+                    <h3 className={styles.card_info_title}>{data.title}</h3>
                     <p className={styles.card_info_price}>{data.price}</p>
                     <div className={styles.card_info_meta}>
                         <div className={styles.card_info_views}>

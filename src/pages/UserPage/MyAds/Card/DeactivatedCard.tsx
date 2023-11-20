@@ -1,13 +1,13 @@
 import React from 'react';
 import Card, { CardProps } from './Card/Card';
+import Card from './Card/Card';
 import styles from '../MyAds.module.scss';
 
 const dataArray: CardProps['data'][] = [
     {
         imageUrl: "https://images.unsplash.com/photo-1597353946119-888dbb405217?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        brand: 'Volkswagen',
-        model: 'Touareg',
-        price: 71500,
+        title: "Volkswagen Touareg 2021",
+        price: "71 500 $",
         views: 60,
         phoneViews: 32,
         likes: 0,
@@ -17,9 +17,8 @@ const dataArray: CardProps['data'][] = [
     },
     {
         imageUrl: "https://images.unsplash.com/photo-1597353946119-888dbb405217?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        brand: 'Volkswagen',
-        model: 'Touareg',
-        price: 71500,
+        title: "Volkswagen Touareg 2021",
+        price: "71 500 $",
         views: 60,
         phoneViews: 32,
         likes: 0,
