@@ -139,7 +139,6 @@ export const HomeTop = () => {
                                 allOptionsLabel='Вся Україна'
                                 option={selectedRegions}
                                 setOption={setSelectedRegions}
-                               
                             />
                         </div>
 
@@ -150,8 +149,6 @@ export const HomeTop = () => {
                             </button>
 
                             <button className={styles.search_more} onClick={handleAdvancedSearchClick}>Розширений пошук</button>
-                           
-                            
                         </div>
                     </div>
 
