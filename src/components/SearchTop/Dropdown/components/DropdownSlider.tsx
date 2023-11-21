@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
-import cyrillicToTranslit from 'cyrillic-to-translit-js';
 import styles from './DropdownSlider.module.scss';
 import arrowDown from '../../../../assets/icons/arrow-down.svg';
 import close from '../../../../assets/icons/close.svg';
-import {
-  DropdownInfoOption,
-  DropdownNoMatchOption,
-  DropdownOption,
-  DropdownSelectAllOption,
-} from './DropdownOptions';
 
 type Props = {
     nameType: string;
@@ -17,11 +10,6 @@ type Props = {
 
 export default function DropdownSlider({ nameType }: Props) {
   const [isActive, setIsActive] = useState(false);
-
-  const closeDropdown = () => {
-    setIsActive(false);
-    
-  };
 
   return (
     <div className={styles.container}>

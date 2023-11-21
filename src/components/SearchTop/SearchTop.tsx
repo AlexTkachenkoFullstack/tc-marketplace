@@ -6,9 +6,9 @@ import DropdownSlider  from './Dropdown/components/DropdownSlider'
 import DropdownBtn from './Dropdown/components/DropdownBtn'
 import { IRegion } from 'types/IRegion';
 import { IType } from 'types/IType';
-import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { getFilterBrands, getFilterModels, getFilterRegions, getFilterTypes } from 'redux/filter/selectors';
+import {useState } from 'react';
+import {useAppSelector } from 'redux/hooks';
+import {getFilterRegions, getFilterTypes } from 'redux/filter/selectors';
 
 type Props = {
   setIsActive: React.Dispatch<React.SetStateAction<boolean>>;

@@ -25,7 +25,6 @@ type Props = {
 
 export const DropdownSearch: FC<Props> = (props) => {
     const {
-        label,
         startValue,
         options,
         checkboxAllowed,
@@ -90,10 +89,6 @@ export const DropdownSearch: FC<Props> = (props) => {
         if (length === 1) return option[0]
         if (length > 1 && length < 5) return `Обрано ${length} варіанти`
         return `Обрано ${length} варіантів`
-    }
-
-    const filterValueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setfilterValue(e.target.value)
     }
 
     const checkboxHandler = (currentOption: string) => {

@@ -1,16 +1,5 @@
 import React, { useState } from 'react';
-import cyrillicToTranslit from 'cyrillic-to-translit-js';
 import styles from './DropdownBtn.module.scss';
-import arrowDown from '../../../../assets/icons/arrow-down.svg';
-import close from '../../../../assets/icons/close.svg';
-
-import AdvSearchBottom from '../../../../pages/AdvancedSearchPage/AdvSearchBottom/AdvSearchBottom'
-import {
-  DropdownInfoOption,
-  DropdownNoMatchOption,
-  DropdownOption,
-  DropdownSelectAllOption,
-} from './DropdownOptions';
 
 type Props = {
     nameType: string;
@@ -19,11 +8,6 @@ type Props = {
 
 export default function DropdownBtn({ nameType}: Props) {
   const [isActive, setIsActive] = useState(false);
-
-  const closeDropdown = () => {
-    setIsActive(false);
-    
-  };
 
   return (
     <div className={styles.container}>
@@ -41,8 +25,6 @@ export default function DropdownBtn({ nameType}: Props) {
             </div>
         </div>
       </button>
-
-     
     </div>
   );
 }
