@@ -54,7 +54,7 @@ export const NewPasswordPage: FC = () => {
 
   const handleSubmit = async () => {
     try {
-      const URL = 'https://backend-production-7a95.up.railway.app/api/v1/authorization/reset-password';
+      const URL = 'http://api.pawo.space/api/v1/authorization/reset-password';
       const email = searchParams.get('email') as string;
       const formData = {
         email: email,
