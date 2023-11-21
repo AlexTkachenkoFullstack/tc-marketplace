@@ -3,14 +3,13 @@
 .AdvSearch{
     padding-top: 68px;
     background:#E4E4E4;
+    height: 100vh;
 
     &_container{
         display: flex;
         flex-direction: column;
-        margin: 0 auto;
-        padding: 0px 20px;
+        align-items: center;   
     }
-
     &_title{
         @include title-styles;
         padding: 64px 0px 16px;

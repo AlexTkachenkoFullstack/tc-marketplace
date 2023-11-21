@@ -105,7 +105,6 @@ export const HomeTop = () => {
                     <div className={styles.container_bottom}>
                         <div className={styles.select_bar}>
 
-
                             <Dropdown
                                 options={[...brands.map((brand) => brand.brand)].sort((a, b) => a.localeCompare(b))}
                                 label='Марка'

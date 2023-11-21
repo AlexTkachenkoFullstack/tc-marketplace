@@ -8,9 +8,10 @@ export const AdvancedSearch: React.FC = () => {
   return (
     <div className={styles.AdvSearch}>
       <div className={styles.AdvSearch_container}>
-        <h1 className={styles.AdvSearch_title}>Розширений пошук</h1>
-        <SearchTop setIsActive={setIsActive} />
-
+        <div className={styles.AdvSearch_box}>
+          <h1 className={styles.AdvSearch_title}>Розширений пошук</h1>
+          <SearchTop setIsActive={setIsActive} />
+        </div>
       </div>
       {isActive && <AdvSearchBottom isActive={isActive}/>}
     </div>
