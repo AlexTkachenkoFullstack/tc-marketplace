@@ -3,7 +3,6 @@ import styles from "./SearchTop.module.scss";
 import { Dropdown } from 'components/Dropdown/Dropdown';
 import { DropdownSearch } from './Dropdown/DropdownSearch';
 import {DropdownItem} from './Dropdown/components/DropdownItem'
-import DropdownList from './Dropdown/components/DropdownList';
 import DropdownSlider from './Dropdown/components/DropdownSlider'
 import DropdownBtn from './Dropdown/components/DropdownBtn'
 import { IRegion } from 'types/IRegion';

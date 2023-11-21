@@ -7,7 +7,6 @@ import arrowDown from '../../../../assets/icons/arrow-down.svg';
 import close from '../../../../assets/icons/close.svg';
 
 import useClickOutside from 'helpers/hooks/useClickOutside';
-import DropdownList from '../components/DropdownList';
 import List from '../components/List'
 
 // import DropdownInput from './components/DropdownInput';

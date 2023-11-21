@@ -2,10 +2,8 @@ import React from "react";
 import cyrillicToTranslit from "cyrillic-to-translit-js";
 import styles from "./DropdownList.module.scss";
 import {
-  DropdownInfoOption,
   DropdownNoMatchOption,
   DropdownOption,
-  DropdownSelectAllOption,
 } from "./DropdownOptions";
 type Props = {
   checkedValue: string[];
@@ -18,7 +16,7 @@ type Props = {
 };
 
 export default function DropdownList(props: Props) {
-  const { checkedValue, filterValue, checkboxAllowed, options } = props;
+  const { checkedValue, filterValue, options } = props;
 
   const filterOptionsFunc = (text: string) => {
     if (filterValue.length === 0) return true;
