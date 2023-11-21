@@ -10,7 +10,7 @@ const AdvSearchBottom: React.FC<Props> = ({ isActive }) => {
     <div>
     {isActive &&
       (<div className={styles.AdvSearchBottom}>
-        <h1>more passion, more energy, more footwork :) for mobile 360px </h1>
+        <h1>more passion, more energy, more footwork :)</h1>
       </div>)
     }
     </div>
