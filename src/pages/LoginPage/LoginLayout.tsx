@@ -5,7 +5,7 @@ import styles from './LoginLayout.module.scss';
 
 import { NavLink, Outlet } from 'react-router-dom';
 import { Logo } from 'components/Logo';
-import googleIcon from './/..//..//assets/icons/google.svg';
+// import googleIcon from './/..//..//assets/icons/google.svg';
 
 // declare const google: any;
 
