@@ -10,8 +10,9 @@
         width: 5rem;
         height: 5rem;
         color: #fff;
-        background-color: $color-black;
-        box-shadow: $shadow-btn;
+        opacity: 0.9;
+        background-color: $hover-gray;
+        box-shadow: 1px 2px 4px 0px rgba(0, 0, 0, 0.216);
         border-radius: 50%;
         position: fixed;
         bottom: 2rem;
