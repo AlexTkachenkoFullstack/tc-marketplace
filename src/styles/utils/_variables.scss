@@ -38,7 +38,7 @@ $color-red: #f43d3d;
 %form-error-label {
   bottom: -14px;
   color: #f43d3d;
-  font-family: Roboto;
+  font-family: $font-family-main;
   font-size: 11px;
   margin-left: 10px;
 }
@@ -81,16 +81,37 @@ $color-red: #f43d3d;
 }
 
 %form-top-styles {
-  font-family: $font-roboto;
+  font-family: $font-family-main;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: 20px;
-  color: $color-gray;
+  color: $hover-gray;
   margin-bottom: 32px;
 }
 
-@mixin form-title-styles {
+%tab-styles {
+  color: $color-dark-grey;
+  font-family: $font-family-main;
+  font-style: normal;
+  font-weight: 400;
+  white-space: nowrap;
+  padding: 10px;
+  background-color: transparent;
+  cursor: pointer;
+  box-sizing: border-box;
+  border: none;
+  transition: color 0.1s, font-weight 0.1s;
+
+
+  &:hover,
+  &.active {
+    color: $color-grey;
+    font-weight: 600;
+  }
+}
+
+@mixin title-styles {
   font-family: Roboto;
   font-size: 32px;
   font-style: normal;
