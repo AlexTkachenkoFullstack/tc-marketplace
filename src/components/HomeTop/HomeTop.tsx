@@ -105,7 +105,6 @@ export const HomeTop = () => {
                     <div className={styles.container_bottom}>
                         <div className={styles.select_bar}>
 
-
                             <Dropdown
                                 options={[...brands.map((brand) => brand.brand)].sort((a, b) => a.localeCompare(b))}
                                 label='Марка'
@@ -139,7 +138,6 @@ export const HomeTop = () => {
                                 allOptionsLabel='Вся Україна'
                                 option={selectedRegions}
                                 setOption={setSelectedRegions}
-                               
                             />
                         </div>
 
@@ -150,8 +148,6 @@ export const HomeTop = () => {
                             </button>
 
                             <button className={styles.search_more} onClick={handleAdvancedSearchClick}>Розширений пошук</button>
-                           
-                            
                         </div>
                     </div>
 

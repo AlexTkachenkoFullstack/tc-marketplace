@@ -17,7 +17,9 @@ import RestrictedRoute from 'components/RestrictedRoute';
 // import { useAppDispatch } from 'redux/hooks';
 // import { loginThunk } from 'redux/auth/operations';
 
+
 export const App: React.FC = () => {
+
     return (
         <>
             <Routes>

@@ -1,10 +1,10 @@
 import React from 'react';
 import Card from './Card/Card';
 import styles from '../MyAds.module.scss';
-import { ICar } from 'types/IСar';
+import { IAd } from 'types/IAd';
 
 interface IPendingCarsProps {
-  cars: ICar[];
+  cars: IAd[];
 }
 const PendingCard: React.FC<IPendingCarsProps> = ({cars}) =>{
   

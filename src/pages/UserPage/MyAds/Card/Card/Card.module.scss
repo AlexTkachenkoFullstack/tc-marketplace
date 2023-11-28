@@ -60,6 +60,7 @@
 
             &_views, &_phoneViews, &_likes, &_createdAt, &_updatedAt{
                 display: flex;
+                align-items: center;
                 flex-wrap: nowrap;
                 gap: 8px;
             }
