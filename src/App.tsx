@@ -12,10 +12,9 @@ import { LoginPage } from 'pages/LoginPage/LoginPage/LoginPage';
 import { ConfirmEmailPage } from 'pages/LoginPage/ConfirmEmailPage/ConfirmEmailPage';
 import { RecoverPasswordPage } from 'pages/LoginPage/RecoverPasswordPage/RecoverPasswordPage';
 import { NewPasswordPage } from 'pages/LoginPage/NewPasswordPage/NewPasswordPage';
-import {AdvancedSearch} from './pages/AdvancedSearchPage/AdvancedSearch'
+import { AdvancedSearch } from './pages/AdvancedSearchPage/AdvancedSearch'
 import RestrictedRoute from 'components/RestrictedRoute';
-// import { useAppDispatch } from 'redux/hooks';
-// import { loginThunk } from 'redux/auth/operations';
+
 
 
 export const App: React.FC = () => {
@@ -27,7 +26,7 @@ export const App: React.FC = () => {
                     <Route index element={<HomePage />} />
                     <Route path="home" element={<Navigate to="/" replace />} />
                     <Route path="user" element={<UserPage />} />
-                    <Route path="advanced-search" element={<AdvancedSearch/>} />
+                    <Route path="advanced-search" element={<AdvancedSearch />} />
                     <Route path="login/" element={<LoginLayout />}>
                         <Route path="sign-up" element={<RestrictedRoute redirectTo='/' component={<SignUpPage />} />} />
                         <Route path="log-in" element={<RestrictedRoute redirectTo='/' component={<LoginPage />} />} />

@@ -4,7 +4,7 @@ import styles from '../MyAds.module.scss';
 import { IAd } from 'types/IAd';
 
 interface ActiveCardProps {
-    cars: ICar[];
+    cars: IAd[];
 }
 const ActiveCard: React.FC<ActiveCardProps> = ({ cars }) => {
     return (

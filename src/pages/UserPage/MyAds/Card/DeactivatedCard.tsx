@@ -1,11 +1,10 @@
 import React from 'react';
-import Card, { CardProps } from './Card/Card';
 import Card from './Card/Card';
 import styles from '../MyAds.module.scss';
-import { ICar } from 'types/IСar';
+import { IAd } from 'types/IAd';
 
 interface IDeactivatedCarsProps {
-    cars: ICar[];
+    cars: IAd[];
 }
 const DeactivatedCard: React.FC<IDeactivatedCarsProps> = ({ cars }) => {
 

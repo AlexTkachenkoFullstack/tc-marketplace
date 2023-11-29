@@ -35,13 +35,12 @@ const Card: React.FC<CardProps> = ({ car }) => {
             </div>
             <div className={styles.description}>
                 <div className={styles.properties}>
-                    {/* to do */}
-                    {/* change property params when will be correct type or interface */}
-                    <CardProperty icon={eyeOpen} name={`${data.views} переглядів` || 'нема переглядів'} />
+
+                    <CardProperty icon={eyeOpen} name={`${car.viewCount} переглядів` || 'нема переглядів'} />
                     <CardProperty icon={empty} name={`${car.openedPhoneCount}` || 'нема показів телефону'} />
-                    <CardProperty icon={favorite} name={car.likes.toString()} />
-                    <CardProperty icon={clockSvg} name={convertDate(data.created)} />
-                    <CardProperty icon={clockSvg} name={convertDate(data.updated)} />
+                    <CardProperty icon={favorite} name={car.addedFavoriteCount.toString()} />
+                    <CardProperty icon={clockSvg} name={convertDate(car.created)} />
+                    <CardProperty icon={clockSvg} name={convertDate(car.lastUpdated)} />
                 </div>
                 <p className={styles.description__text}>
                     {car?.description}
@@ -63,3 +62,5 @@ const Card: React.FC<CardProps> = ({ car }) => {
         </div>
     )
 }
+
+export default Card
