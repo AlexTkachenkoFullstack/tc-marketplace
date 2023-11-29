@@ -8,7 +8,6 @@ import clockSvg from 'assets/icons/clock.svg'
 import favorite from 'assets/icons/favorite.svg'
 import eyeOpen from 'assets/icons/eye-open.svg'
 import { CommonBtn } from 'components/Buttons/CommonBtn'
-import { Button } from 'components/Buttons/Button'
 import { convertDate } from 'utils/convertDate';
 
 // import { CommonBtn } from 'components/Buttons/CommonBtn'
