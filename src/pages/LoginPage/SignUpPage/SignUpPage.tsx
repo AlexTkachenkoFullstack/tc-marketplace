@@ -12,7 +12,7 @@ import eye from '../../../assets/icons/eye-open.svg';
 import eyeClose from '../../../assets/icons/eye-close.svg';
 import redEye from '../../../assets/icons/eye-open-red.svg';
 import redEyeClose from '../../../assets/icons/eye-close-red.svg';
-import googleIcon from '../../../assets/icons/google.svg';
+//import googleIcon from '../../../assets/icons/google.svg';
 
 export const SignUpPage: FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -353,14 +353,14 @@ export const SignUpPage: FC = () => {
         </>
 
         <img src={line} alt="" className={styles.Login_line} />
-        <button className={styles.Login_googleBtn}>
+        {/* <button className={styles.Login_googleBtn}>
           Зареєструватися через Google
           <img
             src={googleIcon}
             alt="Google Icon"
             className={styles.Login_googleBtn_icon}
           />
-        </button>
+        </button> */}
       </div>
     </form>
   );

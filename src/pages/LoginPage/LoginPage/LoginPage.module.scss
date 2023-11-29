@@ -80,11 +80,28 @@
     font-weight: 600;
     justify-content: center;
     align-items: center;
+    position: relative;
 
-    &_icon {
-      margin-left: 8px;
-    }
+      &_icon {
+        margin-left: 8px;
+      }
+      // &:after {
+      //   content: "Увійти через Google";
+      //   display: flex; 
+      //   justify-content: center; 
+      //   align-items: center; 
+      //   height: 100%;
+      //   width: 100%;
+      //   background-color: white;
+      //   border-radius: 32px;
+      //   position: absolute;
+      //   // border: 1px solid $color-grey;
+      //   // border-radius: 32px;
+        
+      // }
   }
+  
+
 }
 
 .input_container {
@@ -103,5 +120,13 @@
     top: 11px;
   }
 }
+
+// .google_button{
+//   background-color: pink;
+// }
+
+
+
+
 
 

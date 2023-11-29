@@ -29,16 +29,21 @@ export const HomeTop = () => {
     const [carMark, setCarMark] = useState<string | string[]>('Всі марки')
     const [brandId, setBrandId] = useState<number []| []>([])
     const [carModel, setCarModel] = useState<string | string[]>('Всі моделі')
-    const [selectedRegions, setSelectedRegions] = useState<string | string[]>('Всі регіон')
- 
+    const [selectedRegions, setSelectedRegions] = useState<string | string[]>('Вся Україна')
+
 
     useEffect(() => {
         dispatch(fetchRegions())
         dispatch(fetchTypes())
     }, [dispatch])
 
+    useEffect(() => {
+        setCarModel('Модель');
+    }, [carMark])
+
     const handleSelectCategory = (category: string) => {
-        setCarMark('Всі марки')
+        setCarMark('Марка')
+        setCarModel('Модель');
         setBrandId([])
         setSelectedCategory(category);
     }
@@ -60,21 +65,17 @@ export const HomeTop = () => {
         }
     }, [brands, carMark, categories, dispatch, selectedCategory])
 
-    useEffect(()=>{
-        setCarModel('Всі моделі')
-    },[carMark])
-
     const getSearchResult=()=>{
         dispatch(cleanFiltredStore())
         const regionId=getArrayOfId(regions, selectedRegions)
         const modelId=getArrayModelsOfId(models,carModel)
         dispatch(changeFiltredParams({transportTypeId, brandId, modelId, regionId}))
         const searchParams:Pick<ISearchParams, 'transportTypeId' | 'brandId' | 'modelId' | 'regionId'>={
-            transportTypeId, 
+            transportTypeId,
             brandId,
             modelId,
             regionId
-        }     
+        }
         const searchConfig = {
            page:0,
            searchParams
@@ -105,11 +106,10 @@ export const HomeTop = () => {
                     <div className={styles.container_bottom}>
                         <div className={styles.select_bar}>
 
-
                             <Dropdown
                                 options={[...brands.map((brand) => brand.brand)].sort((a, b) => a.localeCompare(b))}
                                 label='Марка'
-                                startValue='Всі марки'
+                                startValue='Марка'
                                 option={carMark}
                                 setOption={setCarMark}
                             />
@@ -123,12 +123,11 @@ export const HomeTop = () => {
                                 label='Модель'
                                 startValue='Модель'
                                 checkboxAllowed
-                                // isDissabled={carMark==='Всі марки'}
-                                allOptionsLabel='Всі марки'
+                                allOptionsLabel='Всі моделі'
                                 option={carModel}
-                                setOption={setCarModel} 
+                                setOption={setCarModel}
                                 carMark={carMark}
-                           
+
                                 />
 
                             <Dropdown
@@ -139,7 +138,6 @@ export const HomeTop = () => {
                                 allOptionsLabel='Вся Україна'
                                 option={selectedRegions}
                                 setOption={setSelectedRegions}
-                               
                             />
                         </div>
 
@@ -150,8 +148,6 @@ export const HomeTop = () => {
                             </button>
 
                             <button className={styles.search_more} onClick={handleAdvancedSearchClick}>Розширений пошук</button>
-                           
-                            
                         </div>
                     </div>
 

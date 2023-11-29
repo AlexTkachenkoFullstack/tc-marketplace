@@ -1,15 +1,17 @@
 import React from 'react';
 import Card from './Card/Card';
 import styles from '../MyAds.module.scss';
+import { IAd } from 'types/IAd';
 
-export const qntActive = dataArray.length;
-const ActiveCard: React.FC = () => {
-
+interface ActiveCardProps {
+    cars: ICar[];
+}
+const ActiveCard: React.FC<ActiveCardProps> = ({ cars }) => {
     return (
         <div>
-            {dataArray.length > 0 ? (
-                dataArray.map((data, index) => (
-                    <Card key={index} data={data} />
+            {cars.length > 0 ? (
+                cars.map(car => (
+                    <Card key={car.id} car={car} />
                 ))
             ) : (
                 <p className={styles.empty}>На даний момент відсутні активні оголошення</p>

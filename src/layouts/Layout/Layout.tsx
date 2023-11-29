@@ -10,14 +10,13 @@ export const Layout: FC = () => {
   const path = location.pathname;
 
     return (
-    <>
+    <div className={styles.wrapper}>
       {!path.startsWith('/login') && <Header />}
-
       <main className={styles.main}>
           <Outlet />
       </main>
 
       {!path.startsWith('/login') && <Footer />}
-    </>
+    </div>
     );
 };
