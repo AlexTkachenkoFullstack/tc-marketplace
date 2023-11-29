@@ -1,0 +1,19 @@
+@import './variables';
+
+@mixin onTabletSmall {
+  @media (min-width: $tablet-min-width-s) {
+    @content;
+  }
+}
+
+@mixin onTablet {
+  @media (min-width: $tablet-min-width) {
+    @content;
+  }
+}
+
+@mixin onDesktop {
+  @media (min-width: $desktop-min-width) {
+    @content;
+  }
+}

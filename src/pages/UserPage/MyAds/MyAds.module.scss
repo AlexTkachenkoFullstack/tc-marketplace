@@ -1,0 +1,38 @@
+@import '../../../styles/utils/variables';
+.MyAds{
+    .container {
+        background: $color-light;
+        border-radius: 16px;
+        padding: 0px 24px 24px;
+    }
+}
+
+.tabs {
+    display: flex;
+    padding: 24px 0 59px;
+    justify-content: center;
+    
+    .tab {
+        font-size: 16px;
+        @extend %tab-styles;
+    }
+}
+
+.tabContent{
+    width: 100%;
+}
+
+.count{
+    padding: 0px 6px;
+    background: $background-color-white;
+    border-radius: 16px;
+    color: $color-grey;
+    font-family: $font-family-main;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.empty {
+    text-align:center;
+}

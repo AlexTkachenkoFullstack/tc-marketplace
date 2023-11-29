@@ -1,0 +1,10 @@
+@import './breakpoints';
+@import './variables';
+
+@mixin contentPaddingInline {
+  padding-inline: $mobile-padding;
+
+  @include onTablet {
+    padding-inline: $tablet-padding;
+  }
+}

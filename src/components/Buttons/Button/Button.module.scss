@@ -1,0 +1,43 @@
+@use '../../../styles/utils' as *;
+
+.container {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--icon-bckg);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.3s ease;
+
+  &.disabled {
+    pointer-events: none;
+    border-color: var(--icon-bckg-disable);
+  }
+
+  &.selected {
+    border-color: transparent;
+    color: #fff;
+  }
+}
+
+.content {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.badge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  top: -9px;
+  left: 9px;
+  border-radius: 50%;
+  font-size: 9px;
+  line-height: 1;
+}

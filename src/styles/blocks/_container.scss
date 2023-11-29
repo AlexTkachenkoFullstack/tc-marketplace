@@ -1,0 +1,10 @@
+@import '../utils/mixins';
+@import '../utils/variables';
+@import '../utils/breakpoints';
+
+.container {
+  @include contentPaddingInline;
+  max-width: $desktop-min-width;
+  margin-inline: auto;
+  box-sizing: border-box;
+}

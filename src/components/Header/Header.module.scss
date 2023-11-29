@@ -1,0 +1,141 @@
+@import '../../styles/main.scss';
+
+.header {
+  position: fixed;
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  align-items: center;
+  height: 56px;
+  padding: 8px 20px;
+  background-color: $white-color;
+  z-index: 3;
+
+  @media (min-width: 768px) {
+    height: 68px;
+    padding: 12px 32px;
+  }
+
+  &__burger {
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+  }
+
+  &__nav {
+    display: none;
+    height: 100%;
+    align-items: center;
+    gap: 16px;
+
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+
+    @media (min-width: 880px) {
+      display: flex;
+    }
+
+    &_link {
+      padding: 8px;
+    }
+  }
+
+  &__left {
+    display: flex;
+    height: 40px;
+    align-items: center;
+    gap: 16px;
+
+    @media (max-width: 880px) {
+      gap: 8px;
+    }
+
+    &__link {
+      text-decoration: none;
+      color: $color-grey;
+      font-weight: bold;
+    }
+  }
+
+  &__right {
+    display: flex;
+    height: 40px;
+    gap: 16px;
+
+    @media (max-width: 880px) {
+      gap: 8px;
+    }
+  }
+
+  &__add_button {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  color: $color-grey;
+  padding: 0 8px;
+  border: 1px solid $color-grey;
+  border-radius: 100px;
+  cursor: pointer;
+
+  @media (max-width: 880px) {
+    display: none;
+  }
+
+  &_text {
+    margin-right: 8px;
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+  }
+
+  &_icon {
+    font-size: 16px;
+  }
+}
+
+&__auth_container{
+  display: flex;
+  align-items: center;
+}
+
+&__login_icon{
+  width:24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+  &__favorite_button,
+  &__login_button {
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    padding: 8px;
+  }
+
+  &__favorite_button {
+    position: relative;
+
+    &_point {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+    }
+  }
+
+  &__login_text {
+    margin-left: 8px;
+    color: $color-grey;
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+  }
+}

@@ -1,0 +1,43 @@
+@import '../../styles/utils/variables';
+
+.homePage {
+
+  .main {
+    padding-block: 2.5rem;
+    margin-inline: auto;
+    background-color: $white-color;
+  }
+
+  .recentGoods {
+    margin-block-end: 2.5rem;
+  }
+
+  .newGoods {
+    margin-block-end: 3.5rem;
+  }
+
+  .popularGoods {
+    margin-block-end: 1.5rem;
+  }
+}
+
+.loadBtn {
+  display: block;
+  width: 10.8rem;
+  height: 2.5rem;
+  margin-inline: auto;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+  background-color: $background-color-white;
+  border: 2px solid transparent!important;
+  border-radius: 2rem;
+  transition: border-color $effectDuration,
+    background-color $effectDuration;
+
+  &:hover {
+    border-color: $color-hover-border!important;
+    background-color: transparent!important;
+  }
+}

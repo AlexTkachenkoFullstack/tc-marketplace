@@ -1,0 +1,109 @@
+@import '../../../styles/utils/variables';
+
+
+.Container {
+  position: relative;
+}
+
+.Login {
+  justify-self: center;
+
+  &_container {
+    @include form-container-styles;
+
+    @media (min-width: 1024px) {
+      width: 464px;
+    }
+  }
+
+  &_title {
+    @include title-styles;
+
+    @media (min-width: 1024px) {
+      font-size: 44px;
+    }
+  }
+
+  &_label {
+    position: absolute;
+    top: -8px;
+    color: $hover-gray;
+    @extend %form-label;
+
+    &_red{
+      @extend .Login_label; 
+      color: red;
+    }
+
+    &_errorMessage {
+      @extend %form-error-label;
+    }
+
+  }
+
+  &_login {
+    @extend %form-top-styles;
+
+    &_link {
+      margin-left: 8px;
+      @extend %link;
+    }
+  }
+
+  &_field {
+    @include form-field-styles;      
+  }
+  
+  &_btn {
+    @include form-button-styles;
+  }
+
+  &_line {
+    margin-bottom: 24px;
+    width: 100%;
+  }
+
+  &_googleBtn {
+    box-sizing: border-box;
+    height: 44px;
+    width: 100%;
+    display: flex;
+
+    background-color: transparent;
+    color: #434343;
+    border: 1px solid #434343;
+    border-radius: 32px;
+
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    align-items: center;
+
+    &_icon {
+      margin-left: 8px;
+    }
+  }
+}
+
+.input_container {
+  @include form-inputContainer-styles;
+  
+  .Login_field {
+    margin-bottom: 0;
+
+    &_warning{
+      border: 1px solid $color-red;
+      color: $color-red;
+    }
+  }
+
+  &_icon {
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    right: 20px;
+    top: 11px;
+  }
+}
+

@@ -1,0 +1,11 @@
+@import './variables';
+
+a {
+  text-decoration: none;
+  color: $color-grey;
+}
+
+button {
+  background-color: transparent;
+  cursor: pointer;
+}
