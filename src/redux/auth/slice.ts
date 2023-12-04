@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
 import {
+  authGoogle,
   loginThunk, logoutThunk,
 } from './operations';
 
@@ -49,6 +50,11 @@ const handleFulfilledLogout = (state:IUser) => {
   state.token = null;
 };
 
+const handleFulfildAuthGoogle = (state:IUser, action: PayloadAction<{token:string}>) => {
+  handleFulfild(state);
+  state.token=action.payload.token;
+};
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -57,7 +63,8 @@ export const authSlice = createSlice({
     builder
       .addCase(loginThunk.fulfilled, handleFulfildLogIn)
       .addCase(logoutThunk.fulfilled, handleFulfilledLogout)
-      .addMatcher(isAnyOf(loginThunk.pending, logoutThunk.pending),handlePending)
-      .addMatcher(isAnyOf(loginThunk.rejected, logoutThunk.rejected), handleRejected);
+      .addCase(authGoogle.fulfilled, handleFulfildAuthGoogle)
+      .addMatcher(isAnyOf(loginThunk.pending, logoutThunk.pending, authGoogle.pending),handlePending)
+      .addMatcher(isAnyOf(loginThunk.rejected, logoutThunk.rejected, authGoogle.rejected), handleRejected);
   },
 });
