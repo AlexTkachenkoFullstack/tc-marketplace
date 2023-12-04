@@ -37,12 +37,31 @@ export const loginThunk = createAsyncThunk(
   }
 );
 
+export const authGoogle = createAsyncThunk(
+  'auth/google',
+  async (credentials:{email: string, name:string, password: string, picture:string}, thunkAPI) => {
+    try {
+      const response = await instance.post('authorization/login/oauth2', credentials);
+      setAuthHeader(response.data.token);
+      return response.data;
+    } catch (err) {
+      const error: AxiosError<KnownError> = err as any;
+      if (!error.response) {
+        throw err;
+      }
+      return {
+        status: error.response.status,
+        errorMessage: error.response.data,
+      };
+    }
+  }
+);
+
 export const logoutThunk = createAsyncThunk(
   'auth/logout',
   async (_, thunkAPI) => {
   try {
-    const response= await instance.post('authorization/logout');
-    console.log('res',response)
+    await instance.post('authorization/logout');
     delAuthHeader();
   } catch (err: any) {
     console.error('err',err);

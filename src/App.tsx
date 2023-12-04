@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import './styles/main.scss';
 
@@ -14,12 +14,14 @@ import { RecoverPasswordPage } from 'pages/LoginPage/RecoverPasswordPage/Recover
 import { NewPasswordPage } from 'pages/LoginPage/NewPasswordPage/NewPasswordPage';
 import { AdvancedSearch } from './pages/AdvancedSearchPage/AdvancedSearch'
 import RestrictedRoute from 'components/RestrictedRoute';
-// import { useAppDispatch } from 'redux/hooks';
-// import { loginThunk } from 'redux/auth/operations';
-
-
+import { useAppDispatch } from 'redux/hooks';
+import { fetchGoogleUser } from 'helpers/fetchGoogleUser';
+import { Dispatch } from '@reduxjs/toolkit';
 export const App: React.FC = () => {
-
+    const dispatch:Dispatch=useAppDispatch()
+    useEffect(()=>{
+        fetchGoogleUser(dispatch)
+    }, [dispatch])
     return (
         <>
             <Routes>

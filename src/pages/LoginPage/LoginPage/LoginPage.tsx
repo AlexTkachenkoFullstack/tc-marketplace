@@ -4,15 +4,11 @@ import styles from './LoginPage.module.scss';
 import line from '../../../assets/images/horizontal-line.png';
 import eye from '../../../assets/icons/eye-open.svg';
 import eyeClose from '../../../assets/icons/eye-close.svg';
-//import googleIcon from '../../../assets/icons/google.svg';
 import { NavLink, useSearchParams } from 'react-router-dom';
 import { formReducer, initialState } from 'helpers/formReducer';
 import { useAppDispatch } from 'redux/hooks';
 import { loginThunk } from 'redux/auth/operations';
 import ShowToast from '../../../components/Notification/Toast';
-import { jwtDecode } from 'jwt-decode';
-
-declare const google: any;
 
 export const LoginPage: FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -44,29 +40,6 @@ export const LoginPage: FC = () => {
     };
     verifyEmail();
   }, [searchParams]);
-
-  
-    function handleCallbackResponse(response: any){
-    const userObject=jwtDecode(response.credential);
-    console.log(userObject)
-    const userName = (userObject as { name?: string })?.name; 
-    const userEmail = (userObject as { email?: string })?.email;
-    const userPicture = (userObject as { picture?: string })?.picture;
-    console.log(userName, userEmail, userPicture)
-}
-
-  useEffect(()=>{
-    google.accounts.id.initialize({
-        client_id: "160491221513-tb59k912vnbiraoj1hlor3o42hnnfn79.apps.googleusercontent.com",
-        callback: handleCallbackResponse,
-        
-    })
-    google.accounts.id.renderButton(
-        document.getElementById("google_button"),
-        {theme:'none', size:'large'}
-    )
-    google.accounts.id.prompt()
-}, [])
 
 
   const togglePasswordVisibility = () => {
@@ -201,18 +174,6 @@ export const LoginPage: FC = () => {
         </NavLink>
 
         <img src={line} alt="" className={styles.Login_line} />
-
-        {/* <button className={styles.Login_googleBtn} id='google_button'>
-          Зареєструватися через Google
-          <img
-            src={googleIcon}
-            alt="Google Icon"
-            className={styles.Login_googleBtn_icon}
-          />
-          
-        </button> */}
-        
-
     </form>
     
   );
