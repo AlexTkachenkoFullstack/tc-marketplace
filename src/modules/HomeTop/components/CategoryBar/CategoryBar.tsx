@@ -1,9 +1,7 @@
-import styles from './CategoryBar.module.scss';
-import scrollRight from '../../assets/icons/arrow_right.svg';
-import scrollLeft from '../../assets/icons/arrow_back.svg';
 import { useEffect, useRef, useState } from 'react';
-// import { ProductCategory } from 'types';
-// import Category from 'types/Category';
+import scrollRight from 'assets/icons/arrow_right.svg';
+import scrollLeft from 'assets/icons/arrow_back.svg';
+import styles from './CategoryBar.module.scss';
 
 interface Props {
   categories: string[];

@@ -6,8 +6,8 @@ import styles from './CardItem.module.scss';
 
 import LikeImg from '../../assets/icons/favorite.svg';
 import ActiveLikeImg from '../../assets/icons/favorite-active.svg';
-import { CommonBtn } from "components/Buttons/CommonBtn";
 import { ICar } from "types/IСar";
+import { CommonBtn } from 'UI/CommonBtn';
 
 interface Props {
     car?: ICar;

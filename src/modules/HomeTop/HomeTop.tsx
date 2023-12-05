@@ -1,20 +1,20 @@
+import { useEffect, useState } from 'react';
+import {useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+
+import { CategoryBar } from 'modules/HomeTop/components/CategoryBar/CategoryBar';
+import { SelectBar } from './components/SelectBar/SelectBar';
+
 import styles from './HomeTop.module.scss';
 import arrow from '../../assets/icons/arrow-white.svg';
-import { CategoryBar } from 'components/CategoryBar/CategoryBar';
-import { useEffect, useState } from 'react';
-import { Dropdown } from 'components/Dropdown/Dropdown';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
+
 import { getFilterBrands, getFilterModels, getFilterRegions, getFilterTypes } from 'redux/filter/selectors';
 import { fetchBrands, fetchModels, fetchRegions, fetchTypes, fetchFiltredCars } from 'redux/filter/operations';
-import { IRegion } from 'types/IRegion';
-import { IType } from 'types/IType';
-import { IBrand } from 'types/IBrand';
-import { IModel } from 'types/IModel';
-import { ISearchParams } from 'types/ISearchParam';
-
-import {useNavigate } from 'react-router-dom';
-import { getArrayModelsOfId, getArrayOfId } from 'utils/getArrayOfId';
 import { changeFiltredParams, cleanFiltredStore } from 'redux/filter/slice';
+import { getArrayModelsOfId, getArrayOfId } from 'utils/getArrayOfId';
+
+import { IRegion, IType, IBrand, IModel, ISearchParams } from 'types/index';
+
 //import {Advancedsearch} from 'pages/AdvancedSearchPage/AdvancedSearch';
 
 export const HomeTop = () => {
@@ -104,42 +104,17 @@ export const HomeTop = () => {
                     />
 
                     <div className={styles.container_bottom}>
-                        <div className={styles.select_bar}>
-
-                            <Dropdown
-                                options={[...brands.map((brand) => brand.brand)].sort((a, b) => a.localeCompare(b))}
-                                label='Марка'
-                                startValue='Марка'
-                                option={carMark}
-                                setOption={setCarMark}
-                            />
-
-                            <Dropdown
-                                options={
-                                    carMark!=='Всі марки'
-                                    ? models.map(item => item.model)
-                                    : []
-                                }
-                                label='Модель'
-                                startValue='Модель'
-                                checkboxAllowed
-                                allOptionsLabel='Всі моделі'
-                                option={carModel}
-                                setOption={setCarModel}
-                                carMark={carMark}
-
-                                />
-
-                            <Dropdown
-                                options={regions.map((region) => region.region)}
-                                label='Регіон'
-                                startValue='Регіон'
-                                checkboxAllowed
-                                allOptionsLabel='Вся Україна'
-                                option={selectedRegions}
-                                setOption={setSelectedRegions}
-                            />
-                        </div>
+                      <SelectBar
+                        brands={brands}
+                        carMark={carMark}
+                        setCarMark={setCarMark}
+                        models={models}
+                        carModel={carModel}
+                        setCarModel={setCarModel}
+                        regions={regions}
+                        selectedRegions={selectedRegions}
+                        setSelectedRegions={setSelectedRegions}
+                      />
 
                         <div className={styles.search}>
                             <button className={styles.search_button} onClick={getSearchResult}>

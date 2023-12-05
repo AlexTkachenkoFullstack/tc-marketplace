@@ -1,12 +1,12 @@
 import { useRef, useState } from 'react'
 import style from './CatalogCard.module.scss'
 import clockSvg from 'assets/icons/clock.svg'
-import { CommonBtn } from 'components/Buttons/CommonBtn'
 import LikeImg from 'assets/icons/favorite.svg';
 import add from 'assets/icons/add.svg'
 import ActiveLikeImg from 'assets/icons/favorite-active.svg';
 import option_dots from 'assets/icons/option_dots.svg'
 import { ICar } from 'types/IСar';
+import { CommonBtn } from 'UI/CommonBtn';
 
 type Props = {
     car?: ICar
@@ -70,7 +70,7 @@ export default function CatalogCard({ car }: Props) {
     const optionHanler = (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
         switch (event.currentTarget.innerText) {
             case 'Не показувати цю машину':
-                // #BIV 
+                // #BIV
                 // replace here with function
                 alert(`here should be don't show car func`);
                 break;
@@ -79,7 +79,7 @@ export default function CatalogCard({ car }: Props) {
                 break
             default:
                 // #BIVcomment
-                // temp for test, should shift default to top  
+                // temp for test, should shift default to top
                 alert('ooops something go wrong')
                 break;
         }

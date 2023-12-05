@@ -49,64 +49,6 @@
   }
 }
 
-.select_bar {
-  position: relative;
-  box-sizing: border-box;
-  max-width: 944px;
-  display: flex;
-  flex-direction: column;
-
-  @media (min-width: 880px) {
-    min-width: 768px;
-    margin-right: 8px;
-    display: grid;
-    height: min-content;
-
-    grid-template-columns: repeat(3, minmax(100px, 1fr));
-
-    div:first-child button {
-      border-top-right-radius: 0px;
-      border-bottom-right-radius: 0px;
-
-    }
-
-    div:nth-child(2) button {
-      border-radius: 0px;
-    }
-
-    div:last-child button {
-      border-top-left-radius: 0px;
-      border-bottom-left-radius: 0px;
-    }
-
-    &::before {
-      position: absolute;
-      content: "";
-      width: 2px;
-      height: 20px;
-      z-index: 3;
-
-      right: calc(100% / 3);
-      top: calc(48px / 2 - 10px);
-      background: url('../../assets/icons/line.svg') no-repeat;
-    }
-
-    &::after {
-      position: absolute;
-      content: "";
-      width: 2px;
-      height: 20px;
-      z-index: 3;
-
-      left: calc(100% / 3);
-      top: calc(48px / 2 - 10px);
-      background: url('../../assets/icons/line.svg') no-repeat;
-    }
-  }
-
-}
-
-
 .centered_container {
   @media (min-width: $mobile-min-width) {
     width: 100%;

@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import cn from 'classnames';
 import { Logo } from '../Logo/Logo';
-import { links } from '../Header/Header';
+import { links } from '../../modules/Header';
 import styles from './BurgerMenu.module.scss';
 
 type Props = {

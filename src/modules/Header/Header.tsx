@@ -1,7 +1,6 @@
 /* eslint-disable */
 import { FC } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Logo } from '../Logo';
 import styles from './Header.module.scss';
 import menu from '../../assets/icons/menu.svg';
 import plus from '../../assets/icons/add.svg';
@@ -11,6 +10,7 @@ import account from '../../assets/icons/account_circle.svg';
 import { isAuthUser } from 'redux/auth/selectors';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { logoutThunk } from 'redux/auth/operations';
+import { Logo } from 'components/Logo';
 
 export const links = [
   {

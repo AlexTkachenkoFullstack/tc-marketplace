@@ -1,15 +1,17 @@
 import React, {useEffect, useState}from 'react';
-import GoToTop from 'components/GoToTop/GoToTop';
-import { HomeTop } from 'components/HomeTop/HomeTop';
 import styles from './HomePage.module.scss';
+
+import GoToTop from 'components/GoToTop/GoToTop';
+import { HomeTop } from 'modules/HomeTop/HomeTop';
 import { CardSlider } from 'components/CardSlider';
 import { PopularGoods } from 'components/PopularGoods';
-import { CommonBtn } from 'components/Buttons/CommonBtn';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { fetchNewCars, fetchPopularCars, fetchViewedCars } from 'redux/cars/operations';
 import { getNewCars, getPopularCars, getViewedCars } from 'redux/cars/selectors';
 import { ICar } from 'types/IСar';
 import { isAuthUser } from 'redux/auth/selectors';
+import { CommonBtn } from 'UI/CommonBtn';
+
 const POPULARLIMIT=9;
 export const HomePage: React.FC = () => {
   const newCars=useAppSelector(getNewCars);
@@ -22,7 +24,7 @@ export const HomePage: React.FC = () => {
 
   const popularCarTotalPages=Math.ceil(popularCars.length/POPULARLIMIT);
 
-  
+
   const dispatch=useAppDispatch()
 
   useEffect(()=>{

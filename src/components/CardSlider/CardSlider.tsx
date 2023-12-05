@@ -12,8 +12,8 @@ import styles from './CardSlider.module.scss';
 import { CardItem } from 'components/CardItem';
 import ArrowLeft from '../../assets/icons/arrow_left.svg';
 import ArrowRight from '../../assets/icons/arrow_right.svg';
-import { CommonBtn } from 'components/Buttons/CommonBtn';
 import { ICar } from 'types/IСar';
+import { CommonBtn } from 'UI/CommonBtn';
 
 SwiperCore.use([Autoplay]);
 
