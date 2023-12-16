@@ -80,7 +80,7 @@ export const RecoverPasswordPage: FC = () => {
     }
 
     try {
-      const URL = `http://api.pawo.space/api/v1/authorization/reset-password/send-code?email=${userEmail}`;
+      const URL = `https://api.pawo.space/api/v1/authorization/reset-password/send-code?email=${userEmail}`;
       await axios.put(URL);
 
       setSent(true);

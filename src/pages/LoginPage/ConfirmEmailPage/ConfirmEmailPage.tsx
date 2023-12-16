@@ -14,7 +14,7 @@ export const ConfirmEmailPage: FC = () => {
 
   const handleResend = async () => {
     try {
-      const URL = `http://api.pawo.space/api/v1/authorization/register/resend-code?email=${paramValue}`;
+      const URL = `https://api.pawo.space/api/v1/authorization/register/resend-code?email=${paramValue}`;
       await axios.put(URL)
 
       if (timer) {

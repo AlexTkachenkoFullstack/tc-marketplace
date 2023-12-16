@@ -28,7 +28,7 @@ export const LoginPage: FC = () => {
       if (email && token) {
         try {
           const response = await axios.get(
-            `http://api.pawo.space/api/v1/authorization/register/verify-account?email=${email}&token=${token}`
+            `https://api.pawo.space/api/v1/authorization/register/verify-account?email=${email}&token=${token}`
           );
           if (response.status === 200) {
             console.log('Account has been verified');
