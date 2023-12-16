@@ -22,7 +22,7 @@ type KnownError = {
 };
 
 const instance = axios.create({
-  baseURL: 'http://api.pawo.space/api/v1/user-page/my-transports/',
+  baseURL: 'https://api.pawo.space/api/v1/user-page/my-transports/',
 });
 
 const setAuthHeader = (token:string) => {
