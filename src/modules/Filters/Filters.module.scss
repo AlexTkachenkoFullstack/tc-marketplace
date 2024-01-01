@@ -3,6 +3,10 @@
 .Filters{
     height: fit-content;
     padding-top: 52px;
+    width: 100%;
+    max-width: 1024px;
+    display: flex;
+    flex-direction: column;
 
     &_container{
         padding: 0 20px 20px;
