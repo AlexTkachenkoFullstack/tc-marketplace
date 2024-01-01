@@ -1,0 +1,39 @@
+@import '../../styles/utils/variables';
+
+.catalogContainer {
+  min-height: 100vh;
+  background-color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+@media (min-width: 768px) {
+  .catalogContainer {
+    padding: 40px;
+    gap: 20px;
+  }
+}
+
+.loadBtn {
+  display: block;
+  width: 10.8rem;
+  height: 2.5rem;
+  margin-inline: auto;
+  margin-top: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+  background-color: white;
+  border: 1px solid black!important;
+  border-radius: 2rem;
+  transition: border-color $effectDuration,
+    background-color $effectDuration;
+
+  &:hover {
+    border-color: $color-hover-border!important;
+    background-color: transparent!important;
+  }
+}

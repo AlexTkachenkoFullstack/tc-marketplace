@@ -1,0 +1,9 @@
+@import 'styles/main.scss';
+
+.Container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  margin-top: 56px;
+  background:$background-color-white;
+}

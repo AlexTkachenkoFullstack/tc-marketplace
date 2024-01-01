@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import ReactSlider from 'react-slider'
 import styles from './InputTwoThumb.module.scss'
+
 type Props = {
     min: number,
     max: number,
@@ -53,7 +54,6 @@ export default function InputTwoThumb({ min, max, minDistance = 100, placeholder
     const minValueChange = (newValue: number) => {
         setMinValue(newValue)
     }
-
 
     const maxValueChange = (newValue: number) => {
         setMaxValue(newValue)

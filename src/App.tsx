@@ -12,11 +12,11 @@ import { LoginPage } from 'pages/LoginPage/LoginPage/LoginPage';
 import { ConfirmEmailPage } from 'pages/LoginPage/ConfirmEmailPage/ConfirmEmailPage';
 import { RecoverPasswordPage } from 'pages/LoginPage/RecoverPasswordPage/RecoverPasswordPage';
 import { NewPasswordPage } from 'pages/LoginPage/NewPasswordPage/NewPasswordPage';
-import { AdvancedSearch } from './pages/AdvancedSearchPage/AdvancedSearch'
 import RestrictedRoute from 'components/RestrictedRoute';
 import { useAppDispatch } from 'redux/hooks';
 import { fetchGoogleUser } from 'helpers/fetchGoogleUser';
 import { Dispatch } from '@reduxjs/toolkit';
+import { CatalogPage } from 'pages/CatalogPage/CatalogPage';
 export const App: React.FC = () => {
     const dispatch:Dispatch=useAppDispatch()
     useEffect(()=>{
@@ -29,7 +29,7 @@ export const App: React.FC = () => {
                     <Route index element={<HomePage />} />
                     <Route path="home" element={<Navigate to="/" replace />} />
                     <Route path="user" element={<UserPage />} />
-                    <Route path="advanced-search" element={<AdvancedSearch />} />
+                    <Route path="catalog" element={<CatalogPage />} />
                     <Route path="login/" element={<LoginLayout />}>
                         <Route path="sign-up" element={<RestrictedRoute redirectTo='/' component={<SignUpPage />} />} />
                         <Route path="log-in" element={<RestrictedRoute redirectTo='/' component={<LoginPage />} />} />

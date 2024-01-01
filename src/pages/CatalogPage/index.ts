@@ -1,0 +1,1 @@
+import { CatalogPage } from './CatalogPage';

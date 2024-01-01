@@ -1,11 +1,11 @@
 import React from 'react';
-import styles from './AdvSearchBottom.module.scss'
+import styles from './AdvanceFilters.module.scss'
 
 type Props = {
   isActive: boolean;
 };
 
-const AdvSearchBottom: React.FC<Props> = ({ isActive }) => {
+const AdvanceFilters: React.FC<Props> = ({ isActive }) => {
   return (
     <div>
     {isActive &&
@@ -17,4 +17,4 @@ const AdvSearchBottom: React.FC<Props> = ({ isActive }) => {
   );
 };
 
-export default AdvSearchBottom;
+export default AdvanceFilters;
