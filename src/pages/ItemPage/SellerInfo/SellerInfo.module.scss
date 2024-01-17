@@ -1,0 +1,63 @@
+@import '../../../styles/utils/variables';
+
+.descriptionSection{
+ padding-bottom: 16px;
+}
+
+.descriptionTitle{
+    font-size: 22px;
+    font-weight: 700;
+    font-family: 'Roboto';
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  .descriptionText{
+    font-size: 16px;
+    font-weight: 500;
+    font-family: 'Roboto';
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+
+  .descriptionContainerShort{
+    overflow: hidden;         
+    display: -webkit-box;   
+    -webkit-line-clamp: 8;    
+    -webkit-box-orient: vertical; 
+    text-overflow: ellipsis; 
+    max-height: 192px;
+  }
+
+  .descriptionContainerAll{
+    height: auto;
+  }
+ 
+  .descriptionButtonContainer{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+  }
+
+  .buttonShowHide{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none; 
+    border: none;
+    height: 32px;
+  }
+
+  .buttonShowHideText{
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1.43;
+    color:$color-grey;
+    text-decoration: underline;
+  }
+
+  .hideShowIcon{
+    width: 16px;
+    height: 16px;
+  }
