@@ -33,3 +33,15 @@
   clip-path: inset(50%);
   margin: -1px;
 }
+
+.swiper-pagination>.swiper-pagination-bullet{
+  height: 6px;
+  width: 6px;
+  background-color:#E4E4E4;
+  opacity: 1;
+}
+
+.swiper-pagination>.swiper-pagination-bullet-active{
+  background-color:#1b06da;
+  opacity: 1;
+}
