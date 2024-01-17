@@ -24,6 +24,7 @@ export const ItemPage: React.FC = () => {
   const [error, setError] = useState<any>(null)
   const { id } = useParams();
 
+  console.log(error)
   useEffect(() => {  
     const fetchCarDetails = async () => {
         try {
