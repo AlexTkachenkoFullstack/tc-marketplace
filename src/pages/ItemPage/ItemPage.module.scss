@@ -2,7 +2,10 @@
 
 .container {
       margin-top: 56px;
-      padding:20px;
+      padding-top:32px;
+      padding-bottom: 40px;
+      padding-left: 20px;
+      padding-right: 20px;
       height: fit-content;
       display: flex;
       flex-direction: column;
@@ -34,13 +37,19 @@
   .titleSection{
     padding-top: 12px;
     padding-bottom: 40px;
-   
+
+    @media (min-width: 768px) {
+      padding-top: 0px;
+    }
+
   .titleName{
     font-size: 22px;
     font-weight: 700;
     font-family: 'Roboto';
     line-height: 1.2;
     margin-bottom: 12px;
+
+    
   }
 
   .titlePrice{
@@ -49,6 +58,26 @@
     font-family: 'Roboto';
     line-height: 1.5;
   }
+  }
+
+  .itemInfoTop{
+    display:flex;
+    flex-direction: column;
+
+    @media (min-width: 768px) {
+      width:768px;
+      flex-direction: row;
+      column-gap: 16px;
+      padding-top:24px;
+    }
+  }  
+
+  .itemInfoTopLeft{
+    width:100%;
+
+    @media (min-width: 768px) {
+      width:368px;
+    }
   }
 
   .mainCharacteristicsSection{

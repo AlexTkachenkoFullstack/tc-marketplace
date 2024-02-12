@@ -37,11 +37,19 @@
 .swiper-pagination>.swiper-pagination-bullet{
   height: 6px;
   width: 6px;
-  background-color:#E4E4E4;
+  background-color:#BCC2C2;
   opacity: 1;
 }
 
 .swiper-pagination>.swiper-pagination-bullet-active{
-  background-color:#1b06da;
+  background-color:#FEFFFF;
   opacity: 1;
+}
+
+.swiper-pagination-bullets.swiper-pagination-horizontal {
+  width: 91% !important; 
+
+  @media (min-width: 768px) {
+    width: 96% !important; 
+  }
 }

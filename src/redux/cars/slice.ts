@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction, isAnyOf} from '@reduxjs/toolkit';
-import { fetchNewCars, fetchPopularCars, fetchViewedCars } from './operations';
+import { addToFavourites, fetchNewCars, fetchPopularCars, fetchViewedCars, getCarDetails, removeFromFavourites } from './operations';
 import { ICar } from 'types/IСar';
+import { ITransportDetails } from 'types/ITransportDetails';
+
 
   interface CarsState {
     recentlyViewedCars:ICar[] | [];
@@ -9,6 +11,7 @@ import { ICar } from 'types/IСar';
     filtredCars:ICar[] | [],
     error: unknown;
     isLoading:boolean;
+    carDetail:ITransportDetails | null
   }
 
 const initialState:CarsState = {
@@ -18,6 +21,7 @@ const initialState:CarsState = {
     filtredCars:[],
     error: null,
     isLoading: false,
+    carDetail: null
   };
 
 
@@ -53,16 +57,65 @@ const handleFulfildGetViewed=(state:CarsState, action: PayloadAction<ICar[]>) =>
       state.popularCars = action.payload; 
       }
 
+    const handleFulfildGetCarDetails=(state:CarsState, action: PayloadAction<ITransportDetails>)=>{
+      state.isLoading = false;
+      state.error = null;
+      state.carDetail=action.payload
+    }
+
+    const handleFulfildAddToFavorite=(state:CarsState, action: PayloadAction<number>)=>{
+      const recentlyViewedCar= state.recentlyViewedCars.find(item=>item.id===action.payload)
+      const popularCar= state.popularCars.find(item=>item.id===action.payload)
+      const newCar= state.newCars.find(item=>item.id===action.payload)
+      if (state.carDetail) {
+        state.carDetail.isFavorite = true;
+      }
+      if(recentlyViewedCar){
+        recentlyViewedCar.isFavorite=true
+      }
+      if(popularCar){
+        popularCar.isFavorite=true
+      } 
+      if(newCar){
+        newCar.isFavorite=true
+      }    
+    }
+
+    const handleFulfildRemoveFromFavorite=(state:CarsState, action: PayloadAction<number>)=>{
+      const recentlyViewedCar= state.recentlyViewedCars.find(item=>item.id===action.payload)
+      const popularCar= state.popularCars.find(item=>item.id===action.payload)
+      const newCar= state.newCars.find(item=>item.id===action.payload)
+      if (state.carDetail) {
+        state.carDetail.isFavorite = false;
+      }
+      if(recentlyViewedCar){
+        recentlyViewedCar.isFavorite=false
+      }
+      if(popularCar){
+        popularCar.isFavorite=false
+      } 
+      if(newCar){
+        newCar.isFavorite=false
+      }    
+    }
+ 
 export const carsSlice = createSlice({
     name: 'cars',
     initialState,
-    reducers: {},
+    reducers: {
+      // clearFavourites(state) {
+      //   const newCars=state.newCars.map(item=>);
+      // },
+    },
     extraReducers: (builder) => {
         builder
           .addCase(fetchNewCars.fulfilled, handleFulfildGetNew)
           .addCase(fetchPopularCars.fulfilled, handleFulfildGetPopular)
           .addCase(fetchViewedCars.fulfilled, handleFulfildGetViewed)
-          .addMatcher(isAnyOf(fetchNewCars.pending,fetchPopularCars.pending,fetchViewedCars.pending), handlePending)
-          .addMatcher(isAnyOf(fetchNewCars.rejected,fetchPopularCars.rejected,fetchViewedCars.rejected), handleRejected)
+          .addCase(getCarDetails.fulfilled, handleFulfildGetCarDetails)
+          .addCase(addToFavourites.fulfilled, handleFulfildAddToFavorite)
+          .addCase(removeFromFavourites.fulfilled, handleFulfildRemoveFromFavorite)
+          .addMatcher(isAnyOf(fetchNewCars.pending,fetchPopularCars.pending,fetchViewedCars.pending, getCarDetails.pending), handlePending)
+          .addMatcher(isAnyOf(fetchNewCars.rejected,fetchPopularCars.rejected,fetchViewedCars.rejected, getCarDetails.rejected), handleRejected)
       },
   });

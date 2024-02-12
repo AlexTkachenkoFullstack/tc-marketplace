@@ -8,7 +8,7 @@ interface IDescription{
 }
 
 export const ProductDescription:React.FC<IDescription>=({description})=>{
-    const [showAllText, setShowAllText]=useState<boolean>(false)
+    const [showAllText, setShowAllText]=useState<boolean>(true)
 
     const toggleButton=()=>{
         setShowAllText(!showAllText)

@@ -28,7 +28,7 @@
   .link {
     display: block;
     transition: text-decoration-color $effectDuration;
-    text-decoration: underline;
+    // text-decoration: underline;
     text-decoration-color: transparent;
 
     &:hover {
@@ -80,6 +80,14 @@
       border-radius: 50%;
     }
   }
+}
+
+.iconIsFavouriteContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  width: 32px;
 }
 
 .likeBtn {

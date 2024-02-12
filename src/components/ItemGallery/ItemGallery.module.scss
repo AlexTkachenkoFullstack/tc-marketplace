@@ -5,19 +5,28 @@
 .galleryContainer{
   margin-right: auto;
   margin-left: auto;
-  width: 320px;
+  width: 312px;
   border-radius: 8px;
+
+  @media (min-width: 768px) {
+    width: 688px;
+  }
 }
 .photoContainer{
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width:320px;
+  width:312px;
   height: 190px;
   border-radius: 8px;
   overflow: hidden;
   font-size: 12px;
+
+  @media (min-width: 768px) {
+    width: 688px;
+    height: 430px;
+  }
 }
 
 .image{
@@ -66,6 +75,8 @@ object-fit: cover;
   align-items: center;
   justify-content: center;
 }
+
+
 
 
 // .slider {

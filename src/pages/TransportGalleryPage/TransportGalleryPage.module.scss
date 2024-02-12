@@ -1,0 +1,17 @@
+@import '../../styles/utils/breakpoints';
+@import '../../styles/utils/variables';
+
+.galleryContainer{
+    margin-top: 56px;
+    width: 312px;
+    padding: 40px 24px;
+
+      @media (min-width: 768px) {
+        width: 688px;
+        padding: 40px 40px;
+      }
+  
+      @media (min-width: 1024px) {
+        width: 944px;
+      }
+  }
