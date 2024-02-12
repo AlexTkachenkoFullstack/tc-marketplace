@@ -6,7 +6,22 @@ export const  getCarInfo=async(id:string)=>{
     return response.data
 }
 
-export const  getCarDetails=async(id:string)=>{
-    const response = await axios.get(`transport/details/${id}?`)
+
+export const  getUserDetails=async(id:string)=>{
+    const response = await axios.get(`transport/user-details/${id}?`)
     return response.data
+}
+
+export const  getUserContacts=async(id:string, token:string)=>{
+    
+    try {
+        const response = await axios.get(`transport/user-contacts/${id}?`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        return response.data;
+      } catch (error) {
+        console.error('Помилка в отриманні данних юзера', error);
+      }
 }

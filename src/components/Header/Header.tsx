@@ -11,6 +11,7 @@ import account from '../../assets/icons/account_circle.svg';
 import { isAuthUser } from 'redux/auth/selectors';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { logoutThunk } from 'redux/auth/operations';
+import { fetchNewCars, fetchPopularCars } from 'redux/cars/operations';
 
 export const links = [
   {
@@ -42,9 +43,8 @@ export const Header: FC = () => {
   //   setIsMenuOpen(!isMenuOpen);
   // };
 
-  const handleLogout = () => {
-    console.log(auth)
-       dispatchLogout(logoutThunk())
+  const handleLogout = async() => {
+    dispatchLogout(logoutThunk())
     navigate('/');
   }
 
@@ -56,12 +56,6 @@ export const Header: FC = () => {
         </button>
         <Logo className={styles.header__logo} />
 
-        <nav className={styles.header__nav}>
-          <a className={styles.header__nav_link} href="#">Link</a>
-          <a className={styles.header__nav_link} href="#">Link</a>
-          <a className={styles.header__nav_link} href="#">Link</a>
-          <a className={styles.header__nav_link} href="#">Link</a>
-        </nav>
 
       </div>
 

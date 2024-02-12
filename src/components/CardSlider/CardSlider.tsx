@@ -26,7 +26,6 @@ export const CardSlider: React.FC<Props> = ({ title, cars }) => {
     const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
     const [isPrevBtnDisabled, setIsPrevBtnDisabled] = useState(true);
     const [isNextBtnDisabled, setIsNextBtnDisabled] = useState(false);
-
     const handleClick = (direction: string) => {
         if (direction === 'right') {
             swiperRef?.slideNext();

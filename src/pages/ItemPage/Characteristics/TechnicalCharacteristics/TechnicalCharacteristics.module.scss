@@ -1,0 +1,52 @@
+@import '../../../../styles/utils/variables';
+
+.characteristicSection{
+    margin-bottom: 32px;
+}
+
+.characteristicsTitle{
+    font-family: 'Roboto', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.2;
+    color:$color-grey;
+    margin-bottom: 24px;
+}
+
+.characteristicsItem{
+    display:flex;
+    column-gap: 8px;
+    flex-direction: column;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.43;
+    color:$color-grey;
+    margin-bottom: 16px;
+
+    @media (min-width: 768px) {
+        flex-direction:row;
+        align-items: center;
+      }
+}
+
+.characteristicsItemName{ 
+    margin-bottom: 16px;
+
+    @media (min-width: 768px) {
+        width: 224px;
+        margin-bottom: 0px;
+      }
+}
+
+.characteristicsItemValueContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    height: 32px;
+    padding: 6px 16px;
+    border-radius: 24px;
+    background-color: $color-light;
+
+}

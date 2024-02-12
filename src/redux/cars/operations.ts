@@ -69,5 +69,69 @@ export const fetchPopularCars = createAsyncThunk(
   }
 );
 
+export const getCarDetails = createAsyncThunk(
+  'cars/getCarDetails',
+  async (id:string, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
+    const persistToken = state.auth.token;
+    if (persistToken === null) {
+      return thunkAPI.rejectWithValue('Unable to add to favorite');
+    }
+    try {
+      setAuthHeader(persistToken);
+      const response = await instance.get(`transport/details/${id}?`);
+      return response.data;
+    } catch (err) {
+      const error: AxiosError<KnownError> = err as any;
+      if (!error.response) {
+        throw err;
+      }
+      return thunkAPI.rejectWithValue({ errorMessage: error.response.data });
+    }
+  }
+);
+
+export const addToFavourites = createAsyncThunk(
+  'cars/addToFavourites',
+  async (id:number, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
+    const persistToken = state.auth.token;
+    if (persistToken === null) {
+      return thunkAPI.rejectWithValue('Unable to add to favorite');
+    }
+    try {
+      setAuthHeader(persistToken);
+      const response = await instance.put(`catalog/favorite-add/${id}`);
+      return response.data;
+    } catch (err) {
+      const error: AxiosError<KnownError> = err as any;
+      if (!error.response) {
+        throw err;
+      }
+      return thunkAPI.rejectWithValue({ errorMessage: error.response.data });
+    }
+  }
+);
 
 
+export const removeFromFavourites = createAsyncThunk(
+  'cars/removeFromFavourites',
+  async (id:number, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
+    const persistToken = state.auth.token;
+    if (persistToken === null) {
+      return thunkAPI.rejectWithValue('Unable to add to favorite');
+    }
+    try {
+      setAuthHeader(persistToken);
+      const response = await instance.delete(`catalog/favorite-remove/${id}`);
+      return response.data;
+    } catch (err) {
+      const error: AxiosError<KnownError> = err as any;
+      if (!error.response) {
+        throw err;
+      }
+      return thunkAPI.rejectWithValue({ errorMessage: error.response.data });
+    }
+  }
+);

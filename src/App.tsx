@@ -18,11 +18,13 @@ import { useAppDispatch } from 'redux/hooks';
 import { fetchGoogleUser } from 'helpers/fetchGoogleUser';
 import { Dispatch } from '@reduxjs/toolkit';
 import { ItemPage } from 'pages/ItemPage';
+import { TransportGalleryPage } from 'pages/TransportGalleryPage';
 export const App: React.FC = () => {
+
     const dispatch:Dispatch=useAppDispatch()
     useEffect(()=>{
         fetchGoogleUser(dispatch)
-    }, [dispatch])
+    }, [ dispatch])
     return (
         <>
             <Routes>
@@ -39,7 +41,8 @@ export const App: React.FC = () => {
                         <Route path="recover/new" element={<RestrictedRoute redirectTo='/' component={<NewPasswordPage />} />} />
                     </Route>
                     <Route path="favorites" element={<FavoritesPage />} />
-                    <Route path="catalog/:id" element={<ItemPage/>} />
+                    <Route path="catalog/:id/" element={<ItemPage/>} />
+                    <Route path="catalog/:id/gallery" element={<TransportGalleryPage/>}/>   
                 </Route>
             </Routes>
         </>
