@@ -2,6 +2,8 @@
 
 .container {
       margin-top: 56px;
+      margin-left: auto;
+      margin-right: auto;
       padding-top:32px;
       padding-bottom: 40px;
       padding-left: 20px;
@@ -16,9 +18,9 @@
         padding: 32px 40px 40px 40px;
       }
   
-      @media (min-width: 1024px) {
-        width: 944px;
-      }
+      // @media (min-width: 1024px) {
+      //   width: 944px;
+      // }
 
   .pathItem{
     color:$color-text-grey;
