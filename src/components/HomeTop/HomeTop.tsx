@@ -15,13 +15,13 @@ import {
   fetchModels,
   fetchRegions,
   fetchTypes,
-  fetchFiltredCars,
+//   fetchFiltredCars,
 } from 'redux/filter/operations';
 import { IRegion } from 'types/IRegion';
 import { IType } from 'types/IType';
 import { IBrand } from 'types/IBrand';
 import { IModel } from 'types/IModel';
-import { ISearchParams } from 'types/ISearchParam';
+// import { ISearchParams } from 'types/ISearchParam';
 
 import { useNavigate } from 'react-router-dom';
 import { getArrayModelsOfId, getArrayOfId } from 'utils/getArrayOfId';

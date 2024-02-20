@@ -15,7 +15,7 @@ interface Iprops {
 const SearchingResultsMenu: React.FC<Iprops> = ({ onAdvancedFilter }) => {
   const [typeOfSort, setTypeOfSort] = useState<string | string[]>('');
   const [orderBy, setOrderBy] = useState('CREATED');
-  const [sortBy, setSortBy] = useState('ASC');
+  //   const [sortBy, setSortBy] = useState('ASC');
   const dispatch = useAppDispatch();
 
   const searchParams: Pick<
@@ -42,12 +42,12 @@ const SearchingResultsMenu: React.FC<Iprops> = ({ onAdvancedFilter }) => {
   useEffect(() => {
     const searchConfig = {
       page: 0,
-      searchParams: { ...searchParams, orderBy, sortBy },
+      searchParams: { ...searchParams, orderBy, sortBy: 'ASC' },
     };
     console.log('searchConfig', searchConfig);
     dispatch(cleanFiltredStore());
     dispatch(fetchFiltredCars(searchConfig));
-  }, [dispatch, orderBy, searchParams, sortBy]);
+  }, [dispatch, orderBy, searchParams]);
 
   const handleAdvancedFilter = () => {
     onAdvancedFilter();
