@@ -107,3 +107,26 @@
 .icons {
   display: flex;
 }
+// Дополнительные стили для компонента, вызванного на странице AdvancedSearch
+  
+.advanced_search_trigger_content {
+  display: flex;
+  box-sizing: border-box;
+  width: calc(100%);
+  height: 44px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 18px 0px 22px;
+  border-radius: 1000px;
+  background-color: none;
+  background-color: #F0F0F0;
+
+  &_active {
+    background-color: $background-color-white;
+
+    &>.text {
+
+      width: 100%;
+    }
+  }
+}
