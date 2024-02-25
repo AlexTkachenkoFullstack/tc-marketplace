@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
-import ReactSlider from 'react-slider';
-import  styles from './RangeSlider.module.scss';
+import React, { useState,useEffect } from 'react';
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
+import './newStyles.css'
+import styles from './RangeSlider.module.scss';
 
-
-//objectValue: object //возможно он неннужен
+interface SliderValue {
+  from: number;
+  to: number;
+}
 
 interface RangeSliderProps {  
   setObjectValue: React.Dispatch<React.SetStateAction<{ from: number;
@@ -11,75 +15,77 @@ interface RangeSliderProps {
   typeRange:string
 }
 
-const RangeSlider: React.FC<RangeSliderProps> = ({setObjectValue,typeRange}) => {
+const RangeSlider: React.FC<RangeSliderProps> = ({setObjectValue, typeRange}) => {
   
-  // console.log('key :>> ', typeRange);
-  const [value, setValue] = useState({from:0,to:0}); // начальное значение 
+  const [value, setValue] = useState<SliderValue>({from:0,to:0}); // начальное значение 
 
-  function startValue(typeRange:string){
-  let min ;
-  let max ;
-    switch (typeRange) {
-    case  "price" :
-      min = 1000
-      max = 1000000
-    break;
-    case  "year" :
-      min = 1970
-      max = 2024
-    break;
-    case  "mileage" :
-      min = 10
-      max = 1000000
-    break;
-    case  "enginePower" :
-      min = 10
-      max = 1000
-    break;
-    case  "numberOfDoors" :
-      min = 2
-      max = 5
-    break;
-    case  "numberOfSeats" :
-      min = 2
-      max = 20
-    break;  
+  useEffect(() => {
+    const [min, max] = startValue(typeRange);
+    if (min !== undefined && max !== undefined){
+    setValue({ from: min, to: max }); // установить начальные значения при загрузке страницы
+    setObjectValue({ from: min, to: max });
     }
-    return [min,max]
-} 
-// console.log('value :>> ', value);
+  }, [typeRange]); 
+  function startValue(typeRange:string){
+    let min ;
+    let max ;
+      switch (typeRange) {
+      case  "price" :
+        min = 1000
+        max = 1000000
+      break;
+      case  "year" :
+        min = 1970
+        max = 2024
+      break;
+      case  "mileage" :
+        min = 10
+        max = 1000000
+      break;
+      case  "enginePower" :
+        min = 10
+        max = 1000
+      break;
+      case  "numberOfDoors" :
+        min = 2
+        max = 5
+      break;
+      case  "numberOfSeats" :
+        min = 2
+        max = 20
+      break;  
+      }
+      return [min,max]
+  } 
 
-  const handleRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => { 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => { 
     const name = event.target.name;
     let inputValue  = parseInt(event.target.value);
     const newValue = {...value}
-if(name === "from"){
-  newValue.from=inputValue
-  newValue.to=inputValue
-}else {
-  newValue.to=inputValue
-}  
+    if(name === "from"){
+      newValue.from=inputValue
+      newValue.to=inputValue
+    } else {
+      newValue.to=inputValue
+    }  
     setValue(newValue);   
     setObjectValue(newValue)
   };
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const name = event.target.name;
-    let inputValue  = parseInt(event.target.value);    
-    // if (isNaN(inputValue) )  {
-    //   inputValue = 1970; // в случае некорректного ввода установим значение по умолчанию
-    // } else if (inputValue < 1970) {
-    //   inputValue = 1970; // не допустим отрицательные значения
-    // } else if (inputValue > 2024) {
-    //   inputValue = 2024; // не допустим значения больше 100
-    // }
-   const newValue = {...value,[name]:inputValue}
-    setValue(newValue);    
+  const handleSliderChange = (newValue: number | number[]) => {
+    if (typeof newValue === 'number') {
+      // Если newValue - число, это означает, что один из бегунков слайдера был передвинут
+      setValue({ from: newValue, to: newValue });
+      setObjectValue({ from: newValue, to: newValue });
+    } else {
+      // Если newValue - массив чисел, это означает, что диапазон был изменен
+      setValue({ from: newValue[0], to: newValue[1] });
+      setObjectValue({ from: newValue[0], to: newValue[1] });
+    }
   };
 
-const [min,max] = startValue(typeRange);
+  const [min, max] = startValue(typeRange);
 
-// console.log (startValue(typeRange))
   return (
     <>
       <div className={styles.inputBlokResultAddBrand}>      
@@ -89,8 +95,7 @@ const [min,max] = startValue(typeRange);
           name="from"
           className={styles.priceLeftAddBrand}
           value={value.from}
-          onChange={handleInputChange}
-        
+          onChange={handleInputChange}        
         /> <span  className={styles.centralDivider}></span>
         <input
           type="text"
@@ -102,34 +107,18 @@ const [min,max] = startValue(typeRange);
         />
       </div>
       <div className={styles.inputBlokRangeAddBrand}>
-        <input
-          min={min}
-          max={max}          
-          step={1}
-          type="range"
-          id="from"
-          name="from"
-          className={styles.carYearLeftAddBrandt}
-          value={value.from}
-          onChange={handleRangeChange}
-          /> 
-          <input
-            min={min}
-            max={max}
-            step={1}
-            type="range"
-            id="to"
-            name="to"
-            className={styles.carYearRightAddBrand} 
-            value={value.to}
-            onChange={handleRangeChange}                      
-          />
+        <Slider 
+          range  
+          className='newStyles' 
+          min={min}  
+          max={max}  
+          value={[value.from, value.to]} 
+          onChange={handleSliderChange}
+          allowCross={false}
+        />
       </div>
     </>
-    
-    );    
-  };
+  );    
+};
 
-  export default RangeSlider;
-  
-  
+export default RangeSlider;

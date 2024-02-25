@@ -21,7 +21,7 @@ import { IRegion } from 'types/IRegion';
 import { IBrand } from 'types/IBrand';
 import { IModel } from 'types/IModel';
 import { ISearchParams } from 'types/ISearchParam';
-import { getCarTypes, getCarTypeParam } from 'services/services';
+import { getCarTypeParam } from 'services/services';
 import { changeFiltredParams, cleanFiltredStore } from 'redux/filter/slice';
 import {
   getArrayCarBodyOfId,
@@ -45,11 +45,10 @@ import { ICity } from 'types/ICity';
 export const AdvancedSearchFilter: React.FC = () => {
   const [isShow, setIsShow] = useState(false);
   const dispatch = useAppDispatch();
-  const [isActive, setIsActive] = useState(false);
-  const [error, setError] = useState<any>(null);
+  // const [isActive, setIsActive] = useState(false);
+
   // response(catalog) get-param
   const [data, setData] = useState<any>([]);
-
   // для рендж слайдера
   const [price, setPrice] = useState({ from: 0, to: 0 });
   const [year, setYear] = useState({ from: 0, to: 0 });
@@ -57,14 +56,12 @@ export const AdvancedSearchFilter: React.FC = () => {
   const [enginePower, setEnginePower] = useState({ from: 0, to: 0 });
   const [numberOfDoors, setNumberOfDoors] = useState({ from: 0, to: 0 });
   const [numberOfSeats, setNumberOfSeats] = useState({ from: 0, to: 0 });
-
   // redux filtred
   const typeCars: IType[] = useAppSelector(getFilterTypes);
   const regions: IRegion[] = useAppSelector(getFilterRegions);
   const citys: ICity[] = useAppSelector(getFilterCitys);
   const brands: IBrand[] = useAppSelector(getFilterBrands);
   const models: IModel[] = useAppSelector(getFilterModels);
-
   // type categotry cars
   const [selectedCategory, setSelectedCategory] = useState<string>('Легкові');
   const [carBody, setCarBody] = useState<string>('');
@@ -85,7 +82,6 @@ export const AdvancedSearchFilter: React.FC = () => {
   const [carModel, setCarModel] = useState<string | string[]>('Всі моделі');
   const [oneCarMark, setOneCarMark] = useState<string | string[]>('Всі моделі');
   const [oneCarModel, setOneCarModel] = useState<string | string[]>([]);
-
   // dropdown
   const [selectedCity, setSelectedCity] = useState<string | string[]>('Місто');
   const [selectedRegions, setSelectedRegions] = useState<string | string[]>(
@@ -118,15 +114,11 @@ export const AdvancedSearchFilter: React.FC = () => {
       };
       dispatch(fetchCity(searchConfig));
     }
-  }, [selectedRegions]);
+  }, [selectedRegions, dispatch]);
   useEffect(() => {
-    async function getCarTypeParams() {
-      try {
+    async function getCarTypeParams() {     
         const response = await getCarTypeParam(`${transportTypeId}`);
-        setData(response);
-      } catch (error) {
-        setError(error);
-      }
+        setData(response);     
     }
     getCarTypeParams();
   }, [transportTypeId]);
@@ -348,7 +340,7 @@ export const AdvancedSearchFilter: React.FC = () => {
     // action.resetForm()
   };
   return (
-    <div className={styles.AdvSearch}>
+    <div className={styles.AdvSearchFilter}>
       {/* <div className={styles.AdvSearch_title_box}>
         <div className={styles.AdvSearch_title_container}>
           <h1 className={styles.AdvSearch_title}>Розширений пошук</h1>
@@ -364,8 +356,8 @@ export const AdvancedSearchFilter: React.FC = () => {
           </div>
         </div>
       </div> */}
-      <div className={styles.AdvSearch_container}>
-        <div className={styles.AdvSearch_box}>
+      <div className={styles.AdvSearchFilter_container}>
+        <div className={styles.AdvSearchFilter_box}>
           {/*RadioButton type car */}
 
           <div className={styles.list}>
@@ -586,9 +578,9 @@ export const AdvancedSearchFilter: React.FC = () => {
               </div>
               <div className={styles.listItem}>
                 <CategoryBar
-                  categories={transportColor.slice(0, isShow ? 10 : 5).map(
-                    (item: any) => item.transportColor,
-                  )}
+                  categories={transportColor
+                    .slice(0, isShow ? 10 : 5)
+                    .map((item: any) => item.transportColor)}
                   handleSelect={handlerCarColor}
                   selectedCategory={carColor}
                 />
@@ -603,7 +595,7 @@ export const AdvancedSearchFilter: React.FC = () => {
                   className={styles.buttonColor}
                   onClick={() => setIsShow(prev => !prev)}
                 >
-                    {isShow ? 'Приховати' : 'Показати більше'}
+                  {isShow ? 'Приховати' : 'Показати більше'}
                 </button>
               </div>
             </div>
@@ -617,13 +609,13 @@ export const AdvancedSearchFilter: React.FC = () => {
               </div>
               <div className={styles.listItem}>
                 <CategoryBar
-                  categories={transportCondition.slice(isShow?10:2).map(
-                    (item: any) => item.transportCondition,
-                  )}
+                  categories={transportCondition
+                    .slice(isShow ? 10 : 2)
+                    .map((item: any) => item.transportCondition)}
                   handleSelect={handlerCarTransportCondition}
                   selectedCategory={carTransportCondition}
                 />
-                 <button
+                <button
                   className={styles.btnShowMore}
                   onClick={() => setIsShow(prev => !prev)}
                 >
@@ -795,6 +787,13 @@ export const AdvancedSearchFilter: React.FC = () => {
             </div>
           </div>
           <div className={styles.resultFilter}>
+            <button
+              className={styles.resultFilterReset}
+              type="button"
+              onClick={handlerSendRequest}
+            >
+              Зберекти пошук
+            </button>
             <button
               className={styles.resultFilterShow}
               type="button"
