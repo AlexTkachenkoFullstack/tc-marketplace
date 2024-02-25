@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction, isAnyOf } from '@reduxjs/toolkit';
 import {
   fetchBrands,
+  fetchCity,
   fetchFiltredCars,
   fetchModels,
   fetchRegions,
@@ -11,9 +12,11 @@ import { IRegion } from 'types/IRegion';
 import { IBrand } from 'types/IBrand';
 import { IModel } from 'types/IModel';
 import { ICar } from 'types/IСar';
+import { ICity } from 'types/ICity';
 
 interface IFilterState {
   regions: IRegion[] | [];
+  citys: ICity[] | [];
   types: IType[] | [];
   brand: IBrand[] | [];
   models: IModel[] | [];
@@ -30,6 +33,7 @@ interface IFilterState {
 
 const initialState: IFilterState = {
   regions: [],
+  citys: [],
   types: [],
   brand: [],
   models: [],
@@ -62,6 +66,14 @@ const handleFulfildGetRegions = (
   state.isLoading = false;
   state.error = null;
   state.regions = action.payload;
+};
+const handleFulfildGetCitys = (
+  state: IFilterState,
+  action: PayloadAction<ICity[]>,
+) => {
+  state.isLoading = false;
+  state.error = null;
+  state.citys = action.payload;
 };
 
 const handleFulfildGetTypes = (
@@ -111,6 +123,29 @@ export const filterSlice = createSlice({
         | { brandId: number[] | null }
         | { modelId: number[] }
         | { regionId: number[] }
+        | { cityId: number[] }
+        | { bodyTypeId: number[] }
+        | { fuelTypeId: number[] }
+        | { driveTypeId: number[] }
+        | { transmissionId: number[] }
+        | { colorId: number[] }
+        | { conditionId: number[] }
+        | { numberAxlesId: number[] }
+        | { producingCountryId: number[] }
+        | { wheelConfigurationId: number[] }
+        | { priceFrom: number }
+        | { priceTo: number }
+        | { yearsFrom: number }
+        | { yearsTo: number }
+        | { mileageFrom: number }
+        | { mileageTo: number }
+        | { enginePowerFrom: number }
+        | { enginePowerTo: number }
+        | { numberOfDoorsFrom: number }
+        | { numberOfDoorsTo: number }
+        | { numberOfSeatsFrom: number }
+        | { numberOfSeatsTo: number }
+        | { bargain: boolean }
       >,
     ) {
       state.select = { ...state.select, ...action.payload };
@@ -122,6 +157,7 @@ export const filterSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(fetchRegions.fulfilled, handleFulfildGetRegions)
+      .addCase(fetchCity.fulfilled, handleFulfildGetCitys)
       .addCase(fetchTypes.fulfilled, handleFulfildGetTypes)
       .addCase(fetchBrands.fulfilled, handleFulfildGetBrands)
       .addCase(fetchModels.fulfilled, handleFulfildGetModels)
@@ -129,6 +165,7 @@ export const filterSlice = createSlice({
       .addMatcher(
         isAnyOf(
           fetchRegions.pending,
+          fetchCity.pending,
           fetchTypes.pending,
           fetchBrands.pending,
           fetchModels.pending,
@@ -139,6 +176,7 @@ export const filterSlice = createSlice({
       .addMatcher(
         isAnyOf(
           fetchRegions.rejected,
+          fetchCity.rejected,
           fetchTypes.rejected,
           fetchBrands.rejected,
           fetchModels.rejected,

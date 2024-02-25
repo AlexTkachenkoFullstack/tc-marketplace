@@ -4,6 +4,7 @@ import styles from './AdvancedSearch.module.scss';
 // import AdvSearchBottom from './AdvSearchBottom/AdvSearchBottom';
 import SearchingResults from 'components/SearchingResults/SearchingResults';
 import SearchingResultsMenu from 'components/SearchingResults/SearchingResultsMenu/SearchingResultsMenu';
+import { AdvancedSearchFilter } from 'components/AdvancedSearchFilter/AdvancedSearchFilter';
 
 export const AdvancedSearch: React.FC = () => {
   const [isAdvancedFilter, setIisAdvancedFilter] = useState(false);
@@ -16,7 +17,7 @@ export const AdvancedSearch: React.FC = () => {
     <section className={styles.AdvSearch}>
       <div className={styles.AdvSearch_container}>
         <SearchingResultsMenu onAdvancedFilter={handleAdvancedFilter} />
-        {isAdvancedFilter && <div className={styles.kostya}></div>}
+        {isAdvancedFilter && <AdvancedSearchFilter />}
         <SearchingResults />
       </div>
     </section>

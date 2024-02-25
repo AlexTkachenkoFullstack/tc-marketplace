@@ -2,7 +2,7 @@ import {
     FC, useState, useRef, useCallback, useEffect
 } from 'react';
 import styles from './Dropdown.module.scss';
-
+import { useLocation } from 'react-router-dom';
 import arrowDown from '../../assets/icons/arrow-down.svg';
 import close from '../../assets/icons/close.svg';
 
@@ -34,7 +34,8 @@ export const Dropdown: FC<Props> = (props) => {
         carMark,
         setOption,
     } = props;
-
+    const location = useLocation();
+    const isAdvancedSearchPage = location.pathname === '/advanced-search';
     const [isActive, setIsActive] = useState(false);
     // const [option, setOption] = useState<string | string[]>(startValue);
     const [filterValue, setfilterValue] = useState('')
@@ -143,7 +144,7 @@ export const Dropdown: FC<Props> = (props) => {
                 }
                 }
             >
-                <div className={`${styles.trigger_content} ${isActive ? styles.trigger_content_active : ''}`}
+                <div className={`${styles.trigger_content} ${isActive ? styles.trigger_content_active : ''} ${isAdvancedSearchPage ? styles.advanced_search_trigger_content : ''}`}
                 >
 
                     {isActive ? <DropdownInput
