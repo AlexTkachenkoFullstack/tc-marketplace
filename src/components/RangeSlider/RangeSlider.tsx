@@ -25,7 +25,7 @@ const RangeSlider: React.FC<RangeSliderProps> = ({setObjectValue, typeRange}) =>
     setValue({ from: min, to: max }); // установить начальные значения при загрузке страницы
     setObjectValue({ from: min, to: max });
     }
-  }, [typeRange]); 
+  }, [typeRange,setObjectValue]); 
   function startValue(typeRange:string){
     let min ;
     let max ;

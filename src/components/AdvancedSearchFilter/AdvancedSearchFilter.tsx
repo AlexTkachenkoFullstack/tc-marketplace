@@ -114,7 +114,7 @@ export const AdvancedSearchFilter: React.FC = () => {
       };
       dispatch(fetchCity(searchConfig));
     }
-  }, [selectedRegions, dispatch]);
+  }, [selectedRegions, dispatch,regions]);
   useEffect(() => {
     async function getCarTypeParams() {     
         const response = await getCarTypeParam(`${transportTypeId}`);
