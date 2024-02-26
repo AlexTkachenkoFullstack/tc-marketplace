@@ -101,7 +101,7 @@ export const AdvancedSearchFilter: React.FC = () => {
   const transportCondition = data?.transportConditionDTOS;
   const numberAxles = data?.numberAxlesDTOS;
   const wheelConfiguration = data?.wheelConfigurationDTOS;
-  const producingCountry = data?.producingCountryDTOS;  
+  const producingCountry = data?.producingCountryDTOS;
 
   console.log('data :>> ', data);
   useEffect(() => {
@@ -383,6 +383,7 @@ export const AdvancedSearchFilter: React.FC = () => {
             <div className={styles.listItem}>
               <div className={styles.itemdropdownbox}>
                 <Dropdown
+                  updateStyle="advSearch"
                   options={regions.map(region => region.region)}
                   label="Регіон"
                   startValue="Регіон"
@@ -403,6 +404,7 @@ export const AdvancedSearchFilter: React.FC = () => {
               <div className={styles.listItem}>
                 <div className={styles.itemdropdownbox}>
                   <Dropdown
+                    updateStyle="advSearch"
                     options={citys.map(item => item.city)}
                     label="Місто"
                     startValue="Місто"
@@ -458,6 +460,7 @@ export const AdvancedSearchFilter: React.FC = () => {
             <div>
               <div className={styles.listItemBrend}>
                 <Dropdown
+                  updateStyle="advSearch"
                   options={[...brands.map(brand => brand.brand)].sort((a, b) =>
                     a.localeCompare(b),
                   )}
@@ -467,6 +470,7 @@ export const AdvancedSearchFilter: React.FC = () => {
                   setOption={setCarMark}
                 />
                 <Dropdown
+                  updateStyle="advSearch"
                   options={
                     carMark !== 'Всі марки'
                       ? models.map(item => item.model)
@@ -487,6 +491,7 @@ export const AdvancedSearchFilter: React.FC = () => {
               <div className={styles.listItemAddBrand}>
                 <div className={styles.itemDropdownBoxAddBrand}>
                   <Dropdown
+                    updateStyle="advSearch"
                     options={[...brands.map(brand => brand.brand)].sort(
                       (a, b) => a.localeCompare(b),
                     )}
@@ -496,6 +501,7 @@ export const AdvancedSearchFilter: React.FC = () => {
                     setOption={setOneCarMark}
                   />
                   <Dropdown
+                    updateStyle="advSearch"
                     options={
                       carMark !== 'Всі марки'
                         ? models.map(item => item.model)
@@ -730,6 +736,7 @@ export const AdvancedSearchFilter: React.FC = () => {
               <div className={styles.itemdropdownbox}>
                 {producingCountry && (
                   <Dropdown
+                    updateStyle="advSearch"
                     options={producingCountry.map(
                       (item: any) => item.producingCountry,
                     )}

@@ -109,7 +109,7 @@
 }
 // Дополнительные стили для компонента, вызванного на странице AdvancedSearch
   
-.advanced_search_trigger_content {
+.advSearch {
   display: flex;
   box-sizing: border-box;
   width: calc(100%);
@@ -129,4 +129,8 @@
       width: 100%;
     }
   }
+}
+
+.menuStyle {
+  background-color: red;
 }

@@ -67,7 +67,7 @@ const SearchingResultsMenu: React.FC<Iprops> = ({ onAdvancedFilter }) => {
   const handleAdvancedFilter = () => {
     onAdvancedFilter();
   };
-// const menuStyle = 'menuStyle';
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Результати пошуку: "{filterType}"</h1>
@@ -81,6 +81,7 @@ const SearchingResultsMenu: React.FC<Iprops> = ({ onAdvancedFilter }) => {
         </button>
         <div className={styles.dropdownMenu}>
           <Dropdown
+          updateStyle="menuStyle"
             options={[
               'Від дешевих до дорогих',
               'Від дорогих до дешевих',
