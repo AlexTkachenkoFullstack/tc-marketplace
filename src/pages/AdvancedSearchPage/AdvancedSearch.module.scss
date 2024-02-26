@@ -11,6 +11,9 @@
     @include onTablet {
       width: $tablet-min-width;
     }
+    @include onDesktop {
+      width: $desktop-min-width;
+    }
   }
   &_title {
     @include title-styles;

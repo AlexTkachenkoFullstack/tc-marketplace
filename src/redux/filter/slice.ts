@@ -6,6 +6,7 @@ import {
   fetchModels,
   fetchRegions,
   fetchTypes,
+  hideTransport, /////!
 } from './operations';
 import { IType } from 'types/IType';
 import { IRegion } from 'types/IRegion';
@@ -146,6 +147,8 @@ export const filterSlice = createSlice({
         | { numberOfSeatsFrom: number }
         | { numberOfSeatsTo: number }
         | { bargain: boolean }
+        | { orderBy: 'CREATED' | 'PRICE' | 'MILEAGE' } ////!
+        | { sortBy: 'ASC' | 'DESC' } ////!
       >,
     ) {
       state.select = { ...state.select, ...action.payload };
@@ -170,6 +173,7 @@ export const filterSlice = createSlice({
           fetchBrands.pending,
           fetchModels.pending,
           fetchFiltredCars.pending,
+          hideTransport.pending, ////!
         ),
         handlePending,
       )
@@ -181,6 +185,7 @@ export const filterSlice = createSlice({
           fetchBrands.rejected,
           fetchModels.rejected,
           fetchFiltredCars.rejected,
+          hideTransport.rejected, ////!
         ),
         handleRejected,
       );
