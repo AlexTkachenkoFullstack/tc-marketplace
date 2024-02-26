@@ -1,12 +1,10 @@
 import { Dropdown } from 'components/Dropdown/Dropdown';
 import styles from './SearchingResultsMenu.module.scss';
 import { useEffect, useState } from 'react';
-import { fetchFiltredCars } from 'redux/filter/operations';
-import { useSelector } from 'react-redux';
+
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { changeFiltredParams } from 'redux/filter/slice';
 import { getSelectedCars } from 'redux/filter/selectors';
-import { ISearchParams } from 'types/ISearchParam';
-import { useAppDispatch } from 'redux/hooks';
-import { cleanFiltredStore } from 'redux/filter/slice';
 
 interface Iprops {
   onAdvancedFilter: () => void;
@@ -14,18 +12,41 @@ interface Iprops {
 
 const SearchingResultsMenu: React.FC<Iprops> = ({ onAdvancedFilter }) => {
   const [typeOfSort, setTypeOfSort] = useState<string | string[]>('');
-  const [orderBy, setOrderBy] = useState('CREATED');
+  const [orderBy, setOrderBy] = useState<'CREATED' | 'PRICE' | 'MILEAGE'>(
+    'CREATED',
+  );
   //   const [sortBy, setSortBy] = useState('ASC');
   const dispatch = useAppDispatch();
 
-  const searchParams: Pick<
-    ISearchParams,
-    'transportTypeId' | 'brandId' | 'modelId' | 'regionId' | 'orderBy'
-  > = useSelector(getSelectedCars);
+  const { transportTypeId } = useAppSelector(getSelectedCars);
+  let filterType;
+  switch (transportTypeId) {
+    case 1:
+      filterType = 'Легкові';
+      break;
+    case 2:
+      filterType = 'Мото';
+      break;
+    case 3:
+      filterType = 'Вантажівки';
+      break;
+    case 4:
+      filterType = 'Спецтехніка';
+      break;
+    case 5:
+      filterType = 'Сільгосптехніка';
+      break;
+    case 6:
+      filterType = 'Водний транспорт';
+      break;
+
+    default:
+      break;
+  }
 
   useEffect(() => {
     switch (typeOfSort) {
-      case 'Ціна':
+      case 'Від дешевих до дорогих':
         setOrderBy('PRICE');
         break;
       case 'Пробіг':
@@ -40,22 +61,16 @@ const SearchingResultsMenu: React.FC<Iprops> = ({ onAdvancedFilter }) => {
   }, [typeOfSort]);
 
   useEffect(() => {
-    const searchConfig = {
-      page: 0,
-      searchParams: { ...searchParams, orderBy, sortBy: 'ASC' },
-    };
-    console.log('searchConfig', searchConfig);
-    dispatch(cleanFiltredStore());
-    dispatch(fetchFiltredCars(searchConfig));
-  }, [dispatch, orderBy, searchParams]);
+    dispatch(changeFiltredParams({ orderBy, sortBy: 'ASC' }));
+  }, [dispatch, orderBy]);
 
   const handleAdvancedFilter = () => {
     onAdvancedFilter();
   };
-
+// const menuStyle = 'menuStyle';
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Title</h1>
+      <h1 className={styles.title}>Результати пошуку: "{filterType}"</h1>
       <div className={styles.menu}>
         <button
           type="button"
@@ -64,19 +79,22 @@ const SearchingResultsMenu: React.FC<Iprops> = ({ onAdvancedFilter }) => {
         >
           Розширений фільтр
         </button>
-        <Dropdown
-          options={['Ціна', 'Пробіг', 'Створено']}
-          label="Сортування"
-          startValue="Сортування"
-          option={typeOfSort}
-          setOption={setTypeOfSort}
-        />
-        {/* <select name="sort" className={styles.sort}>
-              <option value="new-first">Спочатку нове</option>
-              <option value="popular">Популярне</option>
-              <option value="price">Ціна</option>
-              <option value="name">?</option>
-            </select> */}
+        <div className={styles.dropdownMenu}>
+          <Dropdown
+            options={[
+              'Від дешевих до дорогих',
+              'Від дорогих до дешевих',
+              'Пробіг, за зростанням',
+              'Пробіг, за спаданням',
+              'Від нових до старих',
+              'Від старих до нових',
+            ]}
+            label="Сортування"
+            startValue="Сортування"
+            option={typeOfSort}
+            setOption={setTypeOfSort}
+          />
+        </div>
       </div>
     </div>
   );

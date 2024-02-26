@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 import { ISearchParams } from 'types/ISearchParam';
 import { paramsSerializer } from './../../utils/paramsSerializer';
+import { RootState } from 'redux/store'; //!
 
 export type KnownError = {
   errorMessage: string;
@@ -10,6 +11,10 @@ export type KnownError = {
 const instance = axios.create({
   baseURL: 'https://api.pawo.space/api/v1/',
 });
+
+export const setAuthHeaderForHide = (token: string) => {                  //!
+  instance.defaults.headers.common.Authorization = `Bearer ${token}`;     //!
+};                                                                        //!
 
 export const fetchTypes = createAsyncThunk(
   'filter/getTypes',
@@ -93,7 +98,12 @@ export const fetchFiltredCars = createAsyncThunk(
     searchConfig: { page: number; searchParams: ISearchParams },
     thunkAPI,
   ) => {
+    const state = thunkAPI.getState() as RootState;    //!
+    const persistToken = state.auth.token;             //!
     try {
+      if (persistToken !== null) {                      //!
+        setAuthHeaderForHide(persistToken);             //!
+      }                                                 //!
       const config = {
         params: searchConfig.searchParams,
         paramsSerializer,
@@ -103,7 +113,7 @@ export const fetchFiltredCars = createAsyncThunk(
         config,
       );
 
-      return response.data.transportSearchResponse;
+      return response.data.transportSearchResponse;     //!
     } catch (err) {
       const error: AxiosError<KnownError> = err as any;
       if (!error.response) {
@@ -134,3 +144,27 @@ export const fetchCity = createAsyncThunk(
     }
   },
 );
+
+export const hideTransport = createAsyncThunk(              ///////////////!
+  'cars/putHideTransport',
+  async (id: number, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
+    const persistToken = state.auth.token;
+    if (persistToken === null) {
+      return thunkAPI.rejectWithValue('Unable to Hide advert');
+    }
+    try {
+      setAuthHeaderForHide(persistToken);
+      const response = await instance.put(
+        `https://api.pawo.space/api/v1/user-page/hide/transport/${id}`,
+      );
+      return response.data;
+    } catch (err) {
+      const error: AxiosError<KnownError> = err as any;
+      if (!error.response) {
+        throw err;
+      }
+      return thunkAPI.rejectWithValue({ errorMessage: error.response.data });
+    }
+  },
+);                                                                           //////!
