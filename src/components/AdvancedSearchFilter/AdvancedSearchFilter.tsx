@@ -90,19 +90,20 @@ export const AdvancedSearchFilter: React.FC = () => {
   const [countryDeliver, setCountryDeliver] = useState<string | string[]>(
     'Весь світ',
   );
-  console.log('selectedRegions :>> ', selectedRegions);
-  console.log('selectedCity :>> ', selectedCity);
+  // console.log('selectedRegions :>> ', selectedRegions);
+  // console.log('selectedCity :>> ', selectedCity);
   // response catalog/get-param/id
-  const bodyTypes = data.bodyTypeDTOS;
-  const fuel = data.fuelTypeDTOS;
-  const transmission = data.transmissionDTOS;
-  const transportColor = data.transportColorDTOS;
-  const driveType = data.driveTypeDTOS;
-  const transportCondition = data.transportConditionDTOS;
-  const numberAxles = data.numberAxlesDTOS;
-  const wheelConfiguration = data.wheelConfigurationDTOS;
-  const producingCountry = data.producingCountryDTOS;
+  const bodyTypes = data?.bodyTypeDTOS;
+  const fuel = data?.fuelTypeDTOS;
+  const transmission = data?.transmissionDTOS;
+  const transportColor = data?.transportColorDTOS;
+  const driveType = data?.driveTypeDTOS;
+  const transportCondition = data?.transportConditionDTOS;
+  const numberAxles = data?.numberAxlesDTOS;
+  const wheelConfiguration = data?.wheelConfigurationDTOS;
+  const producingCountry = data?.producingCountryDTOS;  
 
+  console.log('data :>> ', data);
   useEffect(() => {
     if (selectedRegions) {
       const regionId = getArrayOfId(regions, selectedRegions);
@@ -114,11 +115,11 @@ export const AdvancedSearchFilter: React.FC = () => {
       };
       dispatch(fetchCity(searchConfig));
     }
-  }, [selectedRegions, dispatch,regions]);
+  }, [selectedRegions, dispatch, regions]);
   useEffect(() => {
-    async function getCarTypeParams() {     
-        const response = await getCarTypeParam(`${transportTypeId}`);
-        setData(response);     
+    async function getCarTypeParams() {
+      const data = await getCarTypeParam(`${transportTypeId}`);
+      setData(data);
     }
     getCarTypeParams();
   }, [transportTypeId]);
@@ -191,7 +192,6 @@ export const AdvancedSearchFilter: React.FC = () => {
   // надсилання данних фільтра запиту
   const handlerSendRequest = () => {
     const regionId = getArrayOfId(regions, selectedRegions);
-    console.log('regionId :>> ', regionId);
     dispatch(cleanFiltredStore());
     const modelId = getArrayModelsOfId(models, carModel);
     const cityId = getArrayCityOfId(citys, selectedCity);

@@ -1,5 +1,6 @@
 @import '../../styles/utils/variables';
 @import '../../styles/main.scss';
+
 .AdvSearchFilter {  
   background: #ffff;
   height: 100%;
@@ -8,8 +9,7 @@
     padding-top: 32px;
     justify-content: center;
     display: flex;
-    margin-left: auto;
-    width: 768px;
+    margin-left: auto;   
     margin-right: auto;
     flex-direction: column;
     padding-right: 40px;
@@ -655,3 +655,37 @@ input[type='radio'] {
   background: white;
   color: black;
 }
+/* Для экранов шириной 768px */
+@media screen and (min-width: 768px) {
+  .AdvSearchFilter{
+    &_container {
+      width: 768px;
+      padding-top: 32px;
+      justify-content: center;
+      display: flex;
+      margin-left: auto;   
+      margin-right: auto;
+      flex-direction: column;
+      padding-right: 40px;
+      padding-left: 40px;
+    }
+  }
+}
+/* Медиа-запрос для экранов с шириной от 360px до 480px */
+@media screen and (min-width: 360px) and (max-width: 480px) {
+  .AdvSearchFilter{
+    &_container {
+      width: 360px;
+      max-width: 480px;
+      padding-top: 32px;
+      justify-content: center;
+      display: flex;
+      margin-left: auto;   
+      margin-right: auto;
+      flex-direction: column;
+      padding-right: 40px;
+      padding-left: 40px;
+    }
+  }
+}
+
