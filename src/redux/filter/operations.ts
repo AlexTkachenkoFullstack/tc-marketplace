@@ -115,7 +115,7 @@ export const fetchFiltredCars = createAsyncThunk(
         config,
       );
 
-      return response.data.transportSearchResponse; //!
+      return response.data; //!
     } catch (err) {
       const error: AxiosError<KnownError> = err as any;
       if (!error.response) {

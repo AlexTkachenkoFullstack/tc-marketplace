@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import {
   getFiltredCars,
   getIsloadingFiltredCars,
+  getTotalAdverts,
 } from 'redux/filter/selectors';
 import { SearchingCard } from './SearchingCard/SearchingCard';
 import { ISearchParams } from 'types/ISearchParam';
@@ -20,11 +21,13 @@ import Loader from 'components/Loader/Loader';
 const SearchingResults: React.FC = () => {
   const [isComponentMounted, setIsComponentMounted] = useState(false);
   const [optionMenuId, setOptionMenuId] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const dispatch = useAppDispatch();
 
   const adverts = useSelector(getFiltredCars);
   const isLoading = useSelector(getIsloadingFiltredCars);
+  const totalPAdverts = useSelector(getTotalAdverts);
 
   const searchParams: Pick<
     ISearchParams,
@@ -33,10 +36,10 @@ const SearchingResults: React.FC = () => {
 
   const memoParam = useMemo(() => {
     return {
-      page: 0,
+      page: currentPage,
       searchParams: { ...searchParams },
     };
-  }, [searchParams]);
+  }, [searchParams, currentPage]);
 
   const handleOptionMenu = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -68,6 +71,10 @@ const SearchingResults: React.FC = () => {
     dispatch(updateFilteredStoreAfterHide(updatedArr));
   };
 
+  const handleChangePage = () => {
+    setCurrentPage(prev => (prev += 1));
+  };
+
   return (
     <div className={styles.container}>
       {isLoading ? (
@@ -86,7 +93,7 @@ const SearchingResults: React.FC = () => {
           ))}
         </div>
       )}
-      <CatalogPagination />
+      <CatalogPagination onSetPage={handleChangePage} />
     </div>
   );
 };

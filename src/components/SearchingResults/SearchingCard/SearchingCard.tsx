@@ -15,7 +15,7 @@ import { ReactComponent as ClockIcon } from '../../../assets/icons/clock.svg';
 import { convertDate } from 'utils/convertDate';
 import { hideTransport } from 'redux/filter/operations';
 
-interface Props {
+interface IProps {
   car?: ICar;
   onShowMenu: (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -26,7 +26,7 @@ interface Props {
   isShowMenu: boolean;
 }
 
-export const SearchingCard: React.FC<Props> = ({
+export const SearchingCard: React.FC<IProps> = ({
   car,
   onShowMenu,
   onInfoContainerClick,

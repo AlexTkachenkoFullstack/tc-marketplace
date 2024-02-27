@@ -12,7 +12,7 @@ import { IType } from 'types/IType';
 import { IRegion } from 'types/IRegion';
 import { IBrand } from 'types/IBrand';
 import { IModel } from 'types/IModel';
-import { ICar } from 'types/IСar';
+import { ICar, IFiltredCarsPayload } from 'types/IСar';
 import { ICity } from 'types/ICity';
 
 interface IFilterState {
@@ -30,6 +30,7 @@ interface IFilterState {
     regionId: number[] | [];
   };
   filtredCars: ICar[] | [];
+  totalAdverts: number | null;
 }
 
 const initialState: IFilterState = {
@@ -47,6 +48,7 @@ const initialState: IFilterState = {
   filtredCars: [],
   error: null,
   isLoading: false,
+  totalAdverts: null,
 };
 
 const handlePending = (state: IFilterState) => {
@@ -106,11 +108,16 @@ const handleFulfildGetModels = (
 
 const handleFulfildGetFiltredCars = (
   state: IFilterState,
-  action: PayloadAction<ICar[]>,
+  action: PayloadAction<IFiltredCarsPayload>,
 ) => {
   state.isLoading = false;
   state.error = null;
-  state.filtredCars = [...state.filtredCars, ...action.payload];
+  state.filtredCars = [
+    ...state.filtredCars,
+    ...action.payload.transportSearchResponse,
+
+  ];
+  state.totalAdverts = action.payload.total;
 };
 
 export const filterSlice = createSlice({
