@@ -79,6 +79,7 @@ export const AdvancedSearchFilter: React.FC = () => {
   // select state for dropdown
   const [carMark, setCarMark] = useState<string | string[]>('Всі марки');
   const [brandId, setBrandId] = useState<number[] | []>([]);
+  
   const [carModel, setCarModel] = useState<string | string[]>('Всі моделі');
   const [oneCarMark, setOneCarMark] = useState<string | string[]>('Всі моделі');
   const [oneCarModel, setOneCarModel] = useState<string | string[]>([]);
@@ -175,6 +176,7 @@ export const AdvancedSearchFilter: React.FC = () => {
       dispatch(fetchBrands(type.typeId));
     }
   }, [typeCars, dispatch, selectedCategory]);
+
   useEffect(() => {
     const type = typeCars.find(item => item.type === selectedCategory);
     const brand = brands.find(item => item.brand === carMark);
@@ -361,7 +363,7 @@ export const AdvancedSearchFilter: React.FC = () => {
           {/*RadioButton type car */}
 
           <div className={styles.list}>
-            <div>
+            <div className={styles.title}>
               <h2>Тип</h2>
             </div>
             <div className={styles.listItem}>
@@ -377,7 +379,7 @@ export const AdvancedSearchFilter: React.FC = () => {
           {/*Select Regions */}
 
           <div className={styles.list}>
-            <div>
+            <div className={styles.title}>
               <h2>Регіон</h2>
             </div>
             <div className={styles.listItem}>
@@ -397,7 +399,7 @@ export const AdvancedSearchFilter: React.FC = () => {
           {/* Select City */}
           {citys && citys.length > 0 && (
             <div className={styles.list}>
-              <div>
+              <div className={styles.title}>
                 <h2>Місто</h2>
               </div>
               <div className={styles.listItem}>
@@ -418,7 +420,7 @@ export const AdvancedSearchFilter: React.FC = () => {
           {/*InputRange Price car */}
 
           <div className={styles.list}>
-            <div>
+            <div className={styles.title}>
               <h2>Ціна</h2>
             </div>
             <div className={styles.listItem}>
@@ -429,7 +431,7 @@ export const AdvancedSearchFilter: React.FC = () => {
 
           {bodyTypes && (
             <div className={styles.typeCarBody}>
-              <div>
+              <div className={styles.title}>
                 <h2>Тип кузову</h2>
               </div>
               <div className={styles.listItem}>
@@ -451,12 +453,12 @@ export const AdvancedSearchFilter: React.FC = () => {
           )}
           {/*Бренд/Модель  Select */}
 
-          <div className={styles.selectBrend}>
-            <div>
+          <div className={styles.selectBrand}>
+            <div className={styles.title}>
               <h2>Бренд/Модель</h2>
             </div>
             <div>
-              <div className={styles.listItemBrend}>
+              <div className={styles.listItemBrand}>
                 <Dropdown
                   options={[...brands.map(brand => brand.brand)].sort((a, b) =>
                     a.localeCompare(b),
@@ -520,7 +522,7 @@ export const AdvancedSearchFilter: React.FC = () => {
           {/*Рік виготовлення инпут слайдер inputText, inputRange   Доработать по стилям! */}
 
           <div className={styles.list}>
-            <div>
+            <div className={styles.title}>
               <h2>Рік</h2>
             </div>
             <div className={styles.listItem}>
@@ -531,7 +533,7 @@ export const AdvancedSearchFilter: React.FC = () => {
 
           {fuel && (
             <div className={styles.listTypeFuil}>
-              <div>
+              <div className={styles.title}>
                 <h2>Тип палива</h2>
               </div>
               <div className={styles.listItem}>
@@ -555,7 +557,7 @@ export const AdvancedSearchFilter: React.FC = () => {
 
           {transmission && (
             <div className={styles.list}>
-              <div>
+              <div className={styles.title}>
                 <h2>Коробка передач</h2>
               </div>
               <div className={styles.listItem}>
@@ -573,7 +575,7 @@ export const AdvancedSearchFilter: React.FC = () => {
 
           {transportColor && (
             <div className={styles.listColor}>
-              <div>
+              <div className={styles.title}>
                 <h2>Колір</h2>
               </div>
               <div className={styles.listItem}>
@@ -604,7 +606,7 @@ export const AdvancedSearchFilter: React.FC = () => {
 
           {transportCondition && (
             <div className={styles.listTechCondition}>
-              <div>
+              <div className={styles.title}>
                 <h2>Технічний стан</h2>
               </div>
               <div className={styles.listItem}>
@@ -627,7 +629,7 @@ export const AdvancedSearchFilter: React.FC = () => {
           {/* Пробіг */}
 
           <div className={styles.lisCarMileage}>
-            <div>
+            <div className={styles.title}>
               <h2>Пробіг</h2>
             </div>
             <div className={styles.listItem}>
@@ -637,7 +639,7 @@ export const AdvancedSearchFilter: React.FC = () => {
           {/* Потужність двигуна */}
 
           <div className={styles.listMotorPower}>
-            <div>
+            <div  className={styles.title}>
               <h2>Потужність двигуна</h2>
             </div>
             <div className={styles.listItem}>
@@ -651,7 +653,7 @@ export const AdvancedSearchFilter: React.FC = () => {
 
           {driveType && (
             <div className={styles.listMachineDrive}>
-              <div>
+              <div className={styles.title}>
                 <h2>Привід</h2>
               </div>
               <div className={styles.listItem}>
@@ -666,7 +668,7 @@ export const AdvancedSearchFilter: React.FC = () => {
           {/* Кількість дверей */}
 
           <div className={styles.howManyDoors}>
-            <div>
+            <div className={styles.title}>
               <h2>Кількість дверей</h2>
             </div>
             <div className={styles.listItem}>
@@ -679,7 +681,7 @@ export const AdvancedSearchFilter: React.FC = () => {
           {/* Кількість місць*/}
 
           <div className={styles.listNumberSeats}>
-            <div>
+            <div className={styles.title}>
               <h2>Кількість місць</h2>
             </div>
             <div className={styles.listItem}>
@@ -692,7 +694,7 @@ export const AdvancedSearchFilter: React.FC = () => {
           {/* RadioButton type Кількість осей*/}
           {numberAxles && (
             <div className={styles.listNumberAxles}>
-              <div>
+              <div className={styles.title}>
                 <h2>Кількість осей</h2>
               </div>
               <div className={styles.listItem}>
@@ -707,7 +709,7 @@ export const AdvancedSearchFilter: React.FC = () => {
           {/* RadioButton type Конфігурація коліс*/}
           {wheelConfiguration && (
             <div className={styles.listWheelConfiguration}>
-              <div>
+              <div className={styles.title}>
                 <h2>Конфігурація коліс</h2>
               </div>
               <div className={styles.listItem}>
@@ -723,7 +725,7 @@ export const AdvancedSearchFilter: React.FC = () => {
           )}
           {/* Країна з якої доставили    Select   */}
           <div className={styles.listCountryDelivery}>
-            <div>
+            <div className={styles.title}>
               <h2>Країна з якої доставили:</h2>
             </div>
             <div className={styles.itemdropdowncontainer}>
@@ -746,7 +748,7 @@ export const AdvancedSearchFilter: React.FC = () => {
           </div>
           {/* RadioButton type */}
           <div className={styles.listSelectTitle}>
-            <div>
+            <div className={styles.title}>
               <h2>Можливість торгу</h2>
             </div>
             <div className={styles.listItem}>
@@ -786,6 +788,8 @@ export const AdvancedSearchFilter: React.FC = () => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
           <div className={styles.resultFilter}>
             <button
               className={styles.resultFilterReset}
@@ -805,9 +809,7 @@ export const AdvancedSearchFilter: React.FC = () => {
               Скинути фільтр
             </button>
           </div>
-        </div>
-      </div>
-      {/* {isActive && <AdvSearchBottom isActive={isActive} />} */}
+    
     </div>
   );
 };

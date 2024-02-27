@@ -1,7 +1,7 @@
 @import '../../styles/utils/variables';
 @import '../../styles/main.scss';
 
-.AdvSearchFilter {  
+.AdvSearchFilter {
   background: #ffff;
   height: 100%;
 
@@ -9,7 +9,7 @@
     padding-top: 32px;
     justify-content: center;
     display: flex;
-    margin-left: auto;   
+    margin-left: auto;
     margin-right: auto;
     flex-direction: column;
     padding-right: 40px;
@@ -63,7 +63,7 @@
 //   background-image: url('../../assets/icons/arrow-down.svg');
 //   background-repeat: no-repeat;
 //   background-position: right 10px center;
-  
+
 //   .select-hidden {
 //     display: none;
 //     visibility: hidden;
@@ -214,13 +214,13 @@ input[type='radio'] {
   border: none;
 }
 /*блок Бренд/Модель/Рік початок */
-.selectBrend {
+.selectBrand {
   display: flex;
   width: 688px;
   justify-content: space-between;
   margin-bottom: 32px;
 }
-.listItemBrend {
+.listItemBrand {
   width: 448px;
   height: 128px;
   border-radius: 8px;
@@ -636,7 +636,7 @@ input[type='radio'] {
   font-family: Roboto;
   font-weight: 600;
   font-size: 16px;
- 
+
   height: 40px;
   background: inherit;
   border-radius: 32px;
@@ -644,48 +644,182 @@ input[type='radio'] {
   border: none;
   color: white;
 }
-.resultFilterShow:hover{
+.resultFilterShow:hover {
   background: white;
   color: black;
   background-image: url('../../assets/icons/vector-arrow-show.svg');
   background-repeat: no-repeat;
   background-position: right 15px center;
 }
-.resultFilterReset:hover{
+.resultFilterReset:hover {
   background: white;
   color: black;
 }
 /* Для экранов шириной 768px */
 @media screen and (min-width: 768px) {
-  .AdvSearchFilter{
+  .AdvSearchFilter {
     &_container {
       width: 768px;
-      padding-top: 32px;
-      justify-content: center;
-      display: flex;
-      margin-left: auto;   
-      margin-right: auto;
-      flex-direction: column;
-      padding-right: 40px;
-      padding-left: 40px;
+      // padding-top: 32px;
+      // justify-content: center;
+      // display: flex;
+      // margin-left: auto;
+      // margin-right: auto;
+      // flex-direction: column;
+      // padding-right: 40px;
+      // padding-left: 40px;
     }
   }
 }
 /* Медиа-запрос для экранов с шириной от 360px до 480px */
 @media screen and (min-width: 360px) and (max-width: 480px) {
-  .AdvSearchFilter{
+  .AdvSearchFilter {
     &_container {
       width: 360px;
       max-width: 480px;
-      padding-top: 32px;
-      justify-content: center;
-      display: flex;
-      margin-left: auto;   
-      margin-right: auto;
-      flex-direction: column;
-      padding-right: 40px;
-      padding-left: 40px;
+      // padding-top: 32px;
+      display: block;
+      margin-left: 0;
+      margin-right: 0;
+      padding-right: 20px;
+      padding-left: 20px;
     }
   }
-}
+  .list {
+    justify-content: unset;
+    width: 320px;
+    height: 100%;
+    flex-direction: column;
+    margin-bottom: 32px;
+  }
+  .title {
+    margin-bottom: 16px;
+  }
+  .listItem {
+    width: 320px;
+    gap: 8px;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .typeCarBody {
+    display: flex;
+    width: 320px;
+    justify-content: unset;
+    margin-bottom: 32px;
+    flex-direction: column;
+  }
+  .selectBrand {
+    display: flex;
+    flex-direction: column;
+    width: 320px;
+    justify-content: unset;
+    margin-bottom: 32px;
+  }
+  .listItemBrand {
+    width: 320px;
+    height: 138px;
+  }
+  .listItemAddBrand {
+    width: 320px;
+    height: 138px;
+  }
+  // .itemTypeInputAddBrand {
+  //   width: 320px;
+  // }
+  // .itemTypeSelectAddBrand {
+  //   width: 320px;
 
+  // }
+  .itemDropdownBoxAddBrand {
+    width: 290px;
+  }
+  .listTypeFuil {
+    justify-content: unset;
+    flex-direction: column;
+    width: 320px;
+    margin-bottom: 32px;
+  }
+  .listColor {
+    justify-content: unset;
+    flex-direction: column;
+    width: 320px;
+    margin-bottom: 32px;
+  }
+  .listTechCondition {
+    justify-content: unset;
+    flex-direction: column;
+    width: 320px;
+    margin-bottom: 32px;
+  }
+  .lisCarMileage {
+    justify-content: unset;
+    flex-direction: column;
+    width: 320px;
+    margin-bottom: 32px;
+  }
+  .listMotorPower {
+    justify-content: unset;
+    flex-direction: column;
+    width: 320px;
+    margin-bottom: 32px;
+  }
+  .listMachineDrive {
+    justify-content: unset;
+    flex-direction: column;
+    width: 320px;
+    margin-bottom: 32px;
+  }
+  .howManyDoors {
+    justify-content: unset;
+    flex-direction: column;
+    width: 320px;
+    margin-bottom: 32px;;
+  }
+  .listNumberSeats {
+    justify-content: unset;
+    flex-direction: column;
+    width: 320px;
+    margin-bottom: 32px;;
+  }
+  .listNumberAxles {
+    justify-content: unset;
+    flex-direction: column;
+    width: 320px;
+    margin-bottom: 32px;;
+  }
+  .listWheelConfiguration {
+    justify-content: unset;
+    flex-direction: column;
+    width: 320px;
+    margin-bottom: 32px;;
+  }
+  .listCountryDelivery {
+    justify-content: unset;
+    flex-direction: column;
+    width: 320px;
+    margin-bottom: 32px;;
+  }
+  .itemdropdowncontainer {
+    width: 320px;
+  }
+  .itemdropdownbox {
+    width: 320px;
+  }
+  .listSelectTitle {
+    justify-content: unset;
+    flex-direction: column;
+    height: 36px;
+    width: 320px;
+    margin-bottom: 32px;
+  }
+  .listItemSelectTitle {
+    position: relative;
+    width: 320px;
+    height: 100%;
+    border-radius: 32px;
+    background-color: #f0f0f0;
+    margin-bottom: 32px;
+  }
+}
