@@ -1,28 +1,30 @@
-// import { CardItem } from "components/CardItem";
 import React, { useEffect, useMemo, useState } from 'react';
 import styles from './SearchingResults.module.scss';
-
 import { useSelector } from 'react-redux';
-import { getFiltredCars } from 'redux/filter/selectors';
-
-// import { ICar } from "types/IСar";
+import {
+  getFiltredCars,
+  getIsloadingFiltredCars,
+} from 'redux/filter/selectors';
 import { SearchingCard } from './SearchingCard/SearchingCard';
 import { ISearchParams } from 'types/ISearchParam';
 import { fetchFiltredCars } from 'redux/filter/operations';
 import { getSelectedCars } from 'redux/filter/selectors';
 import { useAppDispatch } from 'redux/hooks';
-import { cleanFiltredStore } from 'redux/filter/slice';
+import {
+  cleanFiltredStore,
+  updateFilteredStoreAfterHide,
+} from 'redux/filter/slice';
 import CatalogPagination from './CatalogPagination/CatalogPagination';
-
-// interface Props {
-//     cars?: ICar[] | [];
-// }
+import Loader from 'components/Loader/Loader';
 
 const SearchingResults: React.FC = () => {
-  const [componentMounted, setComponentMounted] = useState(false);
+  const [isComponentMounted, setIsComponentMounted] = useState(false);
   const [optionMenuId, setOptionMenuId] = useState<number | null>(null);
+
   const dispatch = useAppDispatch();
+
   const adverts = useSelector(getFiltredCars);
+  const isLoading = useSelector(getIsloadingFiltredCars);
 
   const searchParams: Pick<
     ISearchParams,
@@ -31,14 +33,10 @@ const SearchingResults: React.FC = () => {
 
   const memoParam = useMemo(() => {
     return {
-    page: 0,
-    searchParams: { ...searchParams },
-  };}, [searchParams]);
-
-  // const searchConfig = {
-  //   page: 0,
-  //   searchParams: { ...searchParams },
-  // };
+      page: 0,
+      searchParams: { ...searchParams },
+    };
+  }, [searchParams]);
 
   const handleOptionMenu = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -58,33 +56,36 @@ const SearchingResults: React.FC = () => {
 
   useEffect(() => {
     dispatch(cleanFiltredStore());
-    if (componentMounted) {
+    if (isComponentMounted) {
       dispatch(fetchFiltredCars(memoParam));
     } else {
-      setComponentMounted(true);
+      setIsComponentMounted(true);
     }
-  }, [dispatch, memoParam, componentMounted]);
+  }, [dispatch, memoParam, isComponentMounted]);
 
-  const updateAfterHide = () => {
-    dispatch(cleanFiltredStore());
-    dispatch(fetchFiltredCars(memoParam));
+  const updateAfterHide = (carId: number) => {
+    const updatedArr = adverts.filter(({ id }) => id !== carId);
+    dispatch(updateFilteredStoreAfterHide(updatedArr));
   };
 
   return (
     <div className={styles.container}>
-      <div className={styles.catalogContainer}>
-        {adverts.map(advert => (
-          <SearchingCard
-            key={advert.id}
-            car={advert}
-            onShowMenu={handleOptionMenu}
-            onInfoContainerClick={handleInfoContainerClick}
-            onUpdateAfterHide={updateAfterHide}
-            isShowMenu={optionMenuId === advert.id}
-          />
-        ))}
-      </div>
-
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className={styles.catalogContainer}>
+          {adverts.map(advert => (
+            <SearchingCard
+              key={advert.id}
+              car={advert}
+              onShowMenu={handleOptionMenu}
+              onInfoContainerClick={handleInfoContainerClick}
+              onUpdateAfterHide={updateAfterHide}
+              isShowMenu={optionMenuId === advert.id}
+            />
+          ))}
+        </div>
+      )}
       <CatalogPagination />
     </div>
   );

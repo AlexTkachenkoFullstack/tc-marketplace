@@ -7,17 +7,19 @@ import SearchingResultsMenu from 'components/SearchingResults/SearchingResultsMe
 import { AdvancedSearchFilter } from 'components/AdvancedSearchFilter/AdvancedSearchFilter';
 
 export const AdvancedSearch: React.FC = () => {
-  const [isAdvancedFilter, setIisAdvancedFilter] = useState(false);
+  const [isOpenAdvancedFilter, setIsOpenAdvancedFilter] = useState(false);
 
   const handleAdvancedFilter = () => {
-    setIisAdvancedFilter(prev => !prev);
+    setIsOpenAdvancedFilter(prev => !prev);
   };
 
   return (
     <section className={styles.AdvSearch}>
       <div className={styles.AdvSearch_container}>
         <SearchingResultsMenu onAdvancedFilter={handleAdvancedFilter} />
-        {isAdvancedFilter && <AdvancedSearchFilter />}
+        {isOpenAdvancedFilter && (
+          <AdvancedSearchFilter onAdvencedFilter={handleAdvancedFilter} />
+        )}
         <SearchingResults />
       </div>
     </section>

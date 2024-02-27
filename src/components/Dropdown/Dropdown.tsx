@@ -17,7 +17,7 @@ type Props = {
   setOption: React.Dispatch<React.SetStateAction<string | string[]>>;
   allOptionsLabel?: string;
   carMark?: string | string[];
-  updateStyle?: string;
+  updateStyle?: any;
 };
 
 export const Dropdown: FC<Props> = props => {
@@ -123,10 +123,20 @@ export const Dropdown: FC<Props> = props => {
   return (
     <div className={styles.container} ref={dropdownRef}>
       {((isActive && filterValue.trim().length === 0) ||
-        option !== startValue) && <span className={styles.label}>{label}</span>}
+        option !== startValue) && (
+        <span
+          className={`${styles.label} ${
+            updateStyle === 'menuStyle' ? styles.labelAdvMenu : null
+          }`}
+        >
+          {label}
+        </span>
+      )}
 
       <button
-        className={`${styles.trigger} ${isActive ? styles.trigger_active : ''}`}
+        className={`${styles.trigger} ${
+          isActive ? styles.trigger_active : ''
+        } ${updateStyle === 'menuStyle' ? styles.triggerAdvMenu : null}`}
         type="button"
         disabled={isDissabled}
         onClick={() => {
@@ -148,7 +158,11 @@ export const Dropdown: FC<Props> = props => {
               placeholder={renderPlaceholder()}
             />
           ) : (
-            <div className={styles.text}>
+            <div
+              className={`${styles.text} ${
+                updateStyle === 'menuStyle' ? styles.textAdvMenu : null
+              }`}
+            >
               {Array.isArray(option) ? renderPlaceholder() : option}
             </div>
           )}

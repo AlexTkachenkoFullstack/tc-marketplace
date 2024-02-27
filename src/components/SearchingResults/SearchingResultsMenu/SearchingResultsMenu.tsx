@@ -15,7 +15,8 @@ const SearchingResultsMenu: React.FC<Iprops> = ({ onAdvancedFilter }) => {
   const [orderBy, setOrderBy] = useState<'CREATED' | 'PRICE' | 'MILEAGE'>(
     'CREATED',
   );
-  //   const [sortBy, setSortBy] = useState('ASC');
+  const [sortBy, setSortBy] = useState<'ASC' | 'DESC'>('ASC');
+
   const dispatch = useAppDispatch();
 
   const { transportTypeId } = useAppSelector(getSelectedCars);
@@ -48,12 +49,27 @@ const SearchingResultsMenu: React.FC<Iprops> = ({ onAdvancedFilter }) => {
     switch (typeOfSort) {
       case 'Від дешевих до дорогих':
         setOrderBy('PRICE');
+        setSortBy('ASC');
         break;
-      case 'Пробіг':
+      case 'Від дорогих до дешевих':
+        setOrderBy('PRICE');
+        setSortBy('DESC');
+        break;
+      case 'Пробіг, за зростанням':
         setOrderBy('MILEAGE');
+        setSortBy('ASC');
         break;
-      case 'Створено':
+      case 'Пробіг, за спаданням':
+        setOrderBy('MILEAGE');
+        setSortBy('DESC');
+        break;
+      case 'Від нових до старих':
         setOrderBy('CREATED');
+        setSortBy('ASC');
+        break;
+      case 'Від старих до нових':
+        setOrderBy('CREATED');
+        setSortBy('DESC');
         break;
       default:
         break;
@@ -61,8 +77,8 @@ const SearchingResultsMenu: React.FC<Iprops> = ({ onAdvancedFilter }) => {
   }, [typeOfSort]);
 
   useEffect(() => {
-    dispatch(changeFiltredParams({ orderBy, sortBy: 'ASC' }));
-  }, [dispatch, orderBy]);
+    dispatch(changeFiltredParams({ orderBy, sortBy }));
+  }, [dispatch, orderBy, sortBy]);
 
   const handleAdvancedFilter = () => {
     onAdvancedFilter();
@@ -81,7 +97,7 @@ const SearchingResultsMenu: React.FC<Iprops> = ({ onAdvancedFilter }) => {
         </button>
         <div className={styles.dropdownMenu}>
           <Dropdown
-          updateStyle="menuStyle"
+            updateStyle="menuStyle"
             options={[
               'Від дешевих до дорогих',
               'Від дорогих до дешевих',

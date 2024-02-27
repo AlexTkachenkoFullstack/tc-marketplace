@@ -22,7 +22,7 @@ interface Props {
     carId: number,
   ) => void;
   onInfoContainerClick: () => void;
-  onUpdateAfterHide: ()=>void;
+  onUpdateAfterHide: (carId: number) => void;
   isShowMenu: boolean;
 }
 
@@ -55,7 +55,9 @@ export const SearchingCard: React.FC<Props> = ({
     const buttonId = (e.target as HTMLElement).closest('button')?.id;
     if (buttonId === 'hideAdvert') {
       car && dispatch(hideTransport(car.id));
-      onUpdateAfterHide()
+      car && onUpdateAfterHide(car.id);
+    } else if(buttonId === 'hideAllAdverts') {
+      console.log('hideAllAdverts');
     }
   };
 
