@@ -51,3 +51,15 @@
   height: 1px;
   background: black;
   }
+  @media screen and (min-width: 360px) and (max-width: 480px) {
+    .priceLeftAddBrand, .priceRightAddBrand{
+      width: 154px;     
+    }
+    .inputBlokRangeAddBrand{
+      display: flex;
+      width: 320px;
+      align-items: center;
+      justify-content: center;
+      height: 24px;
+    }
+  }

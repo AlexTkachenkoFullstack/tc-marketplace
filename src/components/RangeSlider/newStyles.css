@@ -275,3 +275,9 @@
   border-width: 4px 4px 0;
   border-top-color: #6c6c6c;
 }
+@media screen and (min-width: 360px) and (max-width: 480px) {
+  .rc-slider {
+    width: 295px;
+    
+  }
+}
