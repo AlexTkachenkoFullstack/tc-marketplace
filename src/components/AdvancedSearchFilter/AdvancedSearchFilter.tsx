@@ -42,7 +42,11 @@ import RangeSlider from 'components/RangeSlider/RangeSlider';
 import { CategoryBar } from 'components/CategoryBar/CategoryBar';
 import { ICity } from 'types/ICity';
 
-export const AdvancedSearchFilter: React.FC = () => {
+interface Props {
+  onAdvencedFilter: ()=> void;
+}
+
+export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const [isShow, setIsShow] = useState(false);
   const dispatch = useAppDispatch();
   // const [isActive, setIsActive] = useState(false);
@@ -338,6 +342,7 @@ export const AdvancedSearchFilter: React.FC = () => {
     };
     dispatch(fetchFiltredCars(searchConfig));
     // action.resetForm()
+    onAdvencedFilter()
   };
   return (
     <div className={styles.AdvSearchFilter}>
