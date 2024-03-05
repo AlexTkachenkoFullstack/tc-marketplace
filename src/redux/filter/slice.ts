@@ -8,7 +8,6 @@ import {
   fetchRegions,
   fetchTypes,
   hideTransport,
- /////!
 } from './operations';
 import { IType } from 'types/IType';
 import { IRegion } from 'types/IRegion';
@@ -31,8 +30,7 @@ interface IFilterState {
     brandId: number[] | null;
     modelId: number[] | [];
     regionId: number[] | [];
-  };
-  // filtredCarsAdvancedSearch: ICar[]|[];
+  }; 
   filtredCars: ICar[] | [];
   totalAdverts: number | null;
 }
@@ -50,7 +48,7 @@ const initialState: IFilterState = {
     modelId: [],
     regionId: [],
   },
-  // filtredCarsAdvancedSearch:[],
+ 
   filtredCars: [],
   error: null,
   isLoading: false,
@@ -132,20 +130,6 @@ const handleFulfildGetFiltredCars = (
   ];
   state.totalAdverts = action.payload.total;
 };
-
-// const handleFulfildGetFiltredCarsAdvancedSearch = (
-//   state: IFilterState,
-//   action: PayloadAction<IFiltredCarsPayload>,
-// ) => {
-//   state.isLoading = false;
-//   state.error = null;
-//   state.filtredCarsAdvancedSearch = [
-   
-//     ...action.payload.transportSearchResponse,
-//   ];
-//   state.totalAdverts = action.payload.total;
-// };
-
 export const filterSlice = createSlice({
   name: 'filter',
   initialState,
@@ -201,8 +185,7 @@ export const filterSlice = createSlice({
       .addCase(fetchBrands.fulfilled, handleFulfildGetBrands)
       .addCase(fetchModels.fulfilled, handleFulfildGetModels)
       .addCase(fetchCars.fulfilled, handleFulfildGetCars)
-      .addCase(fetchFiltredCars.fulfilled, handleFulfildGetFiltredCars)
-      // .addCase(fetchFiltredCarsAdvancedSearch.fulfilled, handleFulfildGetFiltredCarsAdvancedSearch)
+      .addCase(fetchFiltredCars.fulfilled, handleFulfildGetFiltredCars)     
       .addMatcher(
         isAnyOf(
           fetchRegions.pending,
@@ -211,8 +194,7 @@ export const filterSlice = createSlice({
           fetchBrands.pending,
           fetchModels.pending,
           fetchCars.pending,
-          fetchFiltredCars.pending,
-          // fetchFiltredCarsAdvancedSearch.pending,
+          fetchFiltredCars.pending,       
           hideTransport.pending, ////!
         ),
         handlePending,
@@ -225,8 +207,7 @@ export const filterSlice = createSlice({
           fetchBrands.rejected,
           fetchModels.rejected,
           fetchCars.rejected,
-          fetchFiltredCars.rejected,
-          // fetchFiltredCarsAdvancedSearch.rejected,
+          fetchFiltredCars.rejected,         
           hideTransport.rejected, ////!
         ),
         handleRejected,
