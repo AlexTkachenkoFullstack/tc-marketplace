@@ -3,7 +3,7 @@ import styles from './AdvancedSearch.module.scss';
 // import { SearchTop } from '../../components/SearchTop/SearchTop';
 // import AdvSearchBottom from './AdvSearchBottom/AdvSearchBottom';
 import SearchingResults from 'components/SearchingResults/SearchingResults';
-import SearchingResultsMenu from 'components/SearchingResults/SearchingResultsMenu/SearchingResultsMenu';
+// import SearchingResultsMenu from 'components/SearchingResults/SearchingResultsMenu/SearchingResultsMenu';
 import { AdvancedSearchFilter } from 'components/AdvancedSearchFilter/AdvancedSearchFilter';
 
 export const AdvancedSearch: React.FC = () => {
@@ -16,11 +16,10 @@ export const AdvancedSearch: React.FC = () => {
   return (
     <section className={styles.AdvSearch}>
       <div className={styles.AdvSearch_container}>
-        <SearchingResultsMenu onAdvancedFilter={handleAdvancedFilter} />
         {isOpenAdvancedFilter && (
           <AdvancedSearchFilter onAdvencedFilter={handleAdvancedFilter} />
         )}
-        <SearchingResults />
+        <SearchingResults handleAdvancedFilter={handleAdvancedFilter} />
       </div>
     </section>
   );

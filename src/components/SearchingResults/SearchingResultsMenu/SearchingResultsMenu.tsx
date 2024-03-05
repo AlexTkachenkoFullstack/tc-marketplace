@@ -10,7 +10,9 @@ interface Iprops {
   onAdvancedFilter: () => void;
 }
 
-const SearchingResultsMenu: React.FC<Iprops> = ({ onAdvancedFilter }) => {
+const SearchingResultsMenu: React.FC<Iprops> = ({
+  onAdvancedFilter,
+}) => {
   const [typeOfSort, setTypeOfSort] = useState<string | string[]>('');
   const [orderBy, setOrderBy] = useState<'CREATED' | 'PRICE' | 'MILEAGE'>(
     'CREATED',
@@ -93,7 +95,7 @@ const SearchingResultsMenu: React.FC<Iprops> = ({ onAdvancedFilter }) => {
           onClick={handleAdvancedFilter}
           className={styles.filter}
         >
-          Розширений фільтр
+          <span className={styles.advFilter}>Розширений</span> фільтр
         </button>
         <div className={styles.dropdownMenu}>
           <Dropdown

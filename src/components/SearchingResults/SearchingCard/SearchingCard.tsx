@@ -13,7 +13,7 @@ import { ReactComponent as EmptyIcon } from '../../../assets/icons/empty_icon.sv
 import { ReactComponent as OptionDots } from '../../../assets/icons/option_dots.svg';
 import { ReactComponent as ClockIcon } from '../../../assets/icons/clock.svg';
 import { convertDate } from 'utils/convertDate';
-import { hideTransport } from 'redux/filter/operations';
+import { hideAllTransport, hideTransport } from 'redux/filter/operations';
 
 interface IProps {
   car?: ICar;
@@ -24,6 +24,7 @@ interface IProps {
   onInfoContainerClick: () => void;
   onUpdateAfterHide: (carId: number) => void;
   isShowMenu: boolean;
+  updateAfterAllHide: () => void;
 }
 
 export const SearchingCard: React.FC<IProps> = ({
@@ -32,6 +33,7 @@ export const SearchingCard: React.FC<IProps> = ({
   onInfoContainerClick,
   onUpdateAfterHide,
   isShowMenu,
+  updateAfterAllHide,
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -56,9 +58,14 @@ export const SearchingCard: React.FC<IProps> = ({
     if (buttonId === 'hideAdvert') {
       car && dispatch(hideTransport(car.id));
       car && onUpdateAfterHide(car.id);
-    } else if(buttonId === 'hideAllAdverts') {
-      console.log('hideAllAdverts');
+    } else if (buttonId === 'hideAllAdverts') {
+      car && dispatch(hideAllTransport(car.id));
+      car &&
+        setTimeout(() => {
+          updateAfterAllHide();
+        }, 3000);
     }
+    onInfoContainerClick();
   };
 
   return (
