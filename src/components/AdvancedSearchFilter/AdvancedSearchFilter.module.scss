@@ -19,56 +19,6 @@
     @include title-styles;
   }
 }
-// .AdvSearch_title_container {
-//   display: flex;
-//   width: 688px;
-//   justify-content: space-around;
-//   margin-bottom: 20px;
-// }
-// .AdvSearch_title_box {
-//   height: 104px;
-//   width: 768px;
-//   background: #e4e4e4;
-//   margin-left: auto;
-//   margin-right: auto;
-//   display: flex;
-//   margin-bottom: 32px;
-//   justify-content: center;
-//   align-items: flex-end;
-// }
-// .AdvSearch_button {
-//   width: 160px;
-//   height: 32px;
-//   border: none;
-//   background-color: #feffff;
-//   padding: 6px 14px;
-//   border-radius: 32px;
-//   font-size: 10px;
-//   margin-right: 8px;
-// }
-// .AdvSearch_select {
-//   -webkit-appearance: none;
-//   -moz-appearance: none;
-//   appearance: none;
-//   width: 144px;
-//   height: 32px;
-//   background-color: #feffff;
-//   border: none;
-//   border-radius: 32px;
-//   padding-left: 14px;
-//   padding-right: 32px;
-//   padding-top: 6px;
-//   padding-bottom: 6px;
-//   outline: none;
-//   background-image: url('../../assets/icons/arrow-down.svg');
-//   background-repeat: no-repeat;
-//   background-position: right 10px center;
-
-//   .select-hidden {
-//     display: none;
-//     visibility: hidden;
-//   }
-// }
 .itemdropdownbox {
   width: 384px;
 }
@@ -204,15 +154,7 @@ input[type='radio'] {
   justify-content: space-between;
   margin-bottom: 32px;
 }
-.btnShowMore {
-  cursor: pointer;
-  // width: 139px;
-  // height: 40px;
-  background: #f0f0f0;
-  padding: 10px 12px;
-  border-radius: 24px;
-  border: none;
-}
+
 /*блок Бренд/Модель/Рік початок */
 .selectBrand {
   display: flex;
@@ -222,14 +164,7 @@ input[type='radio'] {
 }
 .listItemBrand {
   width: 448px;
-  height: 128px;
-  border-radius: 8px;
   display: flex;
-
-  flex-direction: column;
-  border: 1px solid #f0f0f0;
-  padding: 12px;
-  margin-bottom: 16px;
 }
 .itemTypeInput {
   display: inline-block;
@@ -457,22 +392,28 @@ input[type='radio'] {
   width: 688px;
   margin-bottom: 32px;
 }
-.colorCar {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: none;
-  background: #434343;
-  // position: absolute;
-}
-.buttonColor {
+// .btnShowMore {
+//   cursor: pointer;
+//   // width: 139px;
+//   // height: 40px;
+//   background: #f0f0f0;
+//   padding: 10px 12px;
+//   border-radius: 24px;
+//   border: none;
+// }
+.btnShowMore {
   width: 139px;
   height: 40px;
   padding: 12px 10px;
-  color: black;
-  background-color: #f0f0f0;
+  color: #434343;
+  background-color: #feffff;
   border-radius: 32px;
-  border: none;
+  border: 1px solid #434343;
+}
+.btnShowMore:hover{
+  background-color: #434343;
+  color:#feffff;
+
 }
 /*Технічний стан */
 .listTechCondition {
@@ -629,7 +570,6 @@ input[type='radio'] {
   background-image: url('../../assets/icons/arrow-white.svg');
   background-repeat: no-repeat;
   background-position: right 15px center;
-  margin-right: 32px;
 }
 .resultFilterReset {
   letter-spacing: 0.15px;
@@ -672,7 +612,7 @@ input[type='radio'] {
   }
 }
 /* Медиа-запрос для экранов с шириной от 360px до 480px */
-@media screen and (min-width: 360px) and (max-width: 480px) {
+@media screen and (min-width: 360px) and (max-width:767px) {
   .AdvSearchFilter {
     &_container {
       width: 360px;
@@ -684,6 +624,20 @@ input[type='radio'] {
       padding-right: 20px;
       padding-left: 20px;
     }
+  }
+  .title {
+    position: relative;
+  }
+  .mobileButton {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    background-image: url('../../assets/icons/arrow-down.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
   }
   .list {
     justify-content: unset;
@@ -719,19 +673,8 @@ input[type='radio'] {
   }
   .listItemBrand {
     width: 320px;
-    height: 138px;
   }
-  .listItemAddBrand {
-    width: 320px;
-    height: 138px;
-  }
-  // .itemTypeInputAddBrand {
-  //   width: 320px;
-  // }
-  // .itemTypeSelectAddBrand {
-  //   width: 320px;
 
-  // }
   .itemDropdownBoxAddBrand {
     width: 290px;
   }
@@ -775,31 +718,31 @@ input[type='radio'] {
     justify-content: unset;
     flex-direction: column;
     width: 320px;
-    margin-bottom: 32px;;
+    margin-bottom: 32px;
   }
   .listNumberSeats {
     justify-content: unset;
     flex-direction: column;
     width: 320px;
-    margin-bottom: 32px;;
+    margin-bottom: 32px;
   }
   .listNumberAxles {
     justify-content: unset;
     flex-direction: column;
     width: 320px;
-    margin-bottom: 32px;;
+    margin-bottom: 32px;
   }
   .listWheelConfiguration {
     justify-content: unset;
     flex-direction: column;
     width: 320px;
-    margin-bottom: 32px;;
+    margin-bottom: 32px;
   }
   .listCountryDelivery {
     justify-content: unset;
     flex-direction: column;
     width: 320px;
-    margin-bottom: 32px;;
+    margin-bottom: 32px;
   }
   .itemdropdowncontainer {
     width: 320px;
@@ -810,9 +753,7 @@ input[type='radio'] {
   .listSelectTitle {
     justify-content: unset;
     flex-direction: column;
-    height: 36px;
     width: 320px;
-    margin-bottom: 32px;
   }
   .listItemSelectTitle {
     position: relative;
@@ -821,5 +762,27 @@ input[type='radio'] {
     border-radius: 32px;
     background-color: #f0f0f0;
     margin-bottom: 32px;
+  }
+  .resultFilterShow {
+    order: 1;
+    width: 320px;
+    background-position: right 114px center;
+    margin-right: 0;
+  }
+  .resultFilterShow:hover {
+    background-position: right 114px center;
+  }
+  .resultFilter {
+    margin-top: 32px;
+    height: 120px;
+    flex-wrap: wrap-reverse;
+  }
+  .hide {
+    display: none;
+  }
+  .active {
+    background-image: url('../../assets/icons/vector-arrow-up.svg');
+    background-repeat: no-repeat;
+    background-position: center;
   }
 }
