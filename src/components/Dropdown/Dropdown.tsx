@@ -10,7 +10,8 @@ import DropdownInput from './components/DropdownInput';
 type Props = {
   label: string;
   startValue: string;
-  options: string[];
+  options?: any;
+  options1?:any;
   checkboxAllowed?: boolean;
   isDissabled?: boolean;
   option: string | string[];
@@ -18,6 +19,7 @@ type Props = {
   allOptionsLabel?: string;
   carMark?: string | string[];
   updateStyle?: any;
+  title?:string | string[]
 };
 
 export const Dropdown: FC<Props> = props => {
@@ -32,6 +34,8 @@ export const Dropdown: FC<Props> = props => {
     carMark,
     setOption,
     updateStyle,
+    title,
+    options1,
   } = props;
 
   const [isActive, setIsActive] = useState(false);
@@ -187,6 +191,7 @@ export const Dropdown: FC<Props> = props => {
 
       {isActive && (
         <DropdownList
+          options1={options1}
           options={options}
           checkboxAllowed={checkboxAllowed}
           filterValue={filterValue}
@@ -194,6 +199,7 @@ export const Dropdown: FC<Props> = props => {
           checkboxHandler={checkboxHandler}
           changeOption={changeOption}
           allOptionsLabel={allOptionsLabel}
+          titleName={Array.isArray(title) ? title : []}
         />
       )}
     </div>

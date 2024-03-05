@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import styles from './AdvancedSearchFilter.module.scss';
 import {
   getFilterBrands,
+  getFilterCarsList,
   getFilterCitys,
   getFilterModels,
   getFilterRegions,
@@ -15,6 +16,8 @@ import {
   fetchTypes,
   fetchFiltredCars,
   fetchCity,
+  fetchCars,
+  // fetchFiltredCarsAdvancedSearch,
 } from 'redux/filter/operations';
 import { IType } from 'types/IType';
 import { IRegion } from 'types/IRegion';
@@ -24,6 +27,7 @@ import { ISearchParams } from 'types/ISearchParam';
 import { getCarTypeParam } from 'services/services';
 import { changeFiltredParams, cleanFiltredStore } from 'redux/filter/slice';
 import {
+  getArrayBrandsOfId,
   getArrayCarBodyOfId,
   getArrayCityOfId,
   getArrayColorOfId,
@@ -43,14 +47,29 @@ import { CategoryBar } from 'components/CategoryBar/CategoryBar';
 import { ICity } from 'types/ICity';
 
 interface Props {
-  onAdvencedFilter: ()=> void;
+  onAdvencedFilter: () => void;
 }
-
+interface BlocksVisibilityState {
+  [key: string]: boolean;
+}
+interface ButtonVisibilityState {
+  [key: string]: boolean;
+}
 export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
-  const [isShow, setIsShow] = useState(false);
   const dispatch = useAppDispatch();
-  // const [isActive, setIsActive] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [isOpen, setIsOpen] = useState<BlocksVisibilityState>(() => {
+    return getWindowWidth() < 767
+      ? getInitialBlocksVisibility(false)
+      : getInitialBlocksVisibility(true);
+  });
 
+  const [isShow, setIsShow] = useState<ButtonVisibilityState>(() => {
+    return getWindowWidth() < 767
+      ? getInitialButtonVisibility(false)
+      : getInitialButtonVisibility(true);
+  });
+  // const [isActive, setIsActive] = useState(false);
   // response(catalog) get-param
   const [data, setData] = useState<any>([]);
   // для рендж слайдера
@@ -65,7 +84,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const regions: IRegion[] = useAppSelector(getFilterRegions);
   const citys: ICity[] = useAppSelector(getFilterCitys);
   const brands: IBrand[] = useAppSelector(getFilterBrands);
-  const models: IModel[] = useAppSelector(getFilterModels);
+  const carsList: IModel[] = useAppSelector(getFilterCarsList);
+  console.log('carsList :>> ', carsList);
+
   // type categotry cars
   const [selectedCategory, setSelectedCategory] = useState<string>('Легкові');
   const [carBody, setCarBody] = useState<string>('');
@@ -83,10 +104,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   // select state for dropdown
   const [carMark, setCarMark] = useState<string | string[]>('Всі марки');
   const [brandId, setBrandId] = useState<number[] | []>([]);
-  
+
   const [carModel, setCarModel] = useState<string | string[]>('Всі моделі');
-  const [oneCarMark, setOneCarMark] = useState<string | string[]>('Всі моделі');
-  const [oneCarModel, setOneCarModel] = useState<string | string[]>([]);
+  
   // dropdown
   const [selectedCity, setSelectedCity] = useState<string | string[]>('Місто');
   const [selectedRegions, setSelectedRegions] = useState<string | string[]>(
@@ -95,8 +115,6 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const [countryDeliver, setCountryDeliver] = useState<string | string[]>(
     'Весь світ',
   );
-  // console.log('selectedRegions :>> ', selectedRegions);
-  // console.log('selectedCity :>> ', selectedCity);
   // response catalog/get-param/id
   const bodyTypes = data?.bodyTypeDTOS;
   const fuel = data?.fuelTypeDTOS;
@@ -107,11 +125,53 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const numberAxles = data?.numberAxlesDTOS;
   const wheelConfiguration = data?.wheelConfigurationDTOS;
   const producingCountry = data?.producingCountryDTOS;
+console.log('transportColor :>> ', transportColor);
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
 
-  console.log('data :>> ', data);
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    setIsOpen(prevState => {
+      return getWindowWidth() < 767
+        ? getInitialBlocksVisibility(false)
+        : getInitialBlocksVisibility(true);
+    });
+    setIsShow(prevState=>{
+      return getWindowWidth() >= 768 && getWindowWidth() < 992
+      ? getInitialButtonVisibility(false)
+      : getInitialButtonVisibility(true);
+    })
+  }, [windowWidth]);
+  function getWindowWidth() {
+    return window.innerWidth;
+  }
+
+  function getInitialBlocksVisibility(isVisible: boolean) {
+    const initialBlocksVisibility: BlocksVisibilityState = {};
+    for (let i = 1; i <= 18; i++) {
+      initialBlocksVisibility[`block${i}`] = isVisible;
+    }
+    return initialBlocksVisibility;
+  }
+  function getInitialButtonVisibility(isVisible: boolean) {
+    const initialBlocksVisibility: ButtonVisibilityState = {};
+    for (let i = 1; i <= 5; i++) {
+      initialBlocksVisibility[`block${i}`] = isVisible;
+    }
+    return initialBlocksVisibility;
+  }
   useEffect(() => {
     if (selectedRegions) {
       const regionId = getArrayOfId(regions, selectedRegions);
+
       const searchParams: Pick<ISearchParams, 'regionId'> = {
         regionId,
       };
@@ -173,6 +233,19 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     const value = event.target.value === 'Так';
     setSelectedOption(value);
   };
+  // mobile btnShow
+  const handleMobileBtnIsOpen = (blockName: keyof BlocksVisibilityState) => {
+    setIsOpen(prevState => ({
+      ...prevState,
+      [blockName]: !prevState[blockName],
+    }));
+  };
+  const handleTabletBtnIsOpen = (blockName: keyof BlocksVisibilityState) => {
+    setIsShow(prevState => ({
+      ...prevState,
+      [blockName]: !prevState[blockName],
+    }));
+  };
   useEffect(() => {
     const type = typeCars.find(item => item.type === selectedCategory);
     type && setTransportTypeId(type?.typeId);
@@ -183,15 +256,18 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
 
   useEffect(() => {
     const type = typeCars.find(item => item.type === selectedCategory);
-    const brand = brands.find(item => item.brand === carMark);
-    if (type && brand) {
-      setBrandId([brand?.brandId]);
-      dispatch(
-        fetchModels({
-          transportTypeId: type?.typeId,
-          transportBrandId: brand?.brandId,
-        }),
-      );
+    const brand = getArrayBrandsOfId(brands, carMark);
+
+    if (type && brand && brand.length > 0) {
+      const id = type.typeId;
+      const searchParams: Pick<ISearchParams, 'transportBrandsId'> = {
+        transportBrandsId: brand,
+      };
+      const searchConfig = {
+        searchParams,
+      };
+      setBrandId(brand);
+      dispatch(fetchCars({ id, searchConfig }));
     }
   }, [brands, carMark, typeCars, dispatch, selectedCategory]);
 
@@ -199,7 +275,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const handlerSendRequest = () => {
     const regionId = getArrayOfId(regions, selectedRegions);
     dispatch(cleanFiltredStore());
-    const modelId = getArrayModelsOfId(models, carModel);
+    const modelId = getArrayModelsOfId(carsList, carModel);
     const cityId = getArrayCityOfId(citys, selectedCity);
     const bodyTypeId = getArrayCarBodyOfId(bodyTypes, carBody);
     const fuelTypeId = getArrayFuelOfId(fuel, carFuel);
@@ -327,112 +403,130 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
       numberOfSeatsTo,
       bargain,
     };
-    const filteredSearchParams = Object.fromEntries(
-      Object.entries(searchParams).filter(([_, value]) => {
-        if (Array.isArray(value)) {
-          return value.length > 0; // Оставляем только непустые массивы
-        } else {
-          return value !== undefined && value !== 0; // Оставляем только значения, отличные от undefined и 0
-        }
-      }),
-    );
-    const hasValidValues = Object.keys(filteredSearchParams).length > 0;
-    const searchParamsValue = hasValidValues ? filteredSearchParams : {};
-    const searchConfig = {
-      page: 0,
-      searchParams: searchParamsValue,
-    };
-    dispatch(fetchFiltredCars(searchConfig));
+    // const filteredSearchParams = Object.fromEntries(
+    //   Object.entries(searchParams).filter(([_, value]) => {
+    //     if (Array.isArray(value)) {
+    //       return value.length > 0; // Оставляем только непустые массивы
+    //     } else {
+    //       return value !== undefined && value !== 0; // Оставляем только значения, отличные от undefined и 0
+    //     }
+    //   }),
+    // );
+    // const hasValidValues = Object.keys(filteredSearchParams).length > 0;
+    // const searchParamsValue = hasValidValues ? filteredSearchParams : {};
+    // const searchConfig = {
+    //   page: 0,
+    //   searchParams: searchParamsValue,
+    // };
+    // dispatch(fetchFiltredCarsAdvancedSearch(searchConfig));
     // action.resetForm()
-    onAdvencedFilter()
+    onAdvencedFilter();
   };
+
   return (
     <div className={styles.AdvSearchFilter}>
-      {/* <div className={styles.AdvSearch_title_box}>
-        <div className={styles.AdvSearch_title_container}>
-          <h1 className={styles.AdvSearch_title}>Розширений пошук</h1>
-          <div>
-            <button className={styles.AdvSearch_button}>
-              Розширений фільтр
-            </button>
-            <select className={styles.AdvSearch_select}>
-              <option value="" selected>
-                Спочатку нове
-              </option>
-            </select>
-          </div>
-        </div>
-      </div> */}
       <div className={styles.AdvSearchFilter_container}>
         <div className={styles.AdvSearchFilter_box}>
           {/*RadioButton type car */}
-
           <div className={styles.list}>
             <div className={styles.title}>
               <h2>Тип</h2>
+              <div
+                className={`${styles.mobileButton} ${
+                  isOpen.block1 ? styles.active : ''
+                }`}
+                onClick={() => handleMobileBtnIsOpen('block1')}
+              />
             </div>
-            <div className={styles.listItem}>
-              {typeCars && (
-                <CategoryBar
-                  categories={typeCars.map(typeCar => typeCar.type)}
-                  handleSelect={handlerType}
-                  selectedCategory={selectedCategory}
-                />
-              )}
-            </div>
+            {isOpen.block1 && (
+              <div className={styles.listItem}>
+                {typeCars && (
+                  <CategoryBar
+                    categories={typeCars.map(typeCar => typeCar.type)}
+                    handleSelect={handlerType}
+                    selectedCategory={selectedCategory}
+                  />
+                )}
+              </div>
+            )}
           </div>
           {/*Select Regions */}
 
           <div className={styles.list}>
             <div className={styles.title}>
               <h2>Регіон</h2>
+              <div
+                className={`${styles.mobileButton} ${
+                  isOpen.block2 ? styles.active : ''
+                }`}
+                onClick={() => handleMobileBtnIsOpen('block2')}
+              />
             </div>
             <div className={styles.listItem}>
-              <div className={styles.itemdropdownbox}>
-                <Dropdown
-                  updateStyle="advSearch"
-                  options={regions.map(region => region.region)}
-                  label="Регіон"
-                  startValue="Регіон"
-                  checkboxAllowed
-                  allOptionsLabel="Вся Україна"
-                  option={selectedRegions}
-                  setOption={setSelectedRegions}
-                />
-              </div>
-            </div>
-          </div>
-          {/* Select City */}
-          {citys && citys.length > 0 && (
-            <div className={styles.list}>
-              <div className={styles.title}>
-                <h2>Місто</h2>
-              </div>
-              <div className={styles.listItem}>
+              {isOpen.block2 && (
                 <div className={styles.itemdropdownbox}>
                   <Dropdown
                     updateStyle="advSearch"
-                    options={citys.map(item => item.city)}
+                    options={regions.map(region => region.region)}
+                    label="Регіон"
+                    startValue="Регіон"
+                    checkboxAllowed
+                    allOptionsLabel="Вся Україна"
+                    option={selectedRegions}
+                    setOption={setSelectedRegions}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+          {/* Select City */}
+
+          <div className={styles.list}>
+            <div className={styles.title}>
+              <h2>Місто</h2>
+              <div
+                className={`${styles.mobileButton} ${
+                  isOpen.block3 ? styles.active : ''
+                }`}
+                onClick={() => handleMobileBtnIsOpen('block3')}
+              />
+            </div>
+            <div className={styles.listItem}>
+              {isOpen.block3 && (
+                <div className={styles.itemdropdownbox}>
+                  <Dropdown
+                    updateStyle="advSearch"
+                    options1={citys}
                     label="Місто"
                     startValue="Місто"
                     checkboxAllowed
                     allOptionsLabel="Місто"
                     option={selectedCity}
                     setOption={setSelectedCity}
+                    title={selectedRegions}
                   />
                 </div>
-              </div>
+              )}
             </div>
-          )}
+          </div>
+
           {/*InputRange Price car */}
 
           <div className={styles.list}>
             <div className={styles.title}>
               <h2>Ціна</h2>
+              <div
+                className={`${styles.mobileButton} ${
+                  isOpen.block4 ? styles.active : ''
+                }`}
+                onClick={() => handleMobileBtnIsOpen('block4')}
+              />
             </div>
-            <div className={styles.listItem}>
-              <RangeSlider setObjectValue={setPrice} typeRange={'price'} />
-            </div>
+            {isOpen.block4 && (
+              <div className={styles.listItem}>
+                <RangeSlider setObjectValue={setPrice} typeRange={'price'} />
+              </div>
+            )}
           </div>
           {/*RadioButton type carBody */}
 
@@ -440,34 +534,43 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
             <div className={styles.typeCarBody}>
               <div className={styles.title}>
                 <h2>Тип кузову</h2>
-              </div>
-              <div className={styles.listItem}>
-                <CategoryBar
-                  categories={bodyTypes
-                    .slice(0, isShow ? 10 : 5)
-                    .map((item: any) => item.bodyType)}
-                  handleSelect={handlerCarBody}
-                  selectedCategory={carBody}
+                <div
+                  className={`${styles.mobileButton} ${
+                    isOpen.block5 ? styles.active : ''
+                  }`}
+                  onClick={() => handleMobileBtnIsOpen('block5')}
                 />
-                <button
-                  className={styles.btnShowMore}
-                  onClick={() => setIsShow(prev => !prev)}
-                >
-                  {isShow ? 'Приховати' : 'Показати більше'}
-                </button>
               </div>
+              {isOpen.block5 && (
+                <div className={styles.listItem}>
+                  <CategoryBar
+                    categories={bodyTypes
+                      .slice(0, isShow.block1 ? 13 : 5)
+                      .map((item: any) => item.bodyType)}
+                    handleSelect={handlerCarBody}
+                    selectedCategory={carBody}
+                  />
+                  <button
+                    className={`${styles.btnShowMore} ${getWindowWidth() >= 768 && getWindowWidth() < 992 ? '':styles.hide }`}
+                    onClick={() => handleTabletBtnIsOpen('block1')}
+                  >
+                    {isShow.block1 ? 'Приховати' : 'Показати більше'}
+                  </button>
+                </div>
+              )}
             </div>
           )}
           {/*Бренд/Модель  Select */}
 
           <div className={styles.selectBrand}>
             <div className={styles.title}>
-              <h2>Бренд/Модель</h2>
+              <h2>Бренд</h2>
             </div>
             <div>
               <div className={styles.listItemBrand}>
                 <Dropdown
                   updateStyle="advSearch"
+                  // options={brands.map(brand => brand.brand).sort((a, b) => a.localeCompare(b))}
                   options={[...brands.map(brand => brand.brand)].sort((a, b) =>
                     a.localeCompare(b),
                   )}
@@ -475,59 +578,32 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                   startValue="Марка"
                   option={carMark}
                   setOption={setCarMark}
+                  allOptionsLabel="Всі марки"
+                  checkboxAllowed
                 />
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.selectBrand}>
+            <div className={styles.title}>
+              <h2>Модель</h2>
+            </div>
+            <div>
+              <div className={styles.listItemBrand}>
                 <Dropdown
                   updateStyle="advSearch"
-                  options={
-                    carMark !== 'Всі марки'
-                      ? models.map(item => item.model)
-                      : []
-                  }
+                  options1={carsList}                  
                   label="Модель"
                   startValue="Модель"
                   allOptionsLabel="Всі моделі"
                   checkboxAllowed
                   option={carModel}
+                  title={carMark}
                   setOption={setCarModel}
                   carMark={carMark}
                 />
               </div>
-
-              {/* Вікно додавання нової моделі авто з назвою марки авто та рік виготовлення    Потрібно вирішити як додавати авто для пошуку ?        */}
-
-              <div className={styles.listItemAddBrand}>
-                <div className={styles.itemDropdownBoxAddBrand}>
-                  <Dropdown
-                    updateStyle="advSearch"
-                    options={[...brands.map(brand => brand.brand)].sort(
-                      (a, b) => a.localeCompare(b),
-                    )}
-                    label="Марка"
-                    startValue="Марка"
-                    option={oneCarMark}
-                    setOption={setOneCarMark}
-                  />
-                  <Dropdown
-                    updateStyle="advSearch"
-                    options={
-                      carMark !== 'Всі марки'
-                        ? models.map(item => item.model)
-                        : []
-                    }
-                    label="Модель"
-                    startValue="Модель"
-                    allOptionsLabel="Всі моделі"
-                    checkboxAllowed
-                    option={oneCarModel}
-                    setOption={setOneCarModel}
-                    carMark={oneCarMark}
-                  />
-                </div>
-                <button className={styles.closeAddBrand}></button>
-              </div>
-              <button className={styles.buttonAddNewBrand}>
-                Add new Brand
-              </button>
             </div>
           </div>
           {/*Рік виготовлення инпут слайдер inputText, inputRange   Доработать по стилям! */}
@@ -535,10 +611,18 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
           <div className={styles.list}>
             <div className={styles.title}>
               <h2>Рік</h2>
+              <div
+                className={`${styles.mobileButton} ${
+                  isOpen.block6 ? styles.active : ''
+                }`}
+                onClick={() => handleMobileBtnIsOpen('block6')}
+              />
             </div>
-            <div className={styles.listItem}>
-              <RangeSlider setObjectValue={setYear} typeRange={'year'} />
-            </div>
+            {isOpen.block6 && (
+              <div className={styles.listItem}>
+                <RangeSlider setObjectValue={setYear} typeRange={'year'} />
+              </div>
+            )}
           </div>
           {/*RadioButton type Fuel  */}
 
@@ -546,22 +630,30 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
             <div className={styles.listTypeFuil}>
               <div className={styles.title}>
                 <h2>Тип палива</h2>
-              </div>
-              <div className={styles.listItem}>
-                <CategoryBar
-                  categories={fuel
-                    .slice(0, isShow ? 10 : 5)
-                    .map((item: any) => item.fuelType)}
-                  handleSelect={handlerCarFuel}
-                  selectedCategory={carFuel}
+                <div
+                  className={`${styles.mobileButton} ${
+                    isOpen.block7 ? styles.active : ''
+                  }`}
+                  onClick={() => handleMobileBtnIsOpen('block7')}
                 />
-                <button
-                  className={styles.btnShowMore}
-                  onClick={() => setIsShow(prev => !prev)}
-                >
-                  {isShow ? 'Приховати' : 'Показати більше'}
-                </button>
               </div>
+              {isOpen.block7 && (
+                <div className={styles.listItem}>
+                  <CategoryBar
+                    categories={fuel
+                      .slice(0, isShow.block2 ? 8 : 5)
+                      .map((item: any) => item.fuelType)}
+                    handleSelect={handlerCarFuel}
+                    selectedCategory={carFuel}
+                  />
+                  <button
+                     className={`${styles.btnShowMore} ${getWindowWidth() >= 768 && getWindowWidth() < 992 ? '':styles.hide }`}
+                    onClick={() => handleTabletBtnIsOpen('block2')}
+                  >
+                    {isShow.block2 ? 'Приховати' : 'Показати більше'}
+                  </button>
+                </div>
+              )}
             </div>
           )}
           {/* RadioButton type transmission  */}
@@ -570,16 +662,24 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
             <div className={styles.list}>
               <div className={styles.title}>
                 <h2>Коробка передач</h2>
-              </div>
-              <div className={styles.listItem}>
-                <CategoryBar
-                  categories={transmission.map(
-                    (item: any) => item.transmission,
-                  )}
-                  handleSelect={handlerCarTransmission}
-                  selectedCategory={carTransmission}
+                <div
+                  className={`${styles.mobileButton} ${
+                    isOpen.block8 ? styles.active : ''
+                  }`}
+                  onClick={() => handleMobileBtnIsOpen('block8')}
                 />
               </div>
+              {isOpen.block8 && (
+                <div className={styles.listItem}>
+                  <CategoryBar
+                    categories={transmission.map(
+                      (item: any) => item.transmission,
+                    )}
+                    handleSelect={handlerCarTransmission}
+                    selectedCategory={carTransmission}
+                  />
+                </div>
+              )}
             </div>
           )}
           {/* RadioButton type color  */}
@@ -588,29 +688,33 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
             <div className={styles.listColor}>
               <div className={styles.title}>
                 <h2>Колір</h2>
-              </div>
-              <div className={styles.listItem}>
-                <CategoryBar
-                  categories={transportColor
-                    .slice(0, isShow ? 10 : 5)
-                    .map((item: any) => item.transportColor)}
-                  handleSelect={handlerCarColor}
-                  selectedCategory={carColor}
+                <div
+                  className={`${styles.mobileButton} ${
+                    isOpen.block9 ? styles.active : ''
+                  }`}
+                  onClick={() => handleMobileBtnIsOpen('block9')}
                 />
-                {/* <div className={styles.listItem}>
-                  <label htmlFor="firstName" className={styles.itemType}>
-                    <span className={styles.colorCar}></span>
-                   Чорний
-                  <input type="radio" name="carBody" id="" value="Універсал"/>
-                  </label>                 
-                </div> */}
-                <button
-                  className={styles.buttonColor}
-                  onClick={() => setIsShow(prev => !prev)}
-                >
-                  {isShow ? 'Приховати' : 'Показати більше'}
-                </button>
               </div>
+              {isOpen.block9 && (
+                <div className={styles.listItem}>
+                  <CategoryBar
+                  color="transpotColor"
+                  transportColor={transportColor
+                      // .slice(0, isShow.block3 ? 12 : 6)
+                      // .map((item: any) => item.transportColor)
+                    }
+                    isShow={isShow.block3}
+                    handleSelect={handlerCarColor}
+                    selectedCategory={carColor}
+                  />                  
+                  <button                   
+                    className={`${styles.btnShowMore} ${getWindowWidth() >= 768 && getWindowWidth() < 992 ? '':styles.hide }`}
+                    onClick={() => handleTabletBtnIsOpen('block3')}
+                  >
+                    {isShow.block3 ? 'Приховати' : 'Показати більше'}
+                  </button>
+                </div>
+              )}
             </div>
           )}
           {/* RadioButton type Технічний стан */}
@@ -619,22 +723,30 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
             <div className={styles.listTechCondition}>
               <div className={styles.title}>
                 <h2>Технічний стан</h2>
-              </div>
-              <div className={styles.listItem}>
-                <CategoryBar
-                  categories={transportCondition
-                    .slice(isShow ? 10 : 2)
-                    .map((item: any) => item.transportCondition)}
-                  handleSelect={handlerCarTransportCondition}
-                  selectedCategory={carTransportCondition}
+                <div
+                  className={`${styles.mobileButton} ${
+                    isOpen.block10 ? styles.active : ''
+                  }`}
+                  onClick={() => handleMobileBtnIsOpen('block10')}
                 />
-                <button
-                  className={styles.btnShowMore}
-                  onClick={() => setIsShow(prev => !prev)}
-                >
-                  {isShow ? 'Приховати' : 'Показати більше'}
-                </button>
               </div>
+              {isOpen.block10 && (
+                <div className={styles.listItem}>
+                  <CategoryBar
+                    categories={transportCondition
+                      .slice(isShow.block4 ? 0 : 2)
+                      .map((item: any) => item.transportCondition)}
+                    handleSelect={handlerCarTransportCondition}
+                    selectedCategory={carTransportCondition}
+                  />
+                  <button
+                 className={`${styles.btnShowMore} ${getWindowWidth() >= 768 && getWindowWidth() < 992 ? '':styles.hide }`}
+                    onClick={() =>  handleTabletBtnIsOpen('block4')}
+                  >
+                    {isShow.block4 ? 'Приховати' : 'Показати більше'}
+                  </button>
+                </div>
+              )}
             </div>
           )}
           {/* Пробіг */}
@@ -642,23 +754,42 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
           <div className={styles.lisCarMileage}>
             <div className={styles.title}>
               <h2>Пробіг</h2>
+              <div
+                className={`${styles.mobileButton} ${
+                  isOpen.block11 ? styles.active : ''
+                }`}
+                onClick={() => handleMobileBtnIsOpen('block11')}
+              />
             </div>
-            <div className={styles.listItem}>
-              <RangeSlider setObjectValue={setMileage} typeRange={'mileage'} />
-            </div>
+            {isOpen.block11 && (
+              <div className={styles.listItem}>
+                <RangeSlider
+                  setObjectValue={setMileage}
+                  typeRange={'mileage'}
+                />
+              </div>
+            )}
           </div>
           {/* Потужність двигуна */}
 
           <div className={styles.listMotorPower}>
-            <div  className={styles.title}>
+            <div className={styles.title}>
               <h2>Потужність двигуна</h2>
-            </div>
-            <div className={styles.listItem}>
-              <RangeSlider
-                setObjectValue={setEnginePower}
-                typeRange={'enginePower'}
+              <div
+                className={`${styles.mobileButton} ${
+                  isOpen.block12 ? styles.active : ''
+                }`}
+                onClick={() => handleMobileBtnIsOpen('block12')}
               />
             </div>
+            {isOpen.block12 && (
+              <div className={styles.listItem}>
+                <RangeSlider
+                  setObjectValue={setEnginePower}
+                  typeRange={'enginePower'}
+                />
+              </div>
+            )}
           </div>
           {/* RadioButton type Привід */}
 
@@ -666,14 +797,22 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
             <div className={styles.listMachineDrive}>
               <div className={styles.title}>
                 <h2>Привід</h2>
-              </div>
-              <div className={styles.listItem}>
-                <CategoryBar
-                  categories={driveType.map((item: any) => item.driveType)}
-                  handleSelect={handlerDriveType}
-                  selectedCategory={carDriveType}
+                <div
+                  className={`${styles.mobileButton} ${
+                    isOpen.block13 ? styles.active : ''
+                  }`}
+                  onClick={() => handleMobileBtnIsOpen('block13')}
                 />
               </div>
+              {isOpen.block13 && (
+                <div className={styles.listItem}>
+                  <CategoryBar
+                    categories={driveType.map((item: any) => item.driveType)}
+                    handleSelect={handlerDriveType}
+                    selectedCategory={carDriveType}
+                  />
+                </div>
+              )}
             </div>
           )}
           {/* Кількість дверей */}
@@ -681,40 +820,66 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
           <div className={styles.howManyDoors}>
             <div className={styles.title}>
               <h2>Кількість дверей</h2>
-            </div>
-            <div className={styles.listItem}>
-              <RangeSlider
-                setObjectValue={setNumberOfDoors}
-                typeRange={'numberOfDoors'}
+              <div
+                className={`${styles.mobileButton} ${
+                  isOpen.block14 ? styles.active : ''
+                }`}
+                onClick={() => handleMobileBtnIsOpen('block14')}
               />
             </div>
+            {isOpen.block14 && (
+              <div className={styles.listItem}>
+                <RangeSlider
+                  setObjectValue={setNumberOfDoors}
+                  typeRange={'numberOfDoors'}
+                />
+              </div>
+            )}
           </div>
           {/* Кількість місць*/}
 
           <div className={styles.listNumberSeats}>
             <div className={styles.title}>
               <h2>Кількість місць</h2>
-            </div>
-            <div className={styles.listItem}>
-              <RangeSlider
-                setObjectValue={setNumberOfSeats}
-                typeRange={'numberOfSeats'}
+              <div
+                className={`${styles.mobileButton} ${
+                  isOpen.block15 ? styles.active : ''
+                }`}
+                onClick={() => handleMobileBtnIsOpen('block15')}
               />
             </div>
+            {isOpen.block15 && (
+              <div className={styles.listItem}>
+                <RangeSlider
+                  setObjectValue={setNumberOfSeats}
+                  typeRange={'numberOfSeats'}
+                />
+              </div>
+            )}
           </div>
           {/* RadioButton type Кількість осей*/}
           {numberAxles && (
             <div className={styles.listNumberAxles}>
               <div className={styles.title}>
                 <h2>Кількість осей</h2>
-              </div>
-              <div className={styles.listItem}>
-                <CategoryBar
-                  categories={numberAxles.map((item: any) => item.numberAxles)}
-                  handleSelect={handlerCarNumberAxles}
-                  selectedCategory={carNumberAxles}
+                <div
+                  className={`${styles.mobileButton} ${
+                    isOpen.block16 ? styles.active : ''
+                  }`}
+                  onClick={() => handleMobileBtnIsOpen('block16')}
                 />
               </div>
+              {isOpen.block16 && (
+                <div className={styles.listItem}>
+                  <CategoryBar
+                    categories={numberAxles.map(
+                      (item: any) => item.numberAxles,
+                    )}
+                    handleSelect={handlerCarNumberAxles}
+                    selectedCategory={carNumberAxles}
+                  />
+                </div>
+              )}
             </div>
           )}
           {/* RadioButton type Конфігурація коліс*/}
@@ -722,40 +887,56 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
             <div className={styles.listWheelConfiguration}>
               <div className={styles.title}>
                 <h2>Конфігурація коліс</h2>
-              </div>
-              <div className={styles.listItem}>
-                <CategoryBar
-                  categories={wheelConfiguration.map(
-                    (item: any) => item.wheelConfiguration,
-                  )}
-                  handleSelect={handlerCarWheelConfiguration}
-                  selectedCategory={carWheelConfiguration}
+                <div
+                  className={`${styles.mobileButton} ${
+                    isOpen.block17 ? styles.active : ''
+                  }`}
+                  onClick={() => handleMobileBtnIsOpen('block17')}
                 />
               </div>
+              {isOpen.block17 && (
+                <div className={styles.listItem}>
+                  <CategoryBar
+                    categories={wheelConfiguration.map(
+                      (item: any) => item.wheelConfiguration,
+                    )}
+                    handleSelect={handlerCarWheelConfiguration}
+                    selectedCategory={carWheelConfiguration}
+                  />
+                </div>
+              )}
             </div>
           )}
           {/* Країна з якої доставили    Select   */}
           <div className={styles.listCountryDelivery}>
             <div className={styles.title}>
               <h2>Країна з якої доставили:</h2>
+              <div
+                className={`${styles.mobileButton} ${
+                  isOpen.block18 ? styles.active : ''
+                }`}
+                onClick={() => handleMobileBtnIsOpen('block18')}
+              />
             </div>
             <div className={styles.itemdropdowncontainer}>
-              <div className={styles.itemdropdownbox}>
-                {producingCountry && (
-                  <Dropdown
-                    updateStyle="advSearch"
-                    options={producingCountry.map(
-                      (item: any) => item.producingCountry,
-                    )}
-                    label="Країна"
-                    startValue="Країна"
-                    checkboxAllowed
-                    allOptionsLabel="Весь світ"
-                    option={countryDeliver}
-                    setOption={setCountryDeliver}
-                  />
-                )}
-              </div>
+              {isOpen.block18 && (
+                <div className={styles.itemdropdownbox}>
+                  {producingCountry && (
+                    <Dropdown
+                      updateStyle="advSearch"
+                      options={producingCountry.map(
+                        (item: any) => item.producingCountry,
+                      )}
+                      label="Країна"
+                      startValue="Країна"
+                      checkboxAllowed
+                      allOptionsLabel="Весь світ"
+                      option={countryDeliver}
+                      setOption={setCountryDeliver}
+                    />
+                  )}
+                </div>
+              )}
             </div>
           </div>
           {/* RadioButton type */}
@@ -802,26 +983,25 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
           </div>
         </div>
       </div>
-          <div className={styles.resultFilter}>
-            <button
-              className={styles.resultFilterReset}
-              type="button"
-              onClick={handlerSendRequest}
-            >
-              Зберекти пошук
-            </button>
-            <button
-              className={styles.resultFilterShow}
-              type="button"
-              onClick={handlerSendRequest}
-            >
-              Показати
-            </button>
-            <button className={styles.resultFilterReset} type="button">
-              Скинути фільтр
-            </button>
-          </div>
-    
+      <div className={styles.resultFilter}>
+        <button
+          className={styles.resultFilterReset}
+          type="button"
+          onClick={handlerSendRequest}
+        >
+          Зберекти пошук
+        </button>
+        <button
+          className={styles.resultFilterShow}
+          type="button"
+          onClick={handlerSendRequest}
+        >
+          Показати
+        </button>
+        <button className={styles.resultFilterReset} type="button">
+          Скинути фільтр
+        </button>
+      </div>
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import { IBrands } from 'types/IBrands';
 import { ICarBody } from 'types/ICarBody';
 import { ICity } from 'types/ICity';
 import { IColor } from 'types/IColor';
@@ -20,6 +21,19 @@ export const getArrayOfId = (
   for (const item of regions) {
     if (selectedToFilter.has(item.region)) {
       ids.push(item.regionId);
+    }
+  }
+  return ids;
+};
+export const getArrayBrandsOfId = (
+  regions: IBrands[],
+  selectedRegions: string | string[],
+) => {
+  const selectedToFilter = new Set(selectedRegions);
+  const ids: number[] = [];
+  for (const item of regions) {
+    if (selectedToFilter.has(item.brand)) {
+      ids.push(item.brandId);
     }
   }
   return ids;
