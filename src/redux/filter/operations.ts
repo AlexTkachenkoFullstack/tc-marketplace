@@ -131,12 +131,12 @@ export const fetchCity = createAsyncThunk(
   async (searchConfig: { searchParams: ISearchParams }, thunkAPI) => {
     const state = thunkAPI.getState() as RootState; //!
     const persistToken = state.auth.token; //!
-    if (persistToken === null) {
-      return thunkAPI.rejectWithValue('Unable to Hide advert');
-    } //!
     try {
-      setAuthHeaderForHide(persistToken); //!
-      console.log('persistToken:>> ',persistToken );
+      if (persistToken === null) {
+        return thunkAPI.rejectWithValue('Unable to Hide advert');
+      } //!if (persistToken !== null) {
+        //!
+        setAuthHeaderForHide(persistToken); //!
       const config = {
         params: searchConfig.searchParams,
         paramsSerializer,
@@ -230,35 +230,3 @@ export const fetchCars = createAsyncThunk(
     }
   },
 );
-// export const fetchFiltredCarsAdvancedSearch = createAsyncThunk(
-//   'filter/filtredCarsAdvancedSearch',
-//   async (
-//     searchConfig: { page: number; searchParams: ISearchParams },
-//     thunkAPI,
-//   ) => {
-//     const state = thunkAPI.getState() as RootState; //!
-//     const persistToken = state.auth.token; //!
-//     try {
-//       if (persistToken !== null) {
-//         //!
-//         setAuthHeaderForHide(persistToken); //!
-//       } //!
-//       const config = {
-//         params: searchConfig.searchParams,
-//         paramsSerializer,
-//       };
-//       const response = await instance(
-//         `catalog/search/page/${searchConfig.page}/limit/6/`,
-//         config,
-//       );
-
-//       return response.data; //!
-//     } catch (err) {
-//       const error: AxiosError<KnownError> = err as any;
-//       if (!error.response) {
-//         throw err;
-//       }
-//       return thunkAPI.rejectWithValue({ errorMessage: error.response.data });
-//     }
-//   },
-// );

@@ -85,8 +85,6 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const citys: ICity[] = useAppSelector(getFilterCitys);
   const brands: IBrand[] = useAppSelector(getFilterBrands);
   const carsList: IModel[] = useAppSelector(getFilterCarsList);
-  console.log('carsList :>> ', carsList);
-
   // type categotry cars
   const [selectedCategory, setSelectedCategory] = useState<string>('Легкові');
   const [carBody, setCarBody] = useState<string>('');
@@ -106,7 +104,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const [brandId, setBrandId] = useState<number[] | []>([]);
 
   const [carModel, setCarModel] = useState<string | string[]>('Всі моделі');
-  
+
   // dropdown
   const [selectedCity, setSelectedCity] = useState<string | string[]>('Місто');
   const [selectedRegions, setSelectedRegions] = useState<string | string[]>(
@@ -115,6 +113,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const [countryDeliver, setCountryDeliver] = useState<string | string[]>(
     'Весь світ',
   );
+  console.log('data :>> ', data);
   // response catalog/get-param/id
   const bodyTypes = data?.bodyTypeDTOS;
   const fuel = data?.fuelTypeDTOS;
@@ -125,7 +124,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const numberAxles = data?.numberAxlesDTOS;
   const wheelConfiguration = data?.wheelConfigurationDTOS;
   const producingCountry = data?.producingCountryDTOS;
-console.log('transportColor :>> ', transportColor);
+
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -144,11 +143,11 @@ console.log('transportColor :>> ', transportColor);
         ? getInitialBlocksVisibility(false)
         : getInitialBlocksVisibility(true);
     });
-    setIsShow(prevState=>{
+    setIsShow(prevState => {
       return getWindowWidth() >= 768 && getWindowWidth() < 992
-      ? getInitialButtonVisibility(false)
-      : getInitialButtonVisibility(true);
-    })
+        ? getInitialButtonVisibility(false)
+        : getInitialButtonVisibility(true);
+    });
   }, [windowWidth]);
   function getWindowWidth() {
     return window.innerWidth;
@@ -171,17 +170,23 @@ console.log('transportColor :>> ', transportColor);
   useEffect(() => {
     if (selectedRegions) {
       const regionId = getArrayOfId(regions, selectedRegions);
+      if (regionId.length > 0) {
+        const searchParams: Pick<ISearchParams, 'regionId'> = {
+          regionId,
+        };
+        const searchConfig = {
+          searchParams,
+        };
 
-      const searchParams: Pick<ISearchParams, 'regionId'> = {
-        regionId,
-      };
-      const searchConfig = {
-        searchParams,
-      };
-      dispatch(fetchCity(searchConfig));
+        dispatch(fetchCity(searchConfig));
+      }
     }
   }, [selectedRegions, dispatch, regions]);
+  console.log('transportTypeId :>> ', transportTypeId);
   useEffect(() => {
+    if (!transportTypeId) {
+      return;
+    }
     async function getCarTypeParams() {
       const data = await getCarTypeParam(`${transportTypeId}`);
       setData(data);
@@ -313,7 +318,8 @@ console.log('transportColor :>> ', transportColor);
     const numberOfDoorsTo = numberOfDoors.to;
     const numberOfSeatsFrom = numberOfSeats.from;
     const numberOfSeatsTo = numberOfSeats.to;
-    const bargain = selectedOption;
+    const bargain = selectedOption;   
+     
     dispatch(
       changeFiltredParams({
         transportTypeId,
@@ -345,64 +351,65 @@ console.log('transportColor :>> ', transportColor);
         bargain,
       }),
     );
-    const searchParams: Pick<
-      ISearchParams,
-      | 'transportTypeId'
-      | 'brandId'
-      | 'modelId'
-      | 'regionId'
-      | 'cityId'
-      | 'bodyTypeId'
-      | 'fuelTypeId'
-      | 'driveTypeId'
-      | 'transmissionId'
-      | 'colorId'
-      | 'conditionId'
-      | 'numberAxlesId'
-      | 'producingCountryId'
-      | 'wheelConfigurationId'
-      | 'priceFrom'
-      | 'priceTo'
-      | 'yearsFrom'
-      | 'yearsTo'
-      | 'mileageFrom'
-      | 'mileageTo'
-      | 'enginePowerFrom'
-      | 'enginePowerTo'
-      | 'numberOfDoorsFrom'
-      | 'numberOfDoorsTo'
-      | 'numberOfSeatsFrom'
-      | 'numberOfSeatsTo'
-      | 'bargain'
-    > = {
-      transportTypeId,
-      brandId,
-      modelId,
-      regionId,
-      cityId,
-      bodyTypeId,
-      fuelTypeId,
-      driveTypeId,
-      transmissionId,
-      colorId,
-      conditionId,
-      numberAxlesId,
-      producingCountryId,
-      wheelConfigurationId,
-      priceFrom,
-      priceTo,
-      yearsFrom,
-      yearsTo,
-      mileageFrom,
-      mileageTo,
-      enginePowerFrom,
-      enginePowerTo,
-      numberOfDoorsFrom,
-      numberOfDoorsTo,
-      numberOfSeatsFrom,
-      numberOfSeatsTo,
-      bargain,
-    };
+ 
+    // const searchParams: Pick<
+    //   ISearchParams,
+    //   | 'transportTypeId'
+    //   | 'brandId'
+    //   | 'modelId'
+    //   | 'regionId'
+    //   | 'cityId'
+    //   | 'bodyTypeId'
+    //   | 'fuelTypeId'
+    //   | 'driveTypeId'
+    //   | 'transmissionId'
+    //   | 'colorId'
+    //   | 'conditionId'
+    //   | 'numberAxlesId'
+    //   | 'producingCountryId'
+    //   | 'wheelConfigurationId'
+    //   | 'priceFrom'
+    //   | 'priceTo'
+    //   | 'yearsFrom'
+    //   | 'yearsTo'
+    //   | 'mileageFrom'
+    //   | 'mileageTo'
+    //   | 'enginePowerFrom'
+    //   | 'enginePowerTo'
+    //   | 'numberOfDoorsFrom'
+    //   | 'numberOfDoorsTo'
+    //   | 'numberOfSeatsFrom'
+    //   | 'numberOfSeatsTo'
+    //   | 'bargain'
+    // > = {
+    //   transportTypeId,
+    //   brandId,
+    //   modelId,
+    //   regionId,
+    //   cityId,
+    //   bodyTypeId,
+    //   fuelTypeId,
+    //   driveTypeId,
+    //   transmissionId,
+    //   colorId,
+    //   conditionId,
+    //   numberAxlesId,
+    //   producingCountryId,
+    //   wheelConfigurationId,
+    //   priceFrom,
+    //   priceTo,
+    //   yearsFrom,
+    //   yearsTo,
+    //   mileageFrom,
+    //   mileageTo,
+    //   enginePowerFrom,
+    //   enginePowerTo,
+    //   numberOfDoorsFrom,
+    //   numberOfDoorsTo,
+    //   numberOfSeatsFrom,
+    //   numberOfSeatsTo,
+    //   bargain,
+    // };
     // const filteredSearchParams = Object.fromEntries(
     //   Object.entries(searchParams).filter(([_, value]) => {
     //     if (Array.isArray(value)) {
@@ -551,7 +558,11 @@ console.log('transportColor :>> ', transportColor);
                     selectedCategory={carBody}
                   />
                   <button
-                    className={`${styles.btnShowMore} ${getWindowWidth() >= 768 && getWindowWidth() < 992 ? '':styles.hide }`}
+                    className={`${styles.btnShowMore} ${
+                      getWindowWidth() >= 768 && getWindowWidth() < 992
+                        ? ''
+                        : styles.hide
+                    }`}
                     onClick={() => handleTabletBtnIsOpen('block1')}
                   >
                     {isShow.block1 ? 'Приховати' : 'Показати більше'}
@@ -593,7 +604,7 @@ console.log('transportColor :>> ', transportColor);
               <div className={styles.listItemBrand}>
                 <Dropdown
                   updateStyle="advSearch"
-                  options1={carsList}                  
+                  options1={carsList}
                   label="Модель"
                   startValue="Модель"
                   allOptionsLabel="Всі моделі"
@@ -647,7 +658,11 @@ console.log('transportColor :>> ', transportColor);
                     selectedCategory={carFuel}
                   />
                   <button
-                     className={`${styles.btnShowMore} ${getWindowWidth() >= 768 && getWindowWidth() < 992 ? '':styles.hide }`}
+                    className={`${styles.btnShowMore} ${
+                      getWindowWidth() >= 768 && getWindowWidth() < 992
+                        ? ''
+                        : styles.hide
+                    }`}
                     onClick={() => handleTabletBtnIsOpen('block2')}
                   >
                     {isShow.block2 ? 'Приховати' : 'Показати більше'}
@@ -698,17 +713,22 @@ console.log('transportColor :>> ', transportColor);
               {isOpen.block9 && (
                 <div className={styles.listItem}>
                   <CategoryBar
-                  color="transpotColor"
-                  transportColor={transportColor
+                    color="transpotColor"
+                    transportColor={
+                      transportColor
                       // .slice(0, isShow.block3 ? 12 : 6)
                       // .map((item: any) => item.transportColor)
                     }
                     isShow={isShow.block3}
                     handleSelect={handlerCarColor}
                     selectedCategory={carColor}
-                  />                  
-                  <button                   
-                    className={`${styles.btnShowMore} ${getWindowWidth() >= 768 && getWindowWidth() < 992 ? '':styles.hide }`}
+                  />
+                  <button
+                    className={`${styles.btnShowMore} ${
+                      getWindowWidth() >= 768 && getWindowWidth() < 992
+                        ? ''
+                        : styles.hide
+                    }`}
                     onClick={() => handleTabletBtnIsOpen('block3')}
                   >
                     {isShow.block3 ? 'Приховати' : 'Показати більше'}
@@ -740,8 +760,12 @@ console.log('transportColor :>> ', transportColor);
                     selectedCategory={carTransportCondition}
                   />
                   <button
-                 className={`${styles.btnShowMore} ${getWindowWidth() >= 768 && getWindowWidth() < 992 ? '':styles.hide }`}
-                    onClick={() =>  handleTabletBtnIsOpen('block4')}
+                    className={`${styles.btnShowMore} ${
+                      getWindowWidth() >= 768 && getWindowWidth() < 992
+                        ? ''
+                        : styles.hide
+                    }`}
+                    onClick={() => handleTabletBtnIsOpen('block4')}
                   >
                     {isShow.block4 ? 'Приховати' : 'Показати більше'}
                   </button>
