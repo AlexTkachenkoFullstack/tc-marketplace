@@ -15,13 +15,13 @@ import {
   fetchModels,
   fetchRegions,
   fetchTypes,
-//   fetchFiltredCars,
+  fetchFiltredCars,
 } from 'redux/filter/operations';
 import { IRegion } from 'types/IRegion';
 import { IType } from 'types/IType';
 import { IBrand } from 'types/IBrand';
 import { IModel } from 'types/IModel';
-// import { ISearchParams } from 'types/ISearchParam';
+import { ISearchParams } from 'types/ISearchParam';
 
 import { useNavigate } from 'react-router-dom';
 import { getArrayModelsOfId, getArrayOfId } from 'utils/getArrayOfId';
@@ -87,20 +87,30 @@ export const HomeTop = () => {
     const regionId = getArrayOfId(regions, selectedRegions);
     const modelId = getArrayModelsOfId(models, carModel);
     dispatch(
-      changeFiltredParams({ transportTypeId, brandId, modelId, regionId }),
+      changeFiltredParams({ transportTypeId, brandId, modelId, regionId, orderBy:"CREATED", sortBy:"ASC" }),
     );
-    // const searchParams:Pick<ISearchParams, 'transportTypeId' | 'brandId' | 'modelId' | 'regionId'>={
-    //     transportTypeId,
-    //     brandId,
-    //     modelId,
-    //     regionId
-    // }
-    //     const searchConfig = {
-    //        page:0,
-    //        searchParams
-    //   };
-    //   console.log('first', searchConfig)
-    // dispatch(fetchFiltredCars(searchConfig))
+    // const searchParams: Pick<
+    //   ISearchParams,
+    //   | 'transportTypeId'
+    //   | 'brandId'
+    //   | 'modelId'
+    //   | 'regionId'
+    //   | 'orderBy'
+    //   | 'sortBy'
+    // > = {
+    //   transportTypeId,
+    //   brandId,
+    //   modelId,
+    //   regionId,
+    //   orderBy: 'CREATED',
+    //   sortBy: 'ASC',
+    // };
+    // const searchConfig = {
+    //   page: 0,
+    //   searchParams,
+    // };
+    
+    // dispatch(fetchFiltredCars(searchConfig));
     navigate('/advanced-search');
   };
 

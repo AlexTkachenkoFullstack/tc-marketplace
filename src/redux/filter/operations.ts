@@ -111,7 +111,7 @@ export const fetchFiltredCars = createAsyncThunk(
         paramsSerializer,
       };
       const response = await instance(
-        `catalog/search/page/${searchConfig.page}/limit/6/`,
+        `catalog/search/page/${searchConfig.page}/limit/3/`,
         config,
       );
 
@@ -184,7 +184,7 @@ export const hideAllTransport = createAsyncThunk(
     try {
       setAuthHeaderForHide(persistToken);
       const response = await instance.put(
-        `https://api.pawo.space/api/v1/user-page/hide/transport/${id}`,
+        `https://api.pawo.space/api/v1/user-page/hide-all/transport/${id}`,
       );
       return response.data;
     } catch (err) {

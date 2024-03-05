@@ -113,11 +113,18 @@ const handleFulfildGetFiltredCars = (
   state.isLoading = false;
   state.error = null;
   state.filtredCars = [
-    ...state.filtredCars,
+    // ...state.filtredCars,
     ...action.payload.transportSearchResponse,
 
   ];
   state.totalAdverts = action.payload.total;
+};
+
+const handleFulfildHideAdvert = (
+  state: IFilterState,
+) => {
+  state.isLoading = false;
+  state.error = null;
 };
 
 export const filterSlice = createSlice({
@@ -175,6 +182,7 @@ export const filterSlice = createSlice({
       .addCase(fetchBrands.fulfilled, handleFulfildGetBrands)
       .addCase(fetchModels.fulfilled, handleFulfildGetModels)
       .addCase(fetchFiltredCars.fulfilled, handleFulfildGetFiltredCars)
+      .addCase(hideTransport.fulfilled, handleFulfildHideAdvert)
       .addMatcher(
         isAnyOf(
           fetchRegions.pending,
