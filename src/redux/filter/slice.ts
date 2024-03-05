@@ -8,7 +8,6 @@ import {
   fetchRegions,
   fetchTypes,
   hideTransport,
- /////!
 } from './operations';
 import { IType } from 'types/IType';
 import { IRegion } from 'types/IRegion';
@@ -127,24 +126,18 @@ const handleFulfildGetFiltredCars = (
   state.isLoading = false;
   state.error = null;
   state.filtredCars = [
-    ...state.filtredCars,
+    // ...state.filtredCars,
     ...action.payload.transportSearchResponse,
   ];
   state.totalAdverts = action.payload.total;
 };
 
-// const handleFulfildGetFiltredCarsAdvancedSearch = (
-//   state: IFilterState,
-//   action: PayloadAction<IFiltredCarsPayload>,
-// ) => {
-//   state.isLoading = false;
-//   state.error = null;
-//   state.filtredCarsAdvancedSearch = [
-   
-//     ...action.payload.transportSearchResponse,
-//   ];
-//   state.totalAdverts = action.payload.total;
-// };
+const handleFulfildHideAdvert = (
+  state: IFilterState,
+) => {
+  state.isLoading = false;
+  state.error = null;
+};
 
 export const filterSlice = createSlice({
   name: 'filter',
@@ -202,7 +195,7 @@ export const filterSlice = createSlice({
       .addCase(fetchModels.fulfilled, handleFulfildGetModels)
       .addCase(fetchCars.fulfilled, handleFulfildGetCars)
       .addCase(fetchFiltredCars.fulfilled, handleFulfildGetFiltredCars)
-      // .addCase(fetchFiltredCarsAdvancedSearch.fulfilled, handleFulfildGetFiltredCarsAdvancedSearch)
+      .addCase(hideTransport.fulfilled, handleFulfildHideAdvert)
       .addMatcher(
         isAnyOf(
           fetchRegions.pending,
@@ -212,7 +205,6 @@ export const filterSlice = createSlice({
           fetchModels.pending,
           fetchCars.pending,
           fetchFiltredCars.pending,
-          // fetchFiltredCarsAdvancedSearch.pending,
           hideTransport.pending, ////!
         ),
         handlePending,

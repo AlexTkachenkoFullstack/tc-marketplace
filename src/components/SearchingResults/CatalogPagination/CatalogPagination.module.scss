@@ -2,6 +2,10 @@
 @import '../../../styles/utils/variables';
 
 .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 24px;
   margin-top: 16px;
 }
 
@@ -18,4 +22,67 @@
   font-size: 16px;
   font-weight: 600;
   line-height: 24px;
+}
+
+.paginationContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 13px;
+  width: 340px;
+  height: 40px;
+  @include onTablet {
+    width: 668px;
+  }
+}
+
+.pageLinkClassName {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 14px;
+  letter-spacing: 0.1px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: pink;
+  }
+}
+
+.activeClassName {
+  position: relative;
+  border-radius: 50%;
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    background-color: $bg-hover-btn;
+    transform: translate(-8px, -8px);
+    z-index: -11;
+  }
+}
+
+.previousClassName,
+.nextClassName {
+  flex-grow: 1;
+}
+
+.nextClassName {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.red > path{
+  // background-color: red;
+  fill: red;
+  // stroke: red;
 }
