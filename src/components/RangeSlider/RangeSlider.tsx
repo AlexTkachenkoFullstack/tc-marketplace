@@ -52,7 +52,7 @@ const RangeSlider: React.FC<RangeSliderProps> = ({setObjectValue, typeRange}) =>
       break;
       case  "numberOfSeats" :
         min = 2
-        max = 20
+        max = 7
       break;  
       }
       return [min,max]

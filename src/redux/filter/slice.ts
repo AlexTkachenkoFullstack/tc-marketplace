@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction, isAnyOf } from '@reduxjs/toolkit';
 import {
+  fetchCars,
   fetchBrands,
   fetchCity,
   fetchFiltredCars,
   fetchModels,
   fetchRegions,
   fetchTypes,
-  hideTransport, /////!
+  hideTransport,
 } from './operations';
 import { IType } from 'types/IType';
 import { IRegion } from 'types/IRegion';
@@ -17,10 +18,11 @@ import { ICity } from 'types/ICity';
 
 interface IFilterState {
   regions: IRegion[] | [];
-  citys: ICity[] | [];
+  cities: ICity[] | [];
   types: IType[] | [];
   brand: IBrand[] | [];
   models: IModel[] | [];
+  carsList:IModel[] | [];
   error: unknown;
   isLoading: boolean;
   select: {
@@ -29,22 +31,25 @@ interface IFilterState {
     modelId: number[] | [];
     regionId: number[] | [];
   };
+  // filtredCarsAdvancedSearch: ICar[]|[];
   filtredCars: ICar[] | [];
   totalAdverts: number | null;
 }
 
 const initialState: IFilterState = {
   regions: [],
-  citys: [],
+  cities: [],
   types: [],
   brand: [],
   models: [],
+  carsList:[],
   select: {
     transportTypeId: 1,
     brandId: [],
     modelId: [],
     regionId: [],
   },
+  // filtredCarsAdvancedSearch:[],
   filtredCars: [],
   error: null,
   isLoading: false,
@@ -76,7 +81,7 @@ const handleFulfildGetCitys = (
 ) => {
   state.isLoading = false;
   state.error = null;
-  state.citys = action.payload;
+  state.cities = action.payload;
 };
 
 const handleFulfildGetTypes = (
@@ -105,6 +110,14 @@ const handleFulfildGetModels = (
   state.error = null;
   state.models = action.payload;
 };
+const handleFulfildGetCars = (
+  state: IFilterState,
+  action: PayloadAction<IModel[]>,
+) => {
+  state.isLoading = false;
+  state.error = null;
+  state.carsList = action.payload;
+};
 
 const handleFulfildGetFiltredCars = (
   state: IFilterState,
@@ -115,7 +128,6 @@ const handleFulfildGetFiltredCars = (
   state.filtredCars = [
     // ...state.filtredCars,
     ...action.payload.transportSearchResponse,
-
   ];
   state.totalAdverts = action.payload.total;
 };
@@ -181,6 +193,7 @@ export const filterSlice = createSlice({
       .addCase(fetchTypes.fulfilled, handleFulfildGetTypes)
       .addCase(fetchBrands.fulfilled, handleFulfildGetBrands)
       .addCase(fetchModels.fulfilled, handleFulfildGetModels)
+      .addCase(fetchCars.fulfilled, handleFulfildGetCars)
       .addCase(fetchFiltredCars.fulfilled, handleFulfildGetFiltredCars)
       .addCase(hideTransport.fulfilled, handleFulfildHideAdvert)
       .addMatcher(
@@ -190,6 +203,7 @@ export const filterSlice = createSlice({
           fetchTypes.pending,
           fetchBrands.pending,
           fetchModels.pending,
+          fetchCars.pending,
           fetchFiltredCars.pending,
           hideTransport.pending, ////!
         ),
@@ -202,7 +216,9 @@ export const filterSlice = createSlice({
           fetchTypes.rejected,
           fetchBrands.rejected,
           fetchModels.rejected,
+          fetchCars.rejected,
           fetchFiltredCars.rejected,
+          // fetchFiltredCarsAdvancedSearch.rejected,
           hideTransport.rejected, ////!
         ),
         handleRejected,
@@ -210,5 +226,8 @@ export const filterSlice = createSlice({
   },
 });
 
-export const { changeFiltredParams, cleanFiltredStore, updateFilteredStoreAfterHide } =
-  filterSlice.actions;
+export const {
+  changeFiltredParams,
+  cleanFiltredStore,
+  updateFilteredStoreAfterHide,
+} = filterSlice.actions;
