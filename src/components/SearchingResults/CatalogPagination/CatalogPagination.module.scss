@@ -1,5 +1,4 @@
 @import '/src/styles/main.scss';
-@import '../../../styles/utils/variables';
 
 .container {
   display: flex;
@@ -22,17 +21,35 @@
   font-size: 16px;
   font-weight: 600;
   line-height: 24px;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  &:hover {
+    background-color: $bg-hover-pagin-btn;
+  }
 }
 
 .paginationContainer {
   display: flex;
   align-items: center;
   justify-content: center;
-  column-gap: 13px;
+  column-gap: 4px;
   width: 340px;
   height: 40px;
   @include onTablet {
     width: 668px;
+  }
+}
+
+.pageClassName {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  &:hover {
+    background-color: $bg-hover-pagin-btn;
   }
 }
 
@@ -46,28 +63,14 @@
   font-weight: 500;
   line-height: 14px;
   letter-spacing: 0.1px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: pink;
-  }
 }
 
 .activeClassName {
-  position: relative;
-  border-radius: 50%;
-  &::after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    background-color: $bg-hover-btn;
-    transform: translate(-8px, -8px);
-    z-index: -11;
+  background-color: $bg-active-btn;
+  cursor: default;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  &:hover {
+    background-color: $bg-active-btn;
   }
 }
 
@@ -76,13 +79,37 @@
   flex-grow: 1;
 }
 
+.previousLinkClassName,
+.nextLinkClassName {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.previousLinkClassName,
+.nextLinkClassName {
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  &:hover {
+    background-color: $bg-hover-pagin-btn;
+    cursor: pointer;
+  }
+}
+
+.previousLinkClassName[aria-disabled='true'] path,
+.nextLinkClassName[aria-disabled='true'] path {
+  fill: $arrow-icon-disabled;
+}
+
+.previousLinkClassName[aria-disabled='true'],
+.nextLinkClassName[aria-disabled='true'] {
+  background-color: transparent;
+  cursor: auto;
+}
+
 .nextClassName {
   display: flex;
   justify-content: flex-end;
-}
-
-.red > path{
-  // background-color: red;
-  fill: red;
-  // stroke: red;
 }

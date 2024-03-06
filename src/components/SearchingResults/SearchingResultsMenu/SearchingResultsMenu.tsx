@@ -1,18 +1,18 @@
-import { Dropdown } from 'components/Dropdown/Dropdown';
-import styles from './SearchingResultsMenu.module.scss';
 import { useEffect, useState } from 'react';
-
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+
+import styles from './SearchingResultsMenu.module.scss';
+
 import { changeFiltredParams } from 'redux/filter/slice';
 import { getSelectedCars } from 'redux/filter/selectors';
+
+import { Dropdown } from 'components/Dropdown/Dropdown';
 
 interface Iprops {
   onAdvancedFilter: () => void;
 }
 
-const SearchingResultsMenu: React.FC<Iprops> = ({
-  onAdvancedFilter,
-}) => {
+const SearchingResultsMenu: React.FC<Iprops> = ({ onAdvancedFilter }) => {
   const [typeOfSort, setTypeOfSort] = useState<string | string[]>('');
   const [orderBy, setOrderBy] = useState<'CREATED' | 'PRICE' | 'MILEAGE'>(
     'CREATED',

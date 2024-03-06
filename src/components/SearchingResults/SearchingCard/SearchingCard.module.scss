@@ -1,6 +1,4 @@
 @import '/src/styles/main.scss';
-// @import '../../../styles/utils/breakpoints';
-// @import '../../../styles/utils/variables';
 
 .card {
   display: flex;
@@ -122,23 +120,6 @@
     &:last-child {
       padding-inline-end: 0;
     }
-
-    // &:not(:last-child)::after {
-    //   content: '';
-    //   position: absolute;
-    //   top: 50%;
-    //   right: 0.5rem;
-    //   transform: translateY(-50%);
-    //   display: block;
-    //   width: 0.125rem;
-    //   height: 0.125rem;
-    //   background-color: $color-dark-grey;
-    //   border-radius: 50%;
-
-    //   @include onTablet {
-    //     display: none;
-    //   }
-    // }
   }
 
   .description {
@@ -147,9 +128,6 @@
     letter-spacing: 0.5px;
     margin-bottom: 12px;
     flex-grow: 1;
-    // -ms-text-overflow: ellipsis;
-    // -o-text-overflow: ellipsis;
-    // text-overflow: ellipsis;
     overflow: hidden;
     -ms-line-clamp: 3;
     line-clamp: 3;
@@ -213,7 +191,7 @@
   height: 40px;
   border: none;
   border-radius: 50%;
-
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
   &:hover {
     background-color: $bg-hover-btn;
   }
