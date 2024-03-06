@@ -1,29 +1,29 @@
-import React, {
-  // useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
-import styles from './SearchingResults.module.scss';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import {
-  getFiltredCars,
-  getIsloadingFiltredCars,
-  getTotalAdverts,
-} from 'redux/filter/selectors';
-import { SearchingCard } from './SearchingCard/SearchingCard';
-import { ISearchParams } from 'types/ISearchParam';
-import { fetchFiltredCars } from 'redux/filter/operations';
-import { getSelectedCars } from 'redux/filter/selectors';
 import { useAppDispatch } from 'redux/hooks';
+import _ from 'lodash.throttle';
+
+import styles from './SearchingResults.module.scss';
+
+import { ICar } from 'types/IСar';
+import { ISearchParams } from 'types/ISearchParam';
+
 import {
   cleanFiltredStore,
   updateFilteredStoreAfterHide,
 } from 'redux/filter/slice';
-import CatalogPagination from './CatalogPagination/CatalogPagination';
+import {
+  getFiltredCars,
+  getIsloadingFiltredCars,
+  getTotalAdverts,
+  getSelectedCars,
+} from 'redux/filter/selectors';
+import { fetchFiltredCars } from 'redux/filter/operations';
+
 import Loader from 'components/Loader/Loader';
-import { ICar } from 'types/IСar';
-import SearchingResultsMenu from './SearchingResultsMenu/SearchingResultsMenu';
+import SearchingCard from './SearchingCard';
+import CatalogPagination from './CatalogPagination';
+import SearchingResultsMenu from './SearchingResultsMenu';
 
 interface IProps {
   handleAdvancedFilter: () => void;
@@ -44,7 +44,7 @@ const SearchingResults: React.FC<IProps> = ({ handleAdvancedFilter }) => {
   const adverts = useSelector(getFiltredCars);
   const isLoading = useSelector(getIsloadingFiltredCars);
   const totalAdverts: number | null = useSelector(getTotalAdverts);
-  let advertsPerPage = 3;
+  let advertsPerPage = 4;
   let totalPages: number;
   if (totalAdverts !== null) {
     totalPages = Math.ceil(totalAdverts / advertsPerPage);
@@ -64,12 +64,12 @@ const SearchingResults: React.FC<IProps> = ({ handleAdvancedFilter }) => {
         }),
       ),
     [searchParams],
-  ); ;
+  );
   const hasValidValues = Object.keys(filteredFetchParams).length > 0;
   const searchParamsValue = useMemo(
     () => (hasValidValues ? filteredFetchParams : {}),
     [filteredFetchParams, hasValidValues],
-  ); 
+  );
 
   const memoParam = useMemo(() => {
     return {
@@ -81,22 +81,18 @@ const SearchingResults: React.FC<IProps> = ({ handleAdvancedFilter }) => {
 
   const [fetchParam, setFetchParam] = useState({ ...memoParam });
 
-  // const handleResize = useCallback(() => {
-  //   console.log('resize');
-  //   const width = window.innerWidth;
-  //   const newAdvertsPerPage = width > 767 ? 3 : 2;
-  //   if (advertsPerPage !== newAdvertsPerPage) {
-  //     setFetchParam(prev => ({ ...prev, limit: newAdvertsPerPage }));
-  //   }
-  //   console.log('newAdvertsPerPage', newAdvertsPerPage);
-  // }, [advertsPerPage]);
+  const handleResize = useCallback(() => {
+    const width = window.innerWidth;
+    const newAdvertsPerPage = width > 767 ? 4 : 3;
+    setFetchParam(prev => ({ ...prev, limit: newAdvertsPerPage }));
+  }, []);
 
-  // useEffect(() => {
-  //   window.addEventListener('resize', handleResize);
-  //   return () => {
-  //     window.removeEventListener('resize', handleResize);
-  //   };
-  // }, [handleResize]);
+  useEffect(() => {
+    window.addEventListener('resize', _(handleResize, 100));
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [handleResize]);
 
   useEffect(() => {
     setIsShowMore(false);
@@ -135,6 +131,16 @@ const SearchingResults: React.FC<IProps> = ({ handleAdvancedFilter }) => {
     setOptionMenuId(null);
   };
 
+  const updateAfterHide = (carId: number) => {
+    const updatedArr = arrForRender.filter(({ id }) => id !== carId);
+    dispatch(updateFilteredStoreAfterHide(updatedArr));
+  };
+
+  const updateAfterAllHide = () => {
+    setIsShowMore(false);
+    dispatch(fetchFiltredCars(fetchParam));
+  };
+
   const handleShowMore = () => {
     setIsShowMore(true);
     dispatch(cleanFiltredStore());
@@ -144,16 +150,6 @@ const SearchingResults: React.FC<IProps> = ({ handleAdvancedFilter }) => {
   const handleChangePage = ({ selected }: { selected: number }) => {
     setIsShowMore(false);
     setFetchParam(prev => ({ ...prev, page: selected }));
-  };
-
-  const updateAfterHide = (carId: number) => {
-    const updatedArr = arrForRender.filter(({ id }) => id !== carId);
-    dispatch(updateFilteredStoreAfterHide(updatedArr));
-  };
-
-  const updateAfterAllHide = () => {
-    setIsShowMore(false);
-    dispatch(fetchFiltredCars(fetchParam));
   };
 
   return (

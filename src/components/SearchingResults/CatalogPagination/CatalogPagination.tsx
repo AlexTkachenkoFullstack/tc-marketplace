@@ -1,6 +1,5 @@
-import styles from './CatalogPagination.module.scss';
-
 import ReactPaginate from 'react-paginate';
+import styles from './CatalogPagination.module.scss';
 
 import { ReactComponent as LoadMoreIcon } from '../../../assets/icons/update.svg';
 import { ReactComponent as ArrowPrev } from '../../../assets/icons/arrow_prev.svg';

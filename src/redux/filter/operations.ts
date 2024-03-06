@@ -96,7 +96,7 @@ export const fetchModels = createAsyncThunk(
 export const fetchFiltredCars = createAsyncThunk(
   'cars/getFiltredCar',
   async (
-    searchConfig: { page: number; searchParams: ISearchParams },
+    searchConfig: { page: number; limit: number; searchParams: ISearchParams },
     thunkAPI,
   ) => {
     const state = thunkAPI.getState() as RootState; //!
@@ -111,7 +111,7 @@ export const fetchFiltredCars = createAsyncThunk(
         paramsSerializer,
       };
       const response = await instance(
-        `catalog/search/page/${searchConfig.page}/limit/3/`,
+        `catalog/search/page/${searchConfig.page}/limit/${searchConfig.limit}/`,
         config,
       );
 
@@ -136,7 +136,7 @@ export const fetchCity = createAsyncThunk(
     } //!
     try {
       setAuthHeaderForHide(persistToken); //!
-      console.log('persistToken:>> ',persistToken );
+      console.log('persistToken:>> ', persistToken);
       const config = {
         params: searchConfig.searchParams,
         paramsSerializer,
@@ -205,7 +205,13 @@ export const hideAllTransport = createAsyncThunk(
 ); //////!
 export const fetchCars = createAsyncThunk(
   'filter/carsList',
-  async ({ id, searchConfig }: { id: number | null; searchConfig: { searchParams: ISearchParams } },thunkAPI) => {
+  async (
+    {
+      id,
+      searchConfig,
+    }: { id: number | null; searchConfig: { searchParams: ISearchParams } },
+    thunkAPI,
+  ) => {
     const state = thunkAPI.getState() as RootState;
     const persistToken = state.auth.token;
     if (persistToken === null) {
@@ -218,8 +224,10 @@ export const fetchCars = createAsyncThunk(
         paramsSerializer,
       };
       const response = await instance(
-        `/catalog/get-param?transportTypeId=${id}`,config);
-      
+        `/catalog/get-param?transportTypeId=${id}`,
+        config,
+      );
+
       return response.data.transportModelDTOS;
     } catch (err) {
       const error: AxiosError<KnownError> = err as any;

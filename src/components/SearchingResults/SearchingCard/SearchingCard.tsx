@@ -1,19 +1,25 @@
 import { NavLink, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import cn from 'classnames';
+
 import styles from './SearchingCard.module.scss';
+
+import { isAuthUser } from 'redux/auth/selectors';
+import { addToFavourites, removeFromFavourites } from 'redux/cars/operations';
+import { hideAllTransport, hideTransport } from 'redux/filter/operations';
+
+import { ICar } from 'types/IСar';
 
 import LikeImg from '../../../assets/icons/favorite.svg';
 import ActiveLikeImg from '../../../assets/icons/favorite-active.svg';
-import { CommonBtn } from 'components/Buttons/CommonBtn';
-import { ICar } from 'types/IСar';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { isAuthUser } from 'redux/auth/selectors';
-import { addToFavourites, removeFromFavourites } from 'redux/cars/operations';
 import { ReactComponent as EmptyIcon } from '../../../assets/icons/empty_icon.svg';
 import { ReactComponent as OptionDots } from '../../../assets/icons/option_dots.svg';
 import { ReactComponent as ClockIcon } from '../../../assets/icons/clock.svg';
+import imagePlug from '../../../assets/images/imagePlug.webp';
+
+import { CommonBtn } from 'components/Buttons/CommonBtn';
+
 import { convertDate } from 'utils/convertDate';
-import { hideAllTransport, hideTransport } from 'redux/filter/operations';
 
 interface IProps {
   car?: ICar;
@@ -27,7 +33,7 @@ interface IProps {
   updateAfterAllHide: () => void;
 }
 
-export const SearchingCard: React.FC<IProps> = ({
+const SearchingCard: React.FC<IProps> = ({
   car,
   onShowMenu,
   onInfoContainerClick,
@@ -63,16 +69,26 @@ export const SearchingCard: React.FC<IProps> = ({
       car &&
         setTimeout(() => {
           updateAfterAllHide();
-        }, 3000);
+        }, 300);
     }
     onInfoContainerClick();
+  };
+
+  const onSrcImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const target = e.target as HTMLImageElement;
+    target.src = imagePlug;
   };
 
   return (
     <article className={styles.card}>
       <div className={styles.photo}>
         <NavLink to={`/catalog/${car?.id}`} className={styles.link}>
-          <img className={styles.img} src={car?.fileUrl} alt={car?.brand} />
+          <img
+            className={styles.img}
+            src={car?.fileUrl}
+            alt={car?.brand}
+            onError={onSrcImageError}
+          />
         </NavLink>
         <div className={styles.iconIsFavouriteContainer} onClick={addFavorite}>
           <CommonBtn
@@ -145,3 +161,5 @@ export const SearchingCard: React.FC<IProps> = ({
     </article>
   );
 };
+
+export default SearchingCard;
