@@ -51,18 +51,10 @@ export default function DropdownList(props: Props) {
   };
 
   const filtredItems = options1?.map((option: any) =>
-    option.cities ? (option.cities.map((item: any) => item.city).filter(filterOptionsFunc)):(option.models.map((item: any) => item.model).filter(filterOptionsFunc))
-  )
-
-
-
-
-//   const filtredModels = options1?.map((option: any) =>
-//   option.models.map((item: any) => item.model).filter(filterOptionsFunc),
-// );
-console.log('filtredItems :>> ', filtredItems);
-
-
+    option.cities
+      ? option.cities.map((item: any) => item.city).filter(filterOptionsFunc)
+      : option.models.map((item: any) => item.model).filter(filterOptionsFunc),
+  );
   const filtredItem = options?.filter(filterOptionsFunc);
 
   const filtredOptions = filtredItems || filtredItem;
@@ -81,19 +73,10 @@ console.log('filtredItems :>> ', filtredItems);
           ))}
         </>
       )}
-      {!filtredOptions.every(Array.isArray)
-       &&
+      {!filtredOptions.every(Array.isArray) &&
         checkboxAllowed &&
-        !!filtredOptions.length && (
-          <DropdownInfoOption
-            text={
-              'Весь список:'
-            }
-          />
-        )}
-      {
-      !filtredOptions.every(Array.isArray)
-       ? (
+        !!filtredOptions.length && <DropdownInfoOption text={'Весь список:'} />}
+      {!filtredOptions.every(Array.isArray) ? (
         filtredOptions.length === 0 ? (
           <DropdownNoMatchOption />
         ) : (
@@ -118,6 +101,7 @@ console.log('filtredItems :>> ', filtredItems);
               <>
                 {
                   <DropdownInfoOption
+                  key={item+i}
                     text={
                       titleName && titleName.length > 0
                         ? titleName[i]
