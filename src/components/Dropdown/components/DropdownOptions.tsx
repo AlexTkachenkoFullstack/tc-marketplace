@@ -60,12 +60,13 @@ export const DropdownNoMatchOption = () => {
 };
 type InfoOptionProps = {
   text: string | string[];
+  newStyles?:string
 };
 
-export const DropdownInfoOption = ({ text }: InfoOptionProps) => {
+export const DropdownInfoOption = ({ text,newStyles }: InfoOptionProps) => {
   return (
     <li className={`${styles.listItem} ${styles.listItem_Inactive}`}>
-      <span className={styles.listTitle}>{text}</span>
+      <span className={`${styles.listTitle} ${newStyles? styles.newStyles:''}`}>{text}</span>
     </li>
   );
 };

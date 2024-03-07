@@ -12,11 +12,13 @@ type Props = {
   checkboxAllowed: boolean | undefined;
   filterValue: string;
   options: string[];
-  options1: any;
+  optionList: any;
   changeOption: (option: string) => void;
   checkboxHandler: (option: string) => void;
   allOptionsLabel?: string;
   titleName?: string[];
+  pickedBrands?: any;
+  pickedRegions?: any;
 };
 
 export default function DropdownList(props: Props) {
@@ -26,7 +28,9 @@ export default function DropdownList(props: Props) {
     checkboxAllowed,
     options,
     titleName,
-    options1,
+    optionList,
+    pickedBrands,
+    pickedRegions,
   } = props;
 
   const filterOptionsFunc = (text: string) => {
@@ -49,15 +53,40 @@ export default function DropdownList(props: Props) {
     if (optionValue.includes(translitUa.reverse(checkValue))) return true;
     return optionValue.includes(checkValue);
   };
+  const regionsList: string[] = [];
+  if (pickedRegions !== undefined && titleName !== undefined) {
+    pickedRegions.filter((item: any) => {
+      regionsList.push(item.region);
+    });
+  }
+  const brandList: string[] = [];
+  if (titleName !== undefined && pickedBrands !== undefined) {
+    pickedBrands.filter((item: any) => {
+      brandList.push(item.brand);
+    });
+  }
 
-  const filtredItems = options1?.map((option: any) =>
-    option.cities
-      ? option.cities.map((item: any) => item.city).filter(filterOptionsFunc)
-      : option.models.map((item: any) => item.model).filter(filterOptionsFunc),
-  );
+  const filtredItems =
+    optionList &&
+    optionList?.map((option: any) => {
+      if (option) {
+        if (option.cities) {
+          return option.cities
+            .map((item: any) => item.city)
+            .filter(filterOptionsFunc);
+        } else if (option.models) {
+          return option.models
+            .map((item: any) => item.model)
+            .filter(filterOptionsFunc);
+        }
+      }
+      return [];
+    });
+
   const filtredItem = options?.filter(filterOptionsFunc);
 
   const filtredOptions = filtredItems || filtredItem;
+
   return (
     <ul className={styles.list}>
       {checkboxAllowed && !!filtredOptions.length && (
@@ -101,11 +130,10 @@ export default function DropdownList(props: Props) {
               <>
                 {
                   <DropdownInfoOption
-                  key={item+i}
+                    newStyles="newStyles"
+                    key={item + i}
                     text={
-                      titleName && titleName.length > 0
-                        ? titleName[i]
-                        : 'Весь список:'
+                      regionsList.length > 0 ? regionsList[i] : brandList[i]
                     }
                   />
                 }

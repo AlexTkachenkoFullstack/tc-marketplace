@@ -11,7 +11,7 @@ type Props = {
   label: string;
   startValue: string;
   options?: any;
-  options1?:any;
+  optionList?: any;
   checkboxAllowed?: boolean;
   isDissabled?: boolean;
   option: string | string[];
@@ -19,11 +19,15 @@ type Props = {
   allOptionsLabel?: string;
   carMark?: string | string[];
   updateStyle?: any;
-  title?:string | string[]
+  title?: string | string[];
+  pickedBrands?: any;
+  pickedRegions?: any;
 };
 
 export const Dropdown: FC<Props> = props => {
   const {
+    pickedRegions,
+    pickedBrands,
     label,
     startValue,
     options,
@@ -35,7 +39,7 @@ export const Dropdown: FC<Props> = props => {
     setOption,
     updateStyle,
     title,
-    options1,
+    optionList,
   } = props;
 
   const [isActive, setIsActive] = useState(false);
@@ -191,7 +195,9 @@ export const Dropdown: FC<Props> = props => {
 
       {isActive && (
         <DropdownList
-          options1={options1}
+          optionList={optionList}
+          pickedRegions={pickedRegions}
+          pickedBrands={pickedBrands}
           options={options}
           checkboxAllowed={checkboxAllowed}
           filterValue={filterValue}

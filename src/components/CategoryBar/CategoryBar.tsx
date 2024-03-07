@@ -75,7 +75,7 @@ export const CategoryBar: React.FC<Props> = ({
     >
       {showLeftScrollButton && (
         <button
-          className={styles.container__scroll_left}
+          className={`${styles.container__scroll_left} ${isAdvancedSearchPage ? styles.btn:''}`}
           onClick={handleScrollLeft}
         >
           <img src={scrollLeft} alt="scroll right" />
@@ -132,7 +132,7 @@ export const CategoryBar: React.FC<Props> = ({
 
       {showRightScrollButton && (
         <button
-          className={styles.container__scroll_right}
+          className={`${styles.container__scroll_right} ${isAdvancedSearchPage ? styles.btn:''}`}
           onClick={handleScrollRight}
         >
           <img src={scrollRight} alt="scroll right" />
