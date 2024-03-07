@@ -5,19 +5,15 @@ import {
   getFilterBrands,
   getFilterCarsList,
   getFilterCitys,
-  getFilterModels,
   getFilterRegions,
   getFilterTypes,
 } from 'redux/filter/selectors';
 import {
   fetchBrands,
-  fetchModels,
   fetchRegions,
   fetchTypes,
-  fetchFiltredCars,
   fetchCity,
   fetchCars,
-  // fetchFiltredCarsAdvancedSearch,
 } from 'redux/filter/operations';
 import { IType } from 'types/IType';
 import { IRegion } from 'types/IRegion';
@@ -85,7 +81,6 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const citys: ICity[] = useAppSelector(getFilterCitys);
   const brands: IBrand[] = useAppSelector(getFilterBrands);
   const carsList: IModel[] = useAppSelector(getFilterCarsList);
- 
 
   // type categotry cars
   const [selectedCategory, setSelectedCategory] = useState<string>('Легкові');
@@ -131,15 +126,16 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     if (carMark.includes(item.brand)) {
       pickedBrands.push(item);
     }
+    return true
   });
   const pickedRegions: any = [];
   regions.filter((item: any) => {
     if (selectedRegions.includes(item.region)) {
       pickedRegions.push(item);
     }
+    return true
   });
 
- 
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -410,7 +406,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
             <div className={styles.listItem}>
               {isOpen.block2 && (
                 <div className={styles.itemdropdownbox}>
-                  <Dropdown                  
+                  <Dropdown
                     updateStyle="advSearch"
                     options={regions.map(region => region.region)}
                     label="Регіон"

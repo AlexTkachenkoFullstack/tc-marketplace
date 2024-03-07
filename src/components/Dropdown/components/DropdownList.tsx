@@ -58,12 +58,14 @@ export default function DropdownList(props: Props) {
     pickedRegions.filter((item: any) => {
       regionsList.push(item.region);
     });
+    return true
   }
   const brandList: string[] = [];
   if (titleName !== undefined && pickedBrands !== undefined) {
     pickedBrands.filter((item: any) => {
       brandList.push(item.brand);
     });
+    return true
   }
 
   const filtredItems =
