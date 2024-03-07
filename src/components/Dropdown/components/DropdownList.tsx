@@ -12,7 +12,7 @@ type Props = {
   checkboxAllowed: boolean | undefined;
   filterValue: string;
   options: string[];
-  optionList: any;
+  optionList?: any;
   changeOption: (option: string) => void;
   checkboxHandler: (option: string) => void;
   allOptionsLabel?: string;
@@ -65,7 +65,7 @@ export default function DropdownList(props: Props) {
     pickedBrands.filter((item: any) => {
       brandList.push(item.brand);
     });
-    return true
+    
   }
 
   const filtredItems =
