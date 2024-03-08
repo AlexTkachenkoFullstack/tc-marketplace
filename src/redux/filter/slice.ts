@@ -15,6 +15,7 @@ import { IBrand } from 'types/IBrand';
 import { IModel } from 'types/IModel';
 import { ICar, IFiltredCarsPayload } from 'types/IСar';
 import { ICity } from 'types/ICity';
+import { addToFavourites, removeFromFavourites } from 'redux/cars/operations';
 
 interface IFilterState {
   regions: IRegion[] | [];
@@ -135,6 +136,20 @@ const handleFulfilledHideAdvert = (
   state.isLoading = false;
   state.error = null;
 };
+
+const handleFulfilledToggleIsFavorite = (
+  state: IFilterState,
+  action: PayloadAction<number>,
+) => {
+  const filteredCar = state.filtredCars.find(
+    item => item.id === action.payload,
+  );
+ 
+  if (filteredCar) {
+    filteredCar.isFavorite = !filteredCar.isFavorite;
+  }
+};
+
 export const filterSlice = createSlice({
   name: 'filter',
   initialState,
@@ -192,6 +207,11 @@ export const filterSlice = createSlice({
       .addCase(fetchCars.fulfilled, handleFulfilledGetCars)
       .addCase(fetchFiltredCars.fulfilled, handleFulfilledGetFiltredCars)  
       .addCase(hideTransport.fulfilled, handleFulfilledHideAdvert)
+
+      .addMatcher(
+        isAnyOf(addToFavourites.fulfilled, removeFromFavourites.fulfilled),
+        handleFulfilledToggleIsFavorite,
+      )
       .addMatcher(
         isAnyOf(
           fetchRegions.pending,
@@ -200,7 +220,7 @@ export const filterSlice = createSlice({
           fetchBrands.pending,
           fetchModels.pending,
           fetchCars.pending,
-          fetchFiltredCars.pending,      
+          fetchFiltredCars.pending,
           hideTransport.pending, ////!
         ),
         handlePending,
@@ -213,7 +233,7 @@ export const filterSlice = createSlice({
           fetchBrands.rejected,
           fetchModels.rejected,
           fetchCars.rejected,
-          fetchFiltredCars.rejected,         
+          fetchFiltredCars.rejected,
           hideTransport.rejected, ////!
         ),
         handleRejected,
