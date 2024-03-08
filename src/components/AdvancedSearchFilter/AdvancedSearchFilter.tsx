@@ -5,19 +5,15 @@ import {
   getFilterBrands,
   getFilterCarsList,
   getFilterCitys,
-  getFilterModels,
   getFilterRegions,
   getFilterTypes,
 } from 'redux/filter/selectors';
 import {
   fetchBrands,
-  fetchModels,
   fetchRegions,
   fetchTypes,
-  fetchFiltredCars,
   fetchCity,
   fetchCars,
-  // fetchFiltredCarsAdvancedSearch,
 } from 'redux/filter/operations';
 import { IType } from 'types/IType';
 import { IRegion } from 'types/IRegion';
@@ -82,9 +78,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   // redux filtred
   const typeCars: IType[] = useAppSelector(getFilterTypes);
   const regions: IRegion[] = useAppSelector(getFilterRegions);
-  const citys: ICity[] = useAppSelector(getFilterCitys);
+  const cities: ICity[] = useAppSelector(getFilterCitys);
   const brands: IBrand[] = useAppSelector(getFilterBrands);
   const carsList: IModel[] = useAppSelector(getFilterCarsList);
+
   // type categotry cars
   const [selectedCategory, setSelectedCategory] = useState<string>('Легкові');
   const [carBody, setCarBody] = useState<string>('');
@@ -113,7 +110,6 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const [countryDeliver, setCountryDeliver] = useState<string | string[]>(
     'Весь світ',
   );
-  console.log('data :>> ', data);
   // response catalog/get-param/id
   const bodyTypes = data?.bodyTypeDTOS;
   const fuel = data?.fuelTypeDTOS;
@@ -124,6 +120,19 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const numberAxles = data?.numberAxlesDTOS;
   const wheelConfiguration = data?.wheelConfigurationDTOS;
   const producingCountry = data?.producingCountryDTOS;
+
+  const pickedBrands: any = [];
+  brands.forEach((item: any) => {
+    if (carMark.includes(item.brand)) {
+      pickedBrands.push(item);
+    }
+  });
+  const pickedRegions: any = [];
+  regions.forEach((item: any) => {
+    if (selectedRegions.includes(item.region)) {
+      pickedRegions.push(item);
+    }
+  });
 
   useEffect(() => {
     const handleResize = () => {
@@ -182,7 +191,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
       }
     }
   }, [selectedRegions, dispatch, regions]);
-  console.log('transportTypeId :>> ', transportTypeId);
+
   useEffect(() => {
     if (!transportTypeId) {
       return;
@@ -281,7 +290,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     const regionId = getArrayOfId(regions, selectedRegions);
     dispatch(cleanFiltredStore());
     const modelId = getArrayModelsOfId(carsList, carModel);
-    const cityId = getArrayCityOfId(citys, selectedCity);
+    const cityId = getArrayCityOfId(cities, selectedCity);
     const bodyTypeId = getArrayCarBodyOfId(bodyTypes, carBody);
     const fuelTypeId = getArrayFuelOfId(fuel, carFuel);
     const driveTypeId = getArrayDriveOfid(driveType, carDriveType);
@@ -318,8 +327,8 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     const numberOfDoorsTo = numberOfDoors.to;
     const numberOfSeatsFrom = numberOfSeats.from;
     const numberOfSeatsTo = numberOfSeats.to;
-    const bargain = selectedOption;   
-     
+    const bargain = selectedOption;
+
     dispatch(
       changeFiltredParams({
         transportTypeId,
@@ -351,85 +360,8 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
         bargain,
       }),
     );
- 
-    // const searchParams: Pick<
-    //   ISearchParams,
-    //   | 'transportTypeId'
-    //   | 'brandId'
-    //   | 'modelId'
-    //   | 'regionId'
-    //   | 'cityId'
-    //   | 'bodyTypeId'
-    //   | 'fuelTypeId'
-    //   | 'driveTypeId'
-    //   | 'transmissionId'
-    //   | 'colorId'
-    //   | 'conditionId'
-    //   | 'numberAxlesId'
-    //   | 'producingCountryId'
-    //   | 'wheelConfigurationId'
-    //   | 'priceFrom'
-    //   | 'priceTo'
-    //   | 'yearsFrom'
-    //   | 'yearsTo'
-    //   | 'mileageFrom'
-    //   | 'mileageTo'
-    //   | 'enginePowerFrom'
-    //   | 'enginePowerTo'
-    //   | 'numberOfDoorsFrom'
-    //   | 'numberOfDoorsTo'
-    //   | 'numberOfSeatsFrom'
-    //   | 'numberOfSeatsTo'
-    //   | 'bargain'
-    // > = {
-    //   transportTypeId,
-    //   brandId,
-    //   modelId,
-    //   regionId,
-    //   cityId,
-    //   bodyTypeId,
-    //   fuelTypeId,
-    //   driveTypeId,
-    //   transmissionId,
-    //   colorId,
-    //   conditionId,
-    //   numberAxlesId,
-    //   producingCountryId,
-    //   wheelConfigurationId,
-    //   priceFrom,
-    //   priceTo,
-    //   yearsFrom,
-    //   yearsTo,
-    //   mileageFrom,
-    //   mileageTo,
-    //   enginePowerFrom,
-    //   enginePowerTo,
-    //   numberOfDoorsFrom,
-    //   numberOfDoorsTo,
-    //   numberOfSeatsFrom,
-    //   numberOfSeatsTo,
-    //   bargain,
-    // };
-    // const filteredSearchParams = Object.fromEntries(
-    //   Object.entries(searchParams).filter(([_, value]) => {
-    //     if (Array.isArray(value)) {
-    //       return value.length > 0; // Оставляем только непустые массивы
-    //     } else {
-    //       return value !== undefined && value !== 0; // Оставляем только значения, отличные от undefined и 0
-    //     }
-    //   }),
-    // );
-    // const hasValidValues = Object.keys(filteredSearchParams).length > 0;
-    // const searchParamsValue = hasValidValues ? filteredSearchParams : {};
-    // const searchConfig = {
-    //   page: 0,
-    //   searchParams: searchParamsValue,
-    // };
-    // dispatch(fetchFiltredCarsAdvancedSearch(searchConfig));
-    // action.resetForm()
     onAdvencedFilter();
   };
-
   return (
     <div className={styles.AdvSearchFilter}>
       <div className={styles.AdvSearchFilter_container}>
@@ -502,8 +434,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               {isOpen.block3 && (
                 <div className={styles.itemdropdownbox}>
                   <Dropdown
+                    pickedRegions={pickedRegions}
                     updateStyle="advSearch"
-                    options1={citys}
+                    optionList={cities}
                     label="Місто"
                     startValue="Місто"
                     checkboxAllowed
@@ -562,7 +495,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                       getWindowWidth() >= 768 && getWindowWidth() < 992
                         ? ''
                         : styles.hide
-                    }`}
+                    } `}
                     onClick={() => handleTabletBtnIsOpen('block1')}
                   >
                     {isShow.block1 ? 'Приховати' : 'Показати більше'}
@@ -577,8 +510,8 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
             <div className={styles.title}>
               <h2>Бренд</h2>
             </div>
-            <div>
-              <div className={styles.listItemBrand}>
+            <div className={styles.listItemBrand}>
+              <div className={styles.dropdownContainer}>
                 <Dropdown
                   updateStyle="advSearch"
                   // options={brands.map(brand => brand.brand).sort((a, b) => a.localeCompare(b))}
@@ -600,11 +533,11 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
             <div className={styles.title}>
               <h2>Модель</h2>
             </div>
-            <div>
-              <div className={styles.listItemBrand}>
+            <div className={styles.listItemBrand}>
+              <div className={styles.dropdownContainer}>
                 <Dropdown
                   updateStyle="advSearch"
-                  options1={carsList}
+                  optionList={carsList}
                   label="Модель"
                   startValue="Модель"
                   allOptionsLabel="Всі моделі"
@@ -613,6 +546,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                   title={carMark}
                   setOption={setCarModel}
                   carMark={carMark}
+                  pickedBrands={pickedBrands}
                 />
               </div>
             </div>
@@ -764,7 +698,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                       getWindowWidth() >= 768 && getWindowWidth() < 992
                         ? ''
                         : styles.hide
-                    }`}
+                    } `}
                     onClick={() => handleTabletBtnIsOpen('block4')}
                   >
                     {isShow.block4 ? 'Приховати' : 'Показати більше'}
@@ -934,7 +868,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
           {/* Країна з якої доставили    Select   */}
           <div className={styles.listCountryDelivery}>
             <div className={styles.title}>
-              <h2>Країна з якої доставили:</h2>
+              <h2>
+                Країна з якої <br />
+                доставили:
+              </h2>
               <div
                 className={`${styles.mobileButton} ${
                   isOpen.block18 ? styles.active : ''

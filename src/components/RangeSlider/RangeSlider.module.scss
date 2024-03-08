@@ -1,12 +1,19 @@
-.inputBlokResultAddBrand{
+@import '/src/styles/main.scss';
+
+.inputBlokResult {
+  width: 320px;
+
   margin-bottom: 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @include onTablet {
+    width: 400px;
   }
-  
-.priceLeftAddBrand, .priceRightAddBrand{
-  width: 188px;
+}
+.priceLeft,
+.priceRight {
+  width: 154px;
   height: 40px;
   padding-left: 28px;
   padding-right: 16px;
@@ -16,50 +23,26 @@
   border-radius: 32px;
   border: none;
   outline: none;
+  @include onTablet {
+    width: 188px;
+  }
 }
-.inputBlokRangeAddBrand{
+.inputBlokRange {
   display: flex;
-  width: 388px;
+  width: 320px;
   align-items: center;
   justify-content: center;
   height: 24px;
+  @include onTablet {
+    width: 400px;
+  }
 }
-.carYearLeftAddBrandt,.carYearRightAddBrand{
-  -webkit-appearance: none;
-  appearance: none;
-  width: 198px;
-  height: 2px;
-  background: #797979;
-  outline: none;
-  border-radius: 2px;
-}
-.carYearLeftAddBrandt::-webkit-slider-thumb, .carYearRightAddBrand::-webkit-slider-thumb{
-  -webkit-appearance: none;
-  appearance: none;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #797979;
-  cursor: pointer;
-  // outline: ;
-}
-.carYearRightAddBrand{   
-  margin-left:-10px;
-}
-.centralDivider{
-  width: 12px;
+.centralDivider {
+  width: 8px;
   height: 1px;
   background: black;
+  @include onTablet {
+    width: 12px;
   }
-  @media screen and (min-width: 360px) and (max-width: 480px) {
-    .priceLeftAddBrand, .priceRightAddBrand{
-      width: 154px;     
-    }
-    .inputBlokRangeAddBrand{
-      display: flex;
-      width: 320px;
-      align-items: center;
-      justify-content: center;
-      height: 24px;
-    }
-  }
+}
+

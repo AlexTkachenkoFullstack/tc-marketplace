@@ -34,9 +34,8 @@ export const getCarTypes = async () => {
 };
 
 export const getCarTypeParam = async (id: string) => {
-  try {   
+  try {
     const response = await axios.get(`catalog/get-param?transportTypeId=${id}`);
-    console.log('response.data :>> ', response.data);
     return response.data;
   } catch (error) {
     console.error('Помилка в отриманні данних по типу авто', error);

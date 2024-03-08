@@ -6,24 +6,32 @@ import close from '../../assets/icons/close.svg';
 import useClickOutside from 'helpers/hooks/useClickOutside';
 import DropdownList from './components/DropdownList';
 import DropdownInput from './components/DropdownInput';
+import { ICity } from 'types/ICity';
+import { IModel } from 'types/IModel';
+import { IBrand } from 'types/IBrand';
+import { IRegion } from 'types/IRegion';
 
 type Props = {
   label: string;
   startValue: string;
-  options?: any;
-  options1?:any;
+  options?:string | string[];
+  optionList?: ICity[] | IModel[] ;
   checkboxAllowed?: boolean;
   isDissabled?: boolean;
   option: string | string[];
   setOption: React.Dispatch<React.SetStateAction<string | string[]>>;
   allOptionsLabel?: string;
   carMark?: string | string[];
-  updateStyle?: any;
-  title?:string | string[]
+  updateStyle?: string;
+  title?: string | string[];
+  pickedBrands?: IBrand[];
+  pickedRegions?: IRegion[];
 };
 
 export const Dropdown: FC<Props> = props => {
   const {
+    pickedRegions,
+    pickedBrands,
     label,
     startValue,
     options,
@@ -35,11 +43,11 @@ export const Dropdown: FC<Props> = props => {
     setOption,
     updateStyle,
     title,
-    options1,
+    optionList,
   } = props;
-
-  const [isActive, setIsActive] = useState(false);
-  // const [option, setOption] = useState<string | string[]>(startValue);
+ 
+  
+  const [isActive, setIsActive] = useState(false);  
   const [filterValue, setfilterValue] = useState('');
   const [checkedValue, setCheckedValue] = useState<string[]>([]);
 
@@ -191,7 +199,9 @@ export const Dropdown: FC<Props> = props => {
 
       {isActive && (
         <DropdownList
-          options1={options1}
+          optionList={optionList}
+          pickedRegions={pickedRegions}
+          pickedBrands={pickedBrands}
           options={options}
           checkboxAllowed={checkboxAllowed}
           filterValue={filterValue}
@@ -199,7 +209,7 @@ export const Dropdown: FC<Props> = props => {
           checkboxHandler={checkboxHandler}
           changeOption={changeOption}
           allOptionsLabel={allOptionsLabel}
-          titleName={Array.isArray(title) ? title : []}
+          titleName={title}
         />
       )}
     </div>
