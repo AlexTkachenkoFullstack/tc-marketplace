@@ -117,3 +117,5 @@
  */
 
 //!
+
+//!if (persistToken !== null) {
