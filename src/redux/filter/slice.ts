@@ -15,6 +15,7 @@ import { IBrand } from 'types/IBrand';
 import { IModel } from 'types/IModel';
 import { ICar, IFiltredCarsPayload } from 'types/IСar';
 import { ICity } from 'types/ICity';
+import { addToFavourites, removeFromFavourites } from 'redux/cars/operations';
 
 interface IFilterState {
   regions: IRegion[] | [];
@@ -136,6 +137,20 @@ const handleFulfildHideAdvert = (
   state.isLoading = false;
   state.error = null;
 };
+
+const handleFulfildToggleIsFavorite = (
+  state: IFilterState,
+  action: PayloadAction<number>,
+) => {
+  const filteredCar = state.filtredCars.find(
+    item => item.id === action.payload,
+  );
+ 
+  if (filteredCar) {
+    filteredCar.isFavorite = !filteredCar.isFavorite;
+  }
+};
+
 export const filterSlice = createSlice({
   name: 'filter',
   initialState,
@@ -191,8 +206,12 @@ export const filterSlice = createSlice({
       .addCase(fetchBrands.fulfilled, handleFulfildGetBrands)
       .addCase(fetchModels.fulfilled, handleFulfildGetModels)
       .addCase(fetchCars.fulfilled, handleFulfildGetCars)
-      .addCase(fetchFiltredCars.fulfilled, handleFulfildGetFiltredCars)  
+      .addCase(fetchFiltredCars.fulfilled, handleFulfildGetFiltredCars)
       .addCase(hideTransport.fulfilled, handleFulfildHideAdvert)
+      .addMatcher(
+        isAnyOf(addToFavourites.fulfilled, removeFromFavourites.fulfilled),
+        handleFulfildToggleIsFavorite,
+      )
       .addMatcher(
         isAnyOf(
           fetchRegions.pending,
@@ -201,7 +220,7 @@ export const filterSlice = createSlice({
           fetchBrands.pending,
           fetchModels.pending,
           fetchCars.pending,
-          fetchFiltredCars.pending,      
+          fetchFiltredCars.pending,
           hideTransport.pending, ////!
         ),
         handlePending,
@@ -214,7 +233,7 @@ export const filterSlice = createSlice({
           fetchBrands.rejected,
           fetchModels.rejected,
           fetchCars.rejected,
-          fetchFiltredCars.rejected,         
+          fetchFiltredCars.rejected,
           hideTransport.rejected, ////!
         ),
         handleRejected,
