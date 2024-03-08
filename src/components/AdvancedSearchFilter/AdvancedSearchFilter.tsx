@@ -122,18 +122,16 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const producingCountry = data?.producingCountryDTOS;
 
   const pickedBrands: any = [];
-  brands.filter((item: any) => {
+  brands.forEach((item: any) => {
     if (carMark.includes(item.brand)) {
       pickedBrands.push(item);
     }
-    return true
   });
   const pickedRegions: any = [];
-  regions.filter((item: any) => {
+  regions.forEach((item: any) => {
     if (selectedRegions.includes(item.region)) {
       pickedRegions.push(item);
     }
-    
   });
 
   useEffect(() => {

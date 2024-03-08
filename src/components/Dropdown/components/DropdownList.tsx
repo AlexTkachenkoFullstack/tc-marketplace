@@ -33,7 +33,7 @@ export default function DropdownList(props: Props) {
     titleName,
     optionList,
     pickedBrands,
-    pickedRegions,   
+    pickedRegions,
   } = props;
   const [filtredItem, setFiltredItem] = useState<string[]>([]);
   const filterOptionsFunc = (text: string) => {
@@ -56,7 +56,7 @@ export default function DropdownList(props: Props) {
     if (optionValue.includes(translitUa.reverse(checkValue))) return true;
     return optionValue.includes(checkValue);
   };
-  useEffect(() => {   
+  useEffect(() => {
     if (typeof options !== 'string' && options !== undefined) {
       const filtredItem = options?.filter(filterOptionsFunc);
       setFiltredItem(filtredItem);
@@ -83,13 +83,13 @@ export default function DropdownList(props: Props) {
 
   const regionsList: string[] = [];
   if (pickedRegions !== undefined && titleName !== undefined) {
-    pickedRegions.filter((item: any) => {
+    pickedRegions.forEach((item: any) => {
       regionsList.push(item.region);
     });
   }
   const brandList: string[] = [];
   if (titleName !== undefined && pickedBrands !== undefined) {
-    pickedBrands.filter((item: any) => {
+    pickedBrands.forEach((item: any) => {
       brandList.push(item.brand);
     });
   }
