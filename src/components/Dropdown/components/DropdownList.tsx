@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import cyrillicToTranslit from 'cyrillic-to-translit-js';
 import styles from './DropdownList.module.scss';
 import {
@@ -36,7 +36,7 @@ export default function DropdownList(props: Props) {
     pickedRegions,
   } = props;
   const [filtredItem, setFiltredItem] = useState<string[]>([]);
-  const filterOptionsFunc = (text: string) => {
+  const filterOptionsFunc = useCallback ((text: string) => {
     if (filterValue.length === 0) return true;
 
     const translit = cyrillicToTranslit();
@@ -55,13 +55,13 @@ export default function DropdownList(props: Props) {
     if (optionValue.includes(translit.reverse(checkValue))) return true;
     if (optionValue.includes(translitUa.reverse(checkValue))) return true;
     return optionValue.includes(checkValue);
-  };
+  },[filterValue])
   useEffect(() => {
     if (typeof options !== 'string' && options !== undefined) {
       const filtredItem = options?.filter(filterOptionsFunc);
       setFiltredItem(filtredItem);
     }
-  }, [options,filterValue,filterOptionsFunc]);
+  }, [options,filterOptionsFunc]);
   const filtredItems =
     optionList &&
     optionList?.map((option: any) => {
