@@ -61,7 +61,7 @@ export default function DropdownList(props: Props) {
       const filtredItem = options?.filter(filterOptionsFunc);
       setFiltredItem(filtredItem);
     }
-  }, [options, filterOptionsFunc]);
+  }, [options,filterValue,filterOptionsFunc]);
   const filtredItems =
     optionList &&
     optionList?.map((option: any) => {
