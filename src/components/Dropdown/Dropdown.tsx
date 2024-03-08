@@ -6,22 +6,26 @@ import close from '../../assets/icons/close.svg';
 import useClickOutside from 'helpers/hooks/useClickOutside';
 import DropdownList from './components/DropdownList';
 import DropdownInput from './components/DropdownInput';
+import { ICity } from 'types/ICity';
+import { IModel } from 'types/IModel';
+import { IBrand } from 'types/IBrand';
+import { IRegion } from 'types/IRegion';
 
 type Props = {
   label: string;
   startValue: string;
-  options?: any;
-  optionList?: any;
+  options?:string | string[];
+  optionList?: ICity[] | IModel[] ;
   checkboxAllowed?: boolean;
   isDissabled?: boolean;
   option: string | string[];
   setOption: React.Dispatch<React.SetStateAction<string | string[]>>;
   allOptionsLabel?: string;
   carMark?: string | string[];
-  updateStyle?: any;
+  updateStyle?: string;
   title?: string | string[];
-  pickedBrands?: any;
-  pickedRegions?: any;
+  pickedBrands?: IBrand[];
+  pickedRegions?: IRegion[];
 };
 
 export const Dropdown: FC<Props> = props => {
@@ -41,9 +45,9 @@ export const Dropdown: FC<Props> = props => {
     title,
     optionList,
   } = props;
-
-  const [isActive, setIsActive] = useState(false);
-  // const [option, setOption] = useState<string | string[]>(startValue);
+ 
+  
+  const [isActive, setIsActive] = useState(false);  
   const [filterValue, setfilterValue] = useState('');
   const [checkedValue, setCheckedValue] = useState<string[]>([]);
 
@@ -205,7 +209,7 @@ export const Dropdown: FC<Props> = props => {
           checkboxHandler={checkboxHandler}
           changeOption={changeOption}
           allOptionsLabel={allOptionsLabel}
-          titleName={Array.isArray(title) ? title : []}
+          titleName={title}
         />
       )}
     </div>

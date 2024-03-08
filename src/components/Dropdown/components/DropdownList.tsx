@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import cyrillicToTranslit from 'cyrillic-to-translit-js';
 import styles from './DropdownList.module.scss';
 import {
@@ -7,20 +7,23 @@ import {
   DropdownOption,
   DropdownSelectAllOption,
 } from './DropdownOptions';
+import { ICity } from 'types/ICity';
+import { IModel } from 'types/IModel';
+import { IBrand } from 'types/IBrand';
+import { IRegion } from 'types/IRegion';
 type Props = {
   checkedValue: string[];
   checkboxAllowed: boolean | undefined;
   filterValue: string;
-  options: string[];
-  optionList?: any;
+  options?: string | string[];
+  optionList?: ICity[] | IModel[];
   changeOption: (option: string) => void;
   checkboxHandler: (option: string) => void;
   allOptionsLabel?: string;
-  titleName?: string[];
-  pickedBrands?: any;
-  pickedRegions?: any;
+  titleName?: string | string[];
+  pickedBrands?: IBrand[];
+  pickedRegions?: IRegion[];
 };
-
 export default function DropdownList(props: Props) {
   const {
     checkedValue,
@@ -30,9 +33,9 @@ export default function DropdownList(props: Props) {
     titleName,
     optionList,
     pickedBrands,
-    pickedRegions,
+    pickedRegions,   
   } = props;
-
+  const [filtredItem, setFiltredItem] = useState<string[]>([]);
   const filterOptionsFunc = (text: string) => {
     if (filterValue.length === 0) return true;
 
@@ -53,21 +56,12 @@ export default function DropdownList(props: Props) {
     if (optionValue.includes(translitUa.reverse(checkValue))) return true;
     return optionValue.includes(checkValue);
   };
-  const regionsList: string[] = [];
-  if (pickedRegions !== undefined && titleName !== undefined) {
-    pickedRegions.filter((item: any) => {
-      regionsList.push(item.region);
-    });
-    return true
-  }
-  const brandList: string[] = [];
-  if (titleName !== undefined && pickedBrands !== undefined) {
-    pickedBrands.filter((item: any) => {
-      brandList.push(item.brand);
-    });
-    
-  }
-
+  useEffect(() => {   
+    if (typeof options !== 'string' && options !== undefined) {
+      const filtredItem = options?.filter(filterOptionsFunc);
+      setFiltredItem(filtredItem);
+    }
+  }, [options]);
   const filtredItems =
     optionList &&
     optionList?.map((option: any) => {
@@ -85,10 +79,20 @@ export default function DropdownList(props: Props) {
       return [];
     });
 
-  const filtredItem = options?.filter(filterOptionsFunc);
-
   const filtredOptions = filtredItems || filtredItem;
 
+  const regionsList: string[] = [];
+  if (pickedRegions !== undefined && titleName !== undefined) {
+    pickedRegions.filter((item: any) => {
+      regionsList.push(item.region);
+    });
+  }
+  const brandList: string[] = [];
+  if (titleName !== undefined && pickedBrands !== undefined) {
+    pickedBrands.filter((item: any) => {
+      brandList.push(item.brand);
+    });
+  }
   return (
     <ul className={styles.list}>
       {checkboxAllowed && !!filtredOptions.length && (
@@ -127,38 +131,25 @@ export default function DropdownList(props: Props) {
         <DropdownNoMatchOption />
       ) : (
         <>
-          {filtredOptions.map((item: any, i: any) => {
-            return (
-              <>
-                {
-                  <DropdownInfoOption
-                    newStyles="newStyles"
-                    key={item + i}
-                    text={
-                      regionsList.length > 0 ? regionsList[i] : brandList[i]
-                    }
+          {filtredOptions.map((item: any, i: any) => (
+            <React.Fragment key={'item' + i}>
+              <DropdownInfoOption
+                newStyles="newStyles"
+                text={regionsList.length > 0 ? regionsList[i] : brandList[i]}
+              />
+              {item
+                .filter(
+                  (currentOption: any) => !checkedValue.includes(currentOption),
+                )
+                .map((currentOption: any, index: number) => (
+                  <DropdownOption
+                    {...props}
+                    currentOption={currentOption}
+                    key={'item' + i + '-' + index} // Используйте уникальные ключи для каждого элемента в цикле
                   />
-                }
-                {item
-                  .filter(
-                    (currentOption: any) =>
-                      !checkedValue.includes(currentOption),
-                  )
-                  .map((currentOption: any) => (
-                    <>
-                      <DropdownOption
-                        {...props}
-                        currentOption={currentOption}
-                        key={currentOption
-                          .toLowerCase()
-                          .trim()
-                          .replaceAll(' ', '_')}
-                      />
-                    </>
-                  ))}
-              </>
-            );
-          })}
+                ))}
+            </React.Fragment>
+          ))}
         </>
       )}
     </ul>

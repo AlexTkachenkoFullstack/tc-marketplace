@@ -78,7 +78,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   // redux filtred
   const typeCars: IType[] = useAppSelector(getFilterTypes);
   const regions: IRegion[] = useAppSelector(getFilterRegions);
-  const citys: ICity[] = useAppSelector(getFilterCitys);
+  const cities: ICity[] = useAppSelector(getFilterCitys);
   const brands: IBrand[] = useAppSelector(getFilterBrands);
   const carsList: IModel[] = useAppSelector(getFilterCarsList);
 
@@ -133,7 +133,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     if (selectedRegions.includes(item.region)) {
       pickedRegions.push(item);
     }
-    return true
+    
   });
 
   useEffect(() => {
@@ -292,7 +292,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     const regionId = getArrayOfId(regions, selectedRegions);
     dispatch(cleanFiltredStore());
     const modelId = getArrayModelsOfId(carsList, carModel);
-    const cityId = getArrayCityOfId(citys, selectedCity);
+    const cityId = getArrayCityOfId(cities, selectedCity);
     const bodyTypeId = getArrayCarBodyOfId(bodyTypes, carBody);
     const fuelTypeId = getArrayFuelOfId(fuel, carFuel);
     const driveTypeId = getArrayDriveOfid(driveType, carDriveType);
@@ -438,7 +438,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                   <Dropdown
                     pickedRegions={pickedRegions}
                     updateStyle="advSearch"
-                    optionList={citys}
+                    optionList={cities}
                     label="Місто"
                     startValue="Місто"
                     checkboxAllowed
