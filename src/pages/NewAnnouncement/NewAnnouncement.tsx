@@ -51,6 +51,10 @@ export const NewAnnouncement: React.FC = () => {
   //     ? getInitialButtonVisibility(false)
   //     : getInitialButtonVisibility(true);
   // });
+  const [isInputActive, setIsInputActive] = useState<boolean>(false);
+  const [textValue, setTextValue] = useState<string>('');
+  const [inputPhone, setInputPhone] = useState<string>('');
+  const maxDigits = 12;
   const [selectedRegions, setSelectedRegions] = useState<string | string[]>(
     'Вся Україна',
   );
@@ -115,7 +119,7 @@ export const NewAnnouncement: React.FC = () => {
   const wheelConfiguration = data?.wheelConfigurationDTOS;
   const producingCountry = data?.producingCountryDTOS;
 
-  // console.log(' :>> ', );
+  console.log('inputPhone :>> ', inputPhone);
   useEffect(() => {
     if (typeCars.length > 0) {
       return;
@@ -125,7 +129,7 @@ export const NewAnnouncement: React.FC = () => {
       return;
     }
     dispatch(fetchRegions());
-  }, [dispatch,typeCars.length,regions.length]);
+  }, [dispatch, typeCars.length, regions.length]);
 
   useEffect(() => {
     const type = typeCars.find(item => item.type === typeCategory);
@@ -227,7 +231,22 @@ export const NewAnnouncement: React.FC = () => {
       [blockName]: !prevState[blockName],
     }));
   };
+  const handleInputPhone = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    if (/^\+[0-9]*$/.test(value) && value.length <= maxDigits + 1) {
+      setInputPhone(value);
+    }
+  };
+  const remainingDigits = maxDigits - (inputPhone.length - 1);
+  const handleTextareaChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    const value = event.target.value;
 
+    if (value.length <= 100) {
+      setTextValue(value);
+    }
+  };
   return (
     <section className={styles.section}>
       <div className={styles.container}>
@@ -255,8 +274,15 @@ export const NewAnnouncement: React.FC = () => {
               <div className={styles.item}>
                 <input
                   className={styles.inputPhone}
-                  type="number"
-                  placeholder="+380"
+                  type="text"
+                  pattern="\+[0-9]*"
+                  placeholder={`+380`}
+                  maxLength={maxDigits + 1}
+                  value={inputPhone}
+                  title={`${remainingDigits} цифр осталось`}
+                  onChange={handleInputPhone}
+                  onFocus={() => setIsInputActive(true)}
+                  onBlur={() => setIsInputActive(false)}
                 />
               </div>
             </div>
@@ -377,8 +403,12 @@ export const NewAnnouncement: React.FC = () => {
                   rows={5}
                   cols={33}
                   className={styles.textarea}
+                  maxLength={100}
                   placeholder="Text"
-                ></textarea>
+                  value={textValue}
+                  style={{ resize: 'none' }}
+                  onChange={handleTextareaChange}
+                />
               </div>
             </div>
           )}
@@ -514,7 +544,7 @@ export const NewAnnouncement: React.FC = () => {
                 <div className={styles.item_dropdown_box}>
                   <input
                     className={styles.inputPhone}
-                    type="number"
+                    type="text"
                     placeholder="1970"
                   />
                 </div>
