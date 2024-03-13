@@ -1,7 +1,6 @@
 import { IBrands } from 'types/IBrands';
 import { ICarBody } from 'types/ICarBody';
 import { ICities } from 'types/ICities';
-import { ICity } from 'types/ICity';
 import { IColor } from 'types/IColor';
 import { ICondition } from 'types/ICondition';
 import { IDriverType } from 'types/IDriverType';

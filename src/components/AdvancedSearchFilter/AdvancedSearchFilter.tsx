@@ -40,7 +40,6 @@ import {
 import { Dropdown } from 'components/Dropdown/Dropdown';
 import RangeSlider from 'components/RangeSlider/RangeSlider';
 import { CategoryBar } from 'components/CategoryBar/CategoryBar';
-import { ICity } from 'types/ICity';
 import { ICities } from 'types/ICities';
 import { CategoryCheckBar } from 'components/CategoryCheckBar/CategoryCheckBar';
 
@@ -51,9 +50,6 @@ interface BlocksVisibilityState {
   [key: string]: boolean;
 }
 interface ButtonVisibilityState {
-  [key: string]: boolean;
-}
-interface ButtonSelected {
   [key: string]: boolean;
 }
 export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {

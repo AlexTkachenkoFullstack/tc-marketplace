@@ -14,7 +14,6 @@ import { IRegion } from 'types/IRegion';
 import { IBrand } from 'types/IBrand';
 import { IModel } from 'types/IModel';
 import { ICar, IFiltredCarsPayload } from 'types/IСar';
-import { ICity } from 'types/ICity';
 import { ICities } from 'types/ICities';
 
 interface IFilterState {

@@ -7,7 +7,6 @@ import {
   DropdownOption,
   DropdownSelectAllOption,
 } from './DropdownOptions';
-import { ICity } from 'types/ICity';
 import { IModel } from 'types/IModel';
 import { IBrand } from 'types/IBrand';
 import { IRegion } from 'types/IRegion';

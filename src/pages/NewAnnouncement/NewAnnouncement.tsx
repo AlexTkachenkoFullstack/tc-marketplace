@@ -26,11 +26,8 @@ import {
   fetchRegions,
   fetchTypes,
 } from 'redux/filter/operations';
-
-import { getArrayOfId } from 'utils/getArrayOfId';
 import { ISearchParams } from 'types/ISearchParam';
 import { ICities } from 'types/ICities';
-
 
 interface BlocksVisibilityState {
   [key: string]: boolean;
@@ -90,7 +87,7 @@ export const NewAnnouncement: React.FC = () => {
   );
   const [selectedOption, setSelectedOption] = useState<boolean>();
   const [transportTypeId, setTransportTypeId] = useState<number | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<string>('Легкові');
+  // const [selectedCategory, setSelectedCategory] = useState<string>('Легкові');
   const [typeCategory, setTypeCategory] = useState<string | string[]>('Тип');
   const [carBrand, setCarBrand] = useState<string | string[]>('Бренд');
   const [carModel, setCarModel] = useState<string | string[]>('Всі моделі');
@@ -128,7 +125,7 @@ export const NewAnnouncement: React.FC = () => {
       return;
     }
     dispatch(fetchRegions());
-  }, [dispatch]);
+  }, [dispatch,typeCars.length,regions.length]);
 
   useEffect(() => {
     const type = typeCars.find(item => item.type === typeCategory);
@@ -380,10 +377,8 @@ export const NewAnnouncement: React.FC = () => {
                   rows={5}
                   cols={33}
                   className={styles.textarea}
-                  placeholder='Text'
-                >
-                 
-                </textarea>
+                  placeholder="Text"
+                ></textarea>
               </div>
             </div>
           )}
@@ -1038,11 +1033,13 @@ export const NewAnnouncement: React.FC = () => {
           <div className={styles.box_item}>
             <div className={styles.boxtitle}>
               <h2 className={styles.description_car_title}>
-               { getWindowWidth() >= 768 ? (
-                <>
-                Країна з якої <br/> доставили:
-                </>
-                ) : ("Країна з якої доставили:")}
+                {getWindowWidth() >= 768 ? (
+                  <>
+                    Країна з якої <br /> доставили:
+                  </>
+                ) : (
+                  'Країна з якої доставили:'
+                )}
               </h2>
               <div
                 className={`${styles.mobileButton}  ${

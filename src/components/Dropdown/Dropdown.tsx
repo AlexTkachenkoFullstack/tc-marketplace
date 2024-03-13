@@ -6,7 +6,6 @@ import close from '../../assets/icons/close.svg';
 import useClickOutside from 'helpers/hooks/useClickOutside';
 import DropdownList from './components/DropdownList';
 import DropdownInput from './components/DropdownInput';
-import { ICity } from 'types/ICity';
 import { IModel } from 'types/IModel';
 import { IBrand } from 'types/IBrand';
 import { IRegion } from 'types/IRegion';
