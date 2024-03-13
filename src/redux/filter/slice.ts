@@ -13,6 +13,7 @@ import { IType } from 'types/IType';
 import { IRegion } from 'types/IRegion';
 import { IBrand } from 'types/IBrand';
 import { IModel } from 'types/IModel';
+import { ICities } from 'types/ICities';
 import { ICar, IFiltredCarsPayload } from 'types/IСar';
 import { addToFavourites, removeFromFavourites } from 'redux/cars/operations';
 
