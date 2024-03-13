@@ -19,7 +19,6 @@ import { fetchGoogleUser } from 'helpers/fetchGoogleUser';
 import { Dispatch } from '@reduxjs/toolkit';
 import { ItemPage } from 'pages/ItemPage';
 import { TransportGalleryPage } from 'pages/TransportGalleryPage';
-import { NewAnnouncement } from 'pages/NewAnnouncement/NewAnnouncement';
 export const App: React.FC = () => {
 
     const dispatch:Dispatch=useAppDispatch()
@@ -33,7 +32,6 @@ export const App: React.FC = () => {
                     <Route index element={<HomePage />} />
                     <Route path="home" element={<Navigate to="/" replace />} />
                     <Route path="user" element={<UserPage />} />
-                    <Route path="advertisements" element={<NewAnnouncement />} />
                     <Route path="advanced-search" element={<AdvancedSearch />} />
                     <Route path="login/" element={<LoginLayout />}>
                         <Route path="sign-up" element={<RestrictedRoute redirectTo='/' component={<SignUpPage />} />} />

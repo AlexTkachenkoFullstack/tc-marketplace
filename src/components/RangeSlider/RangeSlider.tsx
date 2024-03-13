@@ -68,9 +68,6 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
     if (min && max) {
       const name = event.target.name;
       let inputValue = parseInt(event.target.value);
-      if (isNaN(inputValue)) {
-        return;
-      }
       if (name === 'from') {
         newValue.from = inputValue;
       }
@@ -86,7 +83,6 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
       if (newValue.from > newValue.to) {
         newValue.to = newValue.from;
       }
-
       setValue(newValue);
       setObjectValue(newValue);
     }
