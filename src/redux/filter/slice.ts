@@ -15,10 +15,11 @@ import { IBrand } from 'types/IBrand';
 import { IModel } from 'types/IModel';
 import { ICar, IFiltredCarsPayload } from 'types/IСar';
 import { ICity } from 'types/ICity';
+import { ICities } from 'types/ICities';
 
 interface IFilterState {
   regions: IRegion[] | [];
-  cities: ICity[] | [];
+  cities: ICities[] | [];
   types: IType[] | [];
   brand: IBrand[] | [];
   models: IModel[] | [];
@@ -76,7 +77,7 @@ const handleFulfildGetRegions = (
 };
 const handleFulfildGetCitys = (
   state: IFilterState,
-  action: PayloadAction<ICity[]>,
+  action: PayloadAction<ICities[]>,
 ) => {
   state.isLoading = false;
   state.error = null;

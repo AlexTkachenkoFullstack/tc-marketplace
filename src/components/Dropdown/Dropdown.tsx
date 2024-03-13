@@ -10,12 +10,13 @@ import { ICity } from 'types/ICity';
 import { IModel } from 'types/IModel';
 import { IBrand } from 'types/IBrand';
 import { IRegion } from 'types/IRegion';
+import { ICities } from 'types/ICities';
 
 type Props = {
   label: string;
   startValue: string;
   options?:string | string[];
-  optionList?: ICity[] | IModel[] ;
+  optionList?: ICities[] | IModel[] ;
   checkboxAllowed?: boolean;
   isDissabled?: boolean;
   option: string | string[];
