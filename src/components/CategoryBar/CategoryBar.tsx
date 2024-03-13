@@ -18,12 +18,9 @@ interface Props {
   selectedCategory?: string;
 }
 
-export const CategoryBar: React.FC<Props> = ({
-  color,
-  isShow,
+export const CategoryBar: React.FC<Props> = ({ 
   categories,
   handleSelect,
-  transportColor,
   selectedCategory,
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -75,7 +72,9 @@ export const CategoryBar: React.FC<Props> = ({
     >
       {showLeftScrollButton && (
         <button
-          className={`${styles.container__scroll_left} ${isAdvancedSearchPage ? styles.btn:''}`}
+          className={`${styles.container__scroll_left} ${
+            isAdvancedSearchPage ? styles.btn : ''
+          }`}
           onClick={handleScrollLeft}
         >
           <img src={scrollLeft} alt="scroll right" />
@@ -88,51 +87,25 @@ export const CategoryBar: React.FC<Props> = ({
         }`}
         ref={containerRef}
       >
-        {color && transportColor
-          ? transportColor.slice(0, isShow ? 12 : 6).map(category => (
-              <button
-                className={`${styles.category} ${
-                  isAdvancedSearchPage ? styles.advanced_search_category : ''
-                } ${
-                  selectedCategory === category.transportColor
-                    ? styles.selected
-                    : ''
-                }`}
-                key={category.transportColorId}
-                onClick={() => handleSelect(category.transportColor)}
-              >
-                <span
-                  style={{
-                    verticalAlign: 'middle',
-                    display: 'inline-block',
-                    backgroundColor: category.hex,
-                    width: 16,
-                    height: 16,
-                    borderRadius: 50,
-                    border: 'none',
-                    marginRight: 8,
-                  }}
-                ></span>
-                {category.transportColor}
-              </button>
-            ))
-          : categories &&
-            categories.map(category => (
-              <button
-                className={`${styles.category} ${
-                  isAdvancedSearchPage ? styles.advanced_search_category : ''
-                } ${selectedCategory === category ? styles.selected : ''}`}
-                key={category}
-                onClick={() => handleSelect(category)}
-              >
-                {category}
-              </button>
-            ))}
+        {categories &&
+          categories.map(category => (
+            <button
+              className={`${styles.category} ${
+                isAdvancedSearchPage ? styles.advanced_search_category : ''
+              } ${selectedCategory === category ? styles.selected : ''}`}
+              key={category}
+              onClick={() => handleSelect(category)}
+            >
+              {category}
+            </button>
+          ))}
       </div>
 
       {showRightScrollButton && (
         <button
-          className={`${styles.container__scroll_right} ${isAdvancedSearchPage ? styles.btn:''}`}
+          className={`${styles.container__scroll_right} ${
+            isAdvancedSearchPage ? styles.btn : ''
+          }`}
           onClick={handleScrollRight}
         >
           <img src={scrollRight} alt="scroll right" />

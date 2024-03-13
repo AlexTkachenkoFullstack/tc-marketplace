@@ -14,12 +14,11 @@ import { IRegion } from 'types/IRegion';
 import { IBrand } from 'types/IBrand';
 import { IModel } from 'types/IModel';
 import { ICar, IFiltredCarsPayload } from 'types/IСar';
-import { ICity } from 'types/ICity';
 import { addToFavourites, removeFromFavourites } from 'redux/cars/operations';
 
 interface IFilterState {
   regions: IRegion[] | [];
-  cities: ICity[] | [];
+  cities: ICities[] | [];
   types: IType[] | [];
   brand: IBrand[] | [];
   models: IModel[] | [];
@@ -77,7 +76,7 @@ const handleFulfilledGetRegions = (
 };
 const handleFulfilledGetCitys = (
   state: IFilterState,
-  action: PayloadAction<ICity[]>,
+  action: PayloadAction<ICities[]>,
 ) => {
   state.isLoading = false;
   state.error = null;

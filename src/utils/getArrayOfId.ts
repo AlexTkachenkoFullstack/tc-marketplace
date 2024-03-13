@@ -1,6 +1,6 @@
 import { IBrands } from 'types/IBrands';
 import { ICarBody } from 'types/ICarBody';
-import { ICity } from 'types/ICity';
+import { ICities } from 'types/ICities';
 import { IColor } from 'types/IColor';
 import { ICondition } from 'types/ICondition';
 import { IDriverType } from 'types/IDriverType';
@@ -58,8 +58,7 @@ export const getArrayCarBodyOfId = (
   bodyTypes: ICarBody[],
   carBody: string | string[],
 ) => {
-  const newArray = [carBody];
-  const selectedToFilter = new Set(newArray);
+  const selectedToFilter = new Set(carBody);
 
   const ids: number[] = [];
 
@@ -72,23 +71,23 @@ export const getArrayCarBodyOfId = (
 };
 
 export const getArrayCityOfId = (
-  citys: ICity[],
+  citys: ICities[],
   selectedCity: string | string[],
 ) => {
   const selectedToFilter = new Set(selectedCity);
-
   const ids: number[] = [];
-  for (const item of citys) {
-    if (selectedToFilter.has(item.city)) {
-      ids.push(item.cityId);
+  for (let i = 0; citys.length > i; i++) {
+    for (const item of citys[i].cities) {
+      if (selectedToFilter.has(item.city)) {
+        ids.push(item.cityId);
+      }
     }
   }
   return ids;
 };
 
 export const getArrayFuelOfId = (fuel: IFuel[], carFuel: string | string[]) => {
-  const newArray = [carFuel];
-  const selectedToFilter = new Set(newArray);
+  const selectedToFilter = new Set(carFuel);
 
   const ids: number[] = [];
   for (const item of fuel) {
@@ -102,8 +101,7 @@ export const getArrayDriveOfid = (
   driveType: IDriverType[],
   carDriveType: string | string[],
 ) => {
-  const newArray = [carDriveType];
-  const selectedToFilter = new Set(newArray);
+  const selectedToFilter = new Set(carDriveType);
 
   const ids: number[] = [];
   for (const item of driveType) {
@@ -118,8 +116,7 @@ export const getArrayTransmissionOfId = (
   transmission: ITransmission[],
   carTransmission: string | string[],
 ) => {
-  const newArray = [carTransmission];
-  const selectedToFilter = new Set(newArray);
+  const selectedToFilter = new Set(carTransmission);
 
   const ids: number[] = [];
   for (const item of transmission) {
@@ -134,8 +131,7 @@ export const getArrayColorOfId = (
   transportColor: IColor[],
   carColor: string | string[],
 ) => {
-  const newArray = [carColor];
-  const selectedToFilter = new Set(newArray);
+  const selectedToFilter = new Set(carColor);
 
   const ids: number[] = [];
   for (const item of transportColor) {
@@ -150,8 +146,7 @@ export const getArrayConditionOfId = (
   transportCondition: ICondition[],
   carTransportCondition: string | string[],
 ) => {
-  const newArray = [carTransportCondition];
-  const selectedToFilter = new Set(newArray);
+  const selectedToFilter = new Set(carTransportCondition);
 
   const ids: number[] = [];
   for (const item of transportCondition) {
@@ -166,8 +161,7 @@ export const getArrayNumberAxlesOfId = (
   numberAxles: INumberAxles[],
   carNumberAxles: string | string[],
 ) => {
-  const newArray = [carNumberAxles];
-  const selectedToFilter = new Set(newArray);
+  const selectedToFilter = new Set(carNumberAxles);
 
   const ids: number[] = [];
   for (const item of numberAxles) {
@@ -195,10 +189,9 @@ export const getArrayProducingCountryOfId = (
 };
 export const getArrayWheelConfigurationOfId = (
   wheelConfiguration: IWheelConfiguration[],
-  carWheelConfiguration: string | string[],
-) => {
-  const newArray = [carWheelConfiguration];
-  const selectedToFilter = new Set(newArray);
+  carWheelConfiguration: string | string[],) => {
+
+  const selectedToFilter = new Set(carWheelConfiguration);
   const ids: number[] = [];
   for (const item of wheelConfiguration) {
     if (selectedToFilter.has(item.wheelConfiguration)) {

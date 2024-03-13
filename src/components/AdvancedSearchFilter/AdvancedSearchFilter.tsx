@@ -40,7 +40,8 @@ import {
 import { Dropdown } from 'components/Dropdown/Dropdown';
 import RangeSlider from 'components/RangeSlider/RangeSlider';
 import { CategoryBar } from 'components/CategoryBar/CategoryBar';
-import { ICity } from 'types/ICity';
+import { ICities } from 'types/ICities';
+import { CategoryCheckBar } from 'components/CategoryCheckBar/CategoryCheckBar';
 
 interface Props {
   onAdvencedFilter: () => void;
@@ -65,7 +66,6 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
       ? getInitialButtonVisibility(false)
       : getInitialButtonVisibility(true);
   });
-  // const [isActive, setIsActive] = useState(false);
   // response(catalog) get-param
   const [data, setData] = useState<any>([]);
   // для рендж слайдера
@@ -78,22 +78,25 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   // redux filtred
   const typeCars: IType[] = useAppSelector(getFilterTypes);
   const regions: IRegion[] = useAppSelector(getFilterRegions);
-  const cities: ICity[] = useAppSelector(getFilterCitys);
+  const cities: ICities[] = useAppSelector(getFilterCitys);
   const brands: IBrand[] = useAppSelector(getFilterBrands);
   const carsList: IModel[] = useAppSelector(getFilterCarsList);
 
   // type categotry cars
   const [selectedCategory, setSelectedCategory] = useState<string>('Легкові');
-  const [carBody, setCarBody] = useState<string>('');
-  const [carFuel, setCarFuel] = useState<string>('');
-  const [carTransmission, setCarTransmission] = useState<string>('');
-  const [carColor, setCarColor] = useState<string>('');
-  const [carTransportCondition, setCarTransportCondition] =
-    useState<string>('');
-  const [carDriveType, setCarDriveType] = useState<string>('');
-  const [carNumberAxles, setCarNumberAxles] = useState<string>('');
-  const [carWheelConfiguration, setCarWheelConfiguration] =
-    useState<string>('');
+  const [carBody, setCarBody] = useState<string | string[]>('');
+
+  const [carFuel, setCarFuel] = useState<string | string[]>('');
+  const [carTransmission, setCarTransmission] = useState<string | string[]>('');
+  const [carColor, setCarColor] = useState<string | string[]>('');
+  const [carTransportCondition, setCarTransportCondition] = useState<
+    string | string[]
+  >('');
+  const [carDriveType, setCarDriveType] = useState<string | string[]>('');
+  const [carNumberAxles, setCarNumberAxles] = useState<string | string[]>('');
+  const [carWheelConfiguration, setCarWheelConfiguration] = useState<
+    string | string[]
+  >('');
   const [selectedOption, setSelectedOption] = useState<boolean>(); // Yes or No
   const [transportTypeId, setTransportTypeId] = useState<number | null>(null);
   // select state for dropdown
@@ -219,28 +222,28 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     setBrandId([]);
     setSelectedCategory(category);
   };
-  const handlerCarBody = (valueType: string) => {
+  const handlerCarBody = (valueType: string[]) => {
     setCarBody(valueType);
   };
-  const handlerCarFuel = (valueType: string) => {
+  const handlerCarFuel = (valueType: string[]) => {
     setCarFuel(valueType);
   };
-  const handlerCarTransmission = (valueType: string) => {
+  const handlerCarTransmission = (valueType: string[]) => {
     setCarTransmission(valueType);
   };
-  const handlerCarColor = (valueType: string) => {
+  const handlerCarColor = (valueType: string[]) => {
     setCarColor(valueType);
   };
-  const handlerDriveType = (valueType: string) => {
+  const handlerDriveType = (valueType: string[]) => {
     setCarDriveType(valueType);
   };
-  const handlerCarTransportCondition = (valueType: string) => {
+  const handlerCarTransportCondition = (valueType: string[]) => {
     setCarTransportCondition(valueType);
   };
-  const handlerCarWheelConfiguration = (valueType: string) => {
+  const handlerCarWheelConfiguration = (valueType: string | string[]) => {
     setCarWheelConfiguration(valueType);
   };
-  const handlerCarNumberAxles = (valueType: string) => {
+  const handlerCarNumberAxles = (valueType: string | string[]) => {
     setCarNumberAxles(valueType);
   };
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -483,7 +486,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               </div>
               {isOpen.block5 && (
                 <div className={styles.listItem}>
-                  <CategoryBar
+                  <CategoryCheckBar
                     categories={bodyTypes
                       .slice(0, isShow.block1 ? 13 : 5)
                       .map((item: any) => item.bodyType)}
@@ -514,7 +517,6 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               <div className={styles.dropdownContainer}>
                 <Dropdown
                   updateStyle="advSearch"
-                  // options={brands.map(brand => brand.brand).sort((a, b) => a.localeCompare(b))}
                   options={[...brands.map(brand => brand.brand)].sort((a, b) =>
                     a.localeCompare(b),
                   )}
@@ -584,7 +586,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               </div>
               {isOpen.block7 && (
                 <div className={styles.listItem}>
-                  <CategoryBar
+                  <CategoryCheckBar
                     categories={fuel
                       .slice(0, isShow.block2 ? 8 : 5)
                       .map((item: any) => item.fuelType)}
@@ -620,7 +622,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               </div>
               {isOpen.block8 && (
                 <div className={styles.listItem}>
-                  <CategoryBar
+                  <CategoryCheckBar
                     categories={transmission.map(
                       (item: any) => item.transmission,
                     )}
@@ -646,7 +648,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               </div>
               {isOpen.block9 && (
                 <div className={styles.listItem}>
-                  <CategoryBar
+                  <CategoryCheckBar
                     color="transpotColor"
                     transportColor={
                       transportColor
@@ -686,7 +688,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               </div>
               {isOpen.block10 && (
                 <div className={styles.listItem}>
-                  <CategoryBar
+                  <CategoryCheckBar
                     categories={transportCondition
                       .slice(isShow.block4 ? 0 : 2)
                       .map((item: any) => item.transportCondition)}
@@ -764,7 +766,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               </div>
               {isOpen.block13 && (
                 <div className={styles.listItem}>
-                  <CategoryBar
+                  <CategoryCheckBar
                     categories={driveType.map((item: any) => item.driveType)}
                     handleSelect={handlerDriveType}
                     selectedCategory={carDriveType}
@@ -829,7 +831,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               </div>
               {isOpen.block16 && (
                 <div className={styles.listItem}>
-                  <CategoryBar
+                  <CategoryCheckBar
                     categories={numberAxles.map(
                       (item: any) => item.numberAxles,
                     )}
@@ -854,7 +856,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               </div>
               {isOpen.block17 && (
                 <div className={styles.listItem}>
-                  <CategoryBar
+                  <CategoryCheckBar
                     categories={wheelConfiguration.map(
                       (item: any) => item.wheelConfiguration,
                     )}
