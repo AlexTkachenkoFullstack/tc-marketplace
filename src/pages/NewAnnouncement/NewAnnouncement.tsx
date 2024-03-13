@@ -52,6 +52,7 @@ export const NewAnnouncement: React.FC = () => {
   //     : getInitialButtonVisibility(true);
   // });
   const [isInputActive, setIsInputActive] = useState<boolean>(false);
+  console.log(isInputActive)
   const [textValue, setTextValue] = useState<string>('');
   const [inputPhone, setInputPhone] = useState<string>('');
   const maxDigits = 12;
