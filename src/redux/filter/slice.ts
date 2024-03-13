@@ -14,7 +14,7 @@ import { IRegion } from 'types/IRegion';
 import { IBrand } from 'types/IBrand';
 import { IModel } from 'types/IModel';
 import { ICar, IFiltredCarsPayload } from 'types/IСar';
-import { ICities } from 'types/ICities';
+import { addToFavourites, removeFromFavourites } from 'redux/cars/operations';
 
 interface IFilterState {
   regions: IRegion[] | [];
@@ -66,7 +66,7 @@ const handleRejected = (
   state.isLoading = false;
 };
 
-const handleFulfildGetRegions = (
+const handleFulfilledGetRegions = (
   state: IFilterState,
   action: PayloadAction<IRegion[]>,
 ) => {
@@ -74,7 +74,7 @@ const handleFulfildGetRegions = (
   state.error = null;
   state.regions = action.payload;
 };
-const handleFulfildGetCitys = (
+const handleFulfilledGetCitys = (
   state: IFilterState,
   action: PayloadAction<ICities[]>,
 ) => {
@@ -83,7 +83,7 @@ const handleFulfildGetCitys = (
   state.cities = action.payload;
 };
 
-const handleFulfildGetTypes = (
+const handleFulfilledGetTypes = (
   state: IFilterState,
   action: PayloadAction<IType[]>,
 ) => {
@@ -92,7 +92,7 @@ const handleFulfildGetTypes = (
   state.types = action.payload;
 };
 
-const handleFulfildGetBrands = (
+const handleFulfilledGetBrands = (
   state: IFilterState,
   action: PayloadAction<IBrand[]>,
 ) => {
@@ -101,7 +101,7 @@ const handleFulfildGetBrands = (
   state.brand = action.payload;
 };
 
-const handleFulfildGetModels = (
+const handleFulfilledGetModels = (
   state: IFilterState,
   action: PayloadAction<IModel[]>,
 ) => {
@@ -109,7 +109,7 @@ const handleFulfildGetModels = (
   state.error = null;
   state.models = action.payload;
 };
-const handleFulfildGetCars = (
+const handleFulfilledGetCars = (
   state: IFilterState,
   action: PayloadAction<IModel[]>,
 ) => {
@@ -118,24 +118,37 @@ const handleFulfildGetCars = (
   state.carsList = action.payload;
 };
 
-const handleFulfildGetFiltredCars = (
+const handleFulfilledGetFiltredCars = (
   state: IFilterState,
   action: PayloadAction<IFiltredCarsPayload>,
 ) => {
   state.isLoading = false;
   state.error = null;
   state.filtredCars = [
-    // ...state.filtredCars,
     ...action.payload.transportSearchResponse,
   ];
   state.totalAdverts = action.payload.total;
 };
-const handleFulfildHideAdvert = (
+const handleFulfilledHideAdvert = (
   state: IFilterState,
 ) => {
   state.isLoading = false;
   state.error = null;
 };
+
+const handleFulfilledToggleIsFavorite = (
+  state: IFilterState,
+  action: PayloadAction<number>,
+) => {
+  const filteredCar = state.filtredCars.find(
+    item => item.id === action.payload,
+  );
+ 
+  if (filteredCar) {
+    filteredCar.isFavorite = !filteredCar.isFavorite;
+  }
+};
+
 export const filterSlice = createSlice({
   name: 'filter',
   initialState,
@@ -185,14 +198,19 @@ export const filterSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(fetchRegions.fulfilled, handleFulfildGetRegions)
-      .addCase(fetchCity.fulfilled, handleFulfildGetCitys)
-      .addCase(fetchTypes.fulfilled, handleFulfildGetTypes)
-      .addCase(fetchBrands.fulfilled, handleFulfildGetBrands)
-      .addCase(fetchModels.fulfilled, handleFulfildGetModels)
-      .addCase(fetchCars.fulfilled, handleFulfildGetCars)
-      .addCase(fetchFiltredCars.fulfilled, handleFulfildGetFiltredCars)  
-      .addCase(hideTransport.fulfilled, handleFulfildHideAdvert)
+      .addCase(fetchRegions.fulfilled, handleFulfilledGetRegions)
+      .addCase(fetchCity.fulfilled, handleFulfilledGetCitys)
+      .addCase(fetchTypes.fulfilled, handleFulfilledGetTypes)
+      .addCase(fetchBrands.fulfilled, handleFulfilledGetBrands)
+      .addCase(fetchModels.fulfilled, handleFulfilledGetModels)
+      .addCase(fetchCars.fulfilled, handleFulfilledGetCars)
+      .addCase(fetchFiltredCars.fulfilled, handleFulfilledGetFiltredCars)  
+      .addCase(hideTransport.fulfilled, handleFulfilledHideAdvert)
+
+      .addMatcher(
+        isAnyOf(addToFavourites.fulfilled, removeFromFavourites.fulfilled),
+        handleFulfilledToggleIsFavorite,
+      )
       .addMatcher(
         isAnyOf(
           fetchRegions.pending,
@@ -201,7 +219,7 @@ export const filterSlice = createSlice({
           fetchBrands.pending,
           fetchModels.pending,
           fetchCars.pending,
-          fetchFiltredCars.pending,      
+          fetchFiltredCars.pending,
           hideTransport.pending, ////!
         ),
         handlePending,
@@ -214,7 +232,7 @@ export const filterSlice = createSlice({
           fetchBrands.rejected,
           fetchModels.rejected,
           fetchCars.rejected,
-          fetchFiltredCars.rejected,         
+          fetchFiltredCars.rejected,
           hideTransport.rejected, ////!
         ),
         handleRejected,
