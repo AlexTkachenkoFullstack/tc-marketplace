@@ -22,7 +22,6 @@ export const fetchTypes = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await instance('main/types');
-      
       return response.data;
     } catch (err) {
       const error: AxiosError<KnownError> = err as any;
