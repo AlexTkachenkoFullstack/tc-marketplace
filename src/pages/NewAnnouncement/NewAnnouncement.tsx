@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, ChangeEvent, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import styles from './NewAnnouncement.module.scss';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
@@ -53,7 +53,7 @@ import { yearNow } from 'utils/yearNow';
 
 const startVolume = 0.0;
 const endVolume = 20.0;
-const step = 0.1; 
+const step = 0.1;
 const startYear = 1970;
 const endYear = yearNow();
 export const NewAnnouncement: React.FC = () => {
@@ -236,7 +236,6 @@ export const NewAnnouncement: React.FC = () => {
     });
   }, [windowWidth]);
 
- 
   useEffect(() => {
     if (!transportTypeId) {
       return;
@@ -264,7 +263,7 @@ export const NewAnnouncement: React.FC = () => {
     }
   };
   const remainingDigits = maxDigits - (inputPhone.length - 1);
-  
+
   const handleTextareaChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
@@ -463,10 +462,9 @@ export const NewAnnouncement: React.FC = () => {
       setNumberOfSeats(null);
       setInputPhone('');
       setSelectedImages([]);
-     
-        setIsLoading(false);
-        navigate('/');
-     
+
+      setIsLoading(false);
+      navigate('/');
     } else {
       alert('Заповніть всі поля!');
     }
