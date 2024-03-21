@@ -22,7 +22,7 @@ export const fetchTypes = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await instance('main/types');
-      
+
       return response.data;
     } catch (err) {
       const error: AxiosError<KnownError> = err as any;
@@ -136,8 +136,8 @@ export const fetchCity = createAsyncThunk(
       if (persistToken === null) {
         return thunkAPI.rejectWithValue('Unable to Hide advert');
       } //!if (persistToken !== null) {
-        //!
-        setAuthHeaderForHide(persistToken); //!
+      //!
+      setAuthHeaderForHide(persistToken); //!
       const config = {
         params: searchConfig.searchParams,
         paramsSerializer,
@@ -204,6 +204,7 @@ export const hideAllTransport = createAsyncThunk(
     }
   },
 ); //////!
+//
 export const fetchCars = createAsyncThunk(
   'filter/carsList',
   async (
@@ -215,6 +216,7 @@ export const fetchCars = createAsyncThunk(
   ) => {
     const state = thunkAPI.getState() as RootState;
     const persistToken = state.auth.token;
+
     if (persistToken === null) {
       return thunkAPI.rejectWithValue('Unable to Hide advert');
     }

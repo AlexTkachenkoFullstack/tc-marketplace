@@ -1,5 +1,14 @@
 import axios from 'axios';
+
 axios.defaults.baseURL = 'https://api.pawo.space/api/v1/';
+
+const instance = axios.create({
+  baseURL: 'https://api.pawo.space/api/v1/',
+});
+
+export const setAuthHeaderForHide = (token: string) => {
+  instance.defaults.headers.common.Authorization = `Bearer ${token}`;
+};
 
 export const getCarInfo = async (id: string) => {
   const response = await axios.get(`transport/${id}?`);
@@ -40,4 +49,25 @@ export const getCarTypeParam = async (id: string) => {
   } catch (error) {
     console.error('Помилка в отриманні данних по типу авто', error);
   }
+};
+
+export const postNewAdvertisement = async (
+  formData: FormData,
+  authToken: string,
+) => {
+  setAuthHeaderForHide(authToken);
+  const config = {
+    headers: {
+      'Content-type': 'multipart/form-data',
+      'Content-Length': 1000000000000000,
+    },
+  };
+  instance
+    .post('main/advertisements', formData, config)
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.error('There was an error!', error);
+    });
 };

@@ -177,6 +177,8 @@ export const filterSlice = createSlice({
         | { yearsTo: number }
         | { mileageFrom: number }
         | { mileageTo: number }
+        | { engineDisplacementFrom: number }
+        | { engineDisplacementTo: number }
         | { enginePowerFrom: number }
         | { enginePowerTo: number }
         | { numberOfDoorsFrom: number }

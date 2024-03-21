@@ -15,7 +15,7 @@
     padding-left: 40px;
     padding-right: 40px;
   }
-  @include onDesktop{
+  @include onDesktop {
     width: 1024px;
   }
 }
@@ -74,7 +74,7 @@
   @include onTablet {
     width: 448px;
   }
-  @include onDesktop{
+  @include onDesktop {
     width: 704px;
   }
 }
@@ -152,7 +152,7 @@
     margin-bottom: 32px;
     flex-wrap: wrap;
   }
-  @include onDesktop{
+  @include onDesktop {
     width: 960px;
   }
 }
@@ -174,7 +174,7 @@
     max-width: 224px;
     min-height: 126px;
   }
-  @include onDesktop{
+  @include onDesktop {
     min-width: 234px;
     max-width: 234px;
     min-height: 146px;
@@ -282,7 +282,7 @@
   @include onTablet {
     width: 448px;
   }
-  @include onDesktop{
+  @include onDesktop {
     width: 704px;
   }
 }
@@ -316,7 +316,7 @@
   width: 312px;
   height: 36px;
   border-radius: 32px;
-  background: var(--Light, #F0F0F0);
+  background: var(--Light, #f0f0f0);
   @include onTablet {
     width: 380px;
   }
@@ -337,7 +337,7 @@
   padding: 6px 16px;
   gap: 8px;
   color: var(--Black, #434343);
-  background: var(--Light, #F0F0F0);
+  background: var(--Light, #f0f0f0);
   border-radius: 24px;
   @include onTablet {
     width: 187px;
@@ -367,7 +367,7 @@
   gap: 8px;
   padding: 6px 16px;
   color: var(--Black, #434343);
-  background: var(--Light, #F0F0F0);
+  background: var(--Light, #f0f0f0);
   border-radius: 24px;
   color: black;
   @include onTablet {
@@ -404,5 +404,19 @@
 }
 .selected {
   background: var(--Color, #797979);
-  color: var(--White, #FEFFFF);
+  color: var(--White, #feffff);
+}
+.textarea {
+  resize: none;
+  color: var(--Black, #434343);
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
 }

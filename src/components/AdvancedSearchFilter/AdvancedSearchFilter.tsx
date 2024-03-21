@@ -42,16 +42,16 @@ import RangeSlider from 'components/RangeSlider/RangeSlider';
 import { CategoryBar } from 'components/CategoryBar/CategoryBar';
 import { ICities } from 'types/ICities';
 import { CategoryCheckBar } from 'components/CategoryCheckBar/CategoryCheckBar';
+import { BlocksVisibilityState } from 'types/BlocksVisibilityState';
+import { ButtonVisibilityState } from 'types/ButtonVisibilityState';
+import { getInitialBlocksVisibility } from 'utils/getInitialBlocksVisibility';
+import { getWindowWidth } from 'utils/getWindowWidth';
+import { getInitialButtonVisibility } from 'utils/getInitialButtonVisibility';
 
 interface Props {
   onAdvencedFilter: () => void;
 }
-interface BlocksVisibilityState {
-  [key: string]: boolean;
-}
-interface ButtonVisibilityState {
-  [key: string]: boolean;
-}
+
 export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const dispatch = useAppDispatch();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -73,6 +73,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const [year, setYear] = useState({ from: 0, to: 0 });
   const [mileage, setMileage] = useState({ from: 0, to: 0 });
   const [enginePower, setEnginePower] = useState({ from: 0, to: 0 });
+const [engineDisplacement, setEngineDisplacement] = useState({from:0,to:0})
   const [numberOfDoors, setNumberOfDoors] = useState({ from: 0, to: 0 });
   const [numberOfSeats, setNumberOfSeats] = useState({ from: 0, to: 0 });
   // redux filtred
@@ -123,7 +124,12 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const numberAxles = data?.numberAxlesDTOS;
   const wheelConfiguration = data?.wheelConfigurationDTOS;
   const producingCountry = data?.producingCountryDTOS;
-
+  const door = data?.numberOfDoorsTo;
+  const seats = data?.numberOfSeatsTo;
+  const mileages = data?.mileageTo
+  ;
+  // const engineDisplacement = data?.engineDisplacementTo;
+  // const power = data?.enginePowerTo;
   const pickedBrands: any = [];
   brands.forEach((item: any) => {
     if (carMark.includes(item.brand)) {
@@ -160,25 +166,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
         ? getInitialButtonVisibility(false)
         : getInitialButtonVisibility(true);
     });
-  }, [windowWidth]);
-  function getWindowWidth() {
-    return window.innerWidth;
-  }
-
-  function getInitialBlocksVisibility(isVisible: boolean) {
-    const initialBlocksVisibility: BlocksVisibilityState = {};
-    for (let i = 1; i <= 18; i++) {
-      initialBlocksVisibility[`block${i}`] = isVisible;
-    }
-    return initialBlocksVisibility;
-  }
-  function getInitialButtonVisibility(isVisible: boolean) {
-    const initialBlocksVisibility: ButtonVisibilityState = {};
-    for (let i = 1; i <= 5; i++) {
-      initialBlocksVisibility[`block${i}`] = isVisible;
-    }
-    return initialBlocksVisibility;
-  }
+  }, [windowWidth]); 
   useEffect(() => {
     if (selectedRegions) {
       const regionId = getArrayOfId(regions, selectedRegions);
@@ -262,7 +250,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
       ...prevState,
       [blockName]: !prevState[blockName],
     }));
-  };
+  };  
   useEffect(() => {
     const type = typeCars.find(item => item.type === selectedCategory);
     type && setTransportTypeId(type?.typeId);
@@ -324,6 +312,8 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     const yearsTo = year.to;
     const mileageFrom = mileage.from;
     const mileageTo = mileage.to;
+    const engineDisplacementFrom = engineDisplacement.from;
+    const engineDisplacementTo = engineDisplacement.to;
     const enginePowerFrom = enginePower.from;
     const enginePowerTo = enginePower.to;
     const numberOfDoorsFrom = numberOfDoors.from;
@@ -354,6 +344,8 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
         yearsTo,
         mileageFrom,
         mileageTo,
+        engineDisplacementFrom,
+        engineDisplacementTo,
         enginePowerFrom,
         enginePowerTo,
         numberOfDoorsFrom,
@@ -711,7 +703,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
           )}
           {/* Пробіг */}
 
-          <div className={styles.lisCarMileage}>
+         {mileages && <div className={styles.lisCarMileage}>
             <div className={styles.title}>
               <h2>Пробіг</h2>
               <div
@@ -729,7 +721,29 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                 />
               </div>
             )}
+          </div>}
+          {/* Об`єм двигуна */}
+          <div className={styles.listMotorPower}>
+            <div className={styles.title}>
+              <h2>Об`єм двигуна</h2>
+              <div
+                className={`${styles.mobileButton} ${
+                  isOpen.block12 ? styles.active : ''
+                }`}
+                onClick={() => handleMobileBtnIsOpen('block12')}
+              />
+            </div>
+            {isOpen.block12 && (
+              <div className={styles.listItem}>
+                <RangeSlider
+                  setObjectValue={setEngineDisplacement}
+                  typeRange={'engineDisplacement'}
+                />
+              </div>
+            )}
           </div>
+
+
           {/* Потужність двигуна */}
 
           <div className={styles.listMotorPower}>
@@ -777,7 +791,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
           )}
           {/* Кількість дверей */}
 
-          <div className={styles.howManyDoors}>
+         {door && <div className={styles.howManyDoors}>
             <div className={styles.title}>
               <h2>Кількість дверей</h2>
               <div
@@ -795,10 +809,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                 />
               </div>
             )}
-          </div>
+          </div>}
           {/* Кількість місць*/}
 
-          <div className={styles.listNumberSeats}>
+        {seats &&  <div className={styles.listNumberSeats}>
             <div className={styles.title}>
               <h2>Кількість місць</h2>
               <div
@@ -816,7 +830,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                 />
               </div>
             )}
-          </div>
+          </div>}
           {/* RadioButton type Кількість осей*/}
           {numberAxles && (
             <div className={styles.listNumberAxles}>

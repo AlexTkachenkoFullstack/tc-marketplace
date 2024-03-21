@@ -49,7 +49,7 @@ export const CategoryCheckBar: React.FC<Props> = ({
     const updatedCategoryType = Object.keys(newCheckedItems).filter(
       key => newCheckedItems[key],
     );
-    handleSelect(updatedCategoryType); // Передача значения categoryType в handleSelect
+    handleSelect(updatedCategoryType);
   };
 
   return (

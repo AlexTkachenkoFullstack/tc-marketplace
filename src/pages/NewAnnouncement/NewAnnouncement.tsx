@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, ChangeEvent, useState } from 'react';
+
 import styles from './NewAnnouncement.module.scss';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
@@ -12,12 +13,9 @@ import { IType } from 'types/IType';
 import { Dropdown } from 'components/Dropdown/Dropdown';
 import { IBrand } from 'types/IBrand';
 import { IModel } from 'types/IModel';
-import { ReactComponent as Replay } from '../../assets/icons/replay.svg';
-import { ReactComponent as Close } from '../../assets/icons/close.svg';
-import { ReactComponent as Add } from '../../assets/icons/add.svg';
 import { ReactComponent as Arrowdown } from '../../assets/icons/more-down.svg';
 import { ReactComponent as Arrowup } from '../../assets/icons/more-up.svg';
-import { getCarTypeParam } from 'services/services';
+import { postNewAdvertisement, getCarTypeParam } from 'services/services';
 import { IRegion } from 'types/IRegion';
 import {
   fetchBrands,
@@ -28,38 +26,66 @@ import {
 } from 'redux/filter/operations';
 import { ISearchParams } from 'types/ISearchParam';
 import { ICities } from 'types/ICities';
+import { UploadPhoto } from 'components/UploadPhoto/UploadPhoto';
+import { UploadedImage } from 'types/UploadedImage';
+import {
+  getArrayCarBodyOfId,
+  getArrayCityOfId,
+  getArrayColorOfId,
+  getArrayConditionOfId,
+  getArrayDriveOfid,
+  getArrayFuelOfId,
+  getArrayModelsOfId,
+  getArrayNumberAxlesOfId,
+  getArrayProducingCountryOfId,
+  getArrayTransmissionOfId,
+  getArrayWheelConfigurationOfId,
+} from 'utils/getArrayOfId';
+import { useNavigate } from 'react-router-dom';
+import Loader from 'components/Loader/Loader';
+import { getInitialBlocksVisibility } from 'utils/getInitialBlocksVisibility';
+import { getWindowWidth } from 'utils/getWindowWidth';
+import { BlocksVisibilityState } from 'types/BlocksVisibilityState';
+import { CityItem } from 'types/CityItem';
+import { generateEngineVolumes } from 'utils/generateEngineVolumes';
+import { generateYears } from 'utils/generateYears';
+import { yearNow } from 'utils/yearNow';
 
-interface BlocksVisibilityState {
-  [key: string]: boolean;
-}
-interface CityItem {
-  cityId: number;
-  city: string;
-}
-
+const startVolume = 0.0;
+const endVolume = 20.0;
+const step = 0.1; 
+const startYear = 1970;
+const endYear = yearNow();
 export const NewAnnouncement: React.FC = () => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isOpen, setIsOpen] = useState<BlocksVisibilityState>(() => {
     return getWindowWidth() < 767
       ? getInitialBlocksVisibility(false)
       : getInitialBlocksVisibility(true);
   });
+  const engineVolumesArray = generateEngineVolumes(
+    startVolume,
+    endVolume,
+    step,
+  );
+  const [engineVolumes, setEngineVolumes] = useState<string | string[]>(
+    'Літри',
+  );
+  const yearsArray = generateYears(startYear, endYear);
 
-  // const [isShow, setIsShow] = useState<ButtonVisibilityState>(() => {
-  //   return getWindowWidth() < 767
-  //     ? getInitialButtonVisibility(false)
-  //     : getInitialButtonVisibility(true);
-  // });
-  const [isInputActive, setIsInputActive] = useState<boolean>(false);
-  console.log(isInputActive)
+  const [selectedImages, setSelectedImages] = useState<UploadedImage[]>([]);
+  const [mainPhoto, setMainPhoto] = useState('');
   const [textValue, setTextValue] = useState<string>('');
   const [inputPhone, setInputPhone] = useState<string>('');
   const maxDigits = 12;
   const [selectedRegions, setSelectedRegions] = useState<string | string[]>(
     'Вся Україна',
   );
-
+  const [yearCar, setYearCar] = useState<string | string[]>('Рік');
   const [selectedCity, setSelectedCity] = useState<string | string[]>('Місто');
   // response(catalog) get-param
   const [data, setData] = useState<any>([]);
@@ -90,6 +116,11 @@ export const NewAnnouncement: React.FC = () => {
   const [selectedCondition, setSelectedCondition] = useState<string | string[]>(
     'Технічний стан',
   );
+  const [price, setPrice] = useState<number | null>(null);
+  const [numberOfSeats, setNumberOfSeats] = useState<number | null>();
+  const [numberOfDoors, setNumberOfDoors] = useState<number | null>();
+  const [enginePower, setEnginePower] = useState<number | null>();
+  const [mileage, setMileage] = useState<number | null>();
   const [selectedOption, setSelectedOption] = useState<boolean>();
   const [transportTypeId, setTransportTypeId] = useState<number | null>(null);
   // const [selectedCategory, setSelectedCategory] = useState<string>('Легкові');
@@ -108,7 +139,6 @@ export const NewAnnouncement: React.FC = () => {
       city.push(...item.cities);
     });
   }
-
   //  response catalog/get-param/id
   const bodyTypes = data?.bodyTypeDTOS;
   const fuel = data?.fuelTypeDTOS;
@@ -119,8 +149,12 @@ export const NewAnnouncement: React.FC = () => {
   const numberAxles = data?.numberAxlesDTOS;
   const wheelConfiguration = data?.wheelConfigurationDTOS;
   const producingCountry = data?.producingCountryDTOS;
+  const numberOfDoor = data?.numberOfDoorsTo;
+  const engineDisplacement = data?.engineDisplacementFrom;
+  const engPower = data?.enginePowerFrom;
+  const numberOfSeat = data?.numberOfSeatsTo;
+  const mileageTo = data?.mileageTo;
 
-  console.log('inputPhone :>> ', inputPhone);
   useEffect(() => {
     if (typeCars.length > 0) {
       return;
@@ -202,16 +236,7 @@ export const NewAnnouncement: React.FC = () => {
     });
   }, [windowWidth]);
 
-  function getWindowWidth() {
-    return window.innerWidth;
-  }
-  function getInitialBlocksVisibility(isVisible: boolean) {
-    const initialBlocksVisibility: BlocksVisibilityState = {};
-    for (let i = 1; i <= 25; i++) {
-      initialBlocksVisibility[`block${i}`] = isVisible;
-    }
-    return initialBlocksVisibility;
-  }
+ 
   useEffect(() => {
     if (!transportTypeId) {
       return;
@@ -239,6 +264,7 @@ export const NewAnnouncement: React.FC = () => {
     }
   };
   const remainingDigits = maxDigits - (inputPhone.length - 1);
+  
   const handleTextareaChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
@@ -248,8 +274,207 @@ export const NewAnnouncement: React.FC = () => {
       setTextValue(value);
     }
   };
+  const handleAddMorePhoto = () => {
+    if (inputRef.current) {
+      inputRef.current.click();
+    }
+  };
+  const handleAddPhoto = (newImages: UploadedImage[]) => {
+    setSelectedImages(prevImages => [...prevImages, ...newImages]);
+  };
+  const handleDeletePhoto = (imageId: string) => {
+    setSelectedImages(prevImages =>
+      prevImages.filter(image => image.id !== imageId),
+    );
+  };
+  const handleMileage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(event.target.value);
+    if (isNaN(value)) {
+      return;
+    }
+    setMileage(value);
+  };
+  const handleEnginePower = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(event.target.value);
+    if (isNaN(value)) {
+      return;
+    }
+    setEnginePower(value);
+  };
+  const handleNumberOfDoors = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(event.target.value);
+    if (isNaN(value)) {
+      return;
+    }
+    setNumberOfDoors(value);
+  };
+  const handleNumberOfSeats = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(event.target.value);
+    if (isNaN(value)) {
+      return;
+    }
+    setNumberOfSeats(value);
+  };
+  const handlePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(event.target.value);
+    if (isNaN(value)) {
+      return;
+    }
+    setPrice(value);
+  };
+  const handleAddMainePhoto = (image: string) => {
+    setMainPhoto(image);
+  };
+  const handleClick = () => {
+    if (
+      selectedImages.length > 0 &&
+      carModel &&
+      selectedCity &&
+      selectedBodyType &&
+      selectedFuelType &&
+      selectedDriveType &&
+      transmission &&
+      // selectedColor &&
+      selectedCondition &&
+      selectedAxle &&
+      // selectedProducingCountry &&
+      // selectedWheelConfiguration &&
+      yearCar &&
+      price &&
+      selectedOption &&
+      textValue &&
+      mainPhoto &&
+      engineVolumes &&
+      mileage &&
+      // numberOfDoors &&
+      // numberOfSeats &&
+      inputPhone
+    ) {
+      const createFormData = (selectedImageFile: any) => {
+        const modelId = getArrayModelsOfId(models, carModel);
+        const cityId = getArrayCityOfId(cities, selectedCity);
+        const bodyTypeId = getArrayCarBodyOfId(
+          bodyTypes ?? [],
+          selectedBodyType,
+        );
+        const fuelTypeId = getArrayFuelOfId(fuel ?? [], selectedFuelType);
+        const driveTypeId = getArrayDriveOfid(
+          driveType ?? [],
+          selectedDriveType,
+        );
+        const transmissionId = getArrayTransmissionOfId(
+          transmission ?? [],
+          selectedTransmission,
+        );
+        const colorId = getArrayColorOfId(transportColor ?? [], selectedColor);
+        const conditionId = getArrayConditionOfId(
+          transportCondition ?? [],
+          selectedCondition,
+        );
+        const numberAxlesId = getArrayNumberAxlesOfId(
+          numberAxles ?? [],
+          selectedAxle,
+        );
+        const producingCountryId = getArrayProducingCountryOfId(
+          producingCountry ?? [],
+          selectedProducingCountry,
+        );
+        const wheelConfigurationId = getArrayWheelConfigurationOfId(
+          wheelConfiguration ?? [],
+          selectedWheelConfiguration,
+        );
+
+        const formData = new FormData();
+        selectedImageFile.forEach((item: any) =>
+          formData.append('multipartFiles', item.file[0]),
+        );
+
+        const requestData = {
+          model: modelId[0],
+          bodyType: bodyTypeId[0],
+          importedFrom: producingCountryId[0],
+          year: +yearCar,
+          price,
+          bargain: selectedOption,
+          trade: true,
+          // military: true,
+          // installmentPayment: true,
+          uncleared: true,
+          accidentHistory: true,
+          condition: conditionId[0],
+          // vincode: 'RU2X03BW4ZTUA08WF',
+          description: textValue,
+          color: colorId[0],
+          city: cityId[0],
+          mainPhoto: mainPhoto,
+          transmission: transmissionId[0],
+          fuelType: fuelTypeId[0],
+          // fuelConsumptionCity: 50,
+          // fuelConsumptionHighway: 50,
+          // fuelConsumptionMixed: 50,
+          engineDisplacement: engineVolumes,
+          enginePower: enginePower,
+          driveType: driveTypeId[0],
+          mileage,
+          numberOfDoors,
+          numberOfSeats,
+          wheelConfiguration: wheelConfigurationId[0],
+          numberAxles: numberAxlesId[0],
+          phone: inputPhone,
+        };
+        formData.append(
+          'requestAddTransportDTO',
+          new Blob([JSON.stringify(requestData)], { type: 'application/json' }),
+        );
+        formData.set('Content-Type', 'application/json');
+
+        return formData;
+      };
+
+      const formData: FormData = createFormData(selectedImages);
+
+      const jsonString = localStorage.getItem('persist:userRoot');
+      if (jsonString) {
+        const data = JSON.parse(jsonString);
+        const authToken = data.token.replace(/^"(.*)"$/, '$1');
+        setIsLoading(true);
+        postNewAdvertisement(formData, authToken);
+      }
+      setCarModel('');
+      setSelectedCity('');
+      setSelectedBodyType('');
+      setSelectedFuelType('');
+      setSelectedDriveType('');
+      setSelectedTransmission('');
+      setSelectedColor('');
+      setSelectedCondition('');
+      setSelectedAxle('');
+      setSelectedProducingCountry('');
+      setSelectedWheelConfiguration('');
+      setYearCar('');
+      setPrice(null);
+      setSelectedOption(undefined);
+      setTextValue('');
+      setMainPhoto('');
+      setEngineVolumes('');
+      setEnginePower(null);
+      setMileage(null);
+      setNumberOfDoors(null);
+      setNumberOfSeats(null);
+      setInputPhone('');
+      setSelectedImages([]);
+     
+        setIsLoading(false);
+        navigate('/');
+     
+    } else {
+      alert('Заповніть всі поля!');
+    }
+  };
+
   return (
     <section className={styles.section}>
+      {isLoading && <Loader />}
       <div className={styles.container}>
         <h1 className={styles.mainTitle}>Додавання оголошення</h1>
         <h2 className={styles.title}>Ваші контактні дані</h2>
@@ -282,8 +507,6 @@ export const NewAnnouncement: React.FC = () => {
                   value={inputPhone}
                   title={`${remainingDigits} цифр осталось`}
                   onChange={handleInputPhone}
-                  onFocus={() => setIsInputActive(true)}
-                  onBlur={() => setIsInputActive(false)}
                 />
               </div>
             </div>
@@ -293,89 +516,22 @@ export const NewAnnouncement: React.FC = () => {
         <div className={styles.blocTitleFoto}>
           <div className={styles.boxTitleFoto}>
             <h2 className={styles.titleAddFoto}>Додайте фото</h2>
-            <button className={styles.addMore}>Додати більше</button>
+            <button className={styles.addMore} onClick={handleAddMorePhoto}>
+              Додати більше
+            </button>
           </div>
           <p className={styles.titleHelpText}>
             Обов’язково додайте мінімум одне фото
           </p>
         </div>
         <div className={styles.imgContainer}>
-          <div className={styles.imgCard}>
-            <div className={styles.box_input}>
-              <input type="checkbox" id="foto1" />
-              <label htmlFor="foto1" className={styles.label_title}>
-                Головне
-              </label>
-            </div>
-            <button className={styles.replay_btn}>
-              <Replay />
-            </button>
-            <button className={styles.close_btn}>
-              <Close />
-            </button>
-            <button className={styles.add_foto_btn}>
-              <Add width={32} height={32} />
-            </button>
-            <img src="" alt="" />
-          </div>
-          <div className={styles.imgCard}>
-            <div className={styles.box_input}>
-              <input type="checkbox" id="foto1" />
-              <label htmlFor="foto1" className={styles.label_title}>
-                Головне
-              </label>
-            </div>
-            <button className={styles.replay_btn}>
-              <Replay />
-            </button>
-            <button className={styles.close_btn}>
-              <Close />
-            </button>
-            <button className={styles.add_foto_btn}>
-              <Add width={32} height={32} />
-            </button>
-            <img src="" alt="" />
-          </div>
-          <div className={styles.imgCard}>
-            <div className={styles.box_input}>
-              <input
-                type="checkbox"
-                id="foto1"
-                className={styles.input_checkbox}
-              />
-              <label htmlFor="foto1" className={styles.label_title}>
-                Головне
-              </label>
-            </div>
-            <button className={styles.replay_btn}>
-              <Replay />
-            </button>
-            <button className={styles.close_btn}>
-              <Close />
-            </button>
-            <button className={styles.add_foto_btn}>
-              <Add width={32} height={32} />
-            </button>
-            <img src="" alt="" />
-          </div>
-          <div className={styles.imgCard}>
-            <div className={styles.box_input}>
-              <input type="checkbox" id="foto1" />
-              <label htmlFor="foto1" className={styles.label_title}>
-                Головне
-              </label>
-            </div>
-            <button className={styles.replay_btn}>
-              <Replay />
-            </button>
-            <button className={styles.close_btn}>
-              <Close />
-            </button>
-            <button className={styles.add_foto_btn}>
-              <Add width={32} height={32} />
-            </button>
-            <img src="" alt="" />
-          </div>
+          <UploadPhoto
+            inputRef={inputRef}
+            selectedImages={selectedImages}
+            handleAddPhoto={handleAddPhoto}
+            handleDeletePhoto={handleDeletePhoto}
+            addMainPhoto={handleAddMainePhoto}
+          />
         </div>
 
         <h2 className={styles.main_info_title}>Основна інформація</h2>
@@ -407,7 +563,6 @@ export const NewAnnouncement: React.FC = () => {
                   maxLength={100}
                   placeholder="Text"
                   value={textValue}
-                  style={{ resize: 'none' }}
                   onChange={handleTextareaChange}
                 />
               </div>
@@ -481,7 +636,6 @@ export const NewAnnouncement: React.FC = () => {
                     option={carBrand}
                     setOption={setCarBrand}
                     allOptionsLabel="Всі бренди"
-                    //  checkboxAllowed
                   />
                 </div>
               )}
@@ -543,10 +697,14 @@ export const NewAnnouncement: React.FC = () => {
             <div className={styles.listItem}>
               {isOpen.block6 && (
                 <div className={styles.item_dropdown_box}>
-                  <input
-                    className={styles.inputPhone}
-                    type="text"
-                    placeholder="1970"
+                  <Dropdown
+                    updateStyle="advSearch"
+                    options={yearsArray.map(item => item)}
+                    label="Рік"
+                    startValue="Рік"
+                    allOptionsLabel="Всі моделі"
+                    option={yearCar}
+                    setOption={setYearCar}
                   />
                 </div>
               )}
@@ -624,164 +782,188 @@ export const NewAnnouncement: React.FC = () => {
               )}
             </div>
           </div>
-          <div className={styles.box_item}>
-            <div className={styles.boxtitle}>
-              <h2 className={styles.description_car_title}>Об'єм двигуна</h2>
-              <div
-                className={`${styles.mobileButton}  ${
-                  getWindowWidth() >= 768 ? styles.hide : ''
-                }`}
-                onClick={() => handleMobileBtnIsOpen('block9')}
-              >
-                {isOpen.block9 ? (
-                  <Arrowup width={24} height={24} />
-                ) : (
-                  <Arrowdown width={24} height={24} />
+          {engineDisplacement && (
+            <div className={styles.box_item}>
+              <div className={styles.boxtitle}>
+                <h2 className={styles.description_car_title}>Об'єм двигуна</h2>
+                <div
+                  className={`${styles.mobileButton}  ${
+                    getWindowWidth() >= 768 ? styles.hide : ''
+                  }`}
+                  onClick={() => handleMobileBtnIsOpen('block9')}
+                >
+                  {isOpen.block9 ? (
+                    <Arrowup width={24} height={24} />
+                  ) : (
+                    <Arrowdown width={24} height={24} />
+                  )}
+                </div>
+              </div>
+              <div className={styles.listItem}>
+                {isOpen.block9 && (
+                  <div className={styles.item_dropdown_box}>
+                    <Dropdown
+                      updateStyle="advSearch"
+                      options={engineVolumesArray.map(item => item)}
+                      label="Літри"
+                      startValue="Літри"
+                      allOptionsLabel="Об'єм двигуна"
+                      option={engineVolumes}
+                      setOption={setEngineVolumes}
+                    />
+                  </div>
                 )}
               </div>
             </div>
-            <div className={styles.listItem}>
-              {isOpen.block9 && (
-                <div className={styles.item_dropdown_box}>
-                  <input
-                    className={styles.inputPhone}
-                    type="number"
-                    placeholder="1,1"
-                  />
+          )}
+          {transmission && (
+            <div className={styles.box_item}>
+              <div className={styles.boxtitle}>
+                <h2 className={styles.description_car_title}>
+                  Коробка передач
+                </h2>
+                <div
+                  className={`${styles.mobileButton}  ${
+                    getWindowWidth() >= 768 ? styles.hide : ''
+                  }`}
+                  onClick={() => handleMobileBtnIsOpen('block10')}
+                >
+                  {isOpen.block10 ? (
+                    <Arrowup width={24} height={24} />
+                  ) : (
+                    <Arrowdown width={24} height={24} />
+                  )}
                 </div>
-              )}
-            </div>
-          </div>
-          <div className={styles.box_item}>
-            <div className={styles.boxtitle}>
-              <h2 className={styles.description_car_title}>Коробка передач</h2>
-              <div
-                className={`${styles.mobileButton}  ${
-                  getWindowWidth() >= 768 ? styles.hide : ''
-                }`}
-                onClick={() => handleMobileBtnIsOpen('block10')}
-              >
-                {isOpen.block10 ? (
-                  <Arrowup width={24} height={24} />
-                ) : (
-                  <Arrowdown width={24} height={24} />
+              </div>
+              <div className={styles.listItem}>
+                {isOpen.block10 && (
+                  <div className={styles.item_dropdown_box}>
+                    <Dropdown
+                      updateStyle="advSearch"
+                      options={
+                        transmission
+                          ? transmission.map((item: any) => item.transmission)
+                          : 'Нема співпадінь'
+                      }
+                      label="Коробка передач"
+                      startValue="Коробка передач"
+                      allOptionsLabel="Коробка передач"
+                      option={selectedTransmission}
+                      setOption={setSelectedTransmission}
+                    />
+                  </div>
                 )}
               </div>
             </div>
-            <div className={styles.listItem}>
-              {isOpen.block10 && (
-                <div className={styles.item_dropdown_box}>
-                  <Dropdown
-                    updateStyle="advSearch"
-                    options={
-                      transmission
-                        ? transmission.map((item: any) => item.transmission)
-                        : 'Нема співпадінь'
-                    }
-                    label="Коробка передач"
-                    startValue="Коробка передач"
-                    allOptionsLabel="Коробка передач"
-                    option={selectedTransmission}
-                    setOption={setSelectedTransmission}
-                  />
+          )}
+          {mileageTo && (
+            <div className={styles.box_item}>
+              <div className={styles.boxtitle}>
+                <h2 className={styles.description_car_title}>Пробіг</h2>
+                <div
+                  className={`${styles.mobileButton}  ${
+                    getWindowWidth() >= 768 ? styles.hide : ''
+                  }`}
+                  onClick={() => handleMobileBtnIsOpen('block11')}
+                >
+                  {isOpen.block11 ? (
+                    <Arrowup width={24} height={24} />
+                  ) : (
+                    <Arrowdown width={24} height={24} />
+                  )}
                 </div>
-              )}
-            </div>
-          </div>
-          <div className={styles.box_item}>
-            <div className={styles.boxtitle}>
-              <h2 className={styles.description_car_title}>Пробіг</h2>
-              <div
-                className={`${styles.mobileButton}  ${
-                  getWindowWidth() >= 768 ? styles.hide : ''
-                }`}
-                onClick={() => handleMobileBtnIsOpen('block11')}
-              >
-                {isOpen.block11 ? (
-                  <Arrowup width={24} height={24} />
-                ) : (
-                  <Arrowdown width={24} height={24} />
+              </div>
+              <div className={styles.listItem}>
+                {isOpen.block11 && (
+                  <div className={styles.item_dropdown_box}>
+                    <input
+                      className={styles.inputPhone}
+                      type="number"
+                      min={0}
+                      max={1000000}
+                      placeholder="0 - 1000000"
+                      value={mileage ?? ''}
+                      onChange={handleMileage}
+                    />
+                  </div>
                 )}
               </div>
             </div>
-            <div className={styles.listItem}>
-              {isOpen.block11 && (
-                <div className={styles.item_dropdown_box}>
-                  <input
-                    className={styles.inputPhone}
-                    type="number"
-                    placeholder="1000"
-                  />
+          )}
+          {engPower && (
+            <div className={styles.box_item}>
+              <div className={styles.boxtitle}>
+                <h2 className={styles.description_car_title}>
+                  Потужність двигуна
+                </h2>
+                <div
+                  className={`${styles.mobileButton}  ${
+                    getWindowWidth() >= 768 ? styles.hide : ''
+                  }`}
+                  onClick={() => handleMobileBtnIsOpen('block12')}
+                >
+                  {isOpen.block12 ? (
+                    <Arrowup width={24} height={24} />
+                  ) : (
+                    <Arrowdown width={24} height={24} />
+                  )}
                 </div>
-              )}
-            </div>
-          </div>
-          <div className={styles.box_item}>
-            <div className={styles.boxtitle}>
-              <h2 className={styles.description_car_title}>
-                Потужність двигуна
-              </h2>
-              <div
-                className={`${styles.mobileButton}  ${
-                  getWindowWidth() >= 768 ? styles.hide : ''
-                }`}
-                onClick={() => handleMobileBtnIsOpen('block12')}
-              >
-                {isOpen.block12 ? (
-                  <Arrowup width={24} height={24} />
-                ) : (
-                  <Arrowdown width={24} height={24} />
+              </div>
+              <div className={styles.listItem}>
+                {isOpen.block12 && (
+                  <div className={styles.item_dropdown_box}>
+                    <input
+                      className={styles.inputPhone}
+                      type="number"
+                      min={0}
+                      max={5000}
+                      placeholder="20 - 5000"
+                      value={enginePower ?? ''}
+                      onChange={handleEnginePower}
+                    />
+                  </div>
                 )}
               </div>
             </div>
-            <div className={styles.listItem}>
-              {isOpen.block12 && (
-                <div className={styles.item_dropdown_box}>
-                  <input
-                    className={styles.inputPhone}
-                    type="number"
-                    placeholder="50"
-                  />
+          )}
+          {driveType && (
+            <div className={styles.box_item}>
+              <div className={styles.boxtitle}>
+                <h2 className={styles.description_car_title}>Привід</h2>
+                <div
+                  className={`${styles.mobileButton}  ${
+                    getWindowWidth() >= 768 ? styles.hide : ''
+                  }`}
+                  onClick={() => handleMobileBtnIsOpen('block13')}
+                >
+                  {isOpen.block13 ? (
+                    <Arrowup width={24} height={24} />
+                  ) : (
+                    <Arrowdown width={24} height={24} />
+                  )}
                 </div>
-              )}
-            </div>
-          </div>
-          <div className={styles.box_item}>
-            <div className={styles.boxtitle}>
-              <h2 className={styles.description_car_title}>Привід</h2>
-              <div
-                className={`${styles.mobileButton}  ${
-                  getWindowWidth() >= 768 ? styles.hide : ''
-                }`}
-                onClick={() => handleMobileBtnIsOpen('block13')}
-              >
-                {isOpen.block13 ? (
-                  <Arrowup width={24} height={24} />
-                ) : (
-                  <Arrowdown width={24} height={24} />
+              </div>
+              <div className={styles.listItem}>
+                {isOpen.block13 && (
+                  <div className={styles.item_dropdown_box}>
+                    <Dropdown
+                      updateStyle="advSearch"
+                      options={
+                        driveType
+                          ? driveType.map((item: any) => item.driveType)
+                          : 'Нема співпадінь'
+                      }
+                      label="Привід"
+                      startValue="Привід"
+                      allOptionsLabel="Привід"
+                      option={selectedDriveType}
+                      setOption={setSelectedDriveType}
+                    />
+                  </div>
                 )}
               </div>
             </div>
-            <div className={styles.listItem}>
-              {isOpen.block13 && (
-                <div className={styles.item_dropdown_box}>
-                  <Dropdown
-                    updateStyle="advSearch"
-                    options={
-                      driveType
-                        ? driveType.map((item: any) => item.driveType)
-                        : 'Нема співпадінь'
-                    }
-                    label="Привід"
-                    startValue="Привід"
-                    allOptionsLabel="Привід"
-                    option={selectedDriveType}
-                    setOption={setSelectedDriveType}
-                  />
-                </div>
-              )}
-            </div>
-          </div>
+          )}
           <div className={styles.box_item}>
             <div className={styles.boxtitle}>
               <h2 className={styles.description_car_title}>Область</h2>
@@ -928,139 +1110,159 @@ export const NewAnnouncement: React.FC = () => {
               )}
             </div>
           </div>
-          <div className={styles.box_item}>
-            <div className={styles.boxtitle}>
-              <h2 className={styles.description_car_title}>Кількість дверей</h2>
-              <div
-                className={`${styles.mobileButton}  ${
-                  getWindowWidth() >= 768 ? styles.hide : ''
-                }`}
-                onClick={() => handleMobileBtnIsOpen('block18')}
-              >
-                {isOpen.block18 ? (
-                  <Arrowup width={24} height={24} />
-                ) : (
-                  <Arrowdown width={24} height={24} />
+          {numberOfDoor && (
+            <div className={styles.box_item}>
+              <div className={styles.boxtitle}>
+                <h2 className={styles.description_car_title}>
+                  Кількість дверей
+                </h2>
+                <div
+                  className={`${styles.mobileButton}  ${
+                    getWindowWidth() >= 768 ? styles.hide : ''
+                  }`}
+                  onClick={() => handleMobileBtnIsOpen('block18')}
+                >
+                  {isOpen.block18 ? (
+                    <Arrowup width={24} height={24} />
+                  ) : (
+                    <Arrowdown width={24} height={24} />
+                  )}
+                </div>
+              </div>
+              <div className={styles.listItem}>
+                {isOpen.block18 && (
+                  <div className={styles.item_dropdown_box}>
+                    <input
+                      className={styles.inputPhone}
+                      type="number"
+                      min={2}
+                      max={5}
+                      placeholder="2 - 5"
+                      value={numberOfDoors ?? ''}
+                      onChange={handleNumberOfDoors}
+                    />
+                  </div>
                 )}
               </div>
             </div>
-            <div className={styles.listItem}>
-              {isOpen.block18 && (
-                <div className={styles.item_dropdown_box}>
-                  <input
-                    className={styles.inputPhone}
-                    type="number"
-                    placeholder="2"
-                  />
+          )}
+          {numberOfSeat && (
+            <div className={styles.box_item}>
+              <div className={styles.boxtitle}>
+                <h2 className={styles.description_car_title}>
+                  Кількість місць
+                </h2>
+                <div
+                  className={`${styles.mobileButton}  ${
+                    getWindowWidth() >= 768 ? styles.hide : ''
+                  }`}
+                  onClick={() => handleMobileBtnIsOpen('block19')}
+                >
+                  {isOpen.block19 ? (
+                    <Arrowup width={24} height={24} />
+                  ) : (
+                    <Arrowdown width={24} height={24} />
+                  )}
                 </div>
-              )}
-            </div>
-          </div>
-          <div className={styles.box_item}>
-            <div className={styles.boxtitle}>
-              <h2 className={styles.description_car_title}>Кількість місць</h2>
-              <div
-                className={`${styles.mobileButton}  ${
-                  getWindowWidth() >= 768 ? styles.hide : ''
-                }`}
-                onClick={() => handleMobileBtnIsOpen('block19')}
-              >
-                {isOpen.block19 ? (
-                  <Arrowup width={24} height={24} />
-                ) : (
-                  <Arrowdown width={24} height={24} />
+              </div>
+              <div className={styles.listItem}>
+                {isOpen.block19 && (
+                  <div className={styles.item_dropdown_box}>
+                    <input
+                      className={styles.inputPhone}
+                      type="number"
+                      min={2}
+                      max={18}
+                      placeholder="2 - 18"
+                      value={numberOfSeats ?? ''}
+                      onChange={handleNumberOfSeats}
+                    />
+                  </div>
                 )}
               </div>
             </div>
-            <div className={styles.listItem}>
-              {isOpen.block19 && (
-                <div className={styles.item_dropdown_box}>
-                  <input
-                    className={styles.inputPhone}
-                    type="number"
-                    placeholder="2"
-                  />
-                </div>
-              )}
-            </div>
-          </div>
+          )}
 
-          <div className={styles.box_item}>
-            <div className={styles.boxtitle}>
-              <h2 className={styles.description_car_title}>Кількість осей</h2>
-              <div
-                className={`${styles.mobileButton}  ${
-                  getWindowWidth() >= 768 ? styles.hide : ''
-                }`}
-                onClick={() => handleMobileBtnIsOpen('block20')}
-              >
-                {isOpen.block20 ? (
-                  <Arrowup width={24} height={24} />
-                ) : (
-                  <Arrowdown width={24} height={24} />
+          {numberAxles && (
+            <div className={styles.box_item}>
+              <div className={styles.boxtitle}>
+                <h2 className={styles.description_car_title}>Кількість осей</h2>
+                <div
+                  className={`${styles.mobileButton}  ${
+                    getWindowWidth() >= 768 ? styles.hide : ''
+                  }`}
+                  onClick={() => handleMobileBtnIsOpen('block20')}
+                >
+                  {isOpen.block20 ? (
+                    <Arrowup width={24} height={24} />
+                  ) : (
+                    <Arrowdown width={24} height={24} />
+                  )}
+                </div>
+              </div>
+              <div className={styles.listItem}>
+                {isOpen.block20 && (
+                  <div className={styles.item_dropdown_box}>
+                    <Dropdown
+                      updateStyle="advSearch"
+                      options={
+                        numberAxles
+                          ? numberAxles.map((item: any) => item.numberAxles)
+                          : 'Нема співпадінь'
+                      }
+                      label="Кількість осей"
+                      startValue="Кількість осей"
+                      allOptionsLabel="Кількість осей"
+                      option={selectedAxle}
+                      setOption={setSelectedAxle}
+                    />
+                  </div>
                 )}
               </div>
             </div>
-            <div className={styles.listItem}>
-              {isOpen.block20 && (
-                <div className={styles.item_dropdown_box}>
-                  <Dropdown
-                    updateStyle="advSearch"
-                    options={
-                      numberAxles
-                        ? numberAxles.map((item: any) => item.numberAxles)
-                        : 'Нема співпадінь'
-                    }
-                    label="Кількість осей"
-                    startValue="Кількість осей"
-                    allOptionsLabel="Кількість осей"
-                    option={selectedAxle}
-                    setOption={setSelectedAxle}
-                  />
+          )}
+          {wheelConfiguration && (
+            <div className={styles.box_item}>
+              <div className={styles.boxtitle}>
+                <h2 className={styles.description_car_title}>
+                  Конфігурація коліс
+                </h2>
+                <div
+                  className={`${styles.mobileButton}  ${
+                    getWindowWidth() >= 768 ? styles.hide : ''
+                  }`}
+                  onClick={() => handleMobileBtnIsOpen('block21')}
+                >
+                  {isOpen.block21 ? (
+                    <Arrowup width={24} height={24} />
+                  ) : (
+                    <Arrowdown width={24} height={24} />
+                  )}
                 </div>
-              )}
-            </div>
-          </div>
-          <div className={styles.box_item}>
-            <div className={styles.boxtitle}>
-              <h2 className={styles.description_car_title}>
-                Конфігурація коліс
-              </h2>
-              <div
-                className={`${styles.mobileButton}  ${
-                  getWindowWidth() >= 768 ? styles.hide : ''
-                }`}
-                onClick={() => handleMobileBtnIsOpen('block21')}
-              >
-                {isOpen.block21 ? (
-                  <Arrowup width={24} height={24} />
-                ) : (
-                  <Arrowdown width={24} height={24} />
+              </div>
+              <div className={styles.listItem}>
+                {isOpen.block21 && (
+                  <div className={styles.item_dropdown_box}>
+                    <Dropdown
+                      updateStyle="advSearch"
+                      options={
+                        wheelConfiguration
+                          ? wheelConfiguration.map(
+                              (item: any) => item.wheelConfiguration,
+                            )
+                          : 'Нема співпадінь'
+                      }
+                      label="Конфігурація коліс"
+                      startValue="Конфігурація коліс"
+                      allOptionsLabel="Конфігурація коліс"
+                      option={selectedWheelConfiguration}
+                      setOption={setSelectedWheelConfiguration}
+                    />
+                  </div>
                 )}
               </div>
             </div>
-            <div className={styles.listItem}>
-              {isOpen.block21 && (
-                <div className={styles.item_dropdown_box}>
-                  <Dropdown
-                    updateStyle="advSearch"
-                    options={
-                      wheelConfiguration
-                        ? wheelConfiguration.map(
-                            (item: any) => item.wheelConfiguration,
-                          )
-                        : 'Нема співпадінь'
-                    }
-                    label="Конфігурація коліс"
-                    startValue="Конфігурація коліс"
-                    allOptionsLabel="Конфігурація коліс"
-                    option={selectedWheelConfiguration}
-                    setOption={setSelectedWheelConfiguration}
-                  />
-                </div>
-              )}
-            </div>
-          </div>
+          )}
           <div className={styles.box_item}>
             <div className={styles.boxtitle}>
               <h2 className={styles.description_car_title}>
@@ -1187,13 +1389,23 @@ export const NewAnnouncement: React.FC = () => {
                   <input
                     className={styles.inputPhone}
                     type="number"
-                    placeholder="1000"
+                    min={100}
+                    max={10000000}
+                    placeholder="100 - 10000000"
+                    value={price ?? ''}
+                    onChange={handlePrice}
                   />
                 </div>
               )}
             </div>
           </div>
-          <button className={styles.btn_advers}>Розмістити оголошення</button>
+          <button
+            className={styles.btn_advers}
+            type="button"
+            onClick={handleClick}
+          >
+            Розмістити оголошення
+          </button>
         </div>
       </div>
     </section>
