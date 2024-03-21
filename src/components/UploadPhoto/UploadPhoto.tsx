@@ -1,4 +1,4 @@
-import React, { useRef, ChangeEvent, useState } from 'react';
+import React, { ChangeEvent } from 'react';
 import { nanoid } from 'nanoid';
 import styles from './UploadPhoto.module.scss';
 import { ReactComponent as Add } from '../../assets/icons/add.svg';
