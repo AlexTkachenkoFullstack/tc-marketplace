@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { carsSlice } from './cars/slice';
 import { filterSlice } from './filter/slice';
 import { authSlice } from './auth/slice';
+import { profileSlice } from './profile/slice';
 import storage from 'redux-persist/lib/storage';
 import {
   persistStore,
@@ -27,6 +28,7 @@ export const store = configureStore({
     auth: persistedAuthReducer,
     cars: carsSlice.reducer,
     filter: filterSlice.reducer,
+    profile: profileSlice.reducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

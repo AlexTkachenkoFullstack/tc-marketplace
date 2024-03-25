@@ -75,7 +75,7 @@ export const getCarDetails = createAsyncThunk(
     const state = thunkAPI.getState() as RootState;
     const persistToken = state.auth.token;
     if (persistToken === null) {
-      return thunkAPI.rejectWithValue('Unable to add to favorite');
+      return thunkAPI.rejectWithValue('Unable to get car details');
     }
     try {
       setAuthHeader(persistToken);
@@ -120,7 +120,7 @@ export const removeFromFavourites = createAsyncThunk(
     const state = thunkAPI.getState() as RootState;
     const persistToken = state.auth.token;
     if (persistToken === null) {
-      return thunkAPI.rejectWithValue('Unable to add to favorite');
+      return thunkAPI.rejectWithValue('Unable to remove from favorites');
     }
     try {
       setAuthHeader(persistToken);

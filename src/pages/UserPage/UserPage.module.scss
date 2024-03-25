@@ -1,26 +1,37 @@
-// @import '../../styles/utils/variables';
 @import '/src/styles/main.scss';
 
 .userPage {
   .container {
-    padding: 40px;
-    padding-top: 108px;
+    width: $mobile-min-width;
+    padding: 96px 0 0 20px;
     margin: 0 auto;
+    @include onTablet {
+      width: $tablet-min-width;
+      padding: 116px 0 0 40px;
+    }
+    @include onDesktop {
+      width: $desktop-min-width;
+      padding-right: 40px;
+    }
   }
 
   &_title {
     @include title-styles;
     margin-bottom: 0;
+    font-weight: 700;
+    margin-bottom: 20px;
   }
 
   .tabs {
     display: flex;
-    padding: 40px 0 8px;
-
-
+    column-gap: 24px;
+    margin-bottom: 32px;
     .tab {
-      font-size: 20px;
       @extend %tab-styles;
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 120%;
+      padding: 10px 0;
     }
   }
 }

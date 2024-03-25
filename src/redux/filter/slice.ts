@@ -23,7 +23,7 @@ interface IFilterState {
   types: IType[] | [];
   brand: IBrand[] | [];
   models: IModel[] | [];
-  carsList:IModel[] | [];
+  carsList: IModel[] | [];
   error: unknown;
   isLoading: boolean;
   select: {
@@ -31,7 +31,7 @@ interface IFilterState {
     brandId: number[] | null;
     modelId: number[] | [];
     regionId: number[] | [];
-  }; 
+  };
   filtredCars: ICar[] | [];
   totalAdverts: number | null;
 }
@@ -42,14 +42,14 @@ const initialState: IFilterState = {
   types: [],
   brand: [],
   models: [],
-  carsList:[],
+  carsList: [],
   select: {
     transportTypeId: 1,
     brandId: [],
     modelId: [],
     regionId: [],
   },
- 
+
   filtredCars: [],
   error: null,
   isLoading: false,
@@ -125,14 +125,10 @@ const handleFulfilledGetFiltredCars = (
 ) => {
   state.isLoading = false;
   state.error = null;
-  state.filtredCars = [
-    ...action.payload.transportSearchResponse,
-  ];
+  state.filtredCars = [...action.payload.transportSearchResponse];
   state.totalAdverts = action.payload.total;
 };
-const handleFulfilledHideAdvert = (
-  state: IFilterState,
-) => {
+const handleFulfilledHideAdvert = (state: IFilterState) => {
   state.isLoading = false;
   state.error = null;
 };
@@ -144,7 +140,7 @@ const handleFulfilledToggleIsFavorite = (
   const filteredCar = state.filtredCars.find(
     item => item.id === action.payload,
   );
- 
+
   if (filteredCar) {
     filteredCar.isFavorite = !filteredCar.isFavorite;
   }
@@ -205,7 +201,7 @@ export const filterSlice = createSlice({
       .addCase(fetchBrands.fulfilled, handleFulfilledGetBrands)
       .addCase(fetchModels.fulfilled, handleFulfilledGetModels)
       .addCase(fetchCars.fulfilled, handleFulfilledGetCars)
-      .addCase(fetchFiltredCars.fulfilled, handleFulfilledGetFiltredCars)  
+      .addCase(fetchFiltredCars.fulfilled, handleFulfilledGetFiltredCars)
       .addCase(hideTransport.fulfilled, handleFulfilledHideAdvert)
 
       .addMatcher(

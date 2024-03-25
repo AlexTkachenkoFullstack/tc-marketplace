@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
-import MyAds from './MyAds/MyAds';
-import Subscriptions from './Subscriptions/Subscriptions';
-import PersonalInfo from './PersonalInfo/PersonalInfo';
-import Security from './Security/Security';
 
 import styles from './UserPage.module.scss';
+
 import GoToTop from 'components/GoToTop/GoToTop';
+import { CategoryBar } from 'components/CategoryBar/CategoryBar';
+import MyAds from './MyAds';
+import Subscriptions from './Subscriptions';
+import PersonalInfo from './PersonalInfo';
+import Security from './Security';
 
 enum Tab {
   MyAds,
   Subscriptions,
+  StopList,
   PersonalInfo,
   Security,
 }
@@ -17,11 +20,44 @@ enum Tab {
 export const UserPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<Tab>(Tab.MyAds);
 
+  const categories = [
+    'Мої оголошення',
+    'Підписки',
+    'Стоп-ліст',
+    'Персональна інформація',
+    'Безпека',
+  ];
+
+  let activeCategory: string;
+  switch (activeTab) {
+    case Tab.MyAds:
+      activeCategory = categories[0];
+      break;
+    case Tab.Subscriptions:
+      activeCategory = categories[1];
+      break;
+    case Tab.StopList:
+      activeCategory = categories[2];
+      break;
+    case Tab.PersonalInfo:
+      activeCategory = categories[3];
+      break;
+    case Tab.Security:
+      activeCategory = categories[4];
+      break;
+
+    default:
+      activeCategory = 'Мої оголошення';
+      break;
+  }
+
   const renderTabContent = () => {
     switch (activeTab) {
       case Tab.MyAds:
         return <MyAds />;
       case Tab.Subscriptions:
+        return <Subscriptions />;
+      case Tab.StopList:
         return <Subscriptions />;
       case Tab.PersonalInfo:
         return <PersonalInfo />;
@@ -32,49 +68,43 @@ export const UserPage: React.FC = () => {
     }
   };
 
+  const handleSelectCategory = (category: string) => {
+    switch (category) {
+      case categories[0]:
+        setActiveTab(Tab.MyAds);
+        break;
+      case categories[1]:
+        setActiveTab(Tab.Subscriptions);
+        break;
+      case categories[2]:
+        setActiveTab(Tab.StopList);
+        break;
+      case categories[3]:
+        setActiveTab(Tab.PersonalInfo);
+        break;
+      case categories[4]:
+        setActiveTab(Tab.Security);
+        break;
+
+      default:
+        setActiveTab(Tab.MyAds);
+        break;
+    }
+  };
+
   return (
     <>
       <div className={styles.userPage}>
         <GoToTop />
         <div className={styles.container}>
           <h2 className={styles.userPage_title}>Ваш профіль</h2>
-
-          <div className={styles.tabs}>
-            <button
-              className={`${styles.tab} ${
-                activeTab === Tab.MyAds ? styles.active : ''
-              }`}
-              onClick={() => setActiveTab(Tab.MyAds)}
-            >
-              Мої оголошення
-            </button>
-            <button
-              className={`${styles.tab} ${
-                activeTab === Tab.Subscriptions ? styles.active : ''
-              }`}
-              onClick={() => setActiveTab(Tab.Subscriptions)}
-            >
-              Підписки
-            </button>
-            <button
-              className={`${styles.tab} ${
-                activeTab === Tab.PersonalInfo ? styles.active : ''
-              }`}
-              onClick={() => setActiveTab(Tab.PersonalInfo)}
-            >
-              Персональна інформація
-            </button>
-            <button
-              className={`${styles.tab} ${
-                activeTab === Tab.Security ? styles.active : ''
-              }`}
-              onClick={() => setActiveTab(Tab.Security)}
-            >
-              Безпека
-            </button>
-          </div>
-
-          <div className={styles.tabContent}>{renderTabContent()}</div>
+          <CategoryBar
+            categories={categories}
+            handleSelect={handleSelectCategory}
+            selectedCategory={activeCategory}
+            selectedStyle="userPageStyle"
+          />
+          {renderTabContent()}
         </div>
       </div>
     </>

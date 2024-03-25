@@ -16,6 +16,7 @@ interface Props {
   transportColor?: TransportObject[];
   handleSelect: (category: string) => void;
   selectedCategory?: string;
+  selectedStyle?: string;
 }
 
 export const CategoryBar: React.FC<Props> = ({
@@ -25,6 +26,7 @@ export const CategoryBar: React.FC<Props> = ({
   handleSelect,
   transportColor,
   selectedCategory,
+  selectedStyle,
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [showLeftScrollButton, setShowLeftScrollButton] = useState(false);
@@ -71,11 +73,17 @@ export const CategoryBar: React.FC<Props> = ({
     <div
       className={`${styles.container} ${
         isAdvancedSearchPage ? styles.advanced_search_container : ''
-      } `}
+      } ${selectedStyle === 'userPageStyle' ? styles.userPageContainer : null}`}
     >
       {showLeftScrollButton && (
         <button
-          className={`${styles.container__scroll_left} ${isAdvancedSearchPage ? styles.btn:''}`}
+          className={`${styles.container__scroll_left} ${
+            isAdvancedSearchPage ? styles.btn : ''
+          } ${
+            selectedStyle === 'userPageStyle'
+              ? styles.userPageScrollLeft
+              : null
+          }  `}
           onClick={handleScrollLeft}
         >
           <img src={scrollLeft} alt="scroll right" />
@@ -91,13 +99,18 @@ export const CategoryBar: React.FC<Props> = ({
         {color && transportColor
           ? transportColor.slice(0, isShow ? 12 : 6).map(category => (
               <button
-                className={`${styles.category} ${
-                  isAdvancedSearchPage ? styles.advanced_search_category : ''
-                } ${
+                className={`${styles.category}
+                 ${isAdvancedSearchPage ? styles.advanced_search_category : ''} 
+                 ${
+                   selectedStyle === 'userPageStyle'
+                     ? styles.userPageCategory
+                     : null
+                 }               
+                ${
                   selectedCategory === category.transportColor
                     ? styles.selected
                     : ''
-                }`}
+                } `}
                 key={category.transportColorId}
                 onClick={() => handleSelect(category.transportColor)}
               >
@@ -121,7 +134,12 @@ export const CategoryBar: React.FC<Props> = ({
               <button
                 className={`${styles.category} ${
                   isAdvancedSearchPage ? styles.advanced_search_category : ''
-                } ${selectedCategory === category ? styles.selected : ''}`}
+                } 
+                 ${
+                   selectedStyle === 'userPageStyle'
+                     ? styles.userPageCategory
+                     : null
+                 } ${selectedCategory === category ? styles.selected : ''}`}
                 key={category}
                 onClick={() => handleSelect(category)}
               >
@@ -132,7 +150,13 @@ export const CategoryBar: React.FC<Props> = ({
 
       {showRightScrollButton && (
         <button
-          className={`${styles.container__scroll_right} ${isAdvancedSearchPage ? styles.btn:''}`}
+          className={`${styles.container__scroll_right} ${
+            isAdvancedSearchPage ? styles.btn : ''
+          } ${
+            selectedStyle === 'userPageStyle'
+              ? styles.userPageScrollRight
+              : null
+          }  `}
           onClick={handleScrollRight}
         >
           <img src={scrollRight} alt="scroll right" />

@@ -31,25 +31,27 @@ const CatalogPagination: React.FC<IProps> = ({
         Завантажити більше <LoadMoreIcon />
       </button>
 
-      <ReactPaginate
-        breakLabel="..."
-        nextLabel={<ArrowNext />}
-        previousLabel={<ArrowPrev />}
-        onPageChange={handlePageClick}
-        forcePage={forcePage}
-        pageRangeDisplayed={3}
-        pageCount={totalPages}
-        containerClassName={styles.paginationContainer}
-        activeClassName={styles.activeClassName}
-        pageLinkClassName={styles.pageLinkClassName}
-        breakLinkClassName={styles.breakLinkClassName}
-        previousLinkClassName={styles.previousLinkClassName}
-        nextLinkClassName={styles.nextLinkClassName}
-        pageClassName={styles.pageClassName}
-        breakClassName={styles.breakClassName}
-        nextClassName={styles.nextClassName}
-        previousClassName={styles.previousClassName}
-      />
+      {totalPages > 1 && (
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel={<ArrowNext />}
+          previousLabel={<ArrowPrev />}
+          onPageChange={handlePageClick}
+          forcePage={forcePage}
+          pageRangeDisplayed={3}
+          pageCount={totalPages}
+          containerClassName={styles.paginationContainer}
+          activeClassName={styles.activeClassName}
+          pageLinkClassName={styles.pageLinkClassName}
+          breakLinkClassName={styles.breakLinkClassName}
+          previousLinkClassName={styles.previousLinkClassName}
+          nextLinkClassName={styles.nextLinkClassName}
+          pageClassName={styles.pageClassName}
+          breakClassName={styles.breakClassName}
+          nextClassName={styles.nextClassName}
+          previousClassName={styles.previousClassName}
+        />
+      )}
     </div>
   );
 };

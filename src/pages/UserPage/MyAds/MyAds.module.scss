@@ -1,38 +1,86 @@
-@import '../../../styles/utils/variables';
-.MyAds{
-    .container {
-        background: $color-light;
-        border-radius: 16px;
-        padding: 0px 24px 24px;
-    }
+@import '/src/styles/main.scss';
+
+.container {
+  margin-bottom: 32px;
+
+  @include onTablet {
+    padding-right: 40px;
+  }
+
+  @include onDesktop {
+    padding: 0 24px;
+    border: 1px solid $ads-border-color;
+    border-radius: 16px;
+    padding-bottom: 32px;
+  }
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  top: 226;
+  left: 0;
+  width: 100vw;
+  height: 1px;
+  background-color: $background-color-white;
+  @include onTablet {
+    display: none;
+  }
 }
 
 .tabs {
-    display: flex;
-    padding: 24px 0 59px;
-    justify-content: center;
-    
-    .tab {
-        font-size: 16px;
-        @extend %tab-styles;
-    }
-}
+  display: flex;
+  column-gap: 20px;
+  padding: 8px 0;
+  width: 340px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  margin-bottom: 24px;
+  &::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
+  scrollbar-width: none;
 
-.tabContent{
+  @include onTablet {
     width: 100%;
+    justify-content: center;
+  }
+
+  .tab {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 150%;
+    letter-spacing: 0.15px;
+    padding: 8px 0;
+    color: $color-dark-grey;
+    @extend %tab-styles;
+  }
 }
 
-.count{
-    padding: 0px 6px;
-    background: $background-color-white;
-    border-radius: 16px;
-    color: $color-grey;
-    font-family: $font-family-main;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
+.tabContent {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  width: 100%;
+}
+
+.count {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  padding: 0px 6px;
+  background: $background-color-white;
+  color: $color-grey;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.1px;
 }
 
 .empty {
-    text-align:center;
+  text-align: center;
 }

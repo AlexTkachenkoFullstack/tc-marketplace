@@ -12,7 +12,7 @@ import { LoginPage } from 'pages/LoginPage/LoginPage/LoginPage';
 import { ConfirmEmailPage } from 'pages/LoginPage/ConfirmEmailPage/ConfirmEmailPage';
 import { RecoverPasswordPage } from 'pages/LoginPage/RecoverPasswordPage/RecoverPasswordPage';
 import { NewPasswordPage } from 'pages/LoginPage/NewPasswordPage/NewPasswordPage';
-import { AdvancedSearch } from './pages/AdvancedSearchPage/AdvancedSearch'
+import { AdvancedSearch } from './pages/AdvancedSearchPage/AdvancedSearch';
 import RestrictedRoute from 'components/RestrictedRoute';
 import { useAppDispatch } from 'redux/hooks';
 import { fetchGoogleUser } from 'helpers/fetchGoogleUser';
@@ -20,31 +20,68 @@ import { Dispatch } from '@reduxjs/toolkit';
 import { ItemPage } from 'pages/ItemPage';
 import { TransportGalleryPage } from 'pages/TransportGalleryPage';
 export const App: React.FC = () => {
-
-    const dispatch:Dispatch=useAppDispatch()
-    useEffect(()=>{
-        fetchGoogleUser(dispatch)
-    }, [ dispatch])
-    return (
-        <>
-            <Routes>
-                <Route path="/" element={<Layout />}>
-                    <Route index element={<HomePage />} />
-                    <Route path="home" element={<Navigate to="/" replace />} />
-                    <Route path="user" element={<UserPage />} />
-                    <Route path="advanced-search" element={<AdvancedSearch />} />
-                    <Route path="login/" element={<LoginLayout />}>
-                        <Route path="sign-up" element={<RestrictedRoute redirectTo='/' component={<SignUpPage />} />} />
-                        <Route path="log-in" element={<RestrictedRoute redirectTo='/' component={<LoginPage />} />} />
-                        <Route path="finish-registration" element={<RestrictedRoute redirectTo='/' component={<ConfirmEmailPage />} />} />
-                        <Route path="recover" element={<RestrictedRoute redirectTo='/' component={<RecoverPasswordPage />} />} />
-                        <Route path="recover/new" element={<RestrictedRoute redirectTo='/' component={<NewPasswordPage />} />} />
-                    </Route>
-                    <Route path="favorites" element={<FavoritesPage />} />
-                    <Route path="catalog/:id/" element={<ItemPage/>} />
-                    <Route path="catalog/:id/gallery" element={<TransportGalleryPage/>}/>   
-                </Route>
-            </Routes>
-        </>
-    );
+  const dispatch: Dispatch = useAppDispatch();
+  useEffect(() => {
+    fetchGoogleUser(dispatch);
+  }, [dispatch]);
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="home" element={<Navigate to="/" replace />} />
+          <Route path="user" element={<UserPage />} />
+          <Route path="advanced-search" element={<AdvancedSearch />} />
+          <Route path="login/" element={<LoginLayout />}>
+            <Route
+              path="sign-up"
+              element={
+                <RestrictedRoute redirectTo="/" component={<SignUpPage />} />
+              }
+            />
+            <Route
+              path="log-in"
+              element={
+                <RestrictedRoute redirectTo="/" component={<LoginPage />} />
+              }
+            />
+            <Route
+              path="finish-registration"
+              element={
+                <RestrictedRoute
+                  redirectTo="/"
+                  component={<ConfirmEmailPage />}
+                />
+              }
+            />
+            <Route
+              path="recover"
+              element={
+                <RestrictedRoute
+                  redirectTo="/"
+                  component={<RecoverPasswordPage />}
+                />
+              }
+            />
+            <Route
+              path="recover/new"
+              element={
+                <RestrictedRoute
+                  redirectTo="/"
+                  component={<NewPasswordPage />}
+                />
+              }
+            />
+          </Route>
+          <Route path="favorites" element={<FavoritesPage />} />
+          <Route path="catalog/:id/" element={<ItemPage />} />
+          <Route
+            path="catalog/:id/gallery"
+            element={<TransportGalleryPage />}
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Route>
+      </Routes>
+    </>
+  );
 };
