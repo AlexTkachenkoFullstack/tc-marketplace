@@ -12,7 +12,7 @@ import { LoginPage } from 'pages/LoginPage/LoginPage/LoginPage';
 import { ConfirmEmailPage } from 'pages/LoginPage/ConfirmEmailPage/ConfirmEmailPage';
 import { RecoverPasswordPage } from 'pages/LoginPage/RecoverPasswordPage/RecoverPasswordPage';
 import { NewPasswordPage } from 'pages/LoginPage/NewPasswordPage/NewPasswordPage';
-import { AdvancedSearch } from './pages/AdvancedSearchPage/AdvancedSearch'
+import { AdvancedSearch } from './pages/AdvancedSearchPage/AdvancedSearch';
 import RestrictedRoute from 'components/RestrictedRoute';
 import { useAppDispatch } from 'redux/hooks';
 import { fetchGoogleUser } from 'helpers/fetchGoogleUser';
@@ -21,7 +21,6 @@ import { ItemPage } from 'pages/ItemPage';
 import { TransportGalleryPage } from 'pages/TransportGalleryPage';
 import { NewAnnouncement } from 'pages/NewAnnouncement/NewAnnouncement';
 export const App: React.FC = () => {
-
     const dispatch:Dispatch=useAppDispatch()
     useEffect(()=>{
         fetchGoogleUser(dispatch)
