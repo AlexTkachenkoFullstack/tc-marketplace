@@ -19,7 +19,10 @@ interface Props {
   selectedStyle?: string;
 }
 
-export const CategoryBar: React.FC<Props> = ({ 
+export const CategoryBar: React.FC<Props> = ({
+  isShow,
+  color,
+  transportColor,
   categories,
   handleSelect,
   selectedCategory,
@@ -77,9 +80,7 @@ export const CategoryBar: React.FC<Props> = ({
           className={`${styles.container__scroll_left} ${
             isAdvancedSearchPage ? styles.btn : ''
           } ${
-            selectedStyle === 'userPageStyle'
-              ? styles.userPageScrollLeft
-              : null
+            selectedStyle === 'userPageStyle' ? styles.userPageScrollLeft : null
           }  `}
           onClick={handleScrollLeft}
         >
@@ -143,7 +144,6 @@ export const CategoryBar: React.FC<Props> = ({
                 {category}
               </button>
             ))}
-
       </div>
 
       {showRightScrollButton && (
