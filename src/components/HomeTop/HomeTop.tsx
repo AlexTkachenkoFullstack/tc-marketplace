@@ -117,7 +117,7 @@ export const HomeTop = () => {
   const navigate = useNavigate();
 
   const handleAdvancedSearchClick = () => {
-    navigate('/advanced-search');
+    navigate('/advanced-search?isOpenAdvancedFilter=true');
   };
 
   return (

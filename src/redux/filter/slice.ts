@@ -13,13 +13,13 @@ import { IType } from 'types/IType';
 import { IRegion } from 'types/IRegion';
 import { IBrand } from 'types/IBrand';
 import { IModel } from 'types/IModel';
+import { ICities } from 'types/ICities';
 import { ICar, IFiltredCarsPayload } from 'types/IСar';
-import { ICity } from 'types/ICity';
 import { addToFavourites, removeFromFavourites } from 'redux/cars/operations';
 
 interface IFilterState {
   regions: IRegion[] | [];
-  cities: ICity[] | [];
+  cities: ICities[] | [];
   types: IType[] | [];
   brand: IBrand[] | [];
   models: IModel[] | [];
@@ -77,7 +77,7 @@ const handleFulfilledGetRegions = (
 };
 const handleFulfilledGetCitys = (
   state: IFilterState,
-  action: PayloadAction<ICity[]>,
+  action: PayloadAction<ICities[]>,
 ) => {
   state.isLoading = false;
   state.error = null;
@@ -173,6 +173,8 @@ export const filterSlice = createSlice({
         | { yearsTo: number }
         | { mileageFrom: number }
         | { mileageTo: number }
+        | { engineDisplacementFrom: number }
+        | { engineDisplacementTo: number }
         | { enginePowerFrom: number }
         | { enginePowerTo: number }
         | { numberOfDoorsFrom: number }

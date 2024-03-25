@@ -42,7 +42,9 @@ export const Header: FC = () => {
   // const toggleMenu = () => {
   //   setIsMenuOpen(!isMenuOpen);
   // };
-
+  const handleNewAnnouncementClick=()=>{
+    navigate('/advertisements');
+  }
   const handleLogout = async() => {
     dispatchLogout(logoutThunk())
     navigate('/');
@@ -60,7 +62,7 @@ export const Header: FC = () => {
       </div>
 
       <div className={styles.header__right}>
-        <button className={styles.header__add_button}>
+        <button className={styles.header__add_button} onClick={handleNewAnnouncementClick}>
           <span className={styles.header__add_button_text}>Додати оголошення</span>
           <img className={styles.header__add_button_icon} src={plus} alt="Додати" />
         </button>

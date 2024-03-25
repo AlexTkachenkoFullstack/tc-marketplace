@@ -19,12 +19,9 @@ interface Props {
   selectedStyle?: string;
 }
 
-export const CategoryBar: React.FC<Props> = ({
-  color,
-  isShow,
+export const CategoryBar: React.FC<Props> = ({ 
   categories,
   handleSelect,
-  transportColor,
   selectedCategory,
   selectedStyle,
 }) => {
@@ -146,6 +143,7 @@ export const CategoryBar: React.FC<Props> = ({
                 {category}
               </button>
             ))}
+
       </div>
 
       {showRightScrollButton && (

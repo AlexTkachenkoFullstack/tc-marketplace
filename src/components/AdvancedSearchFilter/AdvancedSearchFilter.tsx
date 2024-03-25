@@ -40,17 +40,18 @@ import {
 import { Dropdown } from 'components/Dropdown/Dropdown';
 import RangeSlider from 'components/RangeSlider/RangeSlider';
 import { CategoryBar } from 'components/CategoryBar/CategoryBar';
-import { ICity } from 'types/ICity';
+import { ICities } from 'types/ICities';
+import { CategoryCheckBar } from 'components/CategoryCheckBar/CategoryCheckBar';
+import { BlocksVisibilityState } from 'types/BlocksVisibilityState';
+import { ButtonVisibilityState } from 'types/ButtonVisibilityState';
+import { getInitialBlocksVisibility } from 'utils/getInitialBlocksVisibility';
+import { getWindowWidth } from 'utils/getWindowWidth';
+import { getInitialButtonVisibility } from 'utils/getInitialButtonVisibility';
 
 interface Props {
   onAdvencedFilter: () => void;
 }
-interface BlocksVisibilityState {
-  [key: string]: boolean;
-}
-interface ButtonVisibilityState {
-  [key: string]: boolean;
-}
+
 export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const dispatch = useAppDispatch();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -65,7 +66,6 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
       ? getInitialButtonVisibility(false)
       : getInitialButtonVisibility(true);
   });
-  // const [isActive, setIsActive] = useState(false);
   // response(catalog) get-param
   const [data, setData] = useState<any>([]);
   // для рендж слайдера
@@ -73,27 +73,31 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const [year, setYear] = useState({ from: 0, to: 0 });
   const [mileage, setMileage] = useState({ from: 0, to: 0 });
   const [enginePower, setEnginePower] = useState({ from: 0, to: 0 });
+const [engineDisplacement, setEngineDisplacement] = useState({from:0,to:0})
   const [numberOfDoors, setNumberOfDoors] = useState({ from: 0, to: 0 });
   const [numberOfSeats, setNumberOfSeats] = useState({ from: 0, to: 0 });
   // redux filtred
   const typeCars: IType[] = useAppSelector(getFilterTypes);
   const regions: IRegion[] = useAppSelector(getFilterRegions);
-  const cities: ICity[] = useAppSelector(getFilterCitys);
+  const cities: ICities[] = useAppSelector(getFilterCitys);
   const brands: IBrand[] = useAppSelector(getFilterBrands);
   const carsList: IModel[] = useAppSelector(getFilterCarsList);
 
   // type categotry cars
   const [selectedCategory, setSelectedCategory] = useState<string>('Легкові');
-  const [carBody, setCarBody] = useState<string>('');
-  const [carFuel, setCarFuel] = useState<string>('');
-  const [carTransmission, setCarTransmission] = useState<string>('');
-  const [carColor, setCarColor] = useState<string>('');
-  const [carTransportCondition, setCarTransportCondition] =
-    useState<string>('');
-  const [carDriveType, setCarDriveType] = useState<string>('');
-  const [carNumberAxles, setCarNumberAxles] = useState<string>('');
-  const [carWheelConfiguration, setCarWheelConfiguration] =
-    useState<string>('');
+  const [carBody, setCarBody] = useState<string | string[]>('');
+
+  const [carFuel, setCarFuel] = useState<string | string[]>('');
+  const [carTransmission, setCarTransmission] = useState<string | string[]>('');
+  const [carColor, setCarColor] = useState<string | string[]>('');
+  const [carTransportCondition, setCarTransportCondition] = useState<
+    string | string[]
+  >('');
+  const [carDriveType, setCarDriveType] = useState<string | string[]>('');
+  const [carNumberAxles, setCarNumberAxles] = useState<string | string[]>('');
+  const [carWheelConfiguration, setCarWheelConfiguration] = useState<
+    string | string[]
+  >('');
   const [selectedOption, setSelectedOption] = useState<boolean>(); // Yes or No
   const [transportTypeId, setTransportTypeId] = useState<number | null>(null);
   // select state for dropdown
@@ -120,7 +124,12 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const numberAxles = data?.numberAxlesDTOS;
   const wheelConfiguration = data?.wheelConfigurationDTOS;
   const producingCountry = data?.producingCountryDTOS;
-
+  const door = data?.numberOfDoorsTo;
+  const seats = data?.numberOfSeatsTo;
+  const mileages = data?.mileageTo
+  ;
+  // const engineDisplacement = data?.engineDisplacementTo;
+  // const power = data?.enginePowerTo;
   const pickedBrands: any = [];
   brands.forEach((item: any) => {
     if (carMark.includes(item.brand)) {
@@ -157,25 +166,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
         ? getInitialButtonVisibility(false)
         : getInitialButtonVisibility(true);
     });
-  }, [windowWidth]);
-  function getWindowWidth() {
-    return window.innerWidth;
-  }
-
-  function getInitialBlocksVisibility(isVisible: boolean) {
-    const initialBlocksVisibility: BlocksVisibilityState = {};
-    for (let i = 1; i <= 18; i++) {
-      initialBlocksVisibility[`block${i}`] = isVisible;
-    }
-    return initialBlocksVisibility;
-  }
-  function getInitialButtonVisibility(isVisible: boolean) {
-    const initialBlocksVisibility: ButtonVisibilityState = {};
-    for (let i = 1; i <= 5; i++) {
-      initialBlocksVisibility[`block${i}`] = isVisible;
-    }
-    return initialBlocksVisibility;
-  }
+  }, [windowWidth]); 
   useEffect(() => {
     if (selectedRegions) {
       const regionId = getArrayOfId(regions, selectedRegions);
@@ -219,28 +210,28 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     setBrandId([]);
     setSelectedCategory(category);
   };
-  const handlerCarBody = (valueType: string) => {
+  const handlerCarBody = (valueType: string[]) => {
     setCarBody(valueType);
   };
-  const handlerCarFuel = (valueType: string) => {
+  const handlerCarFuel = (valueType: string[]) => {
     setCarFuel(valueType);
   };
-  const handlerCarTransmission = (valueType: string) => {
+  const handlerCarTransmission = (valueType: string[]) => {
     setCarTransmission(valueType);
   };
-  const handlerCarColor = (valueType: string) => {
+  const handlerCarColor = (valueType: string[]) => {
     setCarColor(valueType);
   };
-  const handlerDriveType = (valueType: string) => {
+  const handlerDriveType = (valueType: string[]) => {
     setCarDriveType(valueType);
   };
-  const handlerCarTransportCondition = (valueType: string) => {
+  const handlerCarTransportCondition = (valueType: string[]) => {
     setCarTransportCondition(valueType);
   };
-  const handlerCarWheelConfiguration = (valueType: string) => {
+  const handlerCarWheelConfiguration = (valueType: string | string[]) => {
     setCarWheelConfiguration(valueType);
   };
-  const handlerCarNumberAxles = (valueType: string) => {
+  const handlerCarNumberAxles = (valueType: string | string[]) => {
     setCarNumberAxles(valueType);
   };
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -259,7 +250,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
       ...prevState,
       [blockName]: !prevState[blockName],
     }));
-  };
+  };  
   useEffect(() => {
     const type = typeCars.find(item => item.type === selectedCategory);
     type && setTransportTypeId(type?.typeId);
@@ -321,6 +312,8 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     const yearsTo = year.to;
     const mileageFrom = mileage.from;
     const mileageTo = mileage.to;
+    const engineDisplacementFrom = engineDisplacement.from;
+    const engineDisplacementTo = engineDisplacement.to;
     const enginePowerFrom = enginePower.from;
     const enginePowerTo = enginePower.to;
     const numberOfDoorsFrom = numberOfDoors.from;
@@ -351,6 +344,8 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
         yearsTo,
         mileageFrom,
         mileageTo,
+        engineDisplacementFrom,
+        engineDisplacementTo,
         enginePowerFrom,
         enginePowerTo,
         numberOfDoorsFrom,
@@ -483,7 +478,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               </div>
               {isOpen.block5 && (
                 <div className={styles.listItem}>
-                  <CategoryBar
+                  <CategoryCheckBar
                     categories={bodyTypes
                       .slice(0, isShow.block1 ? 13 : 5)
                       .map((item: any) => item.bodyType)}
@@ -514,7 +509,6 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               <div className={styles.dropdownContainer}>
                 <Dropdown
                   updateStyle="advSearch"
-                  // options={brands.map(brand => brand.brand).sort((a, b) => a.localeCompare(b))}
                   options={[...brands.map(brand => brand.brand)].sort((a, b) =>
                     a.localeCompare(b),
                   )}
@@ -584,7 +578,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               </div>
               {isOpen.block7 && (
                 <div className={styles.listItem}>
-                  <CategoryBar
+                  <CategoryCheckBar
                     categories={fuel
                       .slice(0, isShow.block2 ? 8 : 5)
                       .map((item: any) => item.fuelType)}
@@ -620,7 +614,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               </div>
               {isOpen.block8 && (
                 <div className={styles.listItem}>
-                  <CategoryBar
+                  <CategoryCheckBar
                     categories={transmission.map(
                       (item: any) => item.transmission,
                     )}
@@ -646,7 +640,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               </div>
               {isOpen.block9 && (
                 <div className={styles.listItem}>
-                  <CategoryBar
+                  <CategoryCheckBar
                     color="transpotColor"
                     transportColor={
                       transportColor
@@ -686,7 +680,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               </div>
               {isOpen.block10 && (
                 <div className={styles.listItem}>
-                  <CategoryBar
+                  <CategoryCheckBar
                     categories={transportCondition
                       .slice(isShow.block4 ? 0 : 2)
                       .map((item: any) => item.transportCondition)}
@@ -709,7 +703,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
           )}
           {/* Пробіг */}
 
-          <div className={styles.lisCarMileage}>
+         {mileages && <div className={styles.lisCarMileage}>
             <div className={styles.title}>
               <h2>Пробіг</h2>
               <div
@@ -727,7 +721,29 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                 />
               </div>
             )}
+          </div>}
+          {/* Об`єм двигуна */}
+          <div className={styles.listMotorPower}>
+            <div className={styles.title}>
+              <h2>Об`єм двигуна</h2>
+              <div
+                className={`${styles.mobileButton} ${
+                  isOpen.block12 ? styles.active : ''
+                }`}
+                onClick={() => handleMobileBtnIsOpen('block12')}
+              />
+            </div>
+            {isOpen.block12 && (
+              <div className={styles.listItem}>
+                <RangeSlider
+                  setObjectValue={setEngineDisplacement}
+                  typeRange={'engineDisplacement'}
+                />
+              </div>
+            )}
           </div>
+
+
           {/* Потужність двигуна */}
 
           <div className={styles.listMotorPower}>
@@ -764,7 +780,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               </div>
               {isOpen.block13 && (
                 <div className={styles.listItem}>
-                  <CategoryBar
+                  <CategoryCheckBar
                     categories={driveType.map((item: any) => item.driveType)}
                     handleSelect={handlerDriveType}
                     selectedCategory={carDriveType}
@@ -775,7 +791,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
           )}
           {/* Кількість дверей */}
 
-          <div className={styles.howManyDoors}>
+         {door && <div className={styles.howManyDoors}>
             <div className={styles.title}>
               <h2>Кількість дверей</h2>
               <div
@@ -793,10 +809,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                 />
               </div>
             )}
-          </div>
+          </div>}
           {/* Кількість місць*/}
 
-          <div className={styles.listNumberSeats}>
+        {seats &&  <div className={styles.listNumberSeats}>
             <div className={styles.title}>
               <h2>Кількість місць</h2>
               <div
@@ -814,7 +830,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                 />
               </div>
             )}
-          </div>
+          </div>}
           {/* RadioButton type Кількість осей*/}
           {numberAxles && (
             <div className={styles.listNumberAxles}>
@@ -829,7 +845,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               </div>
               {isOpen.block16 && (
                 <div className={styles.listItem}>
-                  <CategoryBar
+                  <CategoryCheckBar
                     categories={numberAxles.map(
                       (item: any) => item.numberAxles,
                     )}
@@ -854,7 +870,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               </div>
               {isOpen.block17 && (
                 <div className={styles.listItem}>
-                  <CategoryBar
+                  <CategoryCheckBar
                     categories={wheelConfiguration.map(
                       (item: any) => item.wheelConfiguration,
                     )}
