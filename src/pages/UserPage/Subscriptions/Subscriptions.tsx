@@ -1,10 +1,15 @@
 import React from 'react';
-// import styles from './Pending.module.scss';
+import styles from './Subscriptions.module.scss';
+
+import SubscriptionCard from './SubscriptionCard';
 
 const Subscriptions: React.FC = () => {
   return (
-    <div>
-      <p>2</p>
+    <div className={styles.container}>
+      <h3 className={styles.title}>Твої підписки</h3>
+      <ul>
+        <SubscriptionCard/>
+      </ul>
     </div>
   );
 };

@@ -10,7 +10,7 @@ import { ISearchParams } from 'types/ISearchParam';
 
 import {
   cleanFiltredStore,
-  updateFilteredStoreAfterHide,
+  // updateFilteredStoreAfterHide,
 } from 'redux/filter/slice';
 import {
   getFiltredCars,
@@ -133,9 +133,10 @@ const SearchingResults: React.FC<IProps> = ({ handleAdvancedFilter }) => {
     setOptionMenuId(null);
   };
 
-  const updateAfterHide = (carId: number) => {
-    const updatedArr = arrForRender.filter(({ id }) => id !== carId);
-    dispatch(updateFilteredStoreAfterHide(updatedArr));
+  const updateAfterHide = () => {
+    // const updatedArr = arrForRender.filter(({ id }) => id !== carId);
+    // dispatch(updateFilteredStoreAfterHide(updatedArr));
+    dispatch(fetchFiltredCars(fetchParam));
   };
 
   const updateAfterAllHide = () => {
@@ -156,26 +157,26 @@ const SearchingResults: React.FC<IProps> = ({ handleAdvancedFilter }) => {
 
  
 
-  useEffect(() => {
-    // Формируем базовый URL
-    let baseUrl = `/api.pawo.space/api/v1/catalog/search/page/${fetchParam.page}/limit/${memoParam.limit}/`;
+  // useEffect(() => {
+  //   // Формируем базовый URL
+  //   let baseUrl = `/api.pawo.space/api/v1/catalog/search/page/${fetchParam.page}/limit/${memoParam.limit}/`;
 
-    // Создаем объект с параметрами
-    const queryParams: Record<string, string> = {};
-    Object.entries(memoParam.searchParams).forEach(([key, value]) => {
-      queryParams[key] = String(value);
-    });
+  //   // Создаем объект с параметрами
+  //   const queryParams: Record<string, string> = {};
+  //   Object.entries(memoParam.searchParams).forEach(([key, value]) => {
+  //     queryParams[key] = String(value);
+  //   });
 
-    // Преобразуем объект с параметрами в строку запроса
-    const queryString = new URLSearchParams(queryParams).toString();
+  //   // Преобразуем объект с параметрами в строку запроса
+  //   const queryString = new URLSearchParams(queryParams).toString();
 
-    // Формируем конечный URL
-    const finalUrl =
-      baseUrl + (queryString.length > 0 ? `?${queryString}` : '');
+  //   // Формируем конечный URL
+  //   const finalUrl =
+  //     baseUrl + (queryString.length > 0 ? `?${queryString}` : '');
 
-    // Заменяем URL в истории
-    window.history.replaceState(null, '', finalUrl);
-  }, [memoParam, fetchParam.page]);
+  //   // Заменяем URL в истории
+  //   window.history.replaceState(null, '', finalUrl);
+  // }, [memoParam, fetchParam.page]);
 
   return (
     <>
