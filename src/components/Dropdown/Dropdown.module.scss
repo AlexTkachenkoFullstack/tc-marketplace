@@ -78,7 +78,9 @@
   border-radius: 1000px;
   background-color: none;
   background-color: $white-color;
-
+  &_errorMessage {
+    border: 1px solid red;
+  }
   &_active {
     background-color: $background-color-white;
 

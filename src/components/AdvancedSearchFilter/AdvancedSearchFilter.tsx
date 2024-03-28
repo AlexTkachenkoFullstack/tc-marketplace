@@ -73,7 +73,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const [year, setYear] = useState({ from: 0, to: 0 });
   const [mileage, setMileage] = useState({ from: 0, to: 0 });
   const [enginePower, setEnginePower] = useState({ from: 0, to: 0 });
-const [engineDisplacement, setEngineDisplacement] = useState({from:0,to:0})
+  const [engineDisplacement, setEngineDisplacement] = useState({
+    from: 0,
+    to: 0,
+  });
   const [numberOfDoors, setNumberOfDoors] = useState({ from: 0, to: 0 });
   const [numberOfSeats, setNumberOfSeats] = useState({ from: 0, to: 0 });
   // redux filtred
@@ -126,8 +129,7 @@ const [engineDisplacement, setEngineDisplacement] = useState({from:0,to:0})
   const producingCountry = data?.producingCountryDTOS;
   const door = data?.numberOfDoorsTo;
   const seats = data?.numberOfSeatsTo;
-  const mileages = data?.mileageTo
-  ;
+  const mileages = data?.mileageTo;
   // const engineDisplacement = data?.engineDisplacementTo;
   // const power = data?.enginePowerTo;
   const pickedBrands: any = [];
@@ -166,7 +168,7 @@ const [engineDisplacement, setEngineDisplacement] = useState({from:0,to:0})
         ? getInitialButtonVisibility(false)
         : getInitialButtonVisibility(true);
     });
-  }, [windowWidth]); 
+  }, [windowWidth]);
   useEffect(() => {
     if (selectedRegions) {
       const regionId = getArrayOfId(regions, selectedRegions);
@@ -250,7 +252,7 @@ const [engineDisplacement, setEngineDisplacement] = useState({from:0,to:0})
       ...prevState,
       [blockName]: !prevState[blockName],
     }));
-  };  
+  };
   useEffect(() => {
     const type = typeCars.find(item => item.type === selectedCategory);
     type && setTransportTypeId(type?.typeId);
@@ -415,35 +417,37 @@ const [engineDisplacement, setEngineDisplacement] = useState({from:0,to:0})
           </div>
           {/* Select City */}
 
-          <div className={styles.list}>
-            <div className={styles.title}>
-              <h2>Місто</h2>
-              <div
-                className={`${styles.mobileButton} ${
-                  isOpen.block3 ? styles.active : ''
-                }`}
-                onClick={() => handleMobileBtnIsOpen('block3')}
-              />
+          {cities && cities.length > 0 && (
+            <div className={styles.list}>
+              <div className={styles.title}>
+                <h2>Місто</h2>
+                <div
+                  className={`${styles.mobileButton} ${
+                    isOpen.block3 ? styles.active : ''
+                  }`}
+                  onClick={() => handleMobileBtnIsOpen('block3')}
+                />
+              </div>
+              <div className={styles.listItem}>
+                {isOpen.block3 && (
+                  <div className={styles.itemdropdownbox}>
+                    <Dropdown
+                      pickedRegions={pickedRegions}
+                      updateStyle="advSearch"
+                      optionList={cities}
+                      label="Місто"
+                      startValue="Місто"
+                      checkboxAllowed
+                      allOptionsLabel="Місто"
+                      option={selectedCity}
+                      setOption={setSelectedCity}
+                      title={selectedRegions}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
-            <div className={styles.listItem}>
-              {isOpen.block3 && (
-                <div className={styles.itemdropdownbox}>
-                  <Dropdown
-                    pickedRegions={pickedRegions}
-                    updateStyle="advSearch"
-                    optionList={cities}
-                    label="Місто"
-                    startValue="Місто"
-                    checkboxAllowed
-                    allOptionsLabel="Місто"
-                    option={selectedCity}
-                    setOption={setSelectedCity}
-                    title={selectedRegions}
-                  />
-                </div>
-              )}
-            </div>
-          </div>
+          )}
 
           {/*InputRange Price car */}
 
@@ -523,28 +527,30 @@ const [engineDisplacement, setEngineDisplacement] = useState({from:0,to:0})
             </div>
           </div>
 
-          <div className={styles.selectBrand}>
-            <div className={styles.title}>
-              <h2>Модель</h2>
-            </div>
-            <div className={styles.listItemBrand}>
-              <div className={styles.dropdownContainer}>
-                <Dropdown
-                  updateStyle="advSearch"
-                  optionList={carsList}
-                  label="Модель"
-                  startValue="Модель"
-                  allOptionsLabel="Всі моделі"
-                  checkboxAllowed
-                  option={carModel}
-                  title={carMark}
-                  setOption={setCarModel}
-                  carMark={carMark}
-                  pickedBrands={pickedBrands}
-                />
+          {carsList && carsList.length > 0 && (
+            <div className={styles.selectBrand}>
+              <div className={styles.title}>
+                <h2>Модель</h2>
+              </div>
+              <div className={styles.listItemBrand}>
+                <div className={styles.dropdownContainer}>
+                  <Dropdown
+                    updateStyle="advSearch"
+                    optionList={carsList}
+                    label="Модель"
+                    startValue="Модель"
+                    allOptionsLabel="Всі моделі"
+                    checkboxAllowed
+                    option={carModel}
+                    title={carMark}
+                    setOption={setCarModel}
+                    carMark={carMark}
+                    pickedBrands={pickedBrands}
+                  />
+                </div>
               </div>
             </div>
-          </div>
+          )}
           {/*Рік виготовлення инпут слайдер inputText, inputRange   Доработать по стилям! */}
 
           <div className={styles.list}>
@@ -703,25 +709,27 @@ const [engineDisplacement, setEngineDisplacement] = useState({from:0,to:0})
           )}
           {/* Пробіг */}
 
-         {mileages && <div className={styles.lisCarMileage}>
-            <div className={styles.title}>
-              <h2>Пробіг</h2>
-              <div
-                className={`${styles.mobileButton} ${
-                  isOpen.block11 ? styles.active : ''
-                }`}
-                onClick={() => handleMobileBtnIsOpen('block11')}
-              />
-            </div>
-            {isOpen.block11 && (
-              <div className={styles.listItem}>
-                <RangeSlider
-                  setObjectValue={setMileage}
-                  typeRange={'mileage'}
+          {mileages && (
+            <div className={styles.lisCarMileage}>
+              <div className={styles.title}>
+                <h2>Пробіг</h2>
+                <div
+                  className={`${styles.mobileButton} ${
+                    isOpen.block11 ? styles.active : ''
+                  }`}
+                  onClick={() => handleMobileBtnIsOpen('block11')}
                 />
               </div>
-            )}
-          </div>}
+              {isOpen.block11 && (
+                <div className={styles.listItem}>
+                  <RangeSlider
+                    setObjectValue={setMileage}
+                    typeRange={'mileage'}
+                  />
+                </div>
+              )}
+            </div>
+          )}
           {/* Об`єм двигуна */}
           <div className={styles.listMotorPower}>
             <div className={styles.title}>
@@ -742,7 +750,6 @@ const [engineDisplacement, setEngineDisplacement] = useState({from:0,to:0})
               </div>
             )}
           </div>
-
 
           {/* Потужність двигуна */}
 
@@ -791,46 +798,50 @@ const [engineDisplacement, setEngineDisplacement] = useState({from:0,to:0})
           )}
           {/* Кількість дверей */}
 
-         {door && <div className={styles.howManyDoors}>
-            <div className={styles.title}>
-              <h2>Кількість дверей</h2>
-              <div
-                className={`${styles.mobileButton} ${
-                  isOpen.block14 ? styles.active : ''
-                }`}
-                onClick={() => handleMobileBtnIsOpen('block14')}
-              />
-            </div>
-            {isOpen.block14 && (
-              <div className={styles.listItem}>
-                <RangeSlider
-                  setObjectValue={setNumberOfDoors}
-                  typeRange={'numberOfDoors'}
+          {door && (
+            <div className={styles.howManyDoors}>
+              <div className={styles.title}>
+                <h2>Кількість дверей</h2>
+                <div
+                  className={`${styles.mobileButton} ${
+                    isOpen.block14 ? styles.active : ''
+                  }`}
+                  onClick={() => handleMobileBtnIsOpen('block14')}
                 />
               </div>
-            )}
-          </div>}
+              {isOpen.block14 && (
+                <div className={styles.listItem}>
+                  <RangeSlider
+                    setObjectValue={setNumberOfDoors}
+                    typeRange={'numberOfDoors'}
+                  />
+                </div>
+              )}
+            </div>
+          )}
           {/* Кількість місць*/}
 
-        {seats &&  <div className={styles.listNumberSeats}>
-            <div className={styles.title}>
-              <h2>Кількість місць</h2>
-              <div
-                className={`${styles.mobileButton} ${
-                  isOpen.block15 ? styles.active : ''
-                }`}
-                onClick={() => handleMobileBtnIsOpen('block15')}
-              />
-            </div>
-            {isOpen.block15 && (
-              <div className={styles.listItem}>
-                <RangeSlider
-                  setObjectValue={setNumberOfSeats}
-                  typeRange={'numberOfSeats'}
+          {seats && (
+            <div className={styles.listNumberSeats}>
+              <div className={styles.title}>
+                <h2>Кількість місць</h2>
+                <div
+                  className={`${styles.mobileButton} ${
+                    isOpen.block15 ? styles.active : ''
+                  }`}
+                  onClick={() => handleMobileBtnIsOpen('block15')}
                 />
               </div>
-            )}
-          </div>}
+              {isOpen.block15 && (
+                <div className={styles.listItem}>
+                  <RangeSlider
+                    setObjectValue={setNumberOfSeats}
+                    typeRange={'numberOfSeats'}
+                  />
+                </div>
+              )}
+            </div>
+          )}
           {/* RadioButton type Кількість осей*/}
           {numberAxles && (
             <div className={styles.listNumberAxles}>
