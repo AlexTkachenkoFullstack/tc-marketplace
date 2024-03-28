@@ -1,28 +1,45 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { nanoid } from 'nanoid';
 import styles from './UploadPhoto.module.scss';
 import { ReactComponent as Add } from '../../assets/icons/add.svg';
 import { Preview } from 'components/Preview/Preview';
 import { UploadedImage } from 'types/UploadedImage';
+
 type Props = {
+  isShow: boolean;
   inputRef: React.RefObject<HTMLInputElement>;
   selectedImages: UploadedImage[];
   handleAddPhoto: (newImages: UploadedImage[]) => void;
-  handleDeletePhoto: (imageId: string) => void;
-  addMainPhoto: (imageId: string) => void;
+  handleDeletePhoto: (imageId: string, name: string) => void;
+  addMainPhoto: (title: string) => void;
 };
+
 export const UploadPhoto: React.FC<Props> = ({
+  isShow,
   inputRef,
   selectedImages,
   addMainPhoto,
   handleAddPhoto,
   handleDeletePhoto,
 }) => {
+  const [checkedItemId, setCheckedItemId] = useState<string | null>(null);
+  const [firstPhotoSelected, setFirstPhotoSelected] = useState<boolean>(false)
+
+  const handleChekedItem = (imageId: string, name: string) => {
+    if (checkedItemId === imageId) {
+      addMainPhoto('');
+      setCheckedItemId(null);
+    } else {
+      setCheckedItemId(imageId);
+      addMainPhoto(name);
+    }
+  };
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files) {
       const newImages: UploadedImage[] = [];
-      Array.from(files).forEach(file => {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
         const reader = new FileReader();
         const id = nanoid();
         reader.onloadend = () => {
@@ -33,14 +50,24 @@ export const UploadPhoto: React.FC<Props> = ({
             id: id,
             file: files,
           });
+  
+          if (!firstPhotoSelected && i === 0) { 
+            setCheckedItemId(id);
+            addMainPhoto(file.name);
+            setFirstPhotoSelected(true);
+          }
+  
           if (newImages.length === files.length) {
             handleAddPhoto(newImages);
           }
         };
-
+  
         reader.readAsDataURL(file);
-      });
+      }
     }
+  };
+  const resetFirstPhotoSelected = () => {
+    setFirstPhotoSelected(false);
   };
   return (
     <>
@@ -48,15 +75,21 @@ export const UploadPhoto: React.FC<Props> = ({
         selectedImages.map(item => {
           return (
             <Preview
+            resetFirstPhotoSelected={resetFirstPhotoSelected}
               onDelete={handleDeletePhoto}
               key={item.id}
               image={item}
-              addMainPhoto={addMainPhoto}
+              handleChekedItem={handleChekedItem}
+              isChecked={checkedItemId === item.id}
             />
           );
         })}
       <div
-        className={styles.imgCard}
+        className={
+          !isShow
+            ? `${styles.imgCard}`
+            : `${styles.imgCard} ${styles.imgCard_errorMessage}`
+        }
         onClick={() => inputRef.current !== null && inputRef.current.click()}
       >
         <div className={styles.add_foto_btn}>

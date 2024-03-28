@@ -12,10 +12,13 @@ import { IRegion } from 'types/IRegion';
 import { ICities } from 'types/ICities';
 
 type Props = {
+  isShow?: boolean;
+  index?:number;
+  closeModal?:(index: number) => void ;
   label: string;
   startValue: string;
-  options?:string | string[];
-  optionList?: ICities[] | IModel[] ;
+  options?: string | string[];
+  optionList?: ICities[] | IModel[];
   checkboxAllowed?: boolean;
   isDissabled?: boolean;
   option: string | string[];
@@ -30,6 +33,9 @@ type Props = {
 
 export const Dropdown: FC<Props> = props => {
   const {
+    isShow,
+    index,
+    closeModal,
     pickedRegions,
     pickedBrands,
     label,
@@ -45,9 +51,8 @@ export const Dropdown: FC<Props> = props => {
     title,
     optionList,
   } = props;
- 
-  
-  const [isActive, setIsActive] = useState(false);  
+
+  const [isActive, setIsActive] = useState(false);
   const [filterValue, setfilterValue] = useState('');
   const [checkedValue, setCheckedValue] = useState<string[]>([]);
 
@@ -87,7 +92,8 @@ export const Dropdown: FC<Props> = props => {
       setChecked(newOption);
       return;
     }
-
+    if(closeModal){closeModal(index!)}
+    
     setOption(newOption);
     closeDropdown();
   };
@@ -157,9 +163,13 @@ export const Dropdown: FC<Props> = props => {
         }}
       >
         <div
-          className={`${styles.trigger_content} ${
-            isActive ? styles.trigger_content_active : ''
-          } ${updateStyle && styles[updateStyle]}`}
+          className={`${
+            isShow
+              ? styles.trigger_content_errorMessage
+              : styles.trigger_content
+          } ${isActive ? styles.trigger_content_active : ''} ${
+            updateStyle && styles[updateStyle]
+          }`}
         >
           {isActive ? (
             <DropdownInput

@@ -57,7 +57,7 @@
   font-family: Roboto;
   font-size: 20px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 22px; /* 22px */
   margin-bottom: 16px;
 }
@@ -79,6 +79,7 @@
   }
 }
 .item {
+  position: relative;
   width: 100%;
   @include onTablet {
     width: 384px;
@@ -94,6 +95,31 @@
   align-self: stretch;
   border-radius: 32px;
   border: 1px solid var(--light-gray, #e4e4e4);
+  background: var(--Light, #f0f0f0);
+  outline: none;
+}
+.inputVincodeValid {
+  width: 100%;
+  display: flex;
+  padding: 10px var(--Border, 20px);
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+  border-radius: 32px;
+  border: 1px solid var(--light-gray, green);
+  background: var(--Light, #f0f0f0);
+}
+.inputVincodeInValid {
+  width: 100%;
+  display: flex;
+  padding: 10px var(--Border, 20px);
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+  border-radius: 32px;
+  border: 1px solid var(--light-gray, red);
   background: var(--Light, #f0f0f0);
 }
 .blocTitleFoto {
@@ -135,7 +161,45 @@
   font-weight: 400;
   line-height: 16px; /* 133.333% */
 }
+.photo {
+  &_errorMessage {
+    position: absolute;
+    left: 0;   
+    @extend %form-error-label;
+  }
+}
+.VinCode {
+  justify-self: center;
+
+  &_errorMessage {
+    @extend %form-error-label;
+  }
+
+  &_field {
+    @include form-field-styles;
+    margin-bottom: 0;
+  }
+
+  &_label {
+    position: absolute;
+    top: -8px;
+    color: $hover-gray;
+    @extend %form-label;
+  }
+
+  &_red {
+    @extend .VinCode_label;
+    color: red;
+  }
+}
+.messageContainer {
+  position: relative;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
 .imgContainer {
+  position: relative;
   width: 100%;
   display: flex;
   align-items: flex-start;
@@ -266,7 +330,7 @@
   font-family: Roboto;
   font-size: 20px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 110%; /* 22px */
   margin-bottom: 16px;
 }
@@ -287,6 +351,7 @@
   }
 }
 .textarea {
+  margin-bottom: 5px;
   width: 100%;
   display: flex;
   min-height: 120px;
@@ -299,6 +364,7 @@
   background: var(--Light, #f0f0f0);
 }
 .item_dropdown_box {
+  position: relative;
   width: 100%;
   @include onTablet {
     width: 384px;
@@ -415,8 +481,9 @@
   font-weight: 600;
   line-height: 20px;
   letter-spacing: 0.1px;
+  outline: none;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+  -webkit-appearance: none;
 }

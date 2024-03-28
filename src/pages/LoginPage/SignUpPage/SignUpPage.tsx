@@ -159,12 +159,7 @@ export const SignUpPage: FC = () => {
           {nameHasValue ? (
             <label
               htmlFor="name"
-              className={
-                activeField !== 'name' && nameError
-                  ? `${styles.Login_label_red}`
-                  : `${styles.Login_label}`
-              }
-            >
+              className={activeField !== 'name' && nameError ? `${styles.Login_label_red}`: `${styles.Login_label}`}>
               Введіть повне ім'я
             </label>
           ) : null}

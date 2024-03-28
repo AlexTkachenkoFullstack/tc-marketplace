@@ -65,7 +65,7 @@ export const postNewAdvertisement = async (
   instance
     .post('main/advertisements', formData, config)
     .then(response => {
-      console.log(response.data);
+      console.log(response);
     })
     .catch(error => {
       console.error('There was an error!', error);
