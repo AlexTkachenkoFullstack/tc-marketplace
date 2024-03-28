@@ -131,7 +131,7 @@ const MyAds: React.FC = () => {
           )}
         </button>
       </div>
-      <div className={styles.tabContent}>{renderTabContent()}</div>
+      <ul className={styles.tabContent}>{renderTabContent()}</ul>
     </div>
   );
 };

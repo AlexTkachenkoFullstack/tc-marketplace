@@ -28,7 +28,7 @@ interface IProps {
     carId: number,
   ) => void;
   onInfoContainerClick: () => void;
-  onUpdateAfterHide: (carId: number) => void;
+  onUpdateAfterHide: () => void;
   isShowMenu: boolean;
   updateAfterAllHide: () => void;
 }
@@ -63,7 +63,9 @@ const SearchingCard: React.FC<IProps> = ({
     const buttonId = (e.target as HTMLElement).closest('button')?.id;
     if (buttonId === 'hideAdvert') {
       car && dispatch(hideTransport(car.id));
-      car && onUpdateAfterHide(car.id);
+      car && setTimeout(() => {
+        onUpdateAfterHide();
+      }, 200); 
     } else if (buttonId === 'hideAllAdverts') {
       car && dispatch(hideAllTransport(car.id));
       car &&

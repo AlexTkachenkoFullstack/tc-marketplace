@@ -108,7 +108,7 @@ const Card: React.FC<CardProps> = ({ car, advType }) => {
   };
 
   return (
-    <>
+    <li>
       <div className={styles.card} onClick={handleCardClick}>
         <div className={styles.imgThumb}>
           <img
@@ -187,7 +187,7 @@ const Card: React.FC<CardProps> = ({ car, advType }) => {
           </div>
         </div>
       </div>
-    </>
+    </li>
   );
 };
 
