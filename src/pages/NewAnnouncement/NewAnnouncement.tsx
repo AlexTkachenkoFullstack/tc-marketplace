@@ -233,7 +233,7 @@ console.log('responseData :>> ', responseData);
       setSelectedImages([]);
       setIsLoading(false);
     }
-  }, [isAdvertisements]);
+  }, [isAdvertisements,authToken]);
 
   useEffect(() => {
     if (jsonString) {
@@ -304,7 +304,7 @@ console.log('responseData :>> ', responseData);
     };
 
     fetchData();
-  }, [isAdvertisementsEdit]);
+  }, [isAdvertisementsEdit,authToken]);
 
   useEffect(() => {
     if (typeCars.length > 0) {
