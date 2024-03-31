@@ -304,7 +304,7 @@ console.log('responseData :>> ', responseData);
     };
 
     fetchData();
-  },[]);
+  });
 
   useEffect(() => {
     if (typeCars.length > 0) {
