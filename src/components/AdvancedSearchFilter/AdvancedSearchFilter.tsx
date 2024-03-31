@@ -118,6 +118,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const [countryDeliver, setCountryDeliver] = useState<string | string[]>(
     'Весь світ',
   );
+  console.log('countryDeliver :>> ', countryDeliver);
   // response catalog/get-param/id
   const bodyTypes = data?.bodyTypeDTOS;
   const fuel = data?.fuelTypeDTOS;
@@ -435,6 +436,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               {isOpen.block2 && (
                 <div className={styles.itemdropdownbox}>
                   <Dropdown
+                    resetValue={resetValue[0]}
                     updateStyle="advSearch"
                     options={regions.map(region => region.region)}
                     label="Регіон"
@@ -465,6 +467,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                 {isOpen.block3 && (
                   <div className={styles.itemdropdownbox}>
                     <Dropdown
+                      resetValue={resetValue[1]}
                       pickedRegions={pickedRegions}
                       updateStyle="advSearch"
                       optionList={cities}
@@ -550,6 +553,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
             <div className={styles.listItemBrand}>
               <div className={styles.dropdownContainer}>
                 <Dropdown
+                 resetValue={resetValue[2]}
                   updateStyle="advSearch"
                   options={[...brands.map(brand => brand.brand)].sort((a, b) =>
                     a.localeCompare(b),
@@ -573,6 +577,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               <div className={styles.listItemBrand}>
                 <div className={styles.dropdownContainer}>
                   <Dropdown
+                   resetValue={resetValue[3]}
                     updateStyle="advSearch"
                     optionList={carsList}
                     label="Модель"
@@ -963,6 +968,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                 <div className={styles.itemdropdownbox}>
                   {producingCountry && (
                     <Dropdown
+                    resetValue={resetValue[4]}
                       updateStyle="advSearch"
                       options={producingCountry.map(
                         (item: any) => item.producingCountry,

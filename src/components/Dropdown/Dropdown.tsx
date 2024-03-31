@@ -12,6 +12,7 @@ import { IRegion } from 'types/IRegion';
 import { ICities } from 'types/ICities';
 
 type Props = {
+  resetValue?:boolean;
   stylepaddingZero?: boolean;
   isShow?: boolean;
   index?: number;
@@ -34,6 +35,7 @@ type Props = {
 
 export const Dropdown: FC<Props> = props => {
   const {
+    resetValue,
     stylepaddingZero,
     isShow,
     index,
@@ -136,7 +138,7 @@ export const Dropdown: FC<Props> = props => {
   useEffect(() => {
     setfilterValue('');
     setCheckedValue([]);
-  }, []);
+  }, [resetValue]);
 
   useEffect(() => {
     setOption(startValue);
