@@ -72,6 +72,7 @@ export const NewAnnouncement: React.FC = () => {
   const location = useLocation();
   const isAdvertisementsEdit = location.pathname === '/advertisements/edit';
   const isAdvertisements = location.pathname === '/advertisements';
+  const id = location.state.id;
   const dispatch = useAppDispatch();
   const [authToken, setAuthToken] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
@@ -244,11 +245,11 @@ console.log('responseData :>> ', responseData);
   }, [jsonString]);
   useEffect(() => {
     const fetchData = async () => {
-      if (!isAdvertisementsEdit || !authToken) {
+      if (!isAdvertisementsEdit || !authToken || !id) {
         return;
       }
-      if (isAdvertisementsEdit && authToken) {
-        const id = location.state.id;
+      if (isAdvertisementsEdit && authToken && id) {
+     
 
         try {
           const response = await getAdvertisement(id, authToken);
@@ -304,7 +305,7 @@ console.log('responseData :>> ', responseData);
     };
 
     fetchData();
-  },[isAdvertisementsEdit,authToken]);
+  },[isAdvertisementsEdit,authToken,id]);
 
   useEffect(() => {
     if (typeCars.length > 0) {
