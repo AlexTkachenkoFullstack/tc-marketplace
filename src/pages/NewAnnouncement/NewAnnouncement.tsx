@@ -62,6 +62,7 @@ const startYear = 1970;
 const endYear = yearNow();
 const N = 20;
 export const NewAnnouncement: React.FC = () => {
+  const jsonString = localStorage.getItem('persist:userRoot');
   const inputRef = useRef<HTMLInputElement>(null);
   const input1Ref = useRef<HTMLInputElement>(null);
   const input2Ref = useRef<HTMLInputElement>(null);
@@ -235,14 +236,12 @@ console.log('responseData :>> ', responseData);
   }, [isAdvertisements]);
 
   useEffect(() => {
-    const jsonString = localStorage.getItem('persist:userRoot');
-
     if (jsonString) {
       const data = JSON.parse(jsonString);
       const token = data.token.replace(/^"(.*)"$/, '$1');
       setAuthToken(token);
     }
-  }, [localStorage.getItem('persist:userRoot')]);
+  }, [jsonString]);
   useEffect(() => {
     const fetchData = async () => {
       if (!isAdvertisementsEdit || !authToken) {
@@ -305,7 +304,7 @@ console.log('responseData :>> ', responseData);
     };
 
     fetchData();
-  }, [authToken, isAdvertisementsEdit]);
+  }, [isAdvertisementsEdit]);
 
   useEffect(() => {
     if (typeCars.length > 0) {
