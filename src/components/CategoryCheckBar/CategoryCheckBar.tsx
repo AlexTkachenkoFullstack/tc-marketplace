@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styles from './CategoryCheckBar.module.scss';
 
@@ -9,6 +9,7 @@ interface TransportObject {
 }
 
 interface Props {
+  resetValue?: boolean;
   isShow?: boolean | { [key: string]: boolean };
   color?: string;
   categories?: string[];
@@ -21,24 +22,33 @@ export const CategoryCheckBar: React.FC<Props> = ({
   color,
   isShow,
   categories,
+  resetValue,
   handleSelect,
   transportColor,
   selectedCategory,
 }) => {
+  const initialCheckedItems = selectedCategory
+    ? Array.isArray(selectedCategory)
+      ? selectedCategory.reduce(
+          (acc: any, curr: string) => ({ ...acc, [curr]: true }),
+          {},
+        )
+      : { [selectedCategory]: true }
+    : categories
+    ? categories.reduce((acc, curr) => ({ ...acc, [curr]: false }), {})
+    : {};
   const location = useLocation();
   const isAdvancedSearchPage = location.pathname === '/advanced-search';
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(
-    selectedCategory
-      ? Array.isArray(selectedCategory)
-        ? selectedCategory.reduce(
-            (acc: any, curr: string) => ({ ...acc, [curr]: true }),
-            {},
-          )
-        : { [selectedCategory]: true }
-      : categories
-      ? categories.reduce((acc, curr) => ({ ...acc, [curr]: false }), {})
-      : {},
+    initialCheckedItems,
   );
+
+  useEffect(() => {
+    if (!resetValue) {
+      return;
+    }
+    setCheckedItems(initialCheckedItems);
+  }, [resetValue, setCheckedItems]);
 
   const handleCheckboxChange = (category: string) => {
     const newCheckedItems = {

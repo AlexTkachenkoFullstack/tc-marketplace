@@ -12,9 +12,10 @@ import { IRegion } from 'types/IRegion';
 import { ICities } from 'types/ICities';
 
 type Props = {
+  stylepaddingZero?: boolean;
   isShow?: boolean;
-  index?:number;
-  closeModal?:(index: number) => void ;
+  index?: number;
+  closeModal?: (index: number) => void;
   label: string;
   startValue: string;
   options?: string | string[];
@@ -33,6 +34,7 @@ type Props = {
 
 export const Dropdown: FC<Props> = props => {
   const {
+    stylepaddingZero,
     isShow,
     index,
     closeModal,
@@ -92,8 +94,10 @@ export const Dropdown: FC<Props> = props => {
       setChecked(newOption);
       return;
     }
-    if(closeModal){closeModal(index!)}
-    
+    if (closeModal) {
+      closeModal(index!);
+    }
+
     setOption(newOption);
     closeDropdown();
   };
@@ -155,6 +159,7 @@ export const Dropdown: FC<Props> = props => {
         className={`${styles.trigger} ${
           isActive ? styles.trigger_active : ''
         } ${updateStyle === 'menuStyle' ? styles.triggerAdvMenu : null}`}
+        style={{ padding: stylepaddingZero ? '0px':undefined }}
         type="button"
         disabled={isDissabled}
         onClick={() => {

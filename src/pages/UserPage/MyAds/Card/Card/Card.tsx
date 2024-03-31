@@ -51,7 +51,7 @@ const Card: React.FC<CardProps> = ({ car, advType }) => {
   const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const targetButton = e.target as HTMLButtonElement;
     if (targetButton.textContent === 'Редагувати') {
-      navigate('/', { state: { id: car.id } });
+      navigate('/advertisements/edit', { state: { id: car.id } });
     } else if (targetButton.textContent === 'Активувати') {
       dispatch(
         changeTransportStatus({ id: car.id, transportStatus: 'active' }),

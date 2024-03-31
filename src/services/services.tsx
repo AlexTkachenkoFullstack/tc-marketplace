@@ -50,7 +50,18 @@ export const getCarTypeParam = async (id: string) => {
     console.error('Помилка в отриманні данних по типу авто', error);
   }
 };
-
+export const getAdvertisement = async (
+  id:string,
+  authToken: string,
+) => {
+  setAuthHeaderForHide(authToken); 
+  try {
+    const response = await instance.get(`user-page/my-transports/get-details/${id}`)   
+    return response.data
+  } catch (error) {
+    console.error('Помилка в отриманні даних!', error)
+  }
+};
 export const postNewAdvertisement = async (
   formData: FormData,
   authToken: string,
@@ -59,15 +70,31 @@ export const postNewAdvertisement = async (
   const config = {
     headers: {
       'Content-type': 'multipart/form-data',
-      'Content-Length': 1000000000000000,
     },
   };
-  instance
-    .post('main/advertisements', formData, config)
-    .then(response => {
-      console.log(response);
-    })
-    .catch(error => {
-      console.error('There was an error!', error);
-    });
+  try {
+    const response = await instance.post('main/advertisements', formData, config)   
+    return response.data
+  } catch (error) {
+    console.error('Помилка в даних!', error)
+  }
 };
+export const putEditAdvertisement = async (
+  id:string,
+  formData: FormData,
+  authToken: string,
+) => {
+  setAuthHeaderForHide(authToken);
+  const config = {
+    headers: {
+      'Content-type': 'multipart/form-data',
+    },
+  };
+  try {
+    const response = await instance.put(`user-page/my-transports/update-details/${id}`, formData, config)   
+    return response.data
+  } catch (error) {
+    console.error('Помилка в даних!', error)
+  }
+};
+
