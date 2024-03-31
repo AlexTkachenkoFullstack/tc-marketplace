@@ -278,6 +278,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
       dispatch(fetchCars({ id, searchConfig }));
     }
   }, [brands, carMark, typeCars, dispatch, selectedCategory]);
+  
   const handlerResetFilter = () => {
     const newResetValue = Array(N).fill(true);
     setResetValue(newResetValue);

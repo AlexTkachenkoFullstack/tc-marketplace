@@ -304,7 +304,7 @@ console.log('responseData :>> ', responseData);
     };
 
     fetchData();
-  });
+  },[isAdvertisementsEdit,authToken]);
 
   useEffect(() => {
     if (typeCars.length > 0) {
