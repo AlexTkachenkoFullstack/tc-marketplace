@@ -48,7 +48,7 @@ export const CategoryCheckBar: React.FC<Props> = ({
       return;
     }
     setCheckedItems(initialCheckedItems);
-  },[resetValue]);
+  },[resetValue,initialCheckedItems]);
 
   const handleCheckboxChange = (category: string) => {
     const newCheckedItems = {
