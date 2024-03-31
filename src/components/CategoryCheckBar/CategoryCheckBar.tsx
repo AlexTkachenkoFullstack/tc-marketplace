@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styles from './CategoryCheckBar.module.scss';
 
@@ -27,16 +27,16 @@ export const CategoryCheckBar: React.FC<Props> = ({
   transportColor,
   selectedCategory,
 }) => {
-  const initialCheckedItems = selectedCategory
-    ? Array.isArray(selectedCategory)
-      ? selectedCategory.reduce(
-          (acc: any, curr: string) => ({ ...acc, [curr]: true }),
-          {},
-        )
-      : { [selectedCategory]: true }
-    : categories
-    ? categories.reduce((acc, curr) => ({ ...acc, [curr]: false }), {})
-    : {};
+  const initialCheckedItems = useMemo(() => {
+    if (selectedCategory) {
+      return Array.isArray(selectedCategory)
+        ? selectedCategory.reduce((acc: any, curr: string) => ({ ...acc, [curr]: true }), {})
+        : { [selectedCategory]: true };
+    } else if (categories) {
+      return categories.reduce((acc, curr) => ({ ...acc, [curr]: false }), {});
+    }
+    return {};
+  }, [categories, selectedCategory]);
   const location = useLocation();
   const isAdvancedSearchPage = location.pathname === '/advanced-search';
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(
