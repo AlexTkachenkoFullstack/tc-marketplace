@@ -51,7 +51,7 @@ import { getInitialButtonVisibility } from 'utils/getInitialButtonVisibility';
 interface Props {
   onAdvencedFilter: () => void;
 }
-
+const N = 9;
 export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const dispatch = useAppDispatch();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -79,6 +79,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   });
   const [numberOfDoors, setNumberOfDoors] = useState({ from: 0, to: 0 });
   const [numberOfSeats, setNumberOfSeats] = useState({ from: 0, to: 0 });
+  const [resetValue, setResetValue] = useState(Array(N).fill(false));
   // redux filtred
   const typeCars: IType[] = useAppSelector(getFilterTypes);
   const regions: IRegion[] = useAppSelector(getFilterRegions);
@@ -277,6 +278,38 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
       dispatch(fetchCars({ id, searchConfig }));
     }
   }, [brands, carMark, typeCars, dispatch, selectedCategory]);
+  
+  const handlerResetFilter = () => {
+    const newResetValue = Array(N).fill(true);
+    setResetValue(newResetValue);
+    setEngineDisplacement({ from: 0, to: 0 });
+    setYear({ from: 0, to: 0 });
+    setPrice({ from: 0, to: 0 });
+    setMileage({ from: 0, to: 0 });
+    setEnginePower({ from: 0, to: 0 });
+    setNumberOfDoors({ from: 0, to: 0 });
+    setNumberOfSeats({ from: 0, to: 0 });
+    setSelectedCategory('Легкові');
+    setCarBody('');
+    setCarFuel('');
+    setCarTransmission('');
+    setCarColor('');
+    setCarTransportCondition('');
+    setCarDriveType('');
+    setCarNumberAxles('');
+    setCarWheelConfiguration('');
+    setSelectedOption(undefined);
+    setCarMark('Всі марки');
+    setCarModel('Всі моделі');
+    setSelectedCity('Місто');
+    setSelectedRegions('Вся Україна');
+    setCountryDeliver('Весь світ');
+    setTimeout(()=>{
+      const newResetValueFalse = Array(N).fill(false);
+      setResetValue(newResetValueFalse);
+    },200)
+   
+  };
 
   // надсилання данних фільтра запиту
   const handlerSendRequest = () => {
@@ -463,7 +496,11 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
             </div>
             {isOpen.block4 && (
               <div className={styles.listItem}>
-                <RangeSlider setObjectValue={setPrice} typeRange={'price'} />
+                <RangeSlider
+                  resetValue={resetValue[1]}
+                  setObjectValue={setPrice}
+                  typeRange={'price'}
+                />
               </div>
             )}
           </div>
@@ -483,6 +520,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               {isOpen.block5 && (
                 <div className={styles.listItem}>
                   <CategoryCheckBar
+                  resetValue={resetValue[1]}
                     categories={bodyTypes
                       .slice(0, isShow.block1 ? 13 : 5)
                       .map((item: any) => item.bodyType)}
@@ -565,7 +603,11 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
             </div>
             {isOpen.block6 && (
               <div className={styles.listItem}>
-                <RangeSlider setObjectValue={setYear} typeRange={'year'} />
+                <RangeSlider
+                  resetValue={resetValue[2]}
+                  setObjectValue={setYear}
+                  typeRange={'year'}
+                />
               </div>
             )}
           </div>
@@ -585,6 +627,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               {isOpen.block7 && (
                 <div className={styles.listItem}>
                   <CategoryCheckBar
+                  resetValue={resetValue[2]}
                     categories={fuel
                       .slice(0, isShow.block2 ? 8 : 5)
                       .map((item: any) => item.fuelType)}
@@ -621,6 +664,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               {isOpen.block8 && (
                 <div className={styles.listItem}>
                   <CategoryCheckBar
+                  resetValue={resetValue[3]}
                     categories={transmission.map(
                       (item: any) => item.transmission,
                     )}
@@ -647,11 +691,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               {isOpen.block9 && (
                 <div className={styles.listItem}>
                   <CategoryCheckBar
+                  resetValue={resetValue[4]}
                     color="transpotColor"
                     transportColor={
-                      transportColor
-                      // .slice(0, isShow.block3 ? 12 : 6)
-                      // .map((item: any) => item.transportColor)
+                      transportColor                      
                     }
                     isShow={isShow.block3}
                     handleSelect={handlerCarColor}
@@ -687,6 +730,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               {isOpen.block10 && (
                 <div className={styles.listItem}>
                   <CategoryCheckBar
+                    resetValue={resetValue[5]}
                     categories={transportCondition
                       .slice(isShow.block4 ? 0 : 2)
                       .map((item: any) => item.transportCondition)}
@@ -723,6 +767,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               {isOpen.block11 && (
                 <div className={styles.listItem}>
                   <RangeSlider
+                     resetValue={resetValue[3]}
                     setObjectValue={setMileage}
                     typeRange={'mileage'}
                   />
@@ -744,6 +789,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
             {isOpen.block12 && (
               <div className={styles.listItem}>
                 <RangeSlider
+                  resetValue={resetValue[4]}
                   setObjectValue={setEngineDisplacement}
                   typeRange={'engineDisplacement'}
                 />
@@ -766,6 +812,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
             {isOpen.block12 && (
               <div className={styles.listItem}>
                 <RangeSlider
+                 resetValue={resetValue[5]}
                   setObjectValue={setEnginePower}
                   typeRange={'enginePower'}
                 />
@@ -788,6 +835,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               {isOpen.block13 && (
                 <div className={styles.listItem}>
                   <CategoryCheckBar
+                    resetValue={resetValue[6]}
                     categories={driveType.map((item: any) => item.driveType)}
                     handleSelect={handlerDriveType}
                     selectedCategory={carDriveType}
@@ -812,6 +860,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               {isOpen.block14 && (
                 <div className={styles.listItem}>
                   <RangeSlider
+                    resetValue={resetValue[6]}
                     setObjectValue={setNumberOfDoors}
                     typeRange={'numberOfDoors'}
                   />
@@ -835,6 +884,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               {isOpen.block15 && (
                 <div className={styles.listItem}>
                   <RangeSlider
+                    resetValue={resetValue[7]}
                     setObjectValue={setNumberOfSeats}
                     typeRange={'numberOfSeats'}
                   />
@@ -857,6 +907,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               {isOpen.block16 && (
                 <div className={styles.listItem}>
                   <CategoryCheckBar
+                      resetValue={resetValue[7]}
                     categories={numberAxles.map(
                       (item: any) => item.numberAxles,
                     )}
@@ -882,6 +933,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               {isOpen.block17 && (
                 <div className={styles.listItem}>
                   <CategoryCheckBar
+                      resetValue={resetValue[8]}
                     categories={wheelConfiguration.map(
                       (item: any) => item.wheelConfiguration,
                     )}
@@ -986,7 +1038,11 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
         >
           Показати
         </button>
-        <button className={styles.resultFilterReset} type="button">
+        <button
+          className={styles.resultFilterReset}
+          type="button"
+          onClick={handlerResetFilter}
+        >
           Скинути фільтр
         </button>
       </div>

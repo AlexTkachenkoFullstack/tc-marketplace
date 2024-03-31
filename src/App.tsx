@@ -33,6 +33,7 @@ export const App: React.FC = () => {
                     <Route path="home" element={<Navigate to="/" replace />} />
                     <Route path="user" element={<UserPage />} />
                     <Route path="advertisements" element={<NewAnnouncement />} />
+                    <Route path="advertisements/edit" element={<NewAnnouncement />} />
                     <Route path="advanced-search" element={<AdvancedSearch />} />
                     <Route path="login/" element={<LoginLayout />}>
                         <Route path="sign-up" element={<RestrictedRoute redirectTo='/' component={<SignUpPage />} />} />

@@ -1,8 +1,8 @@
 export interface UploadedImage {
     name: string;
-    size: number;
+    size?: number;
     url: string | ArrayBuffer | null;
     id: string;
-    file:FileList;
+    file?:FileList;
   }
   

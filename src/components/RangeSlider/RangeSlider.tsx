@@ -13,13 +13,25 @@ interface SliderValue {
 interface RangeSliderProps {
   setObjectValue: React.Dispatch<React.SetStateAction<SliderValue>>;
   typeRange: string;
+  resetValue?: boolean;
 }
 
 const RangeSlider: React.FC<RangeSliderProps> = ({
   setObjectValue,
   typeRange,
+  resetValue,
 }) => {
   const [value, setValue] = useState<SliderValue>({ from: 0, to: 0 });
+  useEffect(() => {
+    if (!resetValue) {
+      return;
+    }
+    const [min, max] = startValue(typeRange);
+    if (min !== undefined && max !== undefined) {
+      setValue({ from: min, to: max });
+      setObjectValue({ from: min, to: max });
+    }
+  }, [typeRange, setObjectValue, resetValue]);
 
   useEffect(() => {
     const [min, max] = startValue(typeRange);
@@ -34,7 +46,7 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
       case 'price':
         return [100, 1000000];
       case 'year':
-        return [1970,yearNow()];
+        return [1970, yearNow()];
       case 'mileage':
         return [0, 1000000];
       case 'engineDisplacement':
@@ -123,7 +135,7 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
           value={[value.from, value.to]}
           onChange={handleSliderChange}
           allowCross={false}
-          step={typeRange === 'engineDisplacement' ? 0.1:1} // Задаємо крок для слайдера
+          step={typeRange === 'engineDisplacement' ? 0.1 : 1} // Задаємо крок для слайдера
         />
       </div>
     </div>
