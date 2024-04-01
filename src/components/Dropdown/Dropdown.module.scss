@@ -8,6 +8,10 @@
   height: min-content;
   width: 100%;
 
+  &._advSearch {
+    margin-bottom: 0;
+  }
+
   @media (min-width: $tablet-min-width) {
     margin-bottom: 8px;
     flex-grow: 1;
@@ -136,6 +140,10 @@
   border-radius: 1000px;
   background-color: none;
   background-color: #f0f0f0;
+
+  &_trigger {
+    height: 44px;
+  }
 
   &_active {
     background-color: $background-color-white;

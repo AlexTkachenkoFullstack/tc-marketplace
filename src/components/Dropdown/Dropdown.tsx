@@ -145,7 +145,12 @@ export const Dropdown: FC<Props> = props => {
   }, [setOption, startValue]);
 
   return (
-    <div className={styles.container} ref={dropdownRef}>
+    <div
+      className={`${styles.container} ${
+        updateStyle === 'advSearch' ? styles._advSearch: null
+      }`}
+      ref={dropdownRef}
+    >
       {((isActive && filterValue.trim().length === 0) ||
         option !== startValue) && (
         <span
@@ -160,7 +165,9 @@ export const Dropdown: FC<Props> = props => {
       <button
         className={`${styles.trigger} ${
           isActive ? styles.trigger_active : ''
-        } ${updateStyle === 'menuStyle' ? styles.triggerAdvMenu : null}`}
+         } ${updateStyle === 'menuStyle' ? styles.triggerAdvMenu : null} ${
+          updateStyle === 'advSearch' ? styles.advSearch_trigger : null
+        }`}
         style={{ padding: stylepaddingZero ? '0px':undefined }}
         type="button"
         disabled={isDissabled}

@@ -10,6 +10,7 @@ import {
   fetchMyDeletedAds,
   fetchMyInactiveAds,
   fetchMyPendingAds,
+  saveSubscription,
 } from './operations';
 
 interface IProfileState {
@@ -42,7 +43,8 @@ const handleFulfilledGetMyAds = (
         | 'myDeletedAds'
         | 'count'
       >
-    | 'status',
+    | 'status'
+    | 'subscription',
 ) => {
   return (
     state: IProfileState,
@@ -52,7 +54,7 @@ const handleFulfilledGetMyAds = (
     state.error = null;
     if (type === 'count') {
       state[type] = action.payload as ICount[];
-    } else if (type === 'status') {
+    } else if (type === 'status' || type === 'subscription') {
       return;
     } else {
       state[type] = action.payload as ICar[];
@@ -112,6 +114,7 @@ export const profileSlice = createSlice({
         changeTransportStatus.fulfilled,
         handleFulfilledGetMyAds('status'),
       )
+      .addCase(saveSubscription.fulfilled, handleFulfilledGetMyAds('subscription'))
       .addMatcher(
         isAnyOf(
           fetchMyActiveAds.pending,
@@ -119,6 +122,7 @@ export const profileSlice = createSlice({
           fetchMyInactiveAds.pending,
           fetchMyDeletedAds.pending,
           changeTransportStatus.pending,
+          saveSubscription.pending,
         ),
         handlePending,
       )
@@ -130,6 +134,7 @@ export const profileSlice = createSlice({
           fetchMyDeletedAds.rejected,
           fetchMyAdsCount.rejected,
           changeTransportStatus.rejected,
+          saveSubscription.rejected,
         ),
         handleRejected,
       );

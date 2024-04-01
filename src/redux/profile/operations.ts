@@ -3,9 +3,11 @@ import { RootState } from 'redux/store';
 import axios, { AxiosError } from 'axios';
 
 import { KnownError } from 'redux/auth/operations';
+import { ISearchParams } from 'types/ISearchParam';
+import { SearchParams } from 'types';
 
 const instance = axios.create({
-  baseURL: 'https://api.pawo.space/api/v1/user-page/',
+  baseURL: 'https://api.pawo.space/api/v1/',
 });
 
 const setAuthHeader = (token: string) => {
@@ -22,7 +24,7 @@ export const fetchMyActiveAds = createAsyncThunk(
     }
     try {
       setAuthHeader(persistToken);
-      const { data } = await instance(`my-transports`, {
+      const { data } = await instance(`user-page/my-transports`, {
         params: { status: 'active' },
       });
       return data;
@@ -46,7 +48,7 @@ export const fetchMyPendingAds = createAsyncThunk(
     }
     try {
       setAuthHeader(persistToken);
-      const { data } = await instance(`my-transports`, {
+      const { data } = await instance(`user-page/my-transports`, {
         params: { status: 'pending' },
       });
       return data;
@@ -70,7 +72,7 @@ export const fetchMyInactiveAds = createAsyncThunk(
     }
     try {
       setAuthHeader(persistToken);
-      const { data } = await instance(`my-transports`, {
+      const { data } = await instance(`user-page/my-transports`, {
         params: { status: 'inactive' },
       });
       return data;
@@ -94,7 +96,7 @@ export const fetchMyDeletedAds = createAsyncThunk(
     }
     try {
       setAuthHeader(persistToken);
-      const { data } = await instance(`my-transports`, {
+      const { data } = await instance(`user-page/my-transports`, {
         params: { status: 'deleted' },
       });
       return data;
@@ -118,7 +120,7 @@ export const fetchMyAdsCount = createAsyncThunk(
     }
     try {
       setAuthHeader(persistToken);
-      const { data } = await instance(`my-transports/count`);
+      const { data } = await instance(`user-page/my-transports/count`);
       return data;
     } catch (err) {
       const error: AxiosError<KnownError> = err as any;
@@ -141,8 +143,33 @@ export const changeTransportStatus = createAsyncThunk(
     try {
       setAuthHeader(persistToken);
       const { data } = await instance.put(
-        `my-transports/${params.id}/update-status/${params.transportStatus}`,
+        `user-page/my-transports/${params.id}/update-status/${params.transportStatus}`,
       );
+      return data;
+    } catch (err) {
+      const error: AxiosError<KnownError> = err as any;
+      if (!error.response) {
+        throw err;
+      }
+      return thunkAPI.rejectWithValue({ errorMessage: error.response.data });
+    }
+  },
+);
+
+export const saveSubscription = createAsyncThunk(
+  'profile/saveSubscription',
+  async (requestSearch: any, thunkAPI) => {
+    console.log(requestSearch);
+    const {
+      auth: { token },
+    } = thunkAPI.getState() as RootState;
+    if (!token) {
+      return thunkAPI.rejectWithValue('Unable to save subscription');
+    }
+    try {
+      setAuthHeader(token);
+      const { data } = await instance.post('subscriptions', requestSearch);
+      console.log('data', data);
       return data;
     } catch (err) {
       const error: AxiosError<KnownError> = err as any;
