@@ -13,8 +13,8 @@ import { ICities } from 'types/ICities';
 
 type Props = {
   isShow?: boolean;
-  index?:number;
-  closeModal?:(index: number) => void ;
+  index?: number;
+  closeModal?: (index: number) => void;
   label: string;
   startValue: string;
   options?: string | string[];
@@ -92,8 +92,10 @@ export const Dropdown: FC<Props> = props => {
       setChecked(newOption);
       return;
     }
-    if(closeModal){closeModal(index!)}
-    
+    if (closeModal) {
+      closeModal(index!);
+    }
+
     setOption(newOption);
     closeDropdown();
   };
@@ -139,7 +141,12 @@ export const Dropdown: FC<Props> = props => {
   }, [setOption, startValue]);
 
   return (
-    <div className={styles.container} ref={dropdownRef}>
+    <div
+      className={`${styles.container} ${
+        updateStyle === 'advSearch' ? styles._advSearch: null
+      }`}
+      ref={dropdownRef}
+    >
       {((isActive && filterValue.trim().length === 0) ||
         option !== startValue) && (
         <span
@@ -154,7 +161,9 @@ export const Dropdown: FC<Props> = props => {
       <button
         className={`${styles.trigger} ${
           isActive ? styles.trigger_active : ''
-        } ${updateStyle === 'menuStyle' ? styles.triggerAdvMenu : null}`}
+        } ${updateStyle === 'menuStyle' ? styles.triggerAdvMenu : null} ${
+          updateStyle === 'advSearch' ? styles.advSearch_trigger : null
+        }`}
         type="button"
         disabled={isDissabled}
         onClick={() => {
