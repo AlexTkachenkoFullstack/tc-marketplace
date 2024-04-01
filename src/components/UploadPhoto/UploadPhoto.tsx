@@ -1,20 +1,23 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { nanoid } from 'nanoid';
 import styles from './UploadPhoto.module.scss';
 import { ReactComponent as Add } from '../../assets/icons/add.svg';
 import { Preview } from 'components/Preview/Preview';
 import { UploadedImage } from 'types/UploadedImage';
+import { useLocation } from 'react-router-dom';
 
 type Props = {
+  mainPhoto:string;
   isShow: boolean;
   inputRef: React.RefObject<HTMLInputElement>;
-  selectedImages: UploadedImage[];
+  selectedImages: UploadedImage[] ;
   handleAddPhoto: (newImages: UploadedImage[]) => void;
   handleDeletePhoto: (imageId: string, name: string) => void;
   addMainPhoto: (title: string) => void;
 };
 
 export const UploadPhoto: React.FC<Props> = ({
+  mainPhoto,
   isShow,
   inputRef,
   selectedImages,
@@ -22,9 +25,19 @@ export const UploadPhoto: React.FC<Props> = ({
   handleAddPhoto,
   handleDeletePhoto,
 }) => {
+  const location = useLocation();
   const [checkedItemId, setCheckedItemId] = useState<string | null>(null);
   const [firstPhotoSelected, setFirstPhotoSelected] = useState<boolean>(false)
-
+  useEffect(() => {
+    if (selectedImages && mainPhoto && location.pathname === '/advertisements/edit') {
+      const image = selectedImages.find(item => item.name === mainPhoto);
+      if (image) {
+        setCheckedItemId(image.id);
+        setFirstPhotoSelected(true);
+     }
+    }
+  }, [selectedImages, mainPhoto,location.pathname]);
+  
   const handleChekedItem = (imageId: string, name: string) => {
     if (checkedItemId === imageId) {
       addMainPhoto('');
@@ -59,7 +72,7 @@ export const UploadPhoto: React.FC<Props> = ({
   
           if (newImages.length === files.length) {
             handleAddPhoto(newImages);
-          }
+          }     
         };
   
         reader.readAsDataURL(file);
@@ -75,7 +88,7 @@ export const UploadPhoto: React.FC<Props> = ({
         selectedImages.map(item => {
           return (
             <Preview
-            resetFirstPhotoSelected={resetFirstPhotoSelected}
+              resetFirstPhotoSelected={resetFirstPhotoSelected}
               onDelete={handleDeletePhoto}
               key={item.id}
               image={item}

@@ -12,6 +12,8 @@ import { IRegion } from 'types/IRegion';
 import { ICities } from 'types/ICities';
 
 type Props = {
+  resetValue?:boolean;
+  stylepaddingZero?: boolean;
   isShow?: boolean;
   index?: number;
   closeModal?: (index: number) => void;
@@ -33,6 +35,8 @@ type Props = {
 
 export const Dropdown: FC<Props> = props => {
   const {
+    resetValue,
+    stylepaddingZero,
     isShow,
     index,
     closeModal,
@@ -134,7 +138,7 @@ export const Dropdown: FC<Props> = props => {
   useEffect(() => {
     setfilterValue('');
     setCheckedValue([]);
-  }, []);
+  }, [resetValue]);
 
   useEffect(() => {
     setOption(startValue);
@@ -161,9 +165,10 @@ export const Dropdown: FC<Props> = props => {
       <button
         className={`${styles.trigger} ${
           isActive ? styles.trigger_active : ''
-        } ${updateStyle === 'menuStyle' ? styles.triggerAdvMenu : null} ${
+         } ${updateStyle === 'menuStyle' ? styles.triggerAdvMenu : null} ${
           updateStyle === 'advSearch' ? styles.advSearch_trigger : null
         }`}
+        style={{ padding: stylepaddingZero ? '0px':undefined }}
         type="button"
         disabled={isDissabled}
         onClick={() => {
