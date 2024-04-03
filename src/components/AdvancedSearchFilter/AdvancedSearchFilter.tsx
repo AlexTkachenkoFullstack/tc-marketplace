@@ -47,6 +47,10 @@ import { ButtonVisibilityState } from 'types/ButtonVisibilityState';
 import { getInitialBlocksVisibility } from 'utils/getInitialBlocksVisibility';
 import { getWindowWidth } from 'utils/getWindowWidth';
 import { getInitialButtonVisibility } from 'utils/getInitialButtonVisibility';
+import { createPortal } from 'react-dom';
+import SubscriptionModal from 'components/SubscriptionModal';
+
+const portal = document.querySelector('#modal-root') as Element;
 
 interface Props {
   onAdvencedFilter: () => void;
@@ -118,7 +122,14 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const [countryDeliver, setCountryDeliver] = useState<string | string[]>(
     'Весь світ',
   );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModalIsOpen = () => {
+    setIsModalOpen(prev => !prev);
+  };
   console.log('countryDeliver :>> ', countryDeliver);
+  const requestParams = { selectedCategory, carMark, carModel };
+
   // response catalog/get-param/id
   const bodyTypes = data?.bodyTypeDTOS;
   const fuel = data?.fuelTypeDTOS;
@@ -279,7 +290,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
       dispatch(fetchCars({ id, searchConfig }));
     }
   }, [brands, carMark, typeCars, dispatch, selectedCategory]);
-  
+
   const handlerResetFilter = () => {
     const newResetValue = Array(N).fill(true);
     setResetValue(newResetValue);
@@ -305,11 +316,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     setSelectedCity('Місто');
     setSelectedRegions('Вся Україна');
     setCountryDeliver('Весь світ');
-    setTimeout(()=>{
+    setTimeout(() => {
       const newResetValueFalse = Array(N).fill(false);
       setResetValue(newResetValueFalse);
-    },200)
-   
+    }, 200);
   };
 
   // надсилання данних фільтра запиту
@@ -523,7 +533,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               {isOpen.block5 && (
                 <div className={styles.listItem}>
                   <CategoryCheckBar
-                  resetValue={resetValue[1]}
+                    resetValue={resetValue[1]}
                     categories={bodyTypes
                       .slice(0, isShow.block1 ? 13 : 5)
                       .map((item: any) => item.bodyType)}
@@ -553,13 +563,13 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
             <div className={styles.listItemBrand}>
               <div className={styles.dropdownContainer}>
                 <Dropdown
-                 resetValue={resetValue[2]}
+                  resetValue={resetValue[2]}
                   updateStyle="advSearch"
                   options={[...brands.map(brand => brand.brand)].sort((a, b) =>
                     a.localeCompare(b),
                   )}
-                  label="Марка"
-                  startValue="Марка"
+                  label="Бренд"
+                  startValue="Бренд"
                   option={carMark}
                   setOption={setCarMark}
                   allOptionsLabel="Всі марки"
@@ -577,7 +587,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               <div className={styles.listItemBrand}>
                 <div className={styles.dropdownContainer}>
                   <Dropdown
-                   resetValue={resetValue[3]}
+                    resetValue={resetValue[3]}
                     updateStyle="advSearch"
                     optionList={carsList}
                     label="Модель"
@@ -632,7 +642,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               {isOpen.block7 && (
                 <div className={styles.listItem}>
                   <CategoryCheckBar
-                  resetValue={resetValue[2]}
+                    resetValue={resetValue[2]}
                     categories={fuel
                       .slice(0, isShow.block2 ? 8 : 5)
                       .map((item: any) => item.fuelType)}
@@ -669,7 +679,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               {isOpen.block8 && (
                 <div className={styles.listItem}>
                   <CategoryCheckBar
-                  resetValue={resetValue[3]}
+                    resetValue={resetValue[3]}
                     categories={transmission.map(
                       (item: any) => item.transmission,
                     )}
@@ -696,11 +706,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               {isOpen.block9 && (
                 <div className={styles.listItem}>
                   <CategoryCheckBar
-                  resetValue={resetValue[4]}
+                    resetValue={resetValue[4]}
                     color="transpotColor"
-                    transportColor={
-                      transportColor                      
-                    }
+                    transportColor={transportColor}
                     isShow={isShow.block3}
                     handleSelect={handlerCarColor}
                     selectedCategory={carColor}
@@ -772,7 +780,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               {isOpen.block11 && (
                 <div className={styles.listItem}>
                   <RangeSlider
-                     resetValue={resetValue[3]}
+                    resetValue={resetValue[3]}
                     setObjectValue={setMileage}
                     typeRange={'mileage'}
                   />
@@ -817,7 +825,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
             {isOpen.block12 && (
               <div className={styles.listItem}>
                 <RangeSlider
-                 resetValue={resetValue[5]}
+                  resetValue={resetValue[5]}
                   setObjectValue={setEnginePower}
                   typeRange={'enginePower'}
                 />
@@ -912,7 +920,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               {isOpen.block16 && (
                 <div className={styles.listItem}>
                   <CategoryCheckBar
-                      resetValue={resetValue[7]}
+                    resetValue={resetValue[7]}
                     categories={numberAxles.map(
                       (item: any) => item.numberAxles,
                     )}
@@ -938,7 +946,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               {isOpen.block17 && (
                 <div className={styles.listItem}>
                   <CategoryCheckBar
-                      resetValue={resetValue[8]}
+                    resetValue={resetValue[8]}
                     categories={wheelConfiguration.map(
                       (item: any) => item.wheelConfiguration,
                     )}
@@ -968,7 +976,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                 <div className={styles.itemdropdownbox}>
                   {producingCountry && (
                     <Dropdown
-                    resetValue={resetValue[4]}
+                      resetValue={resetValue[4]}
                       updateStyle="advSearch"
                       options={producingCountry.map(
                         (item: any) => item.producingCountry,
@@ -1033,7 +1041,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
         <button
           className={styles.resultFilterReset}
           type="button"
-          onClick={handlerSendRequest}
+          onClick={toggleModalIsOpen}
         >
           Зберекти пошук
         </button>
@@ -1052,6 +1060,14 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
           Скинути фільтр
         </button>
       </div>
+      {isModalOpen &&
+        createPortal(
+          <SubscriptionModal
+            toggleModalIsOpen={toggleModalIsOpen}
+            requestParams={requestParams}
+          />,
+          portal,
+        )}
     </div>
   );
 };

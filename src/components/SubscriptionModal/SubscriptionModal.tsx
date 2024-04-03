@@ -2,22 +2,93 @@ import React, { useEffect, useState } from 'react';
 import styles from './SubscriptionModal.module.scss';
 import { ReactComponent as CloseIcon } from '../../assets/icons/close.svg';
 import { ReactComponent as ArrowDownIcon } from '../../assets/icons/arrow-down.svg';
-import { useAppSelector } from 'redux/hooks';
-import { getFilterTypes } from 'redux/filter/selectors';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import {
+  getFilterBrands,
+  getFilterCarsList,
+  getFilterRegions,
+  getFilterTypes,
+} from 'redux/filter/selectors';
 import { Dropdown } from 'components/Dropdown/Dropdown';
+import { IBrand } from 'types/IBrand';
+import { IModel } from 'types/IModel';
+import { IType } from 'types/IType';
+import { IRegion } from 'types/IRegion';
+import { fetchBrands } from 'redux/filter/operations';
+import { ISearchParams } from 'types/ISearchParam';
 
 interface Iprops {
   toggleModalIsOpen: () => void;
+  requestParams: {
+    selectedCategory: string;
+    carMark: string | string[];
+    carModel: string | string[];
+  };
 }
 
-const SubscriptionModal: React.FC<Iprops> = ({ toggleModalIsOpen }) => {
+let subscriptionParams: ISearchParams = {};
+
+const SubscriptionModal: React.FC<Iprops> = ({
+  toggleModalIsOpen,
+  requestParams,
+}) => {
+  const [isMounted, setIsMounted] = useState(false);
   const [showEmail, setShowEmail] = useState('E-mail');
   const [isShowCharacteristics, setIsShowCharacteristics] = useState(false);
   const [subscrName, setSubscrName] = useState<string | string[]>('');
   const [transportType, setTransportType] = useState<string | string[]>('');
+  const [brand, setBrand] = useState<string | string[]>('');
+  const [model, setModel] = useState<string | string[]>('');
+  const [selectedRegions] = useState<string | string[]>(
+    'Вся Україна',
+  );
+
+  const dispatch = useAppDispatch();
 
   const userEmail = 'dimside@gmail.com';
-  const transportTypes = useAppSelector(getFilterTypes);
+
+  const { selectedCategory, carMark, carModel } = requestParams;
+
+  const transportTypes: IType[] = useAppSelector(getFilterTypes);
+  const brands: IBrand[] = useAppSelector(getFilterBrands);
+  const models: IModel[] = useAppSelector(getFilterCarsList);
+  const regions: IRegion[] = useAppSelector(getFilterRegions);
+
+  const pickedBrands: any = [];
+  brands.forEach((item: any) => {
+    if (carMark.includes(item.brand)) {
+      pickedBrands.push(item);
+    }
+  });
+  const pickedRegions: any = [];
+  regions.forEach((item: any) => {
+    if (selectedRegions.includes(item.region)) {
+      pickedRegions.push(item);
+    }
+  });
+
+  useEffect(() => {
+    if (selectedCategory !== transportType) {
+      setBrand('');
+    }
+  }, [selectedCategory, transportType]);
+
+  useEffect(() => {
+    if (!isMounted) {
+      setTransportType(selectedCategory);
+      setBrand(carMark);
+      setModel(carModel);
+    }
+    setIsMounted(true);
+  }, [selectedCategory, carMark, carModel, isMounted]);
+
+  useEffect(() => {
+    const transportTypeId = transportTypes.find(
+      ({ type }) => transportType === type,
+    )?.typeId;
+    subscriptionParams.transportTypeId = transportTypeId;
+    transportTypeId && dispatch(fetchBrands(transportTypeId));
+  }, [dispatch, transportType, transportTypes]);
 
   const handleBackdropClick = (e: React.SyntheticEvent) => {
     const { id } = e.target as HTMLDivElement;
@@ -44,6 +115,10 @@ const SubscriptionModal: React.FC<Iprops> = ({ toggleModalIsOpen }) => {
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setShowEmail(event.target.checked ? userEmail : 'E-mail');
   };
+
+  //   console.log('requestParams', requestParams);
+  console.log('brand', brand);
+  console.log('model', model);
 
   return (
     <div
@@ -97,9 +172,53 @@ const SubscriptionModal: React.FC<Iprops> = ({ toggleModalIsOpen }) => {
                 updateStyle="advSearch"
                 options={transportTypes.map(({ type }) => type)}
                 label="Тип"
-                startValue={`${transportType ? transportType : 'Тип'}`}
+                startValue={`${selectedCategory ? selectedCategory : 'Тип'}`}
                 option={transportType}
                 setOption={setTransportType}
+              />
+            </div>
+            <div>
+              <div className={styles.characteristic}>
+                <h4 className={styles.charactTitles}>Бренд</h4>
+                <button type="button">
+                  <ArrowDownIcon className={styles.arrowDown} />
+                </button>
+              </div>
+              <Dropdown
+                updateStyle="advSearch"
+                options={[...brands.map(({ brand }) => brand)].sort((a, b) =>
+                  a.localeCompare(b),
+                )}
+                label="Бренд"
+                startValue="Бренд"
+                option={brand}
+                setOption={setBrand}
+                allOptionsLabel="Всі бренди"
+                checkboxAllowed
+                filteredOptions={brand}
+                resetValue={selectedCategory !== transportType}
+              />
+            </div>
+            <div>
+              <div className={styles.characteristic}>
+                <h4 className={styles.charactTitles}>Модель</h4>
+                <button type="button">
+                  <ArrowDownIcon className={styles.arrowDown} />
+                </button>
+              </div>
+              <Dropdown
+                updateStyle="advSearch"
+                optionList={models}
+                label="Модель"
+                startValue="Модель"
+                allOptionsLabel="Всі моделі"
+                checkboxAllowed
+                option={model}
+                title={brand}
+                setOption={setModel}
+                carMark={brand}
+                pickedBrands={pickedBrands}
+                filteredOptions={model}
               />
             </div>
           </div>
