@@ -1,16 +1,18 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from 'redux/store';
-import axios, { AxiosError } from 'axios';
+import  { AxiosError } from 'axios';
 
-import { KnownError } from 'redux/auth/operations';
+import { KnownError, instance, setAuthHeader } from 'redux/auth/operations';
+// import { ISearchParams } from 'types/ISearchParam';
+// import { SearchParams } from 'types';
 
-const instance = axios.create({
-  baseURL: 'https://api.pawo.space/api/v1/user-page/',
-});
+// const instance = axios.create({
+//   baseURL: 'https://api.pawo.space/api/v1/',
+// });
 
-const setAuthHeader = (token: string) => {
-  instance.defaults.headers.common.Authorization = `Bearer ${token}`;
-};
+// const setAuthHeader = (token: string) => {
+//   instance.defaults.headers.common.Authorization = `Bearer ${token}`;
+// };
 
 export const fetchMyActiveAds = createAsyncThunk(
   'profile/getActiveAds',
@@ -22,7 +24,7 @@ export const fetchMyActiveAds = createAsyncThunk(
     }
     try {
       setAuthHeader(persistToken);
-      const { data } = await instance(`my-transports`, {
+      const { data } = await instance(`user-page/my-transports`, {
         params: { status: 'active' },
       });
       return data;
@@ -39,14 +41,12 @@ export const fetchMyActiveAds = createAsyncThunk(
 export const fetchMyPendingAds = createAsyncThunk(
   'profile/getPendingAds',
   async (_, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState;
-    const persistToken = state.auth.token;
-    if (!persistToken) {
-      return thunkAPI.rejectWithValue('Unable to fetch adverts');
-    }
+    const {
+      auth: { token },
+    } = thunkAPI.getState() as RootState;
+    token && setAuthHeader(token);
     try {
-      setAuthHeader(persistToken);
-      const { data } = await instance(`my-transports`, {
+      const { data } = await instance(`user-page/my-transports`, {
         params: { status: 'pending' },
       });
       return data;
@@ -63,14 +63,12 @@ export const fetchMyPendingAds = createAsyncThunk(
 export const fetchMyInactiveAds = createAsyncThunk(
   'profile/getInactiveAds',
   async (_, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState;
-    const persistToken = state.auth.token;
-    if (!persistToken) {
-      return thunkAPI.rejectWithValue('Unable to fetch adverts');
-    }
+    const {
+      auth: { token },
+    } = thunkAPI.getState() as RootState;
+    token && setAuthHeader(token);
     try {
-      setAuthHeader(persistToken);
-      const { data } = await instance(`my-transports`, {
+      const { data } = await instance(`user-page/my-transports`, {
         params: { status: 'inactive' },
       });
       return data;
@@ -87,14 +85,12 @@ export const fetchMyInactiveAds = createAsyncThunk(
 export const fetchMyDeletedAds = createAsyncThunk(
   'profile/getDeletedAds',
   async (_, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState;
-    const persistToken = state.auth.token;
-    if (!persistToken) {
-      return thunkAPI.rejectWithValue('Unable to fetch adverts');
-    }
+    const {
+      auth: { token },
+    } = thunkAPI.getState() as RootState;
+    token && setAuthHeader(token);
     try {
-      setAuthHeader(persistToken);
-      const { data } = await instance(`my-transports`, {
+      const { data } = await instance(`user-page/my-transports`, {
         params: { status: 'deleted' },
       });
       return data;
@@ -111,14 +107,12 @@ export const fetchMyDeletedAds = createAsyncThunk(
 export const fetchMyAdsCount = createAsyncThunk(
   'profile/count',
   async (_, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState;
-    const persistToken = state.auth.token;
-    if (!persistToken) {
-      return thunkAPI.rejectWithValue('Unable to fetch count');
-    }
+    const {
+      auth: { token },
+    } = thunkAPI.getState() as RootState;
+    token && setAuthHeader(token);
     try {
-      setAuthHeader(persistToken);
-      const { data } = await instance(`my-transports/count`);
+      const { data } = await instance(`user-page/my-transports/count`);
       return data;
     } catch (err) {
       const error: AxiosError<KnownError> = err as any;
@@ -133,16 +127,35 @@ export const fetchMyAdsCount = createAsyncThunk(
 export const changeTransportStatus = createAsyncThunk(
   'profile/cnangeStatus',
   async (params: { id: number; transportStatus: string }, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState;
-    const persistToken = state.auth.token;
-    if (!persistToken) {
-      return thunkAPI.rejectWithValue('Unable to change status');
-    }
+    const {
+      auth: { token },
+    } = thunkAPI.getState() as RootState;
+    token && setAuthHeader(token);
     try {
-      setAuthHeader(persistToken);
       const { data } = await instance.put(
-        `my-transports/${params.id}/update-status/${params.transportStatus}`,
+        `user-page/my-transports/${params.id}/update-status/${params.transportStatus}`,
       );
+      return data;
+    } catch (err) {
+      const error: AxiosError<KnownError> = err as any;
+      if (!error.response) {
+        throw err;
+      }
+      return thunkAPI.rejectWithValue({ errorMessage: error.response.data });
+    }
+  },
+);
+
+export const saveSubscription = createAsyncThunk(
+  'profile/saveSubscription',
+  async (requestSearch: any, thunkAPI) => {
+    const {
+      auth: { token },
+    } = thunkAPI.getState() as RootState;
+    token && setAuthHeader(token);
+    try {
+      const { data } = await instance.post('subscriptions', requestSearch);
+      console.log('data', data);
       return data;
     } catch (err) {
       const error: AxiosError<KnownError> = err as any;

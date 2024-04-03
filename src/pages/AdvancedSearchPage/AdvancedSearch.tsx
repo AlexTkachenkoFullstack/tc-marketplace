@@ -15,15 +15,22 @@ export const AdvancedSearch: React.FC = () => {
   const handleAdvancedFilter = () => {
     setIsOpenAdvancedFilter(prev => !prev);
   };
+
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    setIsOpenAdvancedFilter(searchParams.get('isOpenAdvancedFilter') === 'true');
+    setIsOpenAdvancedFilter(
+      searchParams.get('isOpenAdvancedFilter') === 'true',
+    );
   }, [location.search]);
+
   return (
     <section className={styles.AdvSearch}>
       <div className={styles.AdvSearch_container}>
         {isOpenAdvancedFilter && (
-          <AdvancedSearchFilter onAdvencedFilter={handleAdvancedFilter} />
+          <AdvancedSearchFilter
+            onAdvencedFilter={handleAdvancedFilter}
+            // toggleModalIsOpen={toggleModalIsOpen}
+          />
         )}
         <SearchingResults handleAdvancedFilter={handleAdvancedFilter} />
       </div>
