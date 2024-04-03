@@ -239,8 +239,8 @@ export const NewAnnouncement: React.FC = () => {
       setIsLoading(false);
     }
   }, [isAdvertisements, authToken]);
-  
-  const id = location.state.id ? location.state.id : null;
+
+  const id = location.state && location.state.id ? location.state.id : null;
   useEffect(() => {
     if (jsonString) {
       const data = JSON.parse(jsonString);
@@ -309,7 +309,7 @@ export const NewAnnouncement: React.FC = () => {
     };
 
     fetchData();
-  }, [isAdvertisementsEdit, authToken,id]);
+  }, [isAdvertisementsEdit, authToken, id]);
 
   useEffect(() => {
     if (typeCars.length > 0) {
@@ -345,7 +345,7 @@ export const NewAnnouncement: React.FC = () => {
       }
     }
     getCarTypeParams();
-  }, [transportTypeId,authToken]);
+  }, [transportTypeId, authToken]);
 
   useEffect(() => {
     if (selectedRegions && regions) {
