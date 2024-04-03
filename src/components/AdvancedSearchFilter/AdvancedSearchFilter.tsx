@@ -57,6 +57,8 @@ interface Props {
 }
 const N = 9;
 export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
+  const jsonString = localStorage.getItem('persist:userRoot');
+  const [authToken, setAuthToken] = useState<string>('');
   const dispatch = useAppDispatch();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isOpen, setIsOpen] = useState<BlocksVisibilityState>(() => {
@@ -157,6 +159,13 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
       pickedRegions.push(item);
     }
   });
+  useEffect(() => {
+    if (jsonString) {
+      const data = JSON.parse(jsonString);
+      const token = data.token.replace(/^"(.*)"$/, '$1');
+      setAuthToken(token);
+    }
+  }, [jsonString]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -203,11 +212,16 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
       return;
     }
     async function getCarTypeParams() {
-      const data = await getCarTypeParam(`${transportTypeId}`);
-      setData(data);
+      if (transportTypeId !== null) {
+        const data = await getCarTypeParam(
+          transportTypeId.toString(),
+          authToken,
+        );
+        setData(data);
+      }
     }
     getCarTypeParams();
-  }, [transportTypeId]);
+  }, [transportTypeId,authToken]);
 
   useEffect(() => {
     dispatch(fetchRegions());

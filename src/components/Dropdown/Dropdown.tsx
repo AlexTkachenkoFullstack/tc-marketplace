@@ -199,7 +199,10 @@ export const Dropdown: FC<Props> = props => {
         } ${updateStyle === 'menuStyle' ? styles.triggerAdvMenu : null} ${
           updateStyle === 'advSearch' ? styles.advSearch_trigger : null
         }`}
-        style={{ padding: stylepaddingZero ? '0px' : undefined }}
+        style={{
+          padding: stylepaddingZero ? '0px' : undefined,
+          cursor: isDissabled ? 'not-allowed' : 'pointer',
+        }}
         type="button"
         disabled={isDissabled}
         onClick={() => {
