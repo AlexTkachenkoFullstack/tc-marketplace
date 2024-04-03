@@ -107,11 +107,7 @@ export const putDeleteAdvertisement = async (
   authToken: string,
 ) => {
   setAuthHeaderForHide(authToken);
-  const config = {
-    headers: {
-      'Content-type': 'multipart/form-data',
-    },
-  };
+ 
   try {
     const response = await instance.put(`user-page/my-transports/${id}/update-status/DELETED`)   
     return response.data
