@@ -39,7 +39,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
   const [transportType, setTransportType] = useState<string | string[]>('');
   const [brand, setBrand] = useState<string | string[]>('');
   const [model, setModel] = useState<string | string[]>('');
-  const [selectedRegions, setSelectedRegions] = useState<string | string[]>(
+  const [selectedRegions] = useState<string | string[]>(
     'Вся Україна',
   );
 
