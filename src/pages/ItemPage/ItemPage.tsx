@@ -27,7 +27,9 @@ import { fetchNewCars, getCarDetails } from "redux/cars/operations";
 import Loader from "components/Loader/Loader";
 
 export const ItemPage: React.FC = () => {
+const jsonString = localStorage.getItem('persist:userRoot');
  const dispatch=useAppDispatch()
+ const [authToken, setAuthToken] = useState<string>('');
   const newCars=useAppSelector(getNewCars);
   const [carInfo, setCarInfo] = useState<null | ITransport>(null)
   const [userDetailsInfo, setUserDetailsInfo] = useState<null | IUserDetails>(null)
@@ -37,14 +39,21 @@ export const ItemPage: React.FC = () => {
   const { id } = useParams();
   const token=useAppSelector(getToken)
   const carDetails=useAppSelector(carDetail)
+  useEffect(() => {
+    if (jsonString) {
+      const data = JSON.parse(jsonString);
+      const token = data.token.replace(/^"(.*)"$/, '$1');
+      setAuthToken(token);
+    }
+  }, [jsonString]);
 
   useEffect(() => {  
     const fetchCarDetails = async () => {
-        try {
-          if(id){
+       try {
+          if(id && authToken){                       
             setIsLoading(true)
-            const carInfo = await getCarInfo(id)
-            const userDetails= await getUserDetails(id)
+            const carInfo = await getCarInfo(id,authToken)
+            const userDetails= await getUserDetails(id,authToken)
             setCarInfo(carInfo)
             setUserDetailsInfo(userDetails)
             setIsLoading(false)
@@ -62,9 +71,9 @@ export const ItemPage: React.FC = () => {
 useEffect(()=>{
     const fetchUserContacts = async () => {
     try {
-        if(id && token) {
-    const userContacts= await getUserContacts(id, token) 
-    dispatch(getCarDetails(id))
+        if(id && authToken) {
+    const userContacts= await getUserContacts(id, authToken) 
+    dispatch(getCarDetails(id,))
     setUserContacts(userContacts)  
     }
     }catch(er){ setError(er)}

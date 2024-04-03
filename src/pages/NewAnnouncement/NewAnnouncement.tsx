@@ -18,6 +18,8 @@ import {
   postNewAdvertisement,
   getCarTypeParam,
   getAdvertisement,
+  putDeleteAdvertisement,
+  putEditAdvertisement,
 } from 'services/services';
 import { IRegion } from 'types/IRegion';
 import {
@@ -54,6 +56,7 @@ import { generateEngineVolumes } from 'utils/generateEngineVolumes';
 import { generateYears } from 'utils/generateYears';
 import { yearNow } from 'utils/yearNow';
 import { extractPhotoName } from 'utils/extractPhotoName';
+import { ReactComponent as Trash } from '../../assets/icons/Vector-trash.svg';
 
 const startVolume = 0.0;
 const endVolume = 20.0;
@@ -72,13 +75,14 @@ export const NewAnnouncement: React.FC = () => {
   const location = useLocation();
   const isAdvertisementsEdit = location.pathname === '/advertisements/edit';
   const isAdvertisements = location.pathname === '/advertisements';
-  const id = location.state.id;
   const dispatch = useAppDispatch();
+  const [immutableData, setImmutableData] = useState(false);
+  console.log('immutableData :>> ', immutableData);
   const [authToken, setAuthToken] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [responseData, setResponseData] = useState<any>(null);
-console.log('responseData :>> ', responseData);
+  console.log('responseData :>> ', responseData);
   const [isOpen, setIsOpen] = useState<BlocksVisibilityState>(() => {
     return getWindowWidth() < 767
       ? getInitialBlocksVisibility(false)
@@ -209,8 +213,8 @@ console.log('responseData :>> ', responseData);
       setSelectedRegions('Вся Україна');
       setCarModel('');
       setSelectedCity('Місто');
-      setSelectedBodyType( 'Тип кузову');
-      setSelectedFuelType( 'Тип палива');
+      setSelectedBodyType('Тип кузову');
+      setSelectedFuelType('Тип палива');
       setSelectedDriveType('Привід');
       setSelectedTransmission('Коробка передач');
       setFuelConsumption('');
@@ -234,7 +238,7 @@ console.log('responseData :>> ', responseData);
       setSelectedImages([]);
       setIsLoading(false);
     }
-  }, [isAdvertisements,authToken]);
+  }, [isAdvertisements, authToken]);
 
   useEffect(() => {
     if (jsonString) {
@@ -245,12 +249,11 @@ console.log('responseData :>> ', responseData);
   }, [jsonString]);
   useEffect(() => {
     const fetchData = async () => {
-      if (!isAdvertisementsEdit || !authToken || !id) {
+      if (!isAdvertisementsEdit || !authToken) {
         return;
       }
+      const id = location.state.id;
       if (isAdvertisementsEdit && authToken && id) {
-     
-
         try {
           const response = await getAdvertisement(id, authToken);
           console.log('response :>> ', response);
@@ -297,6 +300,7 @@ console.log('responseData :>> ', responseData);
               id: response.galleries[0].transportGalleryId,
             },
           ]);
+          setImmutableData(true);
           setIsLoading(false);
         } catch (error) {
           console.log('error :>> ', error);
@@ -305,7 +309,7 @@ console.log('responseData :>> ', responseData);
     };
 
     fetchData();
-  },[isAdvertisementsEdit,authToken,id]);
+  }, [isAdvertisementsEdit, authToken]);
 
   useEffect(() => {
     if (typeCars.length > 0) {
@@ -332,8 +336,13 @@ console.log('responseData :>> ', responseData);
       return;
     }
     async function getCarTypeParams() {
-      const data = await getCarTypeParam(`${transportTypeId}`);
-      setData(data);
+      if (transportTypeId !== null) {
+        const data = await getCarTypeParam(
+          transportTypeId.toString(),
+          authToken,
+        );
+        setData(data);
+      }
     }
     getCarTypeParams();
   }, [transportTypeId]);
@@ -387,16 +396,6 @@ console.log('responseData :>> ', responseData);
     });
   }, [windowWidth]);
 
-  useEffect(() => {
-    if (!transportTypeId) {
-      return;
-    }
-    async function getCarTypeParams() {
-      const data = await getCarTypeParam(`${transportTypeId}`);
-      setData(data);
-    }
-    getCarTypeParams();
-  }, [transportTypeId]);
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value === 'Так';
     setSelectedOption(value);
@@ -592,6 +591,16 @@ console.log('responseData :>> ', responseData);
   const handleAddMainePhoto = (title: string) => {
     setMainPhoto(title);
   };
+  const handleDeleteAdvers = () => {
+    putDeleteAdvertisement(responseData.id.toString(), authToken);
+    setTimeout(() => {
+      navigate(-1);
+    }, 500);
+  };
+  const handleUpdateAdvers = () => {
+    // const {id,}=responseData
+    // putEditAdvertisement(id.toString(),formData,authToken)
+  };
   const handleClick = () => {
     if (
       selectedImages.length > 0 &&
@@ -690,12 +699,7 @@ console.log('responseData :>> ', responseData);
 
       const formData: FormData = createFormData(selectedImages);
 
-      const jsonString = localStorage.getItem('persist:userRoot');
-
       if (jsonString) {
-        const data = JSON.parse(jsonString);
-        const authToken = data.token.replace(/^"(.*)"$/, '$1');
-
         setIsLoading(true);
         postNewAdvertisement(formData, authToken)
           .then(response => {
@@ -846,6 +850,7 @@ console.log('responseData :>> ', responseData);
             {isOpen.block3 && (
               <div className={styles.item_dropdown_box}>
                 <Dropdown
+                  isDissabled={immutableData}
                   stylepaddingZero={true}
                   isShow={isShow[1]}
                   index={1}
@@ -949,6 +954,7 @@ console.log('responseData :>> ', responseData);
                     </label>
                   ) : null}
                   <input
+                    readOnly={immutableData}
                     ref={input1Ref}
                     className={`${styles.inputPhone} ${styles.VinCode_field}`}
                     onFocus={event => handleFocus(2, event, 'vincode')}
@@ -991,6 +997,7 @@ console.log('responseData :>> ', responseData);
                 {isOpen.block4 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
+                      isDissabled={immutableData}
                       stylepaddingZero={true}
                       isShow={isShow[3]}
                       index={3}
@@ -1036,6 +1043,7 @@ console.log('responseData :>> ', responseData);
                 {isOpen.block5 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
+                      isDissabled={immutableData}
                       stylepaddingZero={true}
                       isShow={isShow[4]}
                       index={4}
@@ -1968,13 +1976,34 @@ console.log('responseData :>> ', responseData);
             )}
           </div>
 
-          <button
-            className={styles.btn_advers}
-            type="button"
-            onClick={handleClick}
-          >
-            Розмістити оголошення
-          </button>
+          {isAdvertisements && (
+            <button
+              className={styles.btn_advers}
+              type="button"
+              onClick={handleClick}
+            >
+              Розмістити оголошення
+            </button>
+          )}
+          {isAdvertisementsEdit && (
+            <div className={styles.buttonContainer}>
+              <button
+                className={styles.btn_advers}
+                type="button"
+                onClick={handleDeleteAdvers}
+              >
+                Видалити оголошення
+                <Trash />
+              </button>{' '}
+              <button
+                className={styles.btn_advers}
+                type="button"
+                onClick={handleUpdateAdvers}
+              >
+                Зберегти
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </section>

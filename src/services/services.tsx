@@ -10,12 +10,14 @@ export const setAuthHeaderForHide = (token: string) => {
   instance.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
-export const getCarInfo = async (id: string) => {
-  const response = await axios.get(`transport/${id}?`);
+export const getCarInfo = async (id: string,authToken:string) => {
+  setAuthHeaderForHide(authToken);
+  const response = await instance.get(`transport/${id}?`);
   return response.data;
 };
-export const getUserDetails = async (id: string) => {
-  const response = await axios.get(`transport/user-details/${id}?`);
+export const getUserDetails = async (id: string,authToken:string) => {
+  setAuthHeaderForHide(authToken);
+  const response = await instance.get(`transport/user-details/${id}?`);
   return response.data;
 };
 
@@ -32,8 +34,9 @@ export const getUserContacts = async (id: string, token: string) => {
   }
 };
 
-export const getCarDetails = async (id: string) => {
-  const response = await axios.get(`transport/details/${id}?`);
+export const getCarDetails = async (id: string,authToken:string) => {
+  setAuthHeaderForHide(authToken);
+  const response = await instance.get(`transport/details/${id}?`);
   return response.data;
 };
 
@@ -42,9 +45,10 @@ export const getCarTypes = async () => {
   return response.data;
 };
 
-export const getCarTypeParam = async (id: string) => {
+export const getCarTypeParam = async (id: string,authToken:string) => {
+  setAuthHeaderForHide(authToken);
   try {
-    const response = await axios.get(`catalog/get-param?transportTypeId=${id}`);
+    const response = await instance.get(`catalog/get-param?transportTypeId=${id}`);
     return response.data;
   } catch (error) {
     console.error('Помилка в отриманні данних по типу авто', error);
@@ -98,3 +102,20 @@ export const putEditAdvertisement = async (
   }
 };
 
+export const putDeleteAdvertisement = async (
+  id:string, 
+  authToken: string,
+) => {
+  setAuthHeaderForHide(authToken);
+  const config = {
+    headers: {
+      'Content-type': 'multipart/form-data',
+    },
+  };
+  try {
+    const response = await instance.put(`user-page/my-transports/${id}/update-status/DELETED`)   
+    return response.data
+  } catch (error) {
+    console.error('Помилка в даних!', error)
+  }
+};

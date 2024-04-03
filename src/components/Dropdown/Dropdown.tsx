@@ -12,7 +12,7 @@ import { IRegion } from 'types/IRegion';
 import { ICities } from 'types/ICities';
 
 type Props = {
-  resetValue?:boolean;
+  resetValue?: boolean;
   stylepaddingZero?: boolean;
   isShow?: boolean;
   index?: number;
@@ -161,7 +161,10 @@ export const Dropdown: FC<Props> = props => {
         className={`${styles.trigger} ${
           isActive ? styles.trigger_active : ''
         } ${updateStyle === 'menuStyle' ? styles.triggerAdvMenu : null}`}
-        style={{ padding: stylepaddingZero ? '0px':undefined }}
+        style={{
+          padding: stylepaddingZero ? '0px' : undefined,
+          cursor: isDissabled ? 'not-allowed' : 'pointer',
+        }}
         type="button"
         disabled={isDissabled}
         onClick={() => {
