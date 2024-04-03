@@ -17,14 +17,12 @@ import { KnownError, instance, setAuthHeader } from 'redux/auth/operations';
 export const fetchMyActiveAds = createAsyncThunk(
   'profile/getActiveAds',
   async (_, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState;
-    const persistToken = state.auth.token;
-    if (!persistToken) {
-      return thunkAPI.rejectWithValue('Unable to fetch adverts');
-    }
+    const {
+      auth: { token },
+    } = thunkAPI.getState() as RootState;
+    token && setAuthHeader(token);
     try {
-      setAuthHeader(persistToken);
-      const { data } = await instance(`user-page/my-transports`, {
+        const { data } = await instance(`user-page/my-transports`, {
         params: { status: 'active' },
       });
       return data;
