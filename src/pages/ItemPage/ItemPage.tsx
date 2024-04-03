@@ -19,7 +19,7 @@ import { SellerInfo } from "./SellerInfo/SellerInfo";
 import { IUserDetails } from "types/IUserDetails";
 import { IUserContacts } from "types/IUserContacts";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
-import { getToken } from "redux/auth/selectors";
+// import { getToken } from "redux/auth/selectors";
 import { Characteristics } from "./Characteristics/Characteristics";
 import { carDetail, getNewCars } from "redux/cars/selectors";
 import { CardSlider } from "components/CardSlider";
@@ -37,7 +37,7 @@ const jsonString = localStorage.getItem('persist:userRoot');
   const [error, setError] = useState<any>(null)
   const [isLoading, setIsLoading]=useState<boolean>(false)
   const { id } = useParams();
-  const token=useAppSelector(getToken)
+//   const token=useAppSelector(getToken)
   const carDetails=useAppSelector(carDetail)
   useEffect(() => {
     if (jsonString) {
@@ -66,7 +66,7 @@ const jsonString = localStorage.getItem('persist:userRoot');
         }
     }
     fetchCarDetails()
-}, [ id])
+}, [ id,authToken])
 
 useEffect(()=>{
     const fetchUserContacts = async () => {
@@ -79,7 +79,7 @@ useEffect(()=>{
     }catch(er){ setError(er)}
         }
         fetchUserContacts()
-},[dispatch, id, token])
+},[dispatch, id, authToken])
 
 
 

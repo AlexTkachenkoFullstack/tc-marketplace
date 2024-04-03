@@ -19,7 +19,7 @@ import {
   getCarTypeParam,
   getAdvertisement,
   putDeleteAdvertisement,
-  putEditAdvertisement,
+  // putEditAdvertisement,
 } from 'services/services';
 import { IRegion } from 'types/IRegion';
 import {
@@ -239,7 +239,8 @@ export const NewAnnouncement: React.FC = () => {
       setIsLoading(false);
     }
   }, [isAdvertisements, authToken]);
-
+  
+  const id = location.state.id ? location.state.id : null;
   useEffect(() => {
     if (jsonString) {
       const data = JSON.parse(jsonString);
@@ -249,10 +250,9 @@ export const NewAnnouncement: React.FC = () => {
   }, [jsonString]);
   useEffect(() => {
     const fetchData = async () => {
-      if (!isAdvertisementsEdit || !authToken) {
+      if (!isAdvertisementsEdit || !authToken || !id) {
         return;
       }
-      const id = location.state.id;
       if (isAdvertisementsEdit && authToken && id) {
         try {
           const response = await getAdvertisement(id, authToken);
@@ -309,7 +309,7 @@ export const NewAnnouncement: React.FC = () => {
     };
 
     fetchData();
-  }, [isAdvertisementsEdit, authToken]);
+  }, [isAdvertisementsEdit, authToken,id]);
 
   useEffect(() => {
     if (typeCars.length > 0) {
@@ -345,7 +345,7 @@ export const NewAnnouncement: React.FC = () => {
       }
     }
     getCarTypeParams();
-  }, [transportTypeId]);
+  }, [transportTypeId,authToken]);
 
   useEffect(() => {
     if (selectedRegions && regions) {
