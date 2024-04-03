@@ -12,7 +12,7 @@ import { IRegion } from 'types/IRegion';
 import { ICities } from 'types/ICities';
 
 type Props = {
-  resetValue?:boolean;
+  resetValue?: boolean;
   stylepaddingZero?: boolean;
   isShow?: boolean;
   index?: number;
@@ -31,6 +31,7 @@ type Props = {
   title?: string | string[];
   pickedBrands?: IBrand[];
   pickedRegions?: IRegion[];
+  filteredOptions?: string | string[] | undefined;
 };
 
 export const Dropdown: FC<Props> = props => {
@@ -54,11 +55,13 @@ export const Dropdown: FC<Props> = props => {
     updateStyle,
     title,
     optionList,
+    filteredOptions,
   } = props;
 
   const [isActive, setIsActive] = useState(false);
   const [filterValue, setfilterValue] = useState('');
   const [checkedValue, setCheckedValue] = useState<string[]>([]);
+  const [isFirstRender, setIsFirstRender] = useState(true);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -66,22 +69,24 @@ export const Dropdown: FC<Props> = props => {
     setCheckedValue([]);
   }, [carMark]);
 
-  const setChecked = (newOption: string) => {
-    const newState = [...checkedValue, newOption];
-    setCheckedValue(newState);
-    setOption(newState);
-  };
-  const setUnchecked = (newOption: string) => {
-    const newState = checkedValue.filter(value => value !== newOption);
-    if (newState.length === 0) {
-      setCheckedValue([]);
-      setOption(startValue);
-      return;
-    }
-    setCheckedValue(newState);
-    setOption(newState);
-  };
-
+  const setChecked = 
+    (newOption: string) => {
+      const newState = [...checkedValue, newOption];
+      setCheckedValue(newState);
+      setOption(newState);
+    };
+  const setUnchecked = 
+    (newOption: string) => {
+      const newState = checkedValue.filter(value => value !== newOption);
+      if (newState.length === 0) {
+        setCheckedValue([]);
+        setOption(startValue);
+        return;
+      }
+      setCheckedValue(newState);
+      setOption(newState);
+    };
+  
   const closeDropdown = () => {
     setIsActive(false);
     setfilterValue('');
@@ -141,13 +146,39 @@ export const Dropdown: FC<Props> = props => {
   }, [resetValue]);
 
   useEffect(() => {
+    if (filteredOptions) {
+      return;
+    }
     setOption(startValue);
-  }, [setOption, startValue]);
+  }, [setOption, startValue, filteredOptions]);
+
+  useEffect(() => {
+    if (isFirstRender) {
+      if (!filteredOptions) {
+        return;
+      }
+      if (Array.isArray(filteredOptions)) {
+        setCheckedValue(filteredOptions);
+        setOption(filteredOptions);
+      }
+    }
+    setIsFirstRender(false);
+  }, [filteredOptions, setCheckedValue, isFirstRender, setOption]);
+
+  useEffect(() => {
+    if (!filteredOptions) {
+      return;
+    }
+    if (Array.isArray(filteredOptions)) {
+      setCheckedValue(filteredOptions);
+      setOption(filteredOptions);
+    }
+  }, [carMark, filteredOptions, setOption]);
 
   return (
     <div
       className={`${styles.container} ${
-        updateStyle === 'advSearch' ? styles._advSearch: null
+        updateStyle === 'advSearch' ? styles._advSearch : null
       }`}
       ref={dropdownRef}
     >
@@ -165,10 +196,10 @@ export const Dropdown: FC<Props> = props => {
       <button
         className={`${styles.trigger} ${
           isActive ? styles.trigger_active : ''
-         } ${updateStyle === 'menuStyle' ? styles.triggerAdvMenu : null} ${
+        } ${updateStyle === 'menuStyle' ? styles.triggerAdvMenu : null} ${
           updateStyle === 'advSearch' ? styles.advSearch_trigger : null
         }`}
-        style={{ padding: stylepaddingZero ? '0px':undefined }}
+        style={{ padding: stylepaddingZero ? '0px' : undefined }}
         type="button"
         disabled={isDissabled}
         onClick={() => {

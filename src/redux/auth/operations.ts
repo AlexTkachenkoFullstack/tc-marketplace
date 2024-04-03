@@ -1,12 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
-import { setAuthHeaderForHide } from 'redux/filter/operations'; //!
+// import { setAuthHeaderForHide } from 'redux/filter/operations'; //!
 
 export type KnownError = {
   errorMessage: string;
 };
 
-const instance = axios.create({
+export const instance = axios.create({
   baseURL: 'https://api.pawo.space/api/v1/',
 });
 
@@ -64,7 +64,7 @@ export const logoutThunk = createAsyncThunk(
   try {
     await instance.post('authorization/logout');
     delAuthHeader();
-    setAuthHeaderForHide(''); //!
+    setAuthHeader(''); //!
   } catch (err: any) {
     console.error('err',err);
     return thunkAPI.rejectWithValue({ errorMessage: 'Failed to log out' });

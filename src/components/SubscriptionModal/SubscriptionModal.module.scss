@@ -96,9 +96,11 @@
   }
 
   & .characteristics {
+    display: flex;
+    flex-direction: column;
+    row-gap: 24px;
     width: 100%;
-    height: 2024px;
-    // background-color: goldenrod;
+    // height: 2024px;
     & .arrowDown {
       width: 24px;
       height: 24px;
