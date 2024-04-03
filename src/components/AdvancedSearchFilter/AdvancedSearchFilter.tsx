@@ -221,7 +221,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
       }
     }
     getCarTypeParams();
-  }, [transportTypeId]);
+  }, [transportTypeId,authToken]);
 
   useEffect(() => {
     dispatch(fetchRegions());
