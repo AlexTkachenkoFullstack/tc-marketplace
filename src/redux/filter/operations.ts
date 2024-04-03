@@ -1,28 +1,33 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { ISearchParams } from 'types/ISearchParam';
 import { paramsSerializer } from './../../utils/paramsSerializer';
 import { RootState } from 'redux/store'; //!
+import { setAuthHeader } from 'redux/auth/operations';
+import { instance } from 'redux/auth/operations';
+
 
 export type KnownError = {
   errorMessage: string;
 };
 
-const instance = axios.create({
-  baseURL: 'https://api.pawo.space/api/v1/',
-});
+// const instance = axios.create({
+//   baseURL: 'https://api.pawo.space/api/v1/',
+// });
 
-export const setAuthHeaderForHide = (token: string) => {
-  //!
-  instance.defaults.headers.common.Authorization = `Bearer ${token}`; //!
-}; //!
+// export const setAuthHeader = (token: string) => {
+//   instance.defaults.headers.common.Authorization = `Bearer ${token}`;
+// };
 
 export const fetchTypes = createAsyncThunk(
   'filter/getTypes',
   async (_, thunkAPI) => {
+    const {
+      auth: { token },
+    } = thunkAPI.getState() as RootState;
+    token && setAuthHeader(token);
     try {
       const response = await instance('main/types');
-
       return response.data;
     } catch (err) {
       const error: AxiosError<KnownError> = err as any;
@@ -37,6 +42,10 @@ export const fetchTypes = createAsyncThunk(
 export const fetchRegions = createAsyncThunk(
   'filter/getRegions',
   async (_, thunkAPI) => {
+    const {
+      auth: { token },
+    } = thunkAPI.getState() as RootState;
+    token && setAuthHeader(token);
     try {
       const response = await instance('main/regions');
       return response.data;
@@ -53,6 +62,10 @@ export const fetchRegions = createAsyncThunk(
 export const fetchBrands = createAsyncThunk(
   'filter/getBrands',
   async (transportTypeId: number, thunkAPI) => {
+    const {
+      auth: { token },
+    } = thunkAPI.getState() as RootState;
+    token && setAuthHeader(token);
     try {
       const config = {
         params: { transportTypeId },
@@ -78,6 +91,10 @@ export const fetchModels = createAsyncThunk(
     }: { transportTypeId: number; transportBrandId: number },
     thunkAPI,
   ) => {
+    const {
+      auth: { token },
+    } = thunkAPI.getState() as RootState;
+    token && setAuthHeader(token);
     try {
       const config = {
         params: { transportTypeId, transportBrandId },
@@ -100,13 +117,11 @@ export const fetchFiltredCars = createAsyncThunk(
     searchConfig: { page: number; limit: number; searchParams: ISearchParams },
     thunkAPI,
   ) => {
-    const state = thunkAPI.getState() as RootState; //!
-    const persistToken = state.auth.token; //!
+   const {
+     auth: { token },
+   } = thunkAPI.getState() as RootState;
+   token && setAuthHeader(token);
     try {
-      if (persistToken !== null) {
-        //!
-        setAuthHeaderForHide(persistToken); //!
-      } //!
       const config = {
         params: searchConfig.searchParams,
         paramsSerializer,
@@ -130,14 +145,11 @@ export const fetchFiltredCars = createAsyncThunk(
 export const fetchCity = createAsyncThunk(
   'filter/cities',
   async (searchConfig: { searchParams: ISearchParams }, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState; //!
-    const persistToken = state.auth.token; //!
+    const {
+      auth: { token },
+    } = thunkAPI.getState() as RootState;
+    token && setAuthHeader(token);
     try {
-      if (persistToken === null) {
-        return thunkAPI.rejectWithValue('Unable to Hide advert');
-      } //!if (persistToken !== null) {
-      //!
-      setAuthHeaderForHide(persistToken); //!
       const config = {
         params: searchConfig.searchParams,
         paramsSerializer,
@@ -156,16 +168,14 @@ export const fetchCity = createAsyncThunk(
 );
 
 export const hideTransport = createAsyncThunk(
-  ///////////////!
   'cars/putHideTransport',
   async (id: number, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState;
-    const persistToken = state.auth.token;
-    if (persistToken === null) {
-      return thunkAPI.rejectWithValue('Unable to Hide advert');
-    }
+   const {
+     auth: { token },
+   } = thunkAPI.getState() as RootState;
+   token && setAuthHeader(token);
+      // return thunkAPI.rejectWithValue('Unable to Hide advert');   
     try {
-      setAuthHeaderForHide(persistToken);
       const response = await instance.put(
         `https://api.pawo.space/api/v1/user-page/hide/transport/${id}`,
       );
@@ -178,19 +188,16 @@ export const hideTransport = createAsyncThunk(
       return thunkAPI.rejectWithValue({ errorMessage: error.response.data });
     }
   },
-); //////!
+); 
 
 export const hideAllTransport = createAsyncThunk(
-  ///////////////!
   'cars/putHideTransport',
   async (id: number, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState;
-    const persistToken = state.auth.token;
-    if (persistToken === null) {
-      return thunkAPI.rejectWithValue('Unable to Hide advert');
-    }
+    const {
+      auth: { token },
+    } = thunkAPI.getState() as RootState;
+    token && setAuthHeader(token);
     try {
-      setAuthHeaderForHide(persistToken);
       const response = await instance.put(
         `https://api.pawo.space/api/v1/user-page/hide-all/transport/${id}`,
       );
@@ -203,8 +210,8 @@ export const hideAllTransport = createAsyncThunk(
       return thunkAPI.rejectWithValue({ errorMessage: error.response.data });
     }
   },
-); //////!
-//
+); 
+
 export const fetchCars = createAsyncThunk(
   'filter/carsList',
   async (
@@ -214,14 +221,11 @@ export const fetchCars = createAsyncThunk(
     }: { id: number | null; searchConfig: { searchParams: ISearchParams } },
     thunkAPI,
   ) => {
-    const state = thunkAPI.getState() as RootState;
-    const persistToken = state.auth.token;
-
-    if (persistToken === null) {
-      return thunkAPI.rejectWithValue('Unable to Hide advert');
-    }
+    const {
+      auth: { token },
+    } = thunkAPI.getState() as RootState;
+    token && setAuthHeader(token);
     try {
-      setAuthHeaderForHide(persistToken);
       const config = {
         params: searchConfig.searchParams,
         paramsSerializer,
@@ -230,7 +234,6 @@ export const fetchCars = createAsyncThunk(
         `/catalog/get-param?transportTypeId=${id}`,
         config,
       );
-
       return response.data.transportModelDTOS;
     } catch (err) {
       const error: AxiosError<KnownError> = err as any;
