@@ -27,7 +27,7 @@ import { fetchNewCars, getCarDetails } from 'redux/cars/operations';
 import Loader from 'components/Loader/Loader';
 
 export const ItemPage: React.FC = () => {
-  const jsonString = localStorage.getItem('persist:userRoot');
+//   const jsonString = localStorage.getItem('persist:userRoot');
   const dispatch = useAppDispatch();
   //  const [authToken, setAuthToken] = useState<string>('');
   const newCars = useAppSelector(getNewCars);
@@ -41,13 +41,13 @@ export const ItemPage: React.FC = () => {
   const { id } = useParams();
   //   const token=useAppSelector(getToken)
   const carDetails = useAppSelector(carDetail);
-  useEffect(() => {
-    if (jsonString) {
-      const data = JSON.parse(jsonString);
-      const token = data.token.replace(/^"(.*)"$/, '$1');
-      //   setAuthToken(token);
-    }
-  }, [jsonString]);
+//   useEffect(() => {
+//     if (jsonString) {
+//       const data = JSON.parse(jsonString);
+//       const token = data.token.replace(/^"(.*)"$/, '$1');
+//       //   setAuthToken(token);
+//     }
+//   }, [jsonString]);
 
   useEffect(() => {
     const fetchCarDetails = async () => {

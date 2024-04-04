@@ -16,8 +16,8 @@ import { IType } from 'types/IType';
 import { IRegion } from 'types/IRegion';
 import { fetchBrands } from 'redux/filter/operations';
 import { ISearchParams } from 'types/ISearchParam';
-import { getCarTypeParam } from 'services/services';
-import { getToken } from 'redux/auth/selectors';
+// import { getCarTypeParam } from 'services/services';
+// import { getToken } from 'redux/auth/selectors';
 
 interface Iprops {
   toggleModalIsOpen: () => void;
@@ -44,7 +44,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
   const [selectedRegions] = useState<string | string[]>('Вся Україна');
 
   const dispatch = useAppDispatch();
-  const authToken = useAppSelector(getToken);
+//   const authToken = useAppSelector(getToken);
 
   const userEmail = 'dimside@gmail.com';
 
