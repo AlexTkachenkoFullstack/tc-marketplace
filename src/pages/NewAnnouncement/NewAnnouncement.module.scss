@@ -1,4 +1,4 @@
-@import '../../styles/utils/variables';
+// @import '../../styles/utils/variables';
 @import '/src/styles/main.scss';
 
 .section {
@@ -164,7 +164,7 @@
 .photo {
   &_errorMessage {
     position: absolute;
-    left: 0;   
+    left: 0;
     @extend %form-error-label;
   }
 }
@@ -464,6 +464,7 @@
   border-radius: 32px;
   margin-bottom: 32px;
   background: var(--Black, #434343);
+  border: 1px solid var(--Black, #434343);
 }
 .hide {
   display: none;
@@ -487,7 +488,59 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
-.buttonContainer{
-display: flex;
-gap: 285px;
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  @include onTablet {
+    flex-direction: unset;
+    gap: 285px;
+  }
+}
+.btn_advers_delete {
+  background: var(--White);
+  display: flex;
+  padding: 14px var(--Number, 24px);
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  color: var(--Black, #434343);
+  text-align: center;
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px; /* 150% */
+  letter-spacing: 0.15px;
+  border-radius: 32px;
+  margin-bottom: 12px;
+  border: 1px solid var(--Black, #434343);
+  @include onTablet {
+    margin-bottom: 32px;
+  }
+}
+.btn_advers_delete:hover {
+  border-radius: var(--Spacing-32-spacing, 32px);
+  border: 1px solid var(--Black, #434343);
+  background: var(--light-gray, #e4e4e4);
+}
+.btn_advers:hover {
+  background: var(--light-gray, #e4e4e4);
+  color: $color-black;
+}
+.btn_advers:active {
+  background: var(--Dark-Gray, #606060);
+  color: $white-color;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
+}
+.btn_advers_delete:active {
+  background: var(--Dark-Gray, #606060);
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
+  color: var(--White, #feffff);
+}
+.trashIcon {
+  width: 20px;
+  height: 20px;
+}
+.btn_advers_delete:active .trashIcon path {
+  fill: $white-color;
 }

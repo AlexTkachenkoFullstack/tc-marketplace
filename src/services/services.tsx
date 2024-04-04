@@ -127,3 +127,19 @@ export const putDeleteAdvertisement = async (id: string) => {
     console.error('Помилка в даних!', error);
   }
 };
+export const deletePhotoAdvertisement = async (
+  id:string, 
+  authToken: string,
+  callback: () => void
+) => {
+  setAuthHeaderForHide(authToken);
+ 
+  try {
+    const response = await instance.delete(`user-page/my-transports/delete-files/?galleryId=${id}`)   
+    callback()
+    return response.data
+
+  } catch (error) {
+    console.error('Помилка при видаленні даних!', error)
+  }
+};
