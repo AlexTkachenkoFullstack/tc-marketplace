@@ -79,7 +79,6 @@ export const NewAnnouncement: React.FC = () => {
   const isAdvertisements = location.pathname === '/advertisements';
   const dispatch = useAppDispatch();
   const [immutableData, setImmutableData] = useState(false);
-  const [authToken, setAuthToken] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [responseData, setResponseData] = useState<any>(null);
@@ -217,10 +216,10 @@ export const NewAnnouncement: React.FC = () => {
   const numberOfSeat = data?.numberOfSeatsTo;
   const mileageTo = data?.mileageTo;
   useEffect(() => {
-    if (!isAdvertisements || !authToken) {
+    if (!isAdvertisements) {
       return;
     }
-    if (isAdvertisements && authToken) {
+    if (isAdvertisements) {
       setIsLoading(true);
       setResponseData(null);
       setTypeCategory('Тип');
@@ -254,24 +253,24 @@ export const NewAnnouncement: React.FC = () => {
       setIsLoading(false);
       setImmutableData(false);
     }
-  }, [isAdvertisements, authToken]);
+  }, [isAdvertisements]);
 
   const id = location.state && location.state.id ? location.state.id : null;
-  useEffect(() => {
-    if (jsonString) {
-      const data = JSON.parse(jsonString);
-      const token = data.token.replace(/^"(.*)"$/, '$1');
-      setAuthToken(token);
-    }
-  }, [jsonString]);
+  // useEffect(() => {
+  //   if (jsonString) {
+  //     const data = JSON.parse(jsonString);
+  //     const token = data.token.replace(/^"(.*)"$/, '$1');
+  //     // setAuthToken(token);
+  //   }
+  // }, [jsonString]);
   useEffect(() => {
     const fetchData = async () => {
-      if (!isAdvertisementsEdit || !authToken || !id) {
+      if (!isAdvertisementsEdit || !id) {
         return;
       }
-      if (isAdvertisementsEdit && authToken && id) {
+      if (isAdvertisementsEdit && id) {
         try {
-          const response = await getAdvertisement(id, authToken);
+          const response = await getAdvertisement(id);
           console.log('response :>> ', response);
           setResponseData(response);
           setTypeCategory(response.type);
@@ -348,7 +347,7 @@ export const NewAnnouncement: React.FC = () => {
     };
 
     fetchData();
-  }, [isAdvertisementsEdit, authToken, id]);
+  }, [isAdvertisementsEdit, id]);
 
   useEffect(() => {
     if (typeCars.length > 0) {
@@ -376,15 +375,12 @@ export const NewAnnouncement: React.FC = () => {
     }
     async function getCarTypeParams() {
       if (transportTypeId !== null) {
-        const data = await getCarTypeParam(
-          transportTypeId.toString(),
-          authToken,
-        );
+        const data = await getCarTypeParam(transportTypeId.toString());
         setData(data);
       }
     }
     getCarTypeParams();
-  }, [transportTypeId, authToken]);
+  }, [transportTypeId]);
 
   useEffect(() => {
     if (selectedRegions && regions) {
@@ -657,7 +653,7 @@ export const NewAnnouncement: React.FC = () => {
     setMainPhoto(title);
   };
   const handleDeleteAdvers = () => {
-    putDeleteAdvertisement(responseData.id.toString(), authToken);
+    putDeleteAdvertisement(responseData.id.toString());
     setTimeout(() => {
       navigate(-1);
     }, 500);
@@ -768,14 +764,14 @@ export const NewAnnouncement: React.FC = () => {
       if (jsonString) {
         setIsLoading(true);
         !isAdvertisementsEdit
-          ? postNewAdvertisement(formData, authToken)
+          ? postNewAdvertisement(formData)
               .then(response => {
                 navigate(`/catalog/${response}`);
               })
               .catch(error => {
                 console.error('Произошла ошибка:', error);
               })
-          : putEditAdvertisement(id.toString(), formData, authToken)
+          : putEditAdvertisement(id.toString(), formData)
               .then(() => navigate(-1))
               .catch(error => {
                 console.error('Произошла ошибка:', error);

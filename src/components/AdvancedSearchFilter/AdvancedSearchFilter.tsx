@@ -57,8 +57,8 @@ interface Props {
 }
 const N = 9;
 export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
-  const jsonString = localStorage.getItem('persist:userRoot');
-  const [authToken, setAuthToken] = useState<string>('');
+  // const jsonString = localStorage.getItem('persist:userRoot');
+  // const [authToken, setAuthToken] = useState<string>('');
   const dispatch = useAppDispatch();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isOpen, setIsOpen] = useState<BlocksVisibilityState>(() => {
@@ -92,7 +92,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const cities: ICities[] = useAppSelector(getFilterCitys);
   const brands: IBrand[] = useAppSelector(getFilterBrands);
   const carsList: IModel[] = useAppSelector(getFilterCarsList);
-
+console.log('carsList', carsList);
   // type categotry cars
   const [selectedCategory, setSelectedCategory] = useState<string>('Легкові');
   const [carBody, setCarBody] = useState<string | string[]>('');
@@ -129,7 +129,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const toggleModalIsOpen = () => {
     setIsModalOpen(prev => !prev);
   };
-  console.log('countryDeliver :>> ', countryDeliver);
+  // console.log('countryDeliver :>> ', countryDeliver);
   const requestParams = { selectedCategory, carMark, carModel };
 
   // response catalog/get-param/id
@@ -159,13 +159,13 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
       pickedRegions.push(item);
     }
   });
-  useEffect(() => {
-    if (jsonString) {
-      const data = JSON.parse(jsonString);
-      const token = data.token.replace(/^"(.*)"$/, '$1');
-      setAuthToken(token);
-    }
-  }, [jsonString]);
+  // useEffect(() => {
+  //   if (jsonString) {
+  //     const data = JSON.parse(jsonString);
+  //     const token = data.token.replace(/^"(.*)"$/, '$1');
+  //     setAuthToken(token);
+  //   }
+  // }, [jsonString]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -215,13 +215,13 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
       if (transportTypeId !== null) {
         const data = await getCarTypeParam(
           transportTypeId.toString(),
-          authToken,
+        
         );
         setData(data);
       }
     }
     getCarTypeParams();
-  }, [transportTypeId,authToken]);
+  }, [transportTypeId]);
 
   useEffect(() => {
     dispatch(fetchRegions());
