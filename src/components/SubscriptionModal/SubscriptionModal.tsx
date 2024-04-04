@@ -16,6 +16,8 @@ import { IType } from 'types/IType';
 import { IRegion } from 'types/IRegion';
 import { fetchBrands } from 'redux/filter/operations';
 import { ISearchParams } from 'types/ISearchParam';
+import { getCarTypeParam } from 'services/services';
+import { getToken } from 'redux/auth/selectors';
 
 interface Iprops {
   toggleModalIsOpen: () => void;
@@ -39,11 +41,10 @@ const SubscriptionModal: React.FC<Iprops> = ({
   const [transportType, setTransportType] = useState<string | string[]>('');
   const [brand, setBrand] = useState<string | string[]>('');
   const [model, setModel] = useState<string | string[]>('');
-  const [selectedRegions] = useState<string | string[]>(
-    'Вся Україна',
-  );
+  const [selectedRegions] = useState<string | string[]>('Вся Україна');
 
   const dispatch = useAppDispatch();
+  const authToken = useAppSelector(getToken);
 
   const userEmail = 'dimside@gmail.com';
 
@@ -89,6 +90,10 @@ const SubscriptionModal: React.FC<Iprops> = ({
     subscriptionParams.transportTypeId = transportTypeId;
     transportTypeId && dispatch(fetchBrands(transportTypeId));
   }, [dispatch, transportType, transportTypes]);
+
+//   useEffect(() => {
+//    getCarTypeParam(subscriptionParams.transportTypeId, authToken); 
+//   }, [subscriptionParams.transportTypeId]);
 
   const handleBackdropClick = (e: React.SyntheticEvent) => {
     const { id } = e.target as HTMLDivElement;
