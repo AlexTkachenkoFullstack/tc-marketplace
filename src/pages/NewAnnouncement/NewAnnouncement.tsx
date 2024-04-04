@@ -491,7 +491,7 @@ export const NewAnnouncement: React.FC = () => {
         (item: any) => item.transportGalleryId === imageId,
       ).length > 0
     ) {
-      deletePhotoAdvertisement(imageId.toString(), authToken, () => {
+      deletePhotoAdvertisement(imageId.toString(), () => {
         setSelectedImages(prevImages =>
           prevImages.filter(image => image.id !== imageId),
         );

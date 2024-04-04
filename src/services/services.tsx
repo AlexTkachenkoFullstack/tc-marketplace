@@ -128,18 +128,18 @@ export const putDeleteAdvertisement = async (id: string) => {
   }
 };
 export const deletePhotoAdvertisement = async (
-  id:string, 
-  authToken: string,
-  callback: () => void
+  id: string,
+  callback: () => void,
 ) => {
-  setAuthHeaderForHide(authToken);
- 
-  try {
-    const response = await instance.delete(`user-page/my-transports/delete-files/?galleryId=${id}`)   
-    callback()
-    return response.data
+  setAuth();
 
+  try {
+    const response = await instance.delete(
+      `user-page/my-transports/delete-files/?galleryId=${id}`,
+    );
+    callback();
+    return response.data;
   } catch (error) {
-    console.error('Помилка при видаленні даних!', error)
+    console.error('Помилка при видаленні даних!', error);
   }
 };
