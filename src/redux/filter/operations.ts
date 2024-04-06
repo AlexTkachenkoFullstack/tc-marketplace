@@ -11,14 +11,6 @@ export type KnownError = {
   errorMessage: string;
 };
 
-// const instance = axios.create({
-//   baseURL: 'https://api.pawo.space/api/v1/',
-// });
-
-// export const setAuthHeader = (token: string) => {
-//   instance.defaults.headers.common.Authorization = `Bearer ${token}`;
-// };
-
 export const fetchTypes = createAsyncThunk(
   'filter/getTypes',
   async (_, thunkAPI) => {
@@ -131,7 +123,7 @@ export const fetchFiltredCars = createAsyncThunk(
         config,
       );
 
-      return response.data; //!
+      return response.data; 
     } catch (err) {
       const error: AxiosError<KnownError> = err as any;
       if (!error.response) {
@@ -174,7 +166,6 @@ export const hideTransport = createAsyncThunk(
      auth: { token },
    } = thunkAPI.getState() as RootState;
    token && setAuthHeader(token);
-      // return thunkAPI.rejectWithValue('Unable to Hide advert');   
     try {
       const response = await instance.put(
         `https://api.pawo.space/api/v1/user-page/hide/transport/${id}`,
