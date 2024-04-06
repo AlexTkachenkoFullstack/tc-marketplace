@@ -36,6 +36,8 @@ export const Header: FC = () => {
   const auth: boolean = useAppSelector(isAuthUser)
   const dispatchLogout = useAppDispatch();
   const navigate = useNavigate();
+  const isAdvertisementsEdit = location.pathname === '/advertisements/edit';
+  const isAdvertisements = location.pathname === '/advertisements';
   // const [isMenuOpen, setIsMenuOpen] = useState(false);
   // const [activeLink, setActiveLink] = useState('');
 
@@ -62,7 +64,9 @@ export const Header: FC = () => {
       </div>
 
       <div className={styles.header__right}>
-        <button className={styles.header__add_button} onClick={handleNewAnnouncementClick}>
+        <button className={styles.header__add_button} style={{
+          display: ( isAdvertisementsEdit || isAdvertisements) ?"none":''      
+        }} onClick={handleNewAnnouncementClick}>
           <span className={styles.header__add_button_text}>Додати оголошення</span>
           <img className={styles.header__add_button_icon} src={plus} alt="Додати" />
         </button>

@@ -62,6 +62,7 @@
   margin-bottom: 16px;
 }
 .mobileButton {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -98,10 +99,24 @@
   background: var(--Light, #f0f0f0);
   outline: none;
 }
+.inputPhone_withStaticValue{
+  width: 100%;
+  display: flex;
+  padding: 9px  51px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  align-self: stretch;
+  border-radius: 32px;
+  border: 1px solid var(--light-gray, #e4e4e4);
+  background: var(--Light, #f0f0f0);
+  outline: none;
+}
 .inputVincodeValid {
   width: 100%;
   display: flex;
-  padding: 10px var(--Border, 20px);
+  padding: 10px 20px;
   justify-content: center;
   align-items: center;
   gap: 8px;
@@ -543,4 +558,22 @@ input::-webkit-inner-spin-button {
 }
 .btn_advers_delete:active .trashIcon path {
   fill: $white-color;
+}
+.staticValue{
+  position: absolute;
+  font-size: 14px;
+  top: 12px;
+  left: 21px;
+}
+.inputVincodeInValid_staticValue {
+  width: 100%;
+  display: flex;
+  padding: 9px  51px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+  border-radius: 32px;
+  border: 1px solid var(--light-gray, red);
+  background: var(--Light, #f0f0f0);
 }
