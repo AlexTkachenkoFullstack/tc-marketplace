@@ -55,6 +55,7 @@ const portal = document.querySelector('#modal-root') as Element;
 interface Props {
   onAdvencedFilter: () => void;
 }
+
 const N = 9;
 export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   // const jsonString = localStorage.getItem('persist:userRoot');
@@ -92,9 +93,11 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const cities: ICities[] = useAppSelector(getFilterCitys);
   const brands: IBrand[] = useAppSelector(getFilterBrands);
   const carsList: IModel[] = useAppSelector(getFilterCarsList);
-console.log('carsList', carsList);
   // type categotry cars
   const [selectedCategory, setSelectedCategory] = useState<string>('Легкові');
+  const [prevSelectedCategory, setPrevSelectedCategory] =
+    useState<string>('Легкові');
+  const [optionList, setOptionList] = useState<ICities[]>(cities);
   const [carBody, setCarBody] = useState<string | string[]>('');
 
   const [carFuel, setCarFuel] = useState<string | string[]>('');
@@ -129,9 +132,7 @@ console.log('carsList', carsList);
   const toggleModalIsOpen = () => {
     setIsModalOpen(prev => !prev);
   };
-  // console.log('countryDeliver :>> ', countryDeliver);
   const requestParams = { selectedCategory, carMark, carModel };
-
   // response catalog/get-param/id
   const bodyTypes = data?.bodyTypeDTOS;
   const fuel = data?.fuelTypeDTOS;
@@ -159,14 +160,12 @@ console.log('carsList', carsList);
       pickedRegions.push(item);
     }
   });
-  // useEffect(() => {
-  //   if (jsonString) {
-  //     const data = JSON.parse(jsonString);
-  //     const token = data.token.replace(/^"(.*)"$/, '$1');
-  //     setAuthToken(token);
-  //   }
-  // }, [jsonString]);
-
+  
+  useEffect(() => {
+    dispatch(fetchRegions());
+    dispatch(fetchTypes());
+  }, [dispatch]);
+  
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -191,6 +190,7 @@ console.log('carsList', carsList);
         : getInitialButtonVisibility(true);
     });
   }, [windowWidth]);
+
   useEffect(() => {
     if (selectedRegions) {
       const regionId = getArrayOfId(regions, selectedRegions);
@@ -223,22 +223,61 @@ console.log('carsList', carsList);
     getCarTypeParams();
   }, [transportTypeId]);
 
-  useEffect(() => {
-    dispatch(fetchRegions());
-    dispatch(fetchTypes());
-  }, [dispatch]);
-
-  useEffect(() => {
-    setCarModel('Модель');
-  }, [carMark]);
-
   // обработчики категории машин
   const handlerType = (category: string) => {
-    setCarMark('Марка');
+    const newResetValue = Array(N).fill(true);
+    setResetValue(newResetValue);
+    setSelectedRegions('Регіон');
+    setSelectedCity('Місто');
+    setCarMark('Бренд');
     setCarModel('Модель');
     setBrandId([]);
     setSelectedCategory(category);
+    setTimeout(() => {
+      const newResetValueFalse = Array(N).fill(false);
+      setResetValue(newResetValueFalse);
+    }, 200);
   };
+
+  useEffect(() => {
+    const type = typeCars.find(item => item.type === selectedCategory);
+    type && setTransportTypeId(type?.typeId);
+    if (type) {
+      dispatch(fetchBrands(type.typeId));
+    }
+  }, [typeCars, dispatch, selectedCategory]);
+
+  useEffect(() => {
+    const type = typeCars.find(item => item.type === selectedCategory);
+    const brand = getArrayBrandsOfId(brands, carMark);
+
+    if (type && brand && brand.length > 0) {
+      const id = type.typeId;
+      const searchParams: Pick<ISearchParams, 'transportBrandsId'> = {
+        transportBrandsId: brand,
+      };
+      const searchConfig = {
+        searchParams,
+      };
+      setBrandId(brand);
+      dispatch(fetchCars({ id, searchConfig }));
+    }
+  }, [brands, carMark, typeCars, dispatch, selectedCategory]);
+
+  useEffect(() => {
+    if (selectedCategory !== prevSelectedCategory) {
+      dispatch(cleanFiltredStore({ field: 'carsList' }));
+      setTimeout(() => {
+        dispatch(cleanFiltredStore({ field: 'cities' }));
+      }, 100);
+      setOptionList([]);
+    } else {
+      setOptionList(cities);
+    }
+
+    setPrevSelectedCategory(selectedCategory);
+  }, [selectedCategory, prevSelectedCategory, cities,dispatch]);
+
   const handlerCarBody = (valueType: string[]) => {
     setCarBody(valueType);
   };
@@ -280,30 +319,6 @@ console.log('carsList', carsList);
       [blockName]: !prevState[blockName],
     }));
   };
-  useEffect(() => {
-    const type = typeCars.find(item => item.type === selectedCategory);
-    type && setTransportTypeId(type?.typeId);
-    if (type) {
-      dispatch(fetchBrands(type.typeId));
-    }
-  }, [typeCars, dispatch, selectedCategory]);
-
-  useEffect(() => {
-    const type = typeCars.find(item => item.type === selectedCategory);
-    const brand = getArrayBrandsOfId(brands, carMark);
-
-    if (type && brand && brand.length > 0) {
-      const id = type.typeId;
-      const searchParams: Pick<ISearchParams, 'transportBrandsId'> = {
-        transportBrandsId: brand,
-      };
-      const searchConfig = {
-        searchParams,
-      };
-      setBrandId(brand);
-      dispatch(fetchCars({ id, searchConfig }));
-    }
-  }, [brands, carMark, typeCars, dispatch, selectedCategory]);
 
   const handlerResetFilter = () => {
     const newResetValue = Array(N).fill(true);
@@ -325,11 +340,15 @@ console.log('carsList', carsList);
     setCarNumberAxles('');
     setCarWheelConfiguration('');
     setSelectedOption(undefined);
-    setCarMark('Всі марки');
-    setCarModel('Всі моделі');
+    setCarMark('Бренд');
+    setCarModel('Модель');
     setSelectedCity('Місто');
-    setSelectedRegions('Вся Україна');
-    setCountryDeliver('Весь світ');
+    setSelectedRegions('Регіон');
+    setCountryDeliver('Країна');
+    dispatch(cleanFiltredStore({ field: 'carsList' }));
+      setTimeout(() => {
+        dispatch(cleanFiltredStore({ field: 'cities' }));
+      }, 100);
     setTimeout(() => {
       const newResetValueFalse = Array(N).fill(false);
       setResetValue(newResetValueFalse);
@@ -339,7 +358,7 @@ console.log('carsList', carsList);
   // надсилання данних фільтра запиту
   const handlerSendRequest = () => {
     const regionId = getArrayOfId(regions, selectedRegions);
-    dispatch(cleanFiltredStore());
+    // dispatch(cleanFiltredStore({ field: 'filtredCars' }));
     const modelId = getArrayModelsOfId(carsList, carModel);
     const cityId = getArrayCityOfId(cities, selectedCity);
     const bodyTypeId = getArrayCarBodyOfId(bodyTypes, carBody);
@@ -494,7 +513,7 @@ console.log('carsList', carsList);
                       resetValue={resetValue[1]}
                       pickedRegions={pickedRegions}
                       updateStyle="advSearch"
-                      optionList={cities}
+                      optionList={optionList}
                       label="Місто"
                       startValue="Місто"
                       checkboxAllowed
@@ -603,7 +622,7 @@ console.log('carsList', carsList);
                   <Dropdown
                     resetValue={resetValue[3]}
                     updateStyle="advSearch"
-                    optionList={carsList}
+                    optionList={carMark !== 'Всі марки' ? carsList : []}
                     label="Модель"
                     startValue="Модель"
                     allOptionsLabel="Всі моделі"

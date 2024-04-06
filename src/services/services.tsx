@@ -85,6 +85,7 @@ export const postNewAdvertisement = async (formData: FormData) => {
       'Content-type': 'multipart/form-data',
     },
   };
+  console.log('click')
   try {
     const response = await instance.post(
       'main/advertisements',

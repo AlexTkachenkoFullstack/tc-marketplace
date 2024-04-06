@@ -59,15 +59,22 @@ import { generateYears } from 'utils/generateYears';
 import { yearNow } from 'utils/yearNow';
 import { extractPhotoName } from 'utils/extractPhotoName';
 import { ReactComponent as Trash } from '../../assets/icons/delete.svg';
+import { cleanFiltredStore } from 'redux/filter/slice';
+interface RequestData {
+  [key: string]: any;
+}
 
+interface ResponseData {
+  [key: string]: any;
+}
+const staticValue = '+380';
 const startVolume = 0.0;
 const endVolume = 20.0;
 const step = 0.1;
 const startYear = 1970;
 const endYear = yearNow();
 const N = 20;
-export const NewAnnouncement: React.FC = () => {
-  const jsonString = localStorage.getItem('persist:userRoot');
+export const NewAnnouncement: React.FC = () => { 
   const inputRef = useRef<HTMLInputElement>(null);
   const input1Ref = useRef<HTMLInputElement>(null);
   const input2Ref = useRef<HTMLInputElement>(null);
@@ -81,7 +88,7 @@ export const NewAnnouncement: React.FC = () => {
   const [immutableData, setImmutableData] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [responseData, setResponseData] = useState<any>(null);
+  const [responseData, setResponseData] = useState<ResponseData | null>(null);
   const [isOpen, setIsOpen] = useState<BlocksVisibilityState>(() => {
     return getWindowWidth() < 767
       ? getInitialBlocksVisibility(false)
@@ -97,7 +104,6 @@ export const NewAnnouncement: React.FC = () => {
     'Літри',
   );
   const yearsArray = generateYears(startYear, endYear);
-
   const [isShow, setIsShow] = useState(Array(N).fill(false));
   const [messages, setMessages] = useState(Array(N).fill(''));
   const [activeField, setActiveField] = useState(Array(N).fill(''));
@@ -123,12 +129,11 @@ export const NewAnnouncement: React.FC = () => {
   };
   const [selectedImages, setSelectedImages] = useState<UploadedImage[]>([]);
 
-  console.log('selectedImages :>> ', selectedImages);
   const [mainPhoto, setMainPhoto] = useState<string>('');
-  console.log('mainPhoto :>> ', mainPhoto);
+
   const [textValue, setTextValue] = useState<string>('');
   const [inputPhone, setInputPhone] = useState<string>('');
-  const maxDigits = 12;
+  const maxDigits = 9;
   const [selectedRegions, setSelectedRegions] = useState<string | string[]>(
     'Вся Україна',
   );
@@ -175,22 +180,21 @@ export const NewAnnouncement: React.FC = () => {
   const [transportTypeId, setTransportTypeId] = useState<number | null>(null);
   const [typeCategory, setTypeCategory] = useState<string | string[]>('');
   const [carBrand, setCarBrand] = useState<string | string[]>('');
-  const [carModel, setCarModel] = useState<string | string[]>('');  
+  const [carModel, setCarModel] = useState<string | string[]>('');
 
   const typeCars: IType[] = useAppSelector(getFilterTypes);
   const brands: IBrand[] = useAppSelector(getFilterBrands);
   const models: IModel[] = useAppSelector(getFilterModels);
   const regions: IRegion[] = useAppSelector(getFilterRegions);
   const cities: ICities[] = useAppSelector(getFilterCitys);
-  
- 
+
   const sortedImages = [...selectedImages].sort((a, b) => {
     if (a.name === mainPhoto && b.name !== mainPhoto) {
-      return -1; // Поместить изображение a на первое место
+      return -1;
     } else if (a.name !== mainPhoto && b.name === mainPhoto) {
-      return 1; // Поместить изображение b на первое место
+      return 1;
     } else {
-      return 0; // Оставить порядок изображений без изменений
+      return 0;
     }
   });
 
@@ -215,54 +219,8 @@ export const NewAnnouncement: React.FC = () => {
   const engPower = data?.enginePowerFrom;
   const numberOfSeat = data?.numberOfSeatsTo;
   const mileageTo = data?.mileageTo;
-  useEffect(() => {
-    if (!isAdvertisements) {
-      return;
-    }
-    if (isAdvertisements) {
-      setIsLoading(true);
-      setResponseData(null);
-      setTypeCategory('Тип');
-      setCarBrand('Бренд');
-      setSelectedRegions('Область');
-      setCarModel('Модель');
-      setSelectedCity('Місто');
-      setSelectedBodyType('Тип кузову');
-      setSelectedFuelType('Тип палива');
-      setSelectedDriveType('Привід');
-      setSelectedTransmission('Коробка передач');
-      setFuelConsumption('Літри');
-      setSelectedColor('Колір');
-      setSelectedCondition('Технічний стан');
-      setSelectedAxle('Кількість осей');
-      setSelectedProducingCountry('Країна');
-      setSelectedWheelConfiguration('Конфігурація коліс');
-      setYearCar('Рік');
-      setPrice(null);
-      setSelectedOption(undefined);
-      setTextValue('');
-      setMainPhoto('');
-      setEngineVolumes('Літри');
-      setEnginePower(null);
-      setMileage(null);
-      setNumberOfDoors(null);
-      setNumberOfSeats(null);
-      setInputPhone('');
-      setVinCode('');
-      setSelectedImages([]);
-      setIsLoading(false);
-      setImmutableData(false);
-    }
-  }, [isAdvertisements]);
 
-  const id = location.state && location.state.id ? location.state.id : null;
-  // useEffect(() => {
-  //   if (jsonString) {
-  //     const data = JSON.parse(jsonString);
-  //     const token = data.token.replace(/^"(.*)"$/, '$1');
-  //     // setAuthToken(token);
-  //   }
-  // }, [jsonString]);
+  const id = location.state && location.state.id ? location.state.id : null;  
   useEffect(() => {
     const fetchData = async () => {
       if (!isAdvertisementsEdit || !id) {
@@ -270,8 +228,7 @@ export const NewAnnouncement: React.FC = () => {
       }
       if (isAdvertisementsEdit && id) {
         try {
-          const response = await getAdvertisement(id);
-          console.log('response :>> ', response);
+          const response = await getAdvertisement(id);          
           setResponseData(response);
           setTypeCategory(response.type);
           setCarBrand(response.brand);
@@ -306,19 +263,15 @@ export const NewAnnouncement: React.FC = () => {
               }
             }
           });
-          // setMainPhoto(!== null ? extractPhotoName(response.galleries[0].transportGalleryUrl) : "") as string
-          //   ( response.galleries.forEach((item:any)=>{item.transportGalleryUrl !== null ? extractPhotoName(response.galleries[0].transportGalleryUrl) : ""}) as string
-          // );
           setEngineVolumes(response.engineDisplacement);
           setEnginePower(response.enginePower);
           setMileage(response.mileage);
           setNumberOfDoors(response.numberOfDoors);
           setNumberOfSeats(response.numberOfSeats);
-          setInputPhone(response.phone);
+          setInputPhone(response.phone.slice(4));
           setVinCode(response.vincode);
           response.galleries.forEach((item: any) => {
             setSelectedImages(prevImages => {
-              // Возвращаем новый массив, который содержит предыдущие изображения и новое изображение
               return [
                 ...prevImages,
                 {
@@ -331,13 +284,6 @@ export const NewAnnouncement: React.FC = () => {
               ];
             });
           });
-          // setSelectedImages([
-          //   {
-          //     name: (response.galleries[0].transportGalleryUrl !== null ? extractPhotoName(response.galleries[0].transportGalleryUrl) : "") as string,
-          //     url: response.galleries[0].transportGalleryUrl,
-          //     id: response.galleries[0].transportGalleryId,
-          //   },
-          // ]);
           setImmutableData(true);
           setIsLoading(false);
         } catch (error) {
@@ -443,9 +389,9 @@ export const NewAnnouncement: React.FC = () => {
   };
   const handleInputPhone = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    event.target.classList.remove(styles.inputVincodeInValid);
+    event.target.classList.remove(styles.inputVincodeInValid_staticValue);
     closeModal(16);
-    if (/^\+[0-9]*$/.test(value) && value.length <= maxDigits + 1) {
+    if (/^[0-9]*$/.test(value) && value.length <= maxDigits) {
       setInputPhone(value);
     }
   };
@@ -453,13 +399,15 @@ export const NewAnnouncement: React.FC = () => {
 
   const handleInputPhoneBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    if (value.length !== 13) {
-      event.currentTarget.classList.add(styles.inputVincodeInValid);
+    if (value.length !== 9) {
+      event.currentTarget.classList.add(styles.inputVincodeInValid_staticValue);
 
-      openNotification(16, `Залишилось ввести цифр ${remainingDigits}!`);
+      openNotification(16, `Залишилось ввести цифр ${remainingDigits - 1}!`);
     }
-    if (value.length === 13) {
-      event.currentTarget.classList.remove(styles.inputVincodeInValid);
+    if (value.length === 9) {
+      event.currentTarget.classList.remove(
+        styles.inputVincodeInValid_staticValue,
+      );
 
       closeModal(16);
     }
@@ -501,17 +449,8 @@ export const NewAnnouncement: React.FC = () => {
           console.log('Deleted');
         }
       }).catch(error => {
-        // Обработка ошибок запроса
         console.error('Ошибка в запросе:', error);
       });
-      // deletePhotoAdvertisement(imageId.toString(),authToken)
-
-      // setSelectedImages(prevImages =>
-      //   prevImages.filter(image => image.id !== imageId),
-      // );
-      // if (name === mainPhoto) {
-      //   setMainPhoto('');
-      // }
     } else {
       setSelectedImages(prevImages =>
         prevImages.filter(image => image.id !== imageId),
@@ -653,131 +592,128 @@ export const NewAnnouncement: React.FC = () => {
     setMainPhoto(title);
   };
   const handleDeleteAdvers = () => {
-    putDeleteAdvertisement(responseData.id.toString());
-    setTimeout(() => {
-      navigate(-1);
-    }, 500);
+    if(responseData && responseData.id !== null){
+      putDeleteAdvertisement(responseData!.id.toString());
+      setTimeout(() => {
+        navigate(-1);
+      }, 500);
+    }
   };
 
   const handleAddOrUpdateAdvers = () => {
-    if (
-      selectedImages.length > 0 &&
-      mainPhoto !== '' &&
-      price &&
-      selectedCity !== 'Місто' &&
-      carModel !== '' &&
-      yearCar !== 'Рік' &&
-      selectedBodyType !== 'Тип кузову' &&
-      selectedFuelType !== 'Тип палива' &&
-      fuelConsumption !== 'Літри' &&
-      selectedTransmission !== 'Коробка передач' &&
-      mileage &&
-      engineVolumes !== 'Літри' &&
-      selectedDriveType !== 'Привід' &&
-      inputPhone.length === 13
-    ) {
-      const createFormData = (
-        selectedImageFile: any,
-        needToAddFile: boolean,
-      ) => {
-        const modelId = getArrayModelsOfId(models, carModel);
-        const cityId = getArrayCityOfId(cities, selectedCity);
-        const bodyTypeId = getArrayCarBodyOfId(
-          bodyTypes ?? [],
-          selectedBodyType,
-        );
-        const fuelTypeId = getArrayFuelOfId(fuel ?? [], selectedFuelType);
-        const driveTypeId = getArrayDriveOfid(
-          driveType ?? [],
-          selectedDriveType,
-        );
-        const transmissionId = getArrayTransmissionOfId(
-          transmission ?? [],
-          selectedTransmission,
-        );
-        const colorId = getArrayColorOfId(transportColor ?? [], selectedColor);
-        const conditionId = getArrayConditionOfId(
-          transportCondition ?? [],
-          selectedCondition,
-        );
-        const numberAxlesId = getArrayNumberAxlesOfId(
-          numberAxles ?? [],
-          selectedAxle,
-        );
-        const producingCountryId = getArrayProducingCountryOfId(
-          producingCountry ?? [],
-          selectedProducingCountry,
-        );
-        const wheelConfigurationId = getArrayWheelConfigurationOfId(
-          wheelConfiguration ?? [],
-          selectedWheelConfiguration,
-        );
+    if (isAdvertisements) {
+      if (
+        selectedImages.length > 0 &&
+        mainPhoto !== '' &&
+        price &&
+        selectedCity !== 'Місто' &&
+        carModel !== '' &&
+        yearCar !== 'Рік' &&
+        selectedBodyType !== 'Тип кузову' &&
+        selectedFuelType !== 'Тип палива' &&
+        fuelConsumption !== 'Літри' &&
+        selectedTransmission !== 'Коробка передач' &&
+        mileage &&
+        engineVolumes !== 'Літри' &&
+        selectedDriveType !== 'Привід' &&
+        inputPhone.length === 9
+      ) {
+        const createFormData = (selectedImageFile: any) => {
+          const modelId = getArrayModelsOfId(models, carModel);
+          const cityId = getArrayCityOfId(cities, selectedCity);
+          const bodyTypeId = getArrayCarBodyOfId(
+            bodyTypes ?? [],
+            selectedBodyType,
+          );
+          const fuelTypeId = getArrayFuelOfId(fuel ?? [], selectedFuelType);
+          const driveTypeId = getArrayDriveOfid(
+            driveType ?? [],
+            selectedDriveType,
+          );
+          const transmissionId = getArrayTransmissionOfId(
+            transmission ?? [],
+            selectedTransmission,
+          );
+          const colorId = getArrayColorOfId(
+            transportColor ?? [],
+            selectedColor,
+          );
+          const conditionId = getArrayConditionOfId(
+            transportCondition ?? [],
+            selectedCondition,
+          );
+          const numberAxlesId = getArrayNumberAxlesOfId(
+            numberAxles ?? [],
+            selectedAxle,
+          );
+          const producingCountryId = getArrayProducingCountryOfId(
+            producingCountry ?? [],
+            selectedProducingCountry,
+          );
+          const wheelConfigurationId = getArrayWheelConfigurationOfId(
+            wheelConfiguration ?? [],
+            selectedWheelConfiguration,
+          );
 
-        const formData = new FormData();
-        selectedImageFile.forEach((item: any) => {
-          if (needToAddFile) {
+          const formData = new FormData();
+          selectedImageFile.forEach((item: any) => {
             formData.append('multipartFiles', item.file[0]);
-          }
-        });
+          });
 
-        const requestData = {
-          model: modelId[0],
-          bodyType: bodyTypeId[0],
-          importedFrom: producingCountryId[0],
-          year: +yearCar,
-          price,
-          bargain: selectedOption,
-          trade: true,
-          // military: true,
-          // installmentPayment: true,
-          uncleared: true,
-          accidentHistory: true,
-          condition: conditionId[0],
-          vincode: vincode,
-          description: textValue,
-          color: colorId[0],
-          city: cityId[0],
-          mainPhoto: mainPhoto,
-          transmission: transmissionId[0],
-          fuelType: fuelTypeId[0],
-          fuelConsumptionMixed: +fuelConsumption,
-          engineDisplacement: engineVolumes,
-          enginePower: enginePower,
-          driveType: driveTypeId[0],
-          mileage,
-          numberOfDoors,
-          numberOfSeats,
-          wheelConfiguration: wheelConfigurationId[0],
-          numberAxles: numberAxlesId[0],
-          phone: inputPhone,
+          const requestData: RequestData = {
+            model: modelId[0],
+            bodyType: bodyTypeId[0],
+            importedFrom: producingCountryId[0],
+            year: +yearCar,
+            price: price,
+            bargain: selectedOption,
+            trade: true,
+            // military: true,
+            // installmentPayment: true,
+            uncleared: true,
+            accidentHistory: true,
+            condition: conditionId[0],
+            vincode: vincode,
+            description: textValue,
+            color: colorId[0],
+            city: cityId[0],
+            mainPhoto: mainPhoto,
+            transmission: transmissionId[0],
+            fuelType: fuelTypeId[0],
+            fuelConsumptionMixed: +fuelConsumption,
+            engineDisplacement: +engineVolumes,
+            enginePower: enginePower,
+            driveType: driveTypeId[0],
+            mileage,
+            numberOfDoors,
+            numberOfSeats,
+            wheelConfiguration: wheelConfigurationId[0],
+            numberAxles: numberAxlesId[0],
+            phone: staticValue + inputPhone,
+          };
+
+          formData.append(
+            'requestAddTransportDTO',
+            new Blob([JSON.stringify(requestData)], {
+              type: 'application/json',
+            }),
+          );
+          formData.set('Content-Type', 'application/json');
+
+          return formData;
         };
-        formData.append(
-          'requestAddTransportDTO',
-          new Blob([JSON.stringify(requestData)], { type: 'application/json' }),
-        );
-        formData.set('Content-Type', 'application/json');
-
-        return formData;
-      };
-      const formData: FormData = createFormData(selectedImages, needToAddFile);
-
-      if (jsonString) {
+        const formData: FormData = createFormData(selectedImages);
         setIsLoading(true);
-        !isAdvertisementsEdit
-          ? postNewAdvertisement(formData)
-              .then(response => {
-                navigate(`/catalog/${response}`);
-              })
-              .catch(error => {
-                console.error('Произошла ошибка:', error);
-              })
-          : putEditAdvertisement(id.toString(), formData)
-              .then(() => navigate(-1))
-              .catch(error => {
-                console.error('Произошла ошибка:', error);
-              });
 
-        setCarModel('');
+        postNewAdvertisement(formData)
+          .then(response => {
+            navigate(`/catalog/${response}`);
+          })
+          .catch(error => {
+            console.error('Произошла ошибка:', error);
+          });
+
+        setCarModel('Модель');
         setSelectedCity('');
         setSelectedBodyType('');
         setSelectedFuelType('');
@@ -800,64 +736,194 @@ export const NewAnnouncement: React.FC = () => {
         setNumberOfSeats(null);
         setInputPhone('');
         setSelectedImages([]);
+        dispatch(cleanFiltredStore({ field: 'models' }));
+        setTimeout(() => {
+          dispatch(cleanFiltredStore({ field: 'cities' }));
+        }, 100);
         setIsLoading(false);
+      } else {
+        if (!selectedImages.length && !mainPhoto) {
+          openNotification(0, 'Додайте фото!');
+        }
+        if (typeCategory === 'Тип') {
+          openNotification(1, 'Виберіть тип автомобіля!');
+        }
+        // if (!vincode && input1Ref.current) {
+        //   input1Ref.current.classList.add(styles.inputVincodeInValid);
+        //   openNotification(2, 'Додайте VIN code!');
+        // }
+        if (carBrand === 'Бренд') {
+          openNotification(3, 'Виберіть бренд автомобіля!');
+        }
+        if (carModel === 'Модель') {
+          openNotification(4, 'Виберіть модель автомобіля!');
+        }
+        if (yearCar === 'Рік') {
+          openNotification(5, 'Виберіть рік випуску автомобіля!');
+        }
+        if (selectedBodyType === 'Тип кузову') {
+          openNotification(6, 'Виберіть тип кузову автомобіля!');
+        }
+        if (selectedFuelType === 'Тип палива') {
+          openNotification(7, 'Виберіть тип палива автомобіля!');
+        }
+        if (fuelConsumption === 'Літри') {
+          openNotification(8, 'Виберіть середню витрату палива!');
+        }
+        if (engineVolumes === 'Літри') {
+          openNotification(9, "Виберіть об'єм двигуна автомобіля!");
+        }
+        if (selectedTransmission === 'Коробка передач') {
+          openNotification(10, 'Виберіть коробку передач автомобіля!');
+        }
+        if (!mileage && input2Ref.current) {
+          input2Ref.current.classList.add(styles.inputVincodeInValid);
+          openNotification(11, 'Додайте пробіг автомобіля!');
+        }
+        if (selectedDriveType === 'Привід') {
+          openNotification(12, 'Виберіть привід автомобіля!');
+        }
+        if (selectedRegions === 'Область') {
+          openNotification(13, 'Виберіть область!');
+        }
+        if (selectedCity === 'Місто') {
+          openNotification(14, 'Виберіть місто!');
+        }
+        if (!price && input3Ref.current) {
+          input3Ref.current.classList.add(styles.inputVincodeInValid);
+          openNotification(15, 'Додайте ціну автомобіля!');
+        }
+        if (!inputPhone && input4Ref.current) {
+          input4Ref.current.classList.add(
+            styles.inputVincodeInValid_staticValue,
+          );
+          openNotification(16, 'Додайте номер телефону!');
+        }
       }
-    } else {
-      if (!selectedImages.length && !mainPhoto) {
-        openNotification(0, 'Додайте фото!');
-      }
-      if (typeCategory === 'Тип') {
-        openNotification(1, 'Виберіть тип автомобіля!');
-      }
-      // if (!vincode && input1Ref.current) {
-      //   input1Ref.current.classList.add(styles.inputVincodeInValid);
-      //   openNotification(2, 'Додайте VIN code!');
-      // }
-      if (carBrand === 'Бренд') {
-        openNotification(3, 'Виберіть бренд автомобіля!');
-      }
-      if (carModel === 'Модель') {
-        openNotification(4, 'Виберіть модель автомобіля!');
-      }
-      if (yearCar === 'Рік') {
-        openNotification(5, 'Виберіть рік випуску автомобіля!');
-      }
-      if (selectedBodyType === 'Тип кузову') {
-        openNotification(6, 'Виберіть тип кузову автомобіля!');
-      }
-      if (selectedFuelType === 'Тип палива') {
-        openNotification(7, 'Виберіть тип палива автомобіля!');
-      }
-      if (fuelConsumption === 'Літри') {
-        openNotification(8, 'Виберіть середню витрату палива!');
-      }
-      if (engineVolumes === 'Літри') {
-        openNotification(9, "Виберіть об'єм двигуна автомобіля!");
-      }
-      if (selectedTransmission === 'Коробка передач') {
-        openNotification(10, 'Виберіть коробку передач автомобіля!');
-      }
-      if (!mileage && input2Ref.current) {
-        input2Ref.current.classList.add(styles.inputVincodeInValid);
-        openNotification(11, 'Додайте пробіг автомобіля!');
-      }
-      if (selectedDriveType === 'Привід') {
-        openNotification(12, 'Виберіть привід автомобіля!');
-      }
-      if (selectedRegions === 'Область') {
-        openNotification(13, 'Виберіть область!');
-      }
-      if (selectedCity === 'Місто') {
-        openNotification(14, 'Виберіть місто!');
-      }
-      if (!price && input3Ref.current) {
-        input3Ref.current.classList.add(styles.inputVincodeInValid);
-        openNotification(15, 'Додайте ціну автомобіля!');
-      }
-      if (!inputPhone && input4Ref.current) {
-        input4Ref.current.classList.add(styles.inputVincodeInValid);
-        openNotification(16, 'Додайте номер телефону!');
-      }
+    }
+    if (isAdvertisementsEdit) {
+      const createFormData = () => {
+        const cityId = getArrayCityOfId(cities, selectedCity);
+        const conditionId = getArrayConditionOfId(
+          transportCondition ?? [],
+          selectedCondition,
+        );
+        const numberAxlesId = getArrayNumberAxlesOfId(
+          numberAxles ?? [],
+          selectedAxle,
+        );
+        const producingCountryId = getArrayProducingCountryOfId(
+          producingCountry ?? [],
+          selectedProducingCountry,
+        );
+        const wheelConfigurationId = getArrayWheelConfigurationOfId(
+          wheelConfiguration ?? [],
+          selectedWheelConfiguration,
+        );
+        const newImages: any[] = [];
+
+        if (selectedImages && responseData && responseData.galleries) {
+          selectedImages.forEach(selectedImage => {
+            const isUrlExists = responseData.galleries.some(
+              (item: any) => item.transportGalleryUrl === selectedImage.url,
+            );
+            if (!isUrlExists) {
+              newImages.push(selectedImage);
+            }
+          });
+        }
+        const formData = new FormData();
+        newImages.forEach((item: any) => {
+          if (needToAddFile) {
+            formData.append('multipartFiles', item.file[0]);
+          }
+        });
+        let comparedValues: { [key: string]: any } = {};
+
+        const requestDataForChecking: RequestData = {
+          description: textValue,
+          fuelConsumptionMixed: +fuelConsumption,
+          engineDisplacement: +engineVolumes,
+          mileage,
+          enginePower: enginePower,
+          city: selectedCity,
+          condition: selectedCondition,
+          numberOfDoors,
+          numberOfSeats,
+          importedFrom: selectedProducingCountry,
+          price,
+          bargain: selectedOption,
+          wheelConfiguration: selectedWheelConfiguration,
+          numberAxles: selectedAxle,
+          phone: staticValue + inputPhone,
+        };
+        if (responseData !== null && typeof responseData === 'object') {
+          for (const key in requestDataForChecking) {
+            if (
+              key in responseData &&
+              requestDataForChecking[key] !== responseData[key]
+            ) {
+              comparedValues[key] = requestDataForChecking[key];
+            }
+          }
+        }
+        const responseDataPhotoName = extractPhotoName(responseData!.mainPhoto);
+        if (responseDataPhotoName !== mainPhoto) {
+          comparedValues = {
+            ...comparedValues,
+            mainPhoto: mainPhoto,
+          };
+        }
+        const newData: RequestData = {};
+        const requestData: RequestData = {
+          mainPhoto: mainPhoto,
+          description: textValue,
+          fuelConsumptionMixed: +fuelConsumption,
+          engineDisplacement: +engineVolumes,
+          mileage,
+          enginePower: enginePower,
+          city: cityId[0],
+          condition: conditionId[0],
+          numberOfDoors,
+          numberOfSeats,
+          importedFrom: producingCountryId[0],
+          price,
+          bargain: selectedOption,
+          wheelConfiguration: wheelConfigurationId[0],
+          numberAxles: numberAxlesId[0],
+          phone: staticValue + inputPhone,
+        };
+        const keysFromComparedValues = Object.keys(comparedValues);
+        const allKeysExist = keysFromComparedValues.every(
+          key => key in requestData,
+        );
+        if (allKeysExist) {
+          for (const key in requestData) {
+            if (
+              key in comparedValues &&
+              requestData[key] !== undefined &&
+              comparedValues[key] !== undefined
+            ) {
+              newData[key] = requestData[key];
+            }
+          }
+        }
+        formData.append(
+          'body',
+          new Blob([JSON.stringify(newData)], { type: 'application/json' }),
+        );
+        formData.set('Content-Type', 'application/json');
+
+        return formData;
+      };
+      const formData: FormData = createFormData();
+
+
+      putEditAdvertisement(id.toString(), formData)
+        .then(() => navigate(-1))
+        .catch(error => {
+          console.error('Произошла ошибка:', error);
+        });
     }
   };
 
@@ -931,7 +997,9 @@ export const NewAnnouncement: React.FC = () => {
                   }
                   label="Тип"
                   startValue={`${
-                    typeCategory === 'Тип' || '' ? 'Тип' : typeCategory
+                    typeCategory === 'Тип' || typeCategory === ''
+                      ? 'Тип'
+                      : typeCategory
                   }`}
                   allOptionsLabel="Всі типи"
                   option={typeCategory}
@@ -1082,7 +1150,9 @@ export const NewAnnouncement: React.FC = () => {
                       )}
                       label="Бренд"
                       startValue={`${
-                        carBrand === 'Бренд' || '' ? 'Бренд' : carBrand
+                        carBrand === 'Бренд' || carBrand === ''
+                          ? 'Бренд'
+                          : carBrand
                       }`}
                       option={carBrand}
                       setOption={setCarBrand}
@@ -1132,7 +1202,9 @@ export const NewAnnouncement: React.FC = () => {
                       }
                       label="Модель"
                       startValue={`${
-                        carModel === 'Модель' || '' ? 'Модель' : carModel
+                        carModel === 'Модель' || carModel === ''
+                          ? 'Модель'
+                          : carModel
                       }`}
                       allOptionsLabel="Всі моделі"
                       option={carModel}
@@ -1177,7 +1249,9 @@ export const NewAnnouncement: React.FC = () => {
                     updateStyle="advSearch"
                     options={yearsArray.map(item => item)}
                     label="Рік"
-                    startValue={`${yearCar === 'Рік' || '' ? 'Рік' : yearCar}`}
+                    startValue={`${
+                      yearCar === 'Рік' || yearCar === '' ? 'Рік' : yearCar
+                    }`}
                     // allOptionsLabel="Всі моделі"
                     option={yearCar}
                     setOption={setYearCar}
@@ -1225,7 +1299,8 @@ export const NewAnnouncement: React.FC = () => {
                       }
                       label="Тип кузову"
                       startValue={`${
-                        selectedBodyType === 'Тип кузову' || ''
+                        selectedBodyType === 'Тип кузову' ||
+                        selectedBodyType === ''
                           ? 'Тип кузову'
                           : selectedBodyType
                       }`}
@@ -1278,7 +1353,8 @@ export const NewAnnouncement: React.FC = () => {
                       }
                       label="Тип палива"
                       startValue={`${
-                        selectedFuelType === 'Тип палива' || ''
+                        selectedFuelType === 'Тип палива' ||
+                        selectedFuelType === ''
                           ? 'Тип палива'
                           : selectedFuelType
                       }`}
@@ -1327,7 +1403,7 @@ export const NewAnnouncement: React.FC = () => {
                       options={engineVolumesArray.map(item => item)}
                       label="Літри"
                       startValue={`${
-                        fuelConsumption === 'Літри' || ''
+                        fuelConsumption === 'Літри' || fuelConsumption === ''
                           ? 'Літри'
                           : fuelConsumption
                       }`}
@@ -1427,7 +1503,8 @@ export const NewAnnouncement: React.FC = () => {
                       }
                       label="Коробка передач"
                       startValue={`${
-                        selectedTransmission === 'Коробка передач' || ''
+                        selectedTransmission === 'Коробка передач' ||
+                        selectedTransmission === ''
                           ? 'Коробка передач'
                           : selectedTransmission
                       }`}
@@ -1555,7 +1632,8 @@ export const NewAnnouncement: React.FC = () => {
                       }
                       label="Привід"
                       startValue={`${
-                        selectedDriveType === 'Привід' || ''
+                        selectedDriveType === 'Привід' ||
+                        selectedDriveType === ''
                           ? 'Привід'
                           : selectedDriveType
                       }`}
@@ -1605,7 +1683,7 @@ export const NewAnnouncement: React.FC = () => {
                     }
                     label="Область"
                     startValue={`${
-                      selectedRegions === 'Область' || ''
+                      selectedRegions === 'Область' || selectedRegions === ''
                         ? 'Область'
                         : selectedRegions
                     }`}
@@ -1655,7 +1733,9 @@ export const NewAnnouncement: React.FC = () => {
                       }
                       label="Місто"
                       startValue={`${
-                        selectedCity === 'Місто' || '' ? 'Місто' : selectedCity
+                        selectedCity === 'Місто' || selectedCity === ''
+                          ? 'Місто'
+                          : selectedCity
                       }`}
                       allOptionsLabel="Місто"
                       option={selectedCity}
@@ -1702,7 +1782,7 @@ export const NewAnnouncement: React.FC = () => {
                       }
                       label="Колір"
                       startValue={`${
-                        selectedColor === 'Колір' || ''
+                        selectedColor === 'Колір' || selectedColor === ''
                           ? 'Колір'
                           : selectedColor
                       }`}
@@ -1747,7 +1827,8 @@ export const NewAnnouncement: React.FC = () => {
                       }
                       label="Технічний стан"
                       startValue={`${
-                        selectedCondition === 'Технічний стан' || ''
+                        selectedCondition === 'Технічний стан' ||
+                        selectedCondition === ''
                           ? 'Технічний стан'
                           : selectedCondition
                       }`}
@@ -1864,7 +1945,7 @@ export const NewAnnouncement: React.FC = () => {
                       }
                       label="Кількість осей"
                       startValue={`${
-                        selectedAxle === 'Кількість осей' || ''
+                        selectedAxle === 'Кількість осей' || selectedAxle === ''
                           ? 'Кількість осей'
                           : selectedAxle
                       }`}
@@ -1912,7 +1993,7 @@ export const NewAnnouncement: React.FC = () => {
                       label="Конфігурація коліс"
                       startValue={`${
                         selectedWheelConfiguration === 'Конфігурація коліс' ||
-                        ''
+                        selectedWheelConfiguration === ''
                           ? 'Кількість осей'
                           : selectedWheelConfiguration
                       }`}
@@ -1965,7 +2046,8 @@ export const NewAnnouncement: React.FC = () => {
                       }
                       label="Країна"
                       startValue={`${
-                        selectedProducingCountry === 'Країна' || ''
+                        selectedProducingCountry === 'Країна' ||
+                        selectedProducingCountry === ''
                           ? 'Країна'
                           : selectedProducingCountry
                       }`}
@@ -2093,14 +2175,14 @@ export const NewAnnouncement: React.FC = () => {
             {isOpen.block1 && (
               <div className={styles.wrapper_item}>
                 <div className={styles.item}>
+                  <span className={styles.staticValue}>+380</span>
                   <input
                     autoComplete="off"
                     ref={input4Ref}
-                    className={styles.inputPhone}
+                    className={styles.inputPhone_withStaticValue}
                     type="text"
                     pattern="\+[0-9]*"
-                    placeholder={`+380`}
-                    maxLength={maxDigits + 1}
+                    maxLength={maxDigits}
                     value={inputPhone}
                     title={`${remainingDigits} цифр залишилось`}
                     // onFocus={handleInputPhoneFocus}
@@ -2150,75 +2232,3 @@ export const NewAnnouncement: React.FC = () => {
     </section>
   );
 };
-
-// accidentHistory:true
-// bargain:true
-// bodyType:"Седан"
-// brand:"BMW"
-// city:"Вінниця"
-// color:"Сірий"
-// condition:"Повністю непошкоджене"
-// description:"Потужний німецький автомобіль."
-// driveType:"Задній"
-// engineDisplacement:3
-// enginePower:300
-// fuelConsumptionMixed:10
-// fuelType:"Бензин"
-// galleries:
-// [{transportGalleryId: 53,…}]
-// id:66
-// importedFrom:"Німеччина"
-// lastUpdate:"2024-03-29T13:55:01.081403"
-// mainPhoto:"http://res.cloudinary.com/de4bysqtm/image/upload/v1711637041/1711637040888_bmw-m3.jpg.jpg"
-// mileage:100000
-// model:"M3"
-// numberOfDoors:4
-// numberOfSeats:5
-// phone:"+380980341818"
-// price:5000
-// region:"Вінницька область"
-// trade:true
-// transmission:"Типтронік"
-// uncleared:true
-// vincode:"SA22TT45U367X4Z2M"
-// year:2015
-// ================to send update==================
-// {
-//   "multipartFiles": [
-//     "string"
-//   ],
-//   "body": {
-//     "year": 2023,
-//     "mileage": 0,
-//     "bodyType": 0,
-//     "city": 0,
-//     "vincode": "",
-//     "description": "string",
-//     "transmission": 0,
-//     "fuelType": 0,
-//     "consumptionCity": 50,
-//     "consumptionHighway": 50,
-//     "consumptionMixed": 50,
-//     "engineDisplacement": 0,
-//     "enginePower": 0,
-//     "driveType": 0,
-//     "numberOfDoors": 0,
-//     "numberOfSeats": 0,
-//     "color": 0,
-//     "accidentHistory": true,
-//     "condition": 0,
-//     "price": 0,
-//     "bargain": true,
-//     "trade": true,
-//     "military": true,
-//     "installmentPayment": true,
-//     "uncleared": true,
-//     "loadCapacity": 0,
-//     "producingCountry": 0,
-//     "wheelConfiguration": 0,
-//     "numberAxles": 0,
-//     "mainPhoto": "string",
-//     "phone": ""vincode
-
-//   }
-// }

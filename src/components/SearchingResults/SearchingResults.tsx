@@ -146,7 +146,7 @@ const SearchingResults: React.FC<IProps> = ({ handleAdvancedFilter }) => {
 
   const handleShowMore = () => {
     setIsShowMore(true);
-    dispatch(cleanFiltredStore());
+    dispatch(cleanFiltredStore({ field: 'filtredCars' }));
     setFetchParam(prev => ({ ...prev, page: prev.page + 1 }));
   };
 
