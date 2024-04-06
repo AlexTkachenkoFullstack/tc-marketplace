@@ -108,7 +108,6 @@ export const NewAnnouncement: React.FC = () => {
     'Літри',
   );
   const yearsArray = generateYears(startYear, endYear);
-
   const [isShow, setIsShow] = useState(Array(N).fill(false));
   const [messages, setMessages] = useState(Array(N).fill(''));
   const [activeField, setActiveField] = useState(Array(N).fill(''));
@@ -606,10 +605,12 @@ export const NewAnnouncement: React.FC = () => {
     setMainPhoto(title);
   };
   const handleDeleteAdvers = () => {
-    putDeleteAdvertisement(responseData!.id.toString(), authToken);
-    setTimeout(() => {
-      navigate(-1);
-    }, 500);
+    if(responseData && responseData.id !== null){
+      putDeleteAdvertisement(responseData!.id.toString(), authToken);
+      setTimeout(() => {
+        navigate(-1);
+      }, 500);
+    }   
   };
 
   const handleAddOrUpdateAdvers = () => {
