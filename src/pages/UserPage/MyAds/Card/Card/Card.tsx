@@ -167,12 +167,7 @@ const Card: React.FC<CardProps> = ({ car, advType }) => {
             </div>
           </div>
           <p className={styles.card_info_description}>
-            {/* {car.description} */}
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi
-            debitis consequatur deserunt voluptatibus ipsa consequuntur tempora
-            laudantium ducimus minima necessitatibus, iusto, soluta voluptatem
-            maiores, vitae asperiores nostrum? Quidem sint minima perspiciatis,
-            corporis dolorem voluptas magnam! Commodi id quia maxime. Harum?
+            {car.description}
           </p>
 
           <div className={styles.card_buttons}>

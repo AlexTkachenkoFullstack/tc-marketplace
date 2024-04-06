@@ -58,8 +58,8 @@ interface Props {
 
 const N = 9;
 export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
-  const jsonString = localStorage.getItem('persist:userRoot');
-  const [authToken, setAuthToken] = useState<string>('');
+  // const jsonString = localStorage.getItem('persist:userRoot');
+  // const [authToken, setAuthToken] = useState<string>('');
   const dispatch = useAppDispatch();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isOpen, setIsOpen] = useState<BlocksVisibilityState>(() => {
@@ -93,7 +93,6 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const cities: ICities[] = useAppSelector(getFilterCitys);
   const brands: IBrand[] = useAppSelector(getFilterBrands);
   const carsList: IModel[] = useAppSelector(getFilterCarsList);
-
   // type categotry cars
   const [selectedCategory, setSelectedCategory] = useState<string>('Легкові');
   const [prevSelectedCategory, setPrevSelectedCategory] =
@@ -133,9 +132,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const toggleModalIsOpen = () => {
     setIsModalOpen(prev => !prev);
   };
-
   const requestParams = { selectedCategory, carMark, carModel };
-
   // response catalog/get-param/id
   const bodyTypes = data?.bodyTypeDTOS;
   const fuel = data?.fuelTypeDTOS;
@@ -163,18 +160,12 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
       pickedRegions.push(item);
     }
   });
+  
   useEffect(() => {
     dispatch(fetchRegions());
     dispatch(fetchTypes());
-  }, [dispatch]);  
-  useEffect(() => {
-    if (jsonString) {
-      const data = JSON.parse(jsonString);
-      const token = data.token.replace(/^"(.*)"$/, '$1');
-      setAuthToken(token);
-    }
-  }, [jsonString]);
-
+  }, [dispatch]);
+  
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -224,13 +215,13 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
       if (transportTypeId !== null) {
         const data = await getCarTypeParam(
           transportTypeId.toString(),
-          authToken,
+        
         );
         setData(data);
       }
     }
     getCarTypeParams();
-  }, [transportTypeId, authToken]);
+  }, [transportTypeId]);
 
   // обработчики категории машин
   const handlerType = (category: string) => {
