@@ -74,8 +74,7 @@ const step = 0.1;
 const startYear = 1970;
 const endYear = yearNow();
 const N = 20;
-export const NewAnnouncement: React.FC = () => {
-  const jsonString = localStorage.getItem('persist:userRoot');
+export const NewAnnouncement: React.FC = () => { 
   const inputRef = useRef<HTMLInputElement>(null);
   const input1Ref = useRef<HTMLInputElement>(null);
   const input2Ref = useRef<HTMLInputElement>(null);

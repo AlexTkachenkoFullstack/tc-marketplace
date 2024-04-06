@@ -276,7 +276,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     }
 
     setPrevSelectedCategory(selectedCategory);
-  }, [selectedCategory, prevSelectedCategory, cities]);
+  }, [selectedCategory, prevSelectedCategory, cities,dispatch]);
 
   const handlerCarBody = (valueType: string[]) => {
     setCarBody(valueType);
