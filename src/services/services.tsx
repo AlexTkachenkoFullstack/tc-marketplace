@@ -53,11 +53,7 @@ export const getCarTypes = async () => {
 };
 
 export const getCarTypeParam = async (id: string) => {
-  console.log(
-    'dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd',
-  );
   setAuth();
-
   try {
     const response = await instance.get(
       `catalog/get-param?transportTypeId=${id}`,
@@ -85,7 +81,7 @@ export const postNewAdvertisement = async (formData: FormData) => {
       'Content-type': 'multipart/form-data',
     },
   };
-  console.log('click')
+  console.log('click');
   try {
     const response = await instance.post(
       'main/advertisements',
