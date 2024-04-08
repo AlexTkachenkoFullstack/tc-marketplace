@@ -28,9 +28,9 @@ import { ItemRightGalleryBigScreen } from "./ItemRightGalleryBigScreen";
 
 
 export const ItemPage: React.FC = () => {
-//   const jsonString = localStorage.getItem('persist:userRoot');
+  const jsonString = localStorage.getItem('persist:userRoot');
   const dispatch = useAppDispatch();
-  //  const [authToken, setAuthToken] = useState<string>('');
+   const [authToken, setAuthToken] = useState<string>('');
   const newCars = useAppSelector(getNewCars);
   const [carInfo, setCarInfo] = useState<null | ITransport>(null);
   const [userDetailsInfo, setUserDetailsInfo] = useState<null | IUserDetails>(
@@ -47,9 +47,11 @@ export const ItemPage: React.FC = () => {
       const data = JSON.parse(jsonString);
       const token = data.token.replace(/^"(.*)"$/, '$1');
       setAuthToken(token);
+      
     }
   }, [jsonString]);
 
+  console.log(authToken)
 
   useEffect(() => {
     const fetchCarDetails = async () => {
