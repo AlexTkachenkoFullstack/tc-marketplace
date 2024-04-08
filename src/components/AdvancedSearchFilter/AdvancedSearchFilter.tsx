@@ -132,7 +132,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const toggleModalIsOpen = () => {
     setIsModalOpen(prev => !prev);
   };
-  const requestParams = { selectedCategory, carMark, carModel };
+  const requestParams = { selectedCategory, carMark, carModel, carBody };
   // response catalog/get-param/id
   const bodyTypes = data?.bodyTypeDTOS;
   const fuel = data?.fuelTypeDTOS;
@@ -319,7 +319,6 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
       [blockName]: !prevState[blockName],
     }));
   };
-
   const handlerResetFilter = () => {
     const newResetValue = Array(N).fill(true);
     setResetValue(newResetValue);

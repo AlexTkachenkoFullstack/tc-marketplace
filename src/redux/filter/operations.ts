@@ -6,7 +6,6 @@ import { RootState } from 'redux/store'; //!
 import { setAuthHeader } from 'redux/auth/operations';
 import { instance } from 'redux/auth/operations';
 
-
 export type KnownError = {
   errorMessage: string;
 };
@@ -109,10 +108,10 @@ export const fetchFiltredCars = createAsyncThunk(
     searchConfig: { page: number; limit: number; searchParams: ISearchParams },
     thunkAPI,
   ) => {
-   const {
-     auth: { token },
-   } = thunkAPI.getState() as RootState;
-   token && setAuthHeader(token);
+    const {
+      auth: { token },
+    } = thunkAPI.getState() as RootState;
+    token && setAuthHeader(token);
     try {
       const config = {
         params: searchConfig.searchParams,
@@ -123,7 +122,7 @@ export const fetchFiltredCars = createAsyncThunk(
         config,
       );
 
-      return response.data; 
+      return response.data;
     } catch (err) {
       const error: AxiosError<KnownError> = err as any;
       if (!error.response) {
@@ -162,10 +161,10 @@ export const fetchCity = createAsyncThunk(
 export const hideTransport = createAsyncThunk(
   'cars/putHideTransport',
   async (id: number, thunkAPI) => {
-   const {
-     auth: { token },
-   } = thunkAPI.getState() as RootState;
-   token && setAuthHeader(token);
+    const {
+      auth: { token },
+    } = thunkAPI.getState() as RootState;
+    token && setAuthHeader(token);
     try {
       const response = await instance.put(
         `https://api.pawo.space/api/v1/user-page/hide/transport/${id}`,
@@ -179,7 +178,7 @@ export const hideTransport = createAsyncThunk(
       return thunkAPI.rejectWithValue({ errorMessage: error.response.data });
     }
   },
-); 
+);
 
 export const hideAllTransport = createAsyncThunk(
   'cars/putHideTransport',
@@ -201,7 +200,7 @@ export const hideAllTransport = createAsyncThunk(
       return thunkAPI.rejectWithValue({ errorMessage: error.response.data });
     }
   },
-); 
+);
 
 export const fetchCars = createAsyncThunk(
   'filter/carsList',
