@@ -83,7 +83,7 @@ export const HomeTop = () => {
   }, [brands, carMark, categories, dispatch, selectedCategory]);
 
   const getSearchResult = () => {
-    dispatch(cleanFiltredStore());
+    dispatch(cleanFiltredStore({ field: 'filtredCars' }));
     const regionId = getArrayOfId(regions, selectedRegions);
     const modelId = getArrayModelsOfId(models, carModel);
     dispatch(

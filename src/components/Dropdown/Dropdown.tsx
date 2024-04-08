@@ -139,8 +139,10 @@ export const Dropdown: FC<Props> = props => {
   );
 
   useEffect(() => {
-    setfilterValue('');
-    setCheckedValue([]);
+    if (resetValue) {
+      setfilterValue('');
+      setCheckedValue([]);
+    }
   }, [resetValue]);
 
   useEffect(() => {
