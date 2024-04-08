@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'redux/hooks';
 import _ from 'lodash.throttle';
@@ -83,11 +83,16 @@ const SearchingResults: React.FC<IProps> = ({ handleAdvancedFilter }) => {
 
   const [fetchParam, setFetchParam] = useState({ ...memoParam });
 
+  const setScreenWidthRef = useRef(window.innerWidth);
+
   const handleResize = useCallback(() => {
     const width = window.innerWidth;
-    const newAdvertsPerPage = width > 767 ? 4 : 3;
-    setFetchParam(prev => ({ ...prev, limit: newAdvertsPerPage }));
-  }, []);
+    if (width !== setScreenWidthRef.current) {
+      const newAdvertsPerPage = width > 767 ? 4 : 3;
+      setFetchParam(prev => ({ ...prev, limit: newAdvertsPerPage }));
+      setScreenWidthRef.current = width;
+    }
+  }, [setScreenWidthRef]);
 
   useEffect(() => {
     window.addEventListener('resize', _(handleResize, 100));
