@@ -58,8 +58,6 @@ interface Props {
 
 const N = 9;
 export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
-  // const jsonString = localStorage.getItem('persist:userRoot');
-  // const [authToken, setAuthToken] = useState<string>('');
   const dispatch = useAppDispatch();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isOpen, setIsOpen] = useState<BlocksVisibilityState>(() => {

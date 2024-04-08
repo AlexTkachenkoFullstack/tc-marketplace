@@ -74,7 +74,7 @@ const step = 0.1;
 const startYear = 1970;
 const endYear = yearNow();
 const N = 20;
-export const NewAnnouncement: React.FC = () => { 
+export const NewAnnouncement: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const input1Ref = useRef<HTMLInputElement>(null);
   const input2Ref = useRef<HTMLInputElement>(null);
@@ -99,6 +99,7 @@ export const NewAnnouncement: React.FC = () => {
     endVolume,
     step,
   );
+  const [resetCheckedItemId, setResetCheckedItemId] = useState(false);
   const [needToAddFile, setNeedToAddFile] = useState(false);
   const [engineVolumes, setEngineVolumes] = useState<string | string[]>(
     'Літри',
@@ -120,7 +121,7 @@ export const NewAnnouncement: React.FC = () => {
     });
   };
 
-  const closeModal = (index: number) => {
+  const closeMessage = (index: number) => {
     setIsShow(prevState => {
       const newState = [...prevState];
       newState[index] = false;
@@ -220,7 +221,7 @@ export const NewAnnouncement: React.FC = () => {
   const numberOfSeat = data?.numberOfSeatsTo;
   const mileageTo = data?.mileageTo;
 
-  const id = location.state && location.state.id ? location.state.id : null;  
+  const id = location.state && location.state.id ? location.state.id : null;
   useEffect(() => {
     const fetchData = async () => {
       if (!isAdvertisementsEdit || !id) {
@@ -228,7 +229,7 @@ export const NewAnnouncement: React.FC = () => {
       }
       if (isAdvertisementsEdit && id) {
         try {
-          const response = await getAdvertisement(id);          
+          const response = await getAdvertisement(id);
           setResponseData(response);
           setTypeCategory(response.type);
           setCarBrand(response.brand);
@@ -390,7 +391,7 @@ export const NewAnnouncement: React.FC = () => {
   const handleInputPhone = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     event.target.classList.remove(styles.inputVincodeInValid_staticValue);
-    closeModal(16);
+    closeMessage(16);
     if (/^[0-9]*$/.test(value) && value.length <= maxDigits) {
       setInputPhone(value);
     }
@@ -409,7 +410,7 @@ export const NewAnnouncement: React.FC = () => {
         styles.inputVincodeInValid_staticValue,
       );
 
-      closeModal(16);
+      closeMessage(16);
     }
   };
 
@@ -423,12 +424,14 @@ export const NewAnnouncement: React.FC = () => {
     }
   };
   const handleAddMorePhoto = () => {
+    inputRef.current && (inputRef.current.value = '');
     if (inputRef.current) {
       inputRef.current.click();
     }
   };
   const handleAddPhoto = (newImages: UploadedImage[]) => {
-    closeModal(0);
+    inputRef.current && (inputRef.current.value = '');
+    closeMessage(0);
     setSelectedImages(prevImages => [...prevImages, ...newImages]);
     setNeedToAddFile(true);
   };
@@ -446,8 +449,8 @@ export const NewAnnouncement: React.FC = () => {
         setNeedToAddFile(true);
         if (name === mainPhoto) {
           setMainPhoto('');
-          console.log('Deleted');
         }
+        setResetCheckedItemId(true);
       }).catch(error => {
         console.error('Ошибка в запросе:', error);
       });
@@ -455,7 +458,9 @@ export const NewAnnouncement: React.FC = () => {
       setSelectedImages(prevImages =>
         prevImages.filter(image => image.id !== imageId),
       );
+      // setResetCheckedItemId(true)
       setNeedToAddFile(true);
+      inputRef.current && (inputRef.current.value = '');
       if (name === mainPhoto) {
         setMainPhoto('');
       }
@@ -507,14 +512,14 @@ export const NewAnnouncement: React.FC = () => {
     }
     if (value.length === 17) {
       event.currentTarget.classList.remove(styles.inputVincodeInValid);
-      closeModal(index);
+      closeMessage(index);
     }
   };
 
   const handleMileage = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     event.target.classList.remove(styles.inputVincodeInValid);
-    closeModal(11);
+    closeMessage(11);
     if (value === '') {
       setMileage(null);
       return;
@@ -577,7 +582,7 @@ export const NewAnnouncement: React.FC = () => {
   const handlePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     event.target.classList.remove(styles.inputVincodeInValid);
-    closeModal(15);
+    closeMessage(15);
     if (value === '') {
       setPrice(null);
       return;
@@ -592,7 +597,7 @@ export const NewAnnouncement: React.FC = () => {
     setMainPhoto(title);
   };
   const handleDeleteAdvers = () => {
-    if(responseData && responseData.id !== null){
+    if (responseData && responseData.id !== null) {
       putDeleteAdvertisement(responseData!.id.toString());
       setTimeout(() => {
         navigate(-1);
@@ -918,7 +923,6 @@ export const NewAnnouncement: React.FC = () => {
       };
       const formData: FormData = createFormData();
 
-
       putEditAdvertisement(id.toString(), formData)
         .then(() => navigate(-1))
         .catch(error => {
@@ -929,7 +933,7 @@ export const NewAnnouncement: React.FC = () => {
 
   return (
     <section className={styles.section}>
-      {isLoading && <Loader />}
+      {/* {isLoading && <Loader />} */}
       <div className={styles.container}>
         <h1 className={styles.mainTitle}>
           {isAdvertisementsEdit
@@ -950,13 +954,17 @@ export const NewAnnouncement: React.FC = () => {
         </div>
         <div className={styles.imgContainer}>
           <UploadPhoto
+            resetCheckedItemId={resetCheckedItemId}
             mainPhoto={mainPhoto}
             isShow={isShow[0]}
             inputRef={inputRef}
             selectedImages={sortedImages}
+            setResetCheckedItemId={setResetCheckedItemId}
             handleAddPhoto={handleAddPhoto}
             handleDeletePhoto={handleDeletePhoto}
             addMainPhoto={handleAddMainePhoto}
+            closeMessage={closeMessage}
+            errorAddPhoto={openNotification}
           />
           {isShow[0] && (
             <span className={styles.photo_errorMessage}>{messages[0]}</span>
@@ -988,7 +996,7 @@ export const NewAnnouncement: React.FC = () => {
                   stylepaddingZero={true}
                   isShow={isShow[1]}
                   index={1}
-                  closeModal={closeModal}
+                  closeMessage={closeMessage}
                   updateStyle="advSearch"
                   options={
                     typeCars
@@ -1094,6 +1102,7 @@ export const NewAnnouncement: React.FC = () => {
                   <input
                     autoComplete="off"
                     readOnly={immutableData}
+                    disabled={immutableData}
                     ref={input1Ref}
                     className={`${styles.inputPhone} ${styles.VinCode_field}`}
                     style={{
@@ -1143,7 +1152,7 @@ export const NewAnnouncement: React.FC = () => {
                       stylepaddingZero={true}
                       isShow={isShow[3]}
                       index={3}
-                      closeModal={closeModal}
+                      closeMessage={closeMessage}
                       updateStyle="advSearch"
                       options={[...brands.map(brand => brand.brand)].sort(
                         (a, b) => a.localeCompare(b),
@@ -1193,7 +1202,7 @@ export const NewAnnouncement: React.FC = () => {
                       stylepaddingZero={true}
                       isShow={isShow[4]}
                       index={4}
-                      closeModal={closeModal}
+                      closeMessage={closeMessage}
                       updateStyle="advSearch"
                       options={
                         carBrand !== 'Всі марки'
@@ -1245,7 +1254,7 @@ export const NewAnnouncement: React.FC = () => {
                     stylepaddingZero={true}
                     isShow={isShow[5]}
                     index={5}
-                    closeModal={closeModal}
+                    closeMessage={closeMessage}
                     updateStyle="advSearch"
                     options={yearsArray.map(item => item)}
                     label="Рік"
@@ -1290,7 +1299,7 @@ export const NewAnnouncement: React.FC = () => {
                       stylepaddingZero={true}
                       isShow={isShow[6]}
                       index={6}
-                      closeModal={closeModal}
+                      closeMessage={closeMessage}
                       updateStyle="advSearch"
                       options={
                         bodyTypes
@@ -1344,7 +1353,7 @@ export const NewAnnouncement: React.FC = () => {
                       stylepaddingZero={true}
                       isShow={isShow[7]}
                       index={7}
-                      closeModal={closeModal}
+                      closeMessage={closeMessage}
                       updateStyle="advSearch"
                       options={
                         fuel
@@ -1398,7 +1407,7 @@ export const NewAnnouncement: React.FC = () => {
                       stylepaddingZero={true}
                       isShow={isShow[8]}
                       index={8}
-                      closeModal={closeModal}
+                      closeMessage={closeMessage}
                       updateStyle="advSearch"
                       options={engineVolumesArray.map(item => item)}
                       label="Літри"
@@ -1444,7 +1453,7 @@ export const NewAnnouncement: React.FC = () => {
                       stylepaddingZero={true}
                       isShow={isShow[9]}
                       index={9}
-                      closeModal={closeModal}
+                      closeMessage={closeMessage}
                       updateStyle="advSearch"
                       options={engineVolumesArray.map(item => item)}
                       label="Літри"
@@ -1494,7 +1503,7 @@ export const NewAnnouncement: React.FC = () => {
                       stylepaddingZero={true}
                       isShow={isShow[10]}
                       index={10}
-                      closeModal={closeModal}
+                      closeMessage={closeMessage}
                       updateStyle="advSearch"
                       options={
                         transmission
@@ -1623,7 +1632,7 @@ export const NewAnnouncement: React.FC = () => {
                       stylepaddingZero={true}
                       isShow={isShow[12]}
                       index={12}
-                      closeModal={closeModal}
+                      closeMessage={closeMessage}
                       updateStyle="advSearch"
                       options={
                         driveType
@@ -1674,7 +1683,7 @@ export const NewAnnouncement: React.FC = () => {
                     stylepaddingZero={true}
                     isShow={isShow[13]}
                     index={13}
-                    closeModal={closeModal}
+                    closeMessage={closeMessage}
                     updateStyle="advSearch"
                     options={
                       regions
@@ -1724,7 +1733,7 @@ export const NewAnnouncement: React.FC = () => {
                       stylepaddingZero={true}
                       isShow={isShow[14]}
                       index={14}
-                      closeModal={closeModal}
+                      closeMessage={closeMessage}
                       updateStyle="advSearch"
                       options={
                         city && city.length > 0

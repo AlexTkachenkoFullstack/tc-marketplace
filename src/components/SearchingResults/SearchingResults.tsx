@@ -25,8 +25,6 @@ import SearchingCard from './SearchingCard';
 import CatalogPagination from './CatalogPagination';
 import SearchingResultsMenu from './SearchingResultsMenu';
 
-
-
 interface IProps {
   handleAdvancedFilter: () => void;
 }
@@ -154,8 +152,6 @@ const SearchingResults: React.FC<IProps> = ({ handleAdvancedFilter }) => {
     setIsShowMore(false);
     setFetchParam(prev => ({ ...prev, page: selected }));
   };
-
- 
 
   // useEffect(() => {
   //   // Формируем базовый URL
