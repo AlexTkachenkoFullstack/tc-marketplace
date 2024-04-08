@@ -14,7 +14,6 @@ const setAuth = () => {
   const jsonString = localStorage.getItem('persist:userRoot');
   const authToken =
     jsonString && JSON.parse(jsonString).token.replace(/^"(.*)"$/, '$1');
-
   if (authToken !== 'null') {
     setAuthHeader(authToken);
   }
@@ -53,11 +52,7 @@ export const getCarTypes = async () => {
 };
 
 export const getCarTypeParam = async (id: string) => {
-  console.log(
-    'dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd',
-  );
   setAuth();
-
   try {
     const response = await instance.get(
       `catalog/get-param?transportTypeId=${id}`,
@@ -117,7 +112,6 @@ export const putEditAdvertisement = async (id: string, formData: FormData) => {
 
 export const putDeleteAdvertisement = async (id: string) => {
   setAuth();
-
   try {
     const response = await instance.put(
       `user-page/my-transports/${id}/update-status/DELETED`,
@@ -132,7 +126,6 @@ export const deletePhotoAdvertisement = async (
   callback: () => void,
 ) => {
   setAuth();
-
   try {
     const response = await instance.delete(
       `user-page/my-transports/delete-files/?galleryId=${id}`,

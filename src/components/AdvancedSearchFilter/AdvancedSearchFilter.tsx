@@ -92,7 +92,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const cities: ICities[] = useAppSelector(getFilterCitys);
   const brands: IBrand[] = useAppSelector(getFilterBrands);
   const carsList: IModel[] = useAppSelector(getFilterCarsList);
-console.log('carsList', carsList);
+
   // type categotry cars
   const [selectedCategory, setSelectedCategory] = useState<string>('Легкові');
   const [carBody, setCarBody] = useState<string | string[]>('');
@@ -130,7 +130,7 @@ console.log('carsList', carsList);
     setIsModalOpen(prev => !prev);
   };
   // console.log('countryDeliver :>> ', countryDeliver);
-  const requestParams = { selectedCategory, carMark, carModel };
+  const requestParams = { selectedCategory, carMark, carModel, carBody };
 
   // response catalog/get-param/id
   const bodyTypes = data?.bodyTypeDTOS;
@@ -291,7 +291,6 @@ console.log('carsList', carsList);
   useEffect(() => {
     const type = typeCars.find(item => item.type === selectedCategory);
     const brand = getArrayBrandsOfId(brands, carMark);
-
     if (type && brand && brand.length > 0) {
       const id = type.typeId;
       const searchParams: Pick<ISearchParams, 'transportBrandsId'> = {

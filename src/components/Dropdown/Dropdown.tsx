@@ -69,24 +69,22 @@ export const Dropdown: FC<Props> = props => {
     setCheckedValue([]);
   }, [carMark]);
 
-  const setChecked = 
-    (newOption: string) => {
-      const newState = [...checkedValue, newOption];
-      setCheckedValue(newState);
-      setOption(newState);
-    };
-  const setUnchecked = 
-    (newOption: string) => {
-      const newState = checkedValue.filter(value => value !== newOption);
-      if (newState.length === 0) {
-        setCheckedValue([]);
-        setOption(startValue);
-        return;
-      }
-      setCheckedValue(newState);
-      setOption(newState);
-    };
-  
+  const setChecked = (newOption: string) => {
+    const newState = [...checkedValue, newOption];
+    setCheckedValue(newState);
+    setOption(newState);
+  };
+  const setUnchecked = (newOption: string) => {
+    const newState = checkedValue.filter(value => value !== newOption);
+    if (newState.length === 0) {
+      setCheckedValue([]);
+      setOption(startValue);
+      return;
+    }
+    setCheckedValue(newState);
+    setOption(newState);
+  };
+
   const closeDropdown = () => {
     setIsActive(false);
     setfilterValue('');
