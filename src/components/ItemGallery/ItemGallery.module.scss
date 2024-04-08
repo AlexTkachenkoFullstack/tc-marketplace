@@ -11,7 +11,12 @@
   @media (min-width: 768px) {
     width: 688px;
   }
+
+  @media (min-width: 1024px) {
+    width: 624px;
+  }
 }
+
 .photoContainer{
   position: relative;
   display: flex;
@@ -26,6 +31,11 @@
   @media (min-width: 768px) {
     width: 688px;
     height: 430px;
+  }
+
+  @media (min-width: 1024px) {
+    width: 624px;
+    height: 390px;
   }
 }
 

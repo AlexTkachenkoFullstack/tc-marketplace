@@ -1,31 +1,36 @@
 @import '../../styles/utils/variables';
 
+.pageContainer{
+  padding-bottom:40px;
+}
+
 .container {
+      width: auto;
       margin-top: 56px;
-      margin-left: auto;
       margin-right: auto;
       padding-top:32px;
       padding-bottom: 40px;
-      padding-left: 20px;
-      padding-right: 20px;
+      padding-left: 24px;
+      padding-right: 24px;
       height: fit-content;
       display: flex;
       flex-direction: column;
-      padding-bottom: 12pxn;
 
       @media (min-width: 768px) {
-        width: 688px;
-        padding: 32px 40px 40px 40px;
+        width: 752px;
+        padding: 32px 32px 40px 32px;
       }
   
-      // @media (min-width: 1024px) {
-      //   width: 944px;
-      // }
+      @media (min-width: 1024px) {
+        width: 1024px;
+        margin-left: auto;
+        margin-right: auto;
+      }
 
   .pathItem{
     color:$color-text-grey;
     font-size: 14px;
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-weight: 500;
     line-height: 1;
     padding-top: 9px;
@@ -35,6 +40,30 @@
         color:$color-grey
     }
   }
+
+  .galleryPhotosContainer{
+    display: flex;
+    gap:16px;
+  }
+
+  .galleryPhotosContainerRightSide::-webkit-scrollbar {
+    display: none; /* Скрыть полосу прокрутки */
+  }
+
+  .galleryPhotosContainerRightSide{
+    display: none;
+    @media (min-width: 1024px) {
+      display: flex;
+      flex-direction: column;
+      height: 390px;
+      width: 304px;
+      border-radius: 8px;
+      gap: 12px;
+      overflow-y: auto;
+    }
+  }
+
+
 
   .titleSection{
     padding-top: 12px;
@@ -47,7 +76,7 @@
   .titleName{
     font-size: 22px;
     font-weight: 700;
-    font-family: 'Roboto';
+    font-family: 'Roboto',sans-serif;
     line-height: 1.2;
     margin-bottom: 12px;
 
@@ -57,7 +86,7 @@
   .titlePrice{
     font-size: 16px;
     font-weight: 600;
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     line-height: 1.5;
   }
   }
@@ -69,8 +98,11 @@
     @media (min-width: 768px) {
       width:768px;
       flex-direction: row;
-      column-gap: 16px;
       padding-top:24px;
+    }
+
+    @media (min-width: 1024px) {
+      width: 960px;
     }
   }  
 
@@ -79,34 +111,45 @@
 
     @media (min-width: 768px) {
       width:368px;
+      margin-right: 16px;
+    }
+
+    @media (min-width: 1024px) {
+      width: 640px;
     }
   }
 
-  .mainCharacteristicsSection{
-    display: grid;
-    grid-template-columns: 1fr 1fr; 
-    grid-gap: 4px;
+   .mainCharacteristicsSection{
+    width:100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
     padding-bottom: 40px;
-
-
-    .leftSide{
-      display: flex;
-      row-gap: 12px;
-      flex-direction: column;
-    }
-
-    .rightSide{
-      display: flex;
-      row-gap: 12px;
-      flex-direction: column;
-    }
   }
+
 
   .mainCharacteristicsItem{
     display: flex;
     align-items: center;
-    gap: 12px;
+    width:150px;
+    
+    @media (min-width: 768px) {
+      width:178px;
+    }
+
+    @media (min-width: 1024px) {
+      width: 200px;
+    }
   }
+
+
+
+
+  // .mainCharacteristicsItem{
+  //   display: flex;
+  //   align-items: center;
+  //   gap: 12px;
+  // }
 
   .mainCharacteristicsIcon{
     width:16px;
@@ -114,11 +157,12 @@
   }
 
   .mainCharacteristicsText{
-    font-family: 'Roboto';
+    font-family: 'Roboto',sans-serif;
     font-size: 14px;
     font-weight: 500;
     line-height: 1.43;
   }
+
 
   
 //     &_title {
