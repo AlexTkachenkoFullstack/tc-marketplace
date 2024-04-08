@@ -68,7 +68,7 @@ export const TechnicalCharacteristics:React.FC<ICarInfo>=({carInfo})=>{
                && <div className={styles.characteristicsItem}>
                      <p className={styles.characteristicsItemName}>Чи був у ДТП</p>
                      <div className={styles.characteristicsItemValueContainer}>
-                        <p>{carInfo.accidentHistory}</p>
+                        <p>{carInfo.accidentHistory? 'Так' : 'Hi'}</p>
                      </div>
                </div>
             }
