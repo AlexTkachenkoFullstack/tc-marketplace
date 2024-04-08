@@ -14,8 +14,11 @@ import { IBrand } from 'types/IBrand';
 import { IModel } from 'types/IModel';
 import { IType } from 'types/IType';
 import { IRegion } from 'types/IRegion';
-import { fetchBrands } from 'redux/filter/operations';
+import { fetchBrands, fetchCars } from 'redux/filter/operations';
 import { ISearchParams } from 'types/ISearchParam';
+import { getCarTypeParam } from 'services/services';
+import { getArrayBrandsOfId } from 'utils/getArrayOfId';
+import RangeSlider from 'components/RangeSlider/RangeSlider';
 
 interface Iprops {
   toggleModalIsOpen: () => void;
@@ -23,40 +26,46 @@ interface Iprops {
     selectedCategory: string;
     carMark: string | string[];
     carModel: string | string[];
+    carBody: string | string[];
   };
 }
 
 let subscriptionParams: ISearchParams = {};
+let isChanged = false;
 
 const SubscriptionModal: React.FC<Iprops> = ({
   toggleModalIsOpen,
   requestParams,
 }) => {
+  const [data, setData] = useState<any>([]);
   const [isMounted, setIsMounted] = useState(false);
+  const [isTypeChanged, setIsTypeChanged] = useState(false);
   const [showEmail, setShowEmail] = useState('E-mail');
   const [isShowCharacteristics, setIsShowCharacteristics] = useState(false);
   const [subscrName, setSubscrName] = useState<string | string[]>('');
   const [transportType, setTransportType] = useState<string | string[]>('');
   const [brand, setBrand] = useState<string | string[]>('');
   const [model, setModel] = useState<string | string[]>('');
-  const [selectedRegions] = useState<string | string[]>(
-    'Вся Україна',
-  );
+  const [selectedRegions] = useState<string | string[]>('Вся Україна');
+  const [year, setYear] = useState({ from: 0, to: 0 });
+  const [bodyType, setBodyType] = useState<string | string[]>('');
 
   const dispatch = useAppDispatch();
 
   const userEmail = 'dimside@gmail.com';
 
-  const { selectedCategory, carMark, carModel } = requestParams;
+  const { selectedCategory, carMark, carModel, carBody } = requestParams;
+  console.log('requestParams', requestParams);
 
   const transportTypes: IType[] = useAppSelector(getFilterTypes);
   const brands: IBrand[] = useAppSelector(getFilterBrands);
   const models: IModel[] = useAppSelector(getFilterCarsList);
   const regions: IRegion[] = useAppSelector(getFilterRegions);
+  const bodyTypeArr = data.bodyTypeDTOS?.map(({ bodyType }: any) => bodyType);
 
   const pickedBrands: any = [];
   brands.forEach((item: any) => {
-    if (carMark.includes(item.brand)) {
+    if (brand.includes(item.brand)) {
       pickedBrands.push(item);
     }
   });
@@ -67,9 +76,18 @@ const SubscriptionModal: React.FC<Iprops> = ({
     }
   });
 
+  const handleBackdropClick = (e: React.SyntheticEvent) => {
+    const { id } = e.target as HTMLDivElement;
+    if (id === 'backdrop') {
+      toggleModalIsOpen();
+    }
+  };
+
   useEffect(() => {
     if (selectedCategory !== transportType) {
       setBrand('');
+      setModel('');
+      isChanged = true;
     }
   }, [selectedCategory, transportType]);
 
@@ -87,15 +105,15 @@ const SubscriptionModal: React.FC<Iprops> = ({
       ({ type }) => transportType === type,
     )?.typeId;
     subscriptionParams.transportTypeId = transportTypeId;
-    transportTypeId && dispatch(fetchBrands(transportTypeId));
-  }, [dispatch, transportType, transportTypes]);
-
-  const handleBackdropClick = (e: React.SyntheticEvent) => {
-    const { id } = e.target as HTMLDivElement;
-    if (id === 'backdrop') {
-      toggleModalIsOpen();
+    if (transportTypeId) {
+      dispatch(fetchBrands(transportTypeId));
+      isChanged && setIsTypeChanged(prev => !prev);
+      (async () => {
+        const data = await getCarTypeParam(transportTypeId.toString());
+        setData(data);
+      })();
     }
-  };
+  }, [dispatch, transportType, transportTypes]);
 
   useEffect(() => {
     const handleCloseModal = (e: KeyboardEvent) => {
@@ -110,15 +128,48 @@ const SubscriptionModal: React.FC<Iprops> = ({
       document.body.classList.remove('modalIsOpen');
       document.removeEventListener('keydown', handleCloseModal);
     };
-  }, [toggleModalIsOpen]);
+  }, [selectedCategory, toggleModalIsOpen]);
 
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    const selectedCategoryId = transportTypes.find(
+      ({ type }) => selectedCategory === type,
+    )?.typeId!;
+    return () => {
+      dispatch(fetchBrands(selectedCategoryId));
+    };
+  }, [dispatch, selectedCategory, transportTypes]);
+
+  const handleIsActivateSubscription = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     setShowEmail(event.target.checked ? userEmail : 'E-mail');
   };
 
-  //   console.log('requestParams', requestParams);
-  console.log('brand', brand);
-  console.log('model', model);
+  useEffect(() => {
+    const brandIdArr = getArrayBrandsOfId(brands, brand);
+    subscriptionParams.brandId = brandIdArr;
+    const searchParams: Pick<ISearchParams, 'transportBrandsId'> = {
+      transportBrandsId: brandIdArr,
+    };
+    const searchConfig = {
+      searchParams,
+    };
+    const id = subscriptionParams.transportTypeId;
+    id && dispatch(fetchCars({ id, searchConfig }));
+  }, [brand, brands, dispatch, transportType]);
+
+  useEffect(() => {
+    subscriptionParams.yearsFrom = year.from;
+    subscriptionParams.yearsTo = year.to;
+  }, [year]);
+
+  //   console.log('brand', brand);
+  //   console.log('brands', brands);
+  //   console.log('model', model);
+  //   console.log('models', models);
+  //   console.log('pickedBrands', pickedBrands);
+  //   console.log('subscriptionParams', subscriptionParams);
+  //   console.log('data', data.bodyTypeDTOS);
 
   return (
     <div
@@ -196,7 +247,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                 allOptionsLabel="Всі бренди"
                 checkboxAllowed
                 filteredOptions={brand}
-                resetValue={selectedCategory !== transportType}
+                resetValue={isTypeChanged}
               />
             </div>
             <div>
@@ -219,15 +270,56 @@ const SubscriptionModal: React.FC<Iprops> = ({
                 carMark={brand}
                 pickedBrands={pickedBrands}
                 filteredOptions={model}
+                resetValue={isTypeChanged}
               />
+            </div>
+            <div>
+              <div className={styles.characteristic}>
+                <h4 className={styles.charactTitles}>Рік</h4>
+                <button type="button">
+                  <ArrowDownIcon className={styles.arrowDown} />
+                </button>
+              </div>
+              <div className={styles.listItem}>
+                <RangeSlider
+                  resetValue={isTypeChanged}
+                  setObjectValue={setYear}
+                  typeRange={'year'}
+                />
+              </div>
+            </div>
+            <div>
+              <div className={styles.characteristic}>
+                <h4 className={styles.charactTitles}>Тип кузову</h4>
+                <button type="button">
+                  <ArrowDownIcon className={styles.arrowDown} />
+                </button>
+              </div>
+              <Dropdown
+                updateStyle="advSearch"
+                options={bodyTypeArr}
+                label="Тип кузову"
+                startValue={'Тип кузову'}
+                option={bodyType}
+                setOption={setBodyType}
+                allOptionsLabel="Всі типи"
+                checkboxAllowed
+                filteredOptions={bodyType}
+                resetValue={isTypeChanged}
+              />
+              <div className={styles.listItem}></div>
             </div>
           </div>
         )}
 
         <div className={styles.emailWrapper}>
           <div>
-            <p>E-mail</p>
-            <input type="checkbox" id="email" onChange={handleCheckboxChange} />
+            <p>Активувати підписку</p>
+            <input
+              type="checkbox"
+              id="email"
+              onChange={handleIsActivateSubscription}
+            />
             <label htmlFor="email" />
           </div>
           <p>{showEmail}</p>

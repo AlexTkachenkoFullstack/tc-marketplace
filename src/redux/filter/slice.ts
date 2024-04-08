@@ -188,8 +188,23 @@ export const filterSlice = createSlice({
     ) {
       state.select = { ...state.select, ...action.payload };
     },
-    cleanFiltredStore(state) {
-      state.filtredCars = [];
+    // cleanFiltredStore(state) {
+    //   state.filtredCars = [];
+    // },
+    cleanFiltredStore(state, action: PayloadAction<{ field: string }>) {
+      const { field } = action.payload;
+        switch (field) {
+          case 'carsList':
+            return { ...state, carsList: [] };
+          case 'cities':
+            return { ...state, cities: [] };
+          case 'filtredCars':
+            return { ...state, filtredCars: [] };
+            case 'models':
+            return { ...state, models: [] };
+          default:
+            return state;        
+      }  
     },
     updateFilteredStoreAfterHide(state, { payload }) {
       state.filtredCars = payload;

@@ -1,5 +1,5 @@
 export function extractPhotoName(photoUrl: string) {
-    if(photoUrl === ''){
+    if(photoUrl === '' || photoUrl === null ){
         return ''
     }
   let index = photoUrl.lastIndexOf('_');

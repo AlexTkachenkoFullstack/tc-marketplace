@@ -19,6 +19,8 @@ import {
   getCarTypeParam,
   getAdvertisement,
   putDeleteAdvertisement,
+  deletePhotoAdvertisement,
+  putEditAdvertisement,
   // putEditAdvertisement,
 } from 'services/services';
 import { IRegion } from 'types/IRegion';
@@ -56,8 +58,16 @@ import { generateEngineVolumes } from 'utils/generateEngineVolumes';
 import { generateYears } from 'utils/generateYears';
 import { yearNow } from 'utils/yearNow';
 import { extractPhotoName } from 'utils/extractPhotoName';
-import { ReactComponent as Trash } from '../../assets/icons/Vector-trash.svg';
+import { ReactComponent as Trash } from '../../assets/icons/delete.svg';
+import { cleanFiltredStore } from 'redux/filter/slice';
+interface RequestData {
+  [key: string]: any;
+}
 
+interface ResponseData {
+  [key: string]: any;
+}
+const staticValue = '+380';
 const startVolume = 0.0;
 const endVolume = 20.0;
 const step = 0.1;
@@ -65,7 +75,6 @@ const startYear = 1970;
 const endYear = yearNow();
 const N = 20;
 export const NewAnnouncement: React.FC = () => {
-  const jsonString = localStorage.getItem('persist:userRoot');
   const inputRef = useRef<HTMLInputElement>(null);
   const input1Ref = useRef<HTMLInputElement>(null);
   const input2Ref = useRef<HTMLInputElement>(null);
@@ -77,12 +86,9 @@ export const NewAnnouncement: React.FC = () => {
   const isAdvertisements = location.pathname === '/advertisements';
   const dispatch = useAppDispatch();
   const [immutableData, setImmutableData] = useState(false);
-  console.log('immutableData :>> ', immutableData);
-  const [authToken, setAuthToken] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [responseData, setResponseData] = useState<any>(null);
-  console.log('responseData :>> ', responseData);
+  const [responseData, setResponseData] = useState<ResponseData | null>(null);
   const [isOpen, setIsOpen] = useState<BlocksVisibilityState>(() => {
     return getWindowWidth() < 767
       ? getInitialBlocksVisibility(false)
@@ -93,11 +99,12 @@ export const NewAnnouncement: React.FC = () => {
     endVolume,
     step,
   );
+  const [resetCheckedItemId, setResetCheckedItemId] = useState(false);
+  const [needToAddFile, setNeedToAddFile] = useState(false);
   const [engineVolumes, setEngineVolumes] = useState<string | string[]>(
     'Літри',
   );
   const yearsArray = generateYears(startYear, endYear);
-
   const [isShow, setIsShow] = useState(Array(N).fill(false));
   const [messages, setMessages] = useState(Array(N).fill(''));
   const [activeField, setActiveField] = useState(Array(N).fill(''));
@@ -114,7 +121,7 @@ export const NewAnnouncement: React.FC = () => {
     });
   };
 
-  const closeModal = (index: number) => {
+  const closeMessage = (index: number) => {
     setIsShow(prevState => {
       const newState = [...prevState];
       newState[index] = false;
@@ -122,10 +129,12 @@ export const NewAnnouncement: React.FC = () => {
     });
   };
   const [selectedImages, setSelectedImages] = useState<UploadedImage[]>([]);
+
   const [mainPhoto, setMainPhoto] = useState<string>('');
+
   const [textValue, setTextValue] = useState<string>('');
   const [inputPhone, setInputPhone] = useState<string>('');
-  const maxDigits = 12;
+  const maxDigits = 9;
   const [selectedRegions, setSelectedRegions] = useState<string | string[]>(
     'Вся Україна',
   );
@@ -173,12 +182,22 @@ export const NewAnnouncement: React.FC = () => {
   const [typeCategory, setTypeCategory] = useState<string | string[]>('');
   const [carBrand, setCarBrand] = useState<string | string[]>('');
   const [carModel, setCarModel] = useState<string | string[]>('');
-  console.log('transportTypeId :>> ', transportTypeId);
+
   const typeCars: IType[] = useAppSelector(getFilterTypes);
   const brands: IBrand[] = useAppSelector(getFilterBrands);
   const models: IModel[] = useAppSelector(getFilterModels);
   const regions: IRegion[] = useAppSelector(getFilterRegions);
   const cities: ICities[] = useAppSelector(getFilterCitys);
+
+  const sortedImages = [...selectedImages].sort((a, b) => {
+    if (a.name === mainPhoto && b.name !== mainPhoto) {
+      return -1;
+    } else if (a.name !== mainPhoto && b.name === mainPhoto) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
 
   const city: CityItem[] = [];
   if (cities.length > 0) {
@@ -201,62 +220,16 @@ export const NewAnnouncement: React.FC = () => {
   const engPower = data?.enginePowerFrom;
   const numberOfSeat = data?.numberOfSeatsTo;
   const mileageTo = data?.mileageTo;
-  useEffect(() => {
-    if (!isAdvertisements || !authToken) {
-      return;
-    }
-    if (isAdvertisements && authToken) {
-      setIsLoading(true);
-      setResponseData(null);
-      setTypeCategory('');
-      setCarBrand('');
-      setSelectedRegions('Вся Україна');
-      setCarModel('');
-      setSelectedCity('Місто');
-      setSelectedBodyType('Тип кузову');
-      setSelectedFuelType('Тип палива');
-      setSelectedDriveType('Привід');
-      setSelectedTransmission('Коробка передач');
-      setFuelConsumption('');
-      setSelectedColor('Колір');
-      setSelectedCondition('Технічний стан');
-      setSelectedAxle('Кількість осей');
-      setSelectedProducingCountry('Країна');
-      setSelectedWheelConfiguration('Конфігурація коліс');
-      setYearCar('Рік');
-      setPrice(null);
-      setSelectedOption(undefined);
-      setTextValue('');
-      setMainPhoto('');
-      setEngineVolumes('');
-      setEnginePower(null);
-      setMileage(null);
-      setNumberOfDoors(null);
-      setNumberOfSeats(null);
-      setInputPhone('');
-      setVinCode('');
-      setSelectedImages([]);
-      setIsLoading(false);
-    }
-  }, [isAdvertisements, authToken]);
 
   const id = location.state && location.state.id ? location.state.id : null;
   useEffect(() => {
-    if (jsonString) {
-      const data = JSON.parse(jsonString);
-      const token = data.token.replace(/^"(.*)"$/, '$1');
-      setAuthToken(token);
-    }
-  }, [jsonString]);
-  useEffect(() => {
     const fetchData = async () => {
-      if (!isAdvertisementsEdit || !authToken || !id) {
+      if (!isAdvertisementsEdit || !id) {
         return;
       }
-      if (isAdvertisementsEdit && authToken && id) {
+      if (isAdvertisementsEdit && id) {
         try {
-          const response = await getAdvertisement(id, authToken);
-          console.log('response :>> ', response);
+          const response = await getAdvertisement(id);
           setResponseData(response);
           setTypeCategory(response.type);
           setCarBrand(response.brand);
@@ -279,27 +252,39 @@ export const NewAnnouncement: React.FC = () => {
           setPrice(response.price);
           setSelectedOption(response.bargain);
           setTextValue(response.description);
-          setMainPhoto(
-            response.mainPhoto
-              ? extractPhotoName(response.mainPhoto) || ''
-              : '',
-          );
+          response.galleries.forEach((item: any) => {
+            if (item.transportGalleryUrl !== null) {
+              if (
+                extractPhotoName(item.transportGalleryUrl!) ===
+                extractPhotoName(response.mainPhoto)
+              ) {
+                setMainPhoto(
+                  extractPhotoName(item.transportGalleryUrl!) as string,
+                );
+              }
+            }
+          });
           setEngineVolumes(response.engineDisplacement);
           setEnginePower(response.enginePower);
           setMileage(response.mileage);
           setNumberOfDoors(response.numberOfDoors);
           setNumberOfSeats(response.numberOfSeats);
-          setInputPhone(response.phone);
+          setInputPhone(response.phone.slice(4));
           setVinCode(response.vincode);
-          setSelectedImages([
-            {
-              name: response.mainPhoto
-                ? extractPhotoName(response.mainPhoto) || ''
-                : '',
-              url: response.galleries[0].transportGalleryUrl,
-              id: response.galleries[0].transportGalleryId,
-            },
-          ]);
+          response.galleries.forEach((item: any) => {
+            setSelectedImages(prevImages => {
+              return [
+                ...prevImages,
+                {
+                  name: (item.transportGalleryUrl !== null
+                    ? extractPhotoName(item.transportGalleryUrl)
+                    : '') as string,
+                  url: item.transportGalleryUrl,
+                  id: item.transportGalleryId,
+                },
+              ];
+            });
+          });
           setImmutableData(true);
           setIsLoading(false);
         } catch (error) {
@@ -309,7 +294,7 @@ export const NewAnnouncement: React.FC = () => {
     };
 
     fetchData();
-  }, [isAdvertisementsEdit, authToken, id]);
+  }, [isAdvertisementsEdit, id]);
 
   useEffect(() => {
     if (typeCars.length > 0) {
@@ -337,15 +322,12 @@ export const NewAnnouncement: React.FC = () => {
     }
     async function getCarTypeParams() {
       if (transportTypeId !== null) {
-        const data = await getCarTypeParam(
-          transportTypeId.toString(),
-          authToken,
-        );
+        const data = await getCarTypeParam(transportTypeId.toString());
         setData(data);
       }
     }
     getCarTypeParams();
-  }, [transportTypeId, authToken]);
+  }, [transportTypeId]);
 
   useEffect(() => {
     if (selectedRegions && regions) {
@@ -408,30 +390,27 @@ export const NewAnnouncement: React.FC = () => {
   };
   const handleInputPhone = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    event.target.classList.remove(styles.inputVincodeInValid);
-    closeModal(16);
-    if (/^\+[0-9]*$/.test(value) && value.length <= maxDigits + 1) {
+    event.target.classList.remove(styles.inputVincodeInValid_staticValue);
+    closeMessage(16);
+    if (/^[0-9]*$/.test(value) && value.length <= maxDigits) {
       setInputPhone(value);
     }
   };
   const remainingDigits = maxDigits - (inputPhone.length - 1);
-  // const handleInputPhoneFocus = (event: React.FocusEvent<HTMLInputElement>) => {
-  //   const value = event.target.value;
-  //   if (value.length !== 13) {
-  //     openNotification(16, 'Приклад +380980001111');
-  //   }
-  // };
+
   const handleInputPhoneBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    if (value.length !== 13) {
-      event.currentTarget.classList.add(styles.inputVincodeInValid);
+    if (value.length !== 9) {
+      event.currentTarget.classList.add(styles.inputVincodeInValid_staticValue);
 
-      openNotification(16, `Залишилось ввести цифр ${remainingDigits}!`);
+      openNotification(16, `Залишилось ввести цифр ${remainingDigits - 1}!`);
     }
-    if (value.length === 13) {
-      event.currentTarget.classList.remove(styles.inputVincodeInValid);
+    if (value.length === 9) {
+      event.currentTarget.classList.remove(
+        styles.inputVincodeInValid_staticValue,
+      );
 
-      closeModal(16);
+      closeMessage(16);
     }
   };
 
@@ -445,20 +424,46 @@ export const NewAnnouncement: React.FC = () => {
     }
   };
   const handleAddMorePhoto = () => {
+    inputRef.current && (inputRef.current.value = '');
     if (inputRef.current) {
       inputRef.current.click();
     }
   };
   const handleAddPhoto = (newImages: UploadedImage[]) => {
-    closeModal(0);
+    inputRef.current && (inputRef.current.value = '');
+    closeMessage(0);
     setSelectedImages(prevImages => [...prevImages, ...newImages]);
+    setNeedToAddFile(true);
   };
   const handleDeletePhoto = (imageId: string, name: string) => {
-    setSelectedImages(prevImages =>
-      prevImages.filter(image => image.id !== imageId),
-    );
-    if (name === mainPhoto) {
-      setMainPhoto('');
+    if (
+      responseData &&
+      responseData.galleries.filter(
+        (item: any) => item.transportGalleryId === imageId,
+      ).length > 0
+    ) {
+      deletePhotoAdvertisement(imageId.toString(), () => {
+        setSelectedImages(prevImages =>
+          prevImages.filter(image => image.id !== imageId),
+        );
+        setNeedToAddFile(true);
+        if (name === mainPhoto) {
+          setMainPhoto('');
+        }
+        setResetCheckedItemId(true);
+      }).catch(error => {
+        console.error('Ошибка в запросе:', error);
+      });
+    } else {
+      setSelectedImages(prevImages =>
+        prevImages.filter(image => image.id !== imageId),
+      );
+      // setResetCheckedItemId(true)
+      setNeedToAddFile(true);
+      inputRef.current && (inputRef.current.value = '');
+      if (name === mainPhoto) {
+        setMainPhoto('');
+      }
     }
   };
 
@@ -507,14 +512,14 @@ export const NewAnnouncement: React.FC = () => {
     }
     if (value.length === 17) {
       event.currentTarget.classList.remove(styles.inputVincodeInValid);
-      closeModal(index);
+      closeMessage(index);
     }
   };
 
   const handleMileage = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     event.target.classList.remove(styles.inputVincodeInValid);
-    closeModal(11);
+    closeMessage(11);
     if (value === '') {
       setMileage(null);
       return;
@@ -577,7 +582,7 @@ export const NewAnnouncement: React.FC = () => {
   const handlePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     event.target.classList.remove(styles.inputVincodeInValid);
-    closeModal(15);
+    closeMessage(15);
     if (value === '') {
       setPrice(null);
       return;
@@ -592,116 +597,120 @@ export const NewAnnouncement: React.FC = () => {
     setMainPhoto(title);
   };
   const handleDeleteAdvers = () => {
-    putDeleteAdvertisement(responseData.id.toString(), authToken);
-    setTimeout(() => {
-      navigate(-1);
-    }, 500);
+    if (responseData && responseData.id !== null) {
+      putDeleteAdvertisement(responseData!.id.toString());
+      setTimeout(() => {
+        navigate(-1);
+      }, 500);
+    }
   };
-  const handleUpdateAdvers = () => {
-    // const {id,}=responseData
-    // putEditAdvertisement(id.toString(),formData,authToken)
-  };
-  const handleClick = () => {
-    if (
-      selectedImages.length > 0 &&
-      mainPhoto !== '' &&
-      price &&
-      selectedCity !== 'Місто' &&
-      carModel !== '' &&
-      yearCar !== 'Рік' &&
-      selectedBodyType !== 'Тип кузову' &&
-      selectedFuelType !== 'Тип палива' &&
-      fuelConsumption !== 'Літри' &&
-      selectedTransmission !== 'Коробка передач' &&
-      mileage &&
-      engineVolumes !== 'Літри' &&
-      selectedDriveType !== 'Привід' &&
-      inputPhone.length === 13
-    ) {
-      const createFormData = (selectedImageFile: any) => {
-        const modelId = getArrayModelsOfId(models, carModel);
-        const cityId = getArrayCityOfId(cities, selectedCity);
-        const bodyTypeId = getArrayCarBodyOfId(
-          bodyTypes ?? [],
-          selectedBodyType,
-        );
-        const fuelTypeId = getArrayFuelOfId(fuel ?? [], selectedFuelType);
-        const driveTypeId = getArrayDriveOfid(
-          driveType ?? [],
-          selectedDriveType,
-        );
-        const transmissionId = getArrayTransmissionOfId(
-          transmission ?? [],
-          selectedTransmission,
-        );
-        const colorId = getArrayColorOfId(transportColor ?? [], selectedColor);
-        const conditionId = getArrayConditionOfId(
-          transportCondition ?? [],
-          selectedCondition,
-        );
-        const numberAxlesId = getArrayNumberAxlesOfId(
-          numberAxles ?? [],
-          selectedAxle,
-        );
-        const producingCountryId = getArrayProducingCountryOfId(
-          producingCountry ?? [],
-          selectedProducingCountry,
-        );
-        const wheelConfigurationId = getArrayWheelConfigurationOfId(
-          wheelConfiguration ?? [],
-          selectedWheelConfiguration,
-        );
 
-        const formData = new FormData();
-        selectedImageFile.forEach((item: any) =>
-          formData.append('multipartFiles', item.file[0]),
-        );
+  const handleAddOrUpdateAdvers = () => {
+    if (isAdvertisements) {
+      if (
+        selectedImages.length > 0 &&
+        mainPhoto !== '' &&
+        price &&
+        selectedCity !== 'Місто' &&
+        carModel !== '' &&
+        yearCar !== 'Рік' &&
+        selectedBodyType !== 'Тип кузову' &&
+        selectedFuelType !== 'Тип палива' &&
+        fuelConsumption !== 'Літри' &&
+        selectedTransmission !== 'Коробка передач' &&
+        mileage &&
+        engineVolumes !== 'Літри' &&
+        selectedDriveType !== 'Привід' &&
+        inputPhone.length === 9
+      ) {
+        const createFormData = (selectedImageFile: any) => {
+          const modelId = getArrayModelsOfId(models, carModel);
+          const cityId = getArrayCityOfId(cities, selectedCity);
+          const bodyTypeId = getArrayCarBodyOfId(
+            bodyTypes ?? [],
+            selectedBodyType,
+          );
+          const fuelTypeId = getArrayFuelOfId(fuel ?? [], selectedFuelType);
+          const driveTypeId = getArrayDriveOfid(
+            driveType ?? [],
+            selectedDriveType,
+          );
+          const transmissionId = getArrayTransmissionOfId(
+            transmission ?? [],
+            selectedTransmission,
+          );
+          const colorId = getArrayColorOfId(
+            transportColor ?? [],
+            selectedColor,
+          );
+          const conditionId = getArrayConditionOfId(
+            transportCondition ?? [],
+            selectedCondition,
+          );
+          const numberAxlesId = getArrayNumberAxlesOfId(
+            numberAxles ?? [],
+            selectedAxle,
+          );
+          const producingCountryId = getArrayProducingCountryOfId(
+            producingCountry ?? [],
+            selectedProducingCountry,
+          );
+          const wheelConfigurationId = getArrayWheelConfigurationOfId(
+            wheelConfiguration ?? [],
+            selectedWheelConfiguration,
+          );
 
-        const requestData = {
-          model: modelId[0],
-          bodyType: bodyTypeId[0],
-          importedFrom: producingCountryId[0],
-          year: +yearCar,
-          price,
-          bargain: selectedOption,
-          trade: true,
-          // military: true,
-          // installmentPayment: true,
-          uncleared: true,
-          accidentHistory: true,
-          condition: conditionId[0],
-          vincode: vincode,
-          description: textValue,
-          color: colorId[0],
-          city: cityId[0],
-          mainPhoto: mainPhoto,
-          transmission: transmissionId[0],
-          fuelType: fuelTypeId[0],
-          fuelConsumptionMixed: +fuelConsumption,
-          engineDisplacement: engineVolumes,
-          enginePower: enginePower,
-          driveType: driveTypeId[0],
-          mileage,
-          numberOfDoors,
-          numberOfSeats,
-          wheelConfiguration: wheelConfigurationId[0],
-          numberAxles: numberAxlesId[0],
-          phone: inputPhone,
+          const formData = new FormData();
+          selectedImageFile.forEach((item: any) => {
+            formData.append('multipartFiles', item.file[0]);
+          });
+
+          const requestData: RequestData = {
+            model: modelId[0],
+            bodyType: bodyTypeId[0],
+            importedFrom: producingCountryId[0],
+            year: +yearCar,
+            price: price,
+            bargain: selectedOption,
+            trade: true,
+            // military: true,
+            // installmentPayment: true,
+            uncleared: true,
+            accidentHistory: true,
+            condition: conditionId[0],
+            vincode: vincode,
+            description: textValue,
+            color: colorId[0],
+            city: cityId[0],
+            mainPhoto: mainPhoto,
+            transmission: transmissionId[0],
+            fuelType: fuelTypeId[0],
+            fuelConsumptionMixed: +fuelConsumption,
+            engineDisplacement: +engineVolumes,
+            enginePower: enginePower,
+            driveType: driveTypeId[0],
+            mileage,
+            numberOfDoors,
+            numberOfSeats,
+            wheelConfiguration: wheelConfigurationId[0],
+            numberAxles: numberAxlesId[0],
+            phone: staticValue + inputPhone,
+          };
+
+          formData.append(
+            'requestAddTransportDTO',
+            new Blob([JSON.stringify(requestData)], {
+              type: 'application/json',
+            }),
+          );
+          formData.set('Content-Type', 'application/json');
+
+          return formData;
         };
-        formData.append(
-          'requestAddTransportDTO',
-          new Blob([JSON.stringify(requestData)], { type: 'application/json' }),
-        );
-        formData.set('Content-Type', 'application/json');
-
-        return formData;
-      };
-
-      const formData: FormData = createFormData(selectedImages);
-
-      if (jsonString) {
+        const formData: FormData = createFormData(selectedImages);
         setIsLoading(true);
-        postNewAdvertisement(formData, authToken)
+
+        postNewAdvertisement(formData)
           .then(response => {
             navigate(`/catalog/${response}`);
           })
@@ -709,7 +718,7 @@ export const NewAnnouncement: React.FC = () => {
             console.error('Произошла ошибка:', error);
           });
 
-        setCarModel('');
+        setCarModel('Модель');
         setSelectedCity('');
         setSelectedBodyType('');
         setSelectedFuelType('');
@@ -732,70 +741,199 @@ export const NewAnnouncement: React.FC = () => {
         setNumberOfSeats(null);
         setInputPhone('');
         setSelectedImages([]);
+        dispatch(cleanFiltredStore({ field: 'models' }));
+        setTimeout(() => {
+          dispatch(cleanFiltredStore({ field: 'cities' }));
+        }, 100);
         setIsLoading(false);
+      } else {
+        if (!selectedImages.length && !mainPhoto) {
+          openNotification(0, 'Додайте фото!');
+        }
+        if (typeCategory === 'Тип') {
+          openNotification(1, 'Виберіть тип автомобіля!');
+        }
+        // if (!vincode && input1Ref.current) {
+        //   input1Ref.current.classList.add(styles.inputVincodeInValid);
+        //   openNotification(2, 'Додайте VIN code!');
+        // }
+        if (carBrand === 'Бренд') {
+          openNotification(3, 'Виберіть бренд автомобіля!');
+        }
+        if (carModel === 'Модель') {
+          openNotification(4, 'Виберіть модель автомобіля!');
+        }
+        if (yearCar === 'Рік') {
+          openNotification(5, 'Виберіть рік випуску автомобіля!');
+        }
+        if (selectedBodyType === 'Тип кузову') {
+          openNotification(6, 'Виберіть тип кузову автомобіля!');
+        }
+        if (selectedFuelType === 'Тип палива') {
+          openNotification(7, 'Виберіть тип палива автомобіля!');
+        }
+        if (fuelConsumption === 'Літри') {
+          openNotification(8, 'Виберіть середню витрату палива!');
+        }
+        if (engineVolumes === 'Літри') {
+          openNotification(9, "Виберіть об'єм двигуна автомобіля!");
+        }
+        if (selectedTransmission === 'Коробка передач') {
+          openNotification(10, 'Виберіть коробку передач автомобіля!');
+        }
+        if (!mileage && input2Ref.current) {
+          input2Ref.current.classList.add(styles.inputVincodeInValid);
+          openNotification(11, 'Додайте пробіг автомобіля!');
+        }
+        if (selectedDriveType === 'Привід') {
+          openNotification(12, 'Виберіть привід автомобіля!');
+        }
+        if (selectedRegions === 'Область') {
+          openNotification(13, 'Виберіть область!');
+        }
+        if (selectedCity === 'Місто') {
+          openNotification(14, 'Виберіть місто!');
+        }
+        if (!price && input3Ref.current) {
+          input3Ref.current.classList.add(styles.inputVincodeInValid);
+          openNotification(15, 'Додайте ціну автомобіля!');
+        }
+        if (!inputPhone && input4Ref.current) {
+          input4Ref.current.classList.add(
+            styles.inputVincodeInValid_staticValue,
+          );
+          openNotification(16, 'Додайте номер телефону!');
+        }
       }
-    } else {
-      if (!selectedImages.length && !mainPhoto) {
-        openNotification(0, 'Додайте фото!');
-      }
-      if (typeCategory === 'Тип') {
-        openNotification(1, 'Виберіть тип автомобіля!');
-      }
-      // if (!vincode && input1Ref.current) {
-      //   input1Ref.current.classList.add(styles.inputVincodeInValid);
-      //   openNotification(2, 'Додайте VIN code!');
-      // }
-      if (carBrand === 'Бренд') {
-        openNotification(3, 'Виберіть бренд автомобіля!');
-      }
-      if (carModel === 'Модель') {
-        openNotification(4, 'Виберіть модель автомобіля!');
-      }
-      if (yearCar === 'Рік') {
-        openNotification(5, 'Виберіть рік випуску автомобіля!');
-      }
-      if (selectedBodyType === 'Тип кузову') {
-        openNotification(6, 'Виберіть тип кузову автомобіля!');
-      }
-      if (selectedFuelType === 'Тип палива') {
-        openNotification(7, 'Виберіть тип палива автомобіля!');
-      }
-      if (fuelConsumption === 'Літри') {
-        openNotification(8, 'Виберіть середню витрату палива!');
-      }
-      if (engineVolumes === 'Літри') {
-        openNotification(9, "Виберіть об'єм двигуна автомобіля!");
-      }
-      if (selectedTransmission === 'Коробка передач') {
-        openNotification(10, 'Виберіть коробку передач автомобіля!');
-      }
-      if (!mileage && input2Ref.current) {
-        input2Ref.current.classList.add(styles.inputVincodeInValid);
-        openNotification(11, 'Додайте пробіг автомобіля!');
-      }
-      if (selectedDriveType === 'Привід') {
-        openNotification(12, 'Виберіть привід автомобіля!');
-      }
-      if (selectedRegions === 'Область') {
-        openNotification(13, 'Виберіть область!');
-      }
-      if (selectedCity === 'Місто') {
-        openNotification(14, 'Виберіть місто!');
-      }
-      if (!price && input3Ref.current) {
-        input3Ref.current.classList.add(styles.inputVincodeInValid);
-        openNotification(15, 'Додайте ціну автомобіля!');
-      }
-      if (!inputPhone && input4Ref.current) {
-        input4Ref.current.classList.add(styles.inputVincodeInValid);
-        openNotification(16, 'Додайте номер телефону!');
-      }
+    }
+    if (isAdvertisementsEdit) {
+      const createFormData = () => {
+        const cityId = getArrayCityOfId(cities, selectedCity);
+        const conditionId = getArrayConditionOfId(
+          transportCondition ?? [],
+          selectedCondition,
+        );
+        const numberAxlesId = getArrayNumberAxlesOfId(
+          numberAxles ?? [],
+          selectedAxle,
+        );
+        const producingCountryId = getArrayProducingCountryOfId(
+          producingCountry ?? [],
+          selectedProducingCountry,
+        );
+        const wheelConfigurationId = getArrayWheelConfigurationOfId(
+          wheelConfiguration ?? [],
+          selectedWheelConfiguration,
+        );
+        const newImages: any[] = [];
+
+        if (selectedImages && responseData && responseData.galleries) {
+          selectedImages.forEach(selectedImage => {
+            const isUrlExists = responseData.galleries.some(
+              (item: any) => item.transportGalleryUrl === selectedImage.url,
+            );
+            if (!isUrlExists) {
+              newImages.push(selectedImage);
+            }
+          });
+        }
+        const formData = new FormData();
+        newImages.forEach((item: any) => {
+          if (needToAddFile) {
+            formData.append('multipartFiles', item.file[0]);
+          }
+        });
+        let comparedValues: { [key: string]: any } = {};
+
+        const requestDataForChecking: RequestData = {
+          description: textValue,
+          fuelConsumptionMixed: +fuelConsumption,
+          engineDisplacement: +engineVolumes,
+          mileage,
+          enginePower: enginePower,
+          city: selectedCity,
+          condition: selectedCondition,
+          numberOfDoors,
+          numberOfSeats,
+          importedFrom: selectedProducingCountry,
+          price,
+          bargain: selectedOption,
+          wheelConfiguration: selectedWheelConfiguration,
+          numberAxles: selectedAxle,
+          phone: staticValue + inputPhone,
+        };
+        if (responseData !== null && typeof responseData === 'object') {
+          for (const key in requestDataForChecking) {
+            if (
+              key in responseData &&
+              requestDataForChecking[key] !== responseData[key]
+            ) {
+              comparedValues[key] = requestDataForChecking[key];
+            }
+          }
+        }
+        const responseDataPhotoName = extractPhotoName(responseData!.mainPhoto);
+        if (responseDataPhotoName !== mainPhoto) {
+          comparedValues = {
+            ...comparedValues,
+            mainPhoto: mainPhoto,
+          };
+        }
+        const newData: RequestData = {};
+        const requestData: RequestData = {
+          mainPhoto: mainPhoto,
+          description: textValue,
+          fuelConsumptionMixed: +fuelConsumption,
+          engineDisplacement: +engineVolumes,
+          mileage,
+          enginePower: enginePower,
+          city: cityId[0],
+          condition: conditionId[0],
+          numberOfDoors,
+          numberOfSeats,
+          importedFrom: producingCountryId[0],
+          price,
+          bargain: selectedOption,
+          wheelConfiguration: wheelConfigurationId[0],
+          numberAxles: numberAxlesId[0],
+          phone: staticValue + inputPhone,
+        };
+        const keysFromComparedValues = Object.keys(comparedValues);
+        const allKeysExist = keysFromComparedValues.every(
+          key => key in requestData,
+        );
+        if (allKeysExist) {
+          for (const key in requestData) {
+            if (
+              key in comparedValues &&
+              requestData[key] !== undefined &&
+              comparedValues[key] !== undefined
+            ) {
+              newData[key] = requestData[key];
+            }
+          }
+        }
+        formData.append(
+          'body',
+          new Blob([JSON.stringify(newData)], { type: 'application/json' }),
+        );
+        formData.set('Content-Type', 'application/json');
+
+        return formData;
+      };
+      const formData: FormData = createFormData();
+
+      putEditAdvertisement(id.toString(), formData)
+        .then(() => navigate(-1))
+        .catch(error => {
+          console.error('Произошла ошибка:', error);
+        });
     }
   };
 
   return (
     <section className={styles.section}>
-      {isLoading && <Loader />}
+      {/* {isLoading && <Loader />} */}
       <div className={styles.container}>
         <h1 className={styles.mainTitle}>
           {isAdvertisementsEdit
@@ -816,13 +954,17 @@ export const NewAnnouncement: React.FC = () => {
         </div>
         <div className={styles.imgContainer}>
           <UploadPhoto
+            resetCheckedItemId={resetCheckedItemId}
             mainPhoto={mainPhoto}
             isShow={isShow[0]}
             inputRef={inputRef}
-            selectedImages={selectedImages}
+            selectedImages={sortedImages}
+            setResetCheckedItemId={setResetCheckedItemId}
             handleAddPhoto={handleAddPhoto}
             handleDeletePhoto={handleDeletePhoto}
             addMainPhoto={handleAddMainePhoto}
+            closeMessage={closeMessage}
+            errorAddPhoto={openNotification}
           />
           {isShow[0] && (
             <span className={styles.photo_errorMessage}>{messages[0]}</span>
@@ -854,7 +996,7 @@ export const NewAnnouncement: React.FC = () => {
                   stylepaddingZero={true}
                   isShow={isShow[1]}
                   index={1}
-                  closeModal={closeModal}
+                  closeMessage={closeMessage}
                   updateStyle="advSearch"
                   options={
                     typeCars
@@ -862,7 +1004,11 @@ export const NewAnnouncement: React.FC = () => {
                       : 'Нема співпадінь'
                   }
                   label="Тип"
-                  startValue="Тип"
+                  startValue={`${
+                    typeCategory === 'Тип' || typeCategory === ''
+                      ? 'Тип'
+                      : typeCategory
+                  }`}
                   allOptionsLabel="Всі типи"
                   option={typeCategory}
                   setOption={setTypeCategory}
@@ -954,9 +1100,14 @@ export const NewAnnouncement: React.FC = () => {
                     </label>
                   ) : null}
                   <input
+                    autoComplete="off"
                     readOnly={immutableData}
+                    disabled={immutableData}
                     ref={input1Ref}
                     className={`${styles.inputPhone} ${styles.VinCode_field}`}
+                    style={{
+                      cursor: immutableData ? 'not-allowed' : 'pointer',
+                    }}
                     onFocus={event => handleFocus(2, event, 'vincode')}
                     onBlur={event => handleBlur(2, event)}
                     id="vincode"
@@ -1001,13 +1152,17 @@ export const NewAnnouncement: React.FC = () => {
                       stylepaddingZero={true}
                       isShow={isShow[3]}
                       index={3}
-                      closeModal={closeModal}
+                      closeMessage={closeMessage}
                       updateStyle="advSearch"
                       options={[...brands.map(brand => brand.brand)].sort(
                         (a, b) => a.localeCompare(b),
                       )}
                       label="Бренд"
-                      startValue="Бренд"
+                      startValue={`${
+                        carBrand === 'Бренд' || carBrand === ''
+                          ? 'Бренд'
+                          : carBrand
+                      }`}
                       option={carBrand}
                       setOption={setCarBrand}
                       allOptionsLabel="Всі бренди"
@@ -1047,7 +1202,7 @@ export const NewAnnouncement: React.FC = () => {
                       stylepaddingZero={true}
                       isShow={isShow[4]}
                       index={4}
-                      closeModal={closeModal}
+                      closeMessage={closeMessage}
                       updateStyle="advSearch"
                       options={
                         carBrand !== 'Всі марки'
@@ -1055,7 +1210,11 @@ export const NewAnnouncement: React.FC = () => {
                           : []
                       }
                       label="Модель"
-                      startValue="Модель"
+                      startValue={`${
+                        carModel === 'Модель' || carModel === ''
+                          ? 'Модель'
+                          : carModel
+                      }`}
                       allOptionsLabel="Всі моделі"
                       option={carModel}
                       setOption={setCarModel}
@@ -1091,15 +1250,18 @@ export const NewAnnouncement: React.FC = () => {
               {isOpen.block6 && (
                 <div className={styles.item_dropdown_box}>
                   <Dropdown
+                    isDissabled={immutableData}
                     stylepaddingZero={true}
                     isShow={isShow[5]}
                     index={5}
-                    closeModal={closeModal}
+                    closeMessage={closeMessage}
                     updateStyle="advSearch"
                     options={yearsArray.map(item => item)}
                     label="Рік"
-                    startValue="Рік"
-                    allOptionsLabel="Всі моделі"
+                    startValue={`${
+                      yearCar === 'Рік' || yearCar === '' ? 'Рік' : yearCar
+                    }`}
+                    // allOptionsLabel="Всі моделі"
                     option={yearCar}
                     setOption={setYearCar}
                   />
@@ -1133,10 +1295,11 @@ export const NewAnnouncement: React.FC = () => {
                 {isOpen.block7 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
+                      isDissabled={immutableData}
                       stylepaddingZero={true}
                       isShow={isShow[6]}
                       index={6}
-                      closeModal={closeModal}
+                      closeMessage={closeMessage}
                       updateStyle="advSearch"
                       options={
                         bodyTypes
@@ -1144,7 +1307,12 @@ export const NewAnnouncement: React.FC = () => {
                           : 'Нема співпадінь'
                       }
                       label="Тип кузову"
-                      startValue="Тип кузову"
+                      startValue={`${
+                        selectedBodyType === 'Тип кузову' ||
+                        selectedBodyType === ''
+                          ? 'Тип кузову'
+                          : selectedBodyType
+                      }`}
                       allOptionsLabel="Тип кузову"
                       option={selectedBodyType}
                       setOption={setSelectedBodyType}
@@ -1181,10 +1349,11 @@ export const NewAnnouncement: React.FC = () => {
                 {isOpen.block8 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
+                      isDissabled={immutableData}
                       stylepaddingZero={true}
                       isShow={isShow[7]}
                       index={7}
-                      closeModal={closeModal}
+                      closeMessage={closeMessage}
                       updateStyle="advSearch"
                       options={
                         fuel
@@ -1192,8 +1361,13 @@ export const NewAnnouncement: React.FC = () => {
                           : 'Нема співпадінь'
                       }
                       label="Тип палива"
-                      startValue="Тип палива"
-                      allOptionsLabel="Тип палива"
+                      startValue={`${
+                        selectedFuelType === 'Тип палива' ||
+                        selectedFuelType === ''
+                          ? 'Тип палива'
+                          : selectedFuelType
+                      }`}
+                      // allOptionsLabel="Тип палива"
                       option={selectedFuelType}
                       setOption={setSelectedFuelType}
                     />
@@ -1233,11 +1407,15 @@ export const NewAnnouncement: React.FC = () => {
                       stylepaddingZero={true}
                       isShow={isShow[8]}
                       index={8}
-                      closeModal={closeModal}
+                      closeMessage={closeMessage}
                       updateStyle="advSearch"
                       options={engineVolumesArray.map(item => item)}
                       label="Літри"
-                      startValue="Літри"
+                      startValue={`${
+                        fuelConsumption === 'Літри' || fuelConsumption === ''
+                          ? 'Літри'
+                          : fuelConsumption
+                      }`}
                       option={fuelConsumption}
                       setOption={setFuelConsumption}
                     />
@@ -1275,11 +1453,15 @@ export const NewAnnouncement: React.FC = () => {
                       stylepaddingZero={true}
                       isShow={isShow[9]}
                       index={9}
-                      closeModal={closeModal}
+                      closeMessage={closeMessage}
                       updateStyle="advSearch"
                       options={engineVolumesArray.map(item => item)}
                       label="Літри"
-                      startValue="Літри"
+                      startValue={`${
+                        engineVolumes === 'Літри' || engineVolumes === ''
+                          ? 'Літри'
+                          : engineVolumes
+                      }`}
                       allOptionsLabel="Об'єм двигуна"
                       option={engineVolumes}
                       setOption={setEngineVolumes}
@@ -1317,10 +1499,11 @@ export const NewAnnouncement: React.FC = () => {
                 {isOpen.block10 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
+                      isDissabled={immutableData}
                       stylepaddingZero={true}
                       isShow={isShow[10]}
                       index={10}
-                      closeModal={closeModal}
+                      closeMessage={closeMessage}
                       updateStyle="advSearch"
                       options={
                         transmission
@@ -1328,7 +1511,12 @@ export const NewAnnouncement: React.FC = () => {
                           : 'Нема співпадінь'
                       }
                       label="Коробка передач"
-                      startValue="Коробка передач"
+                      startValue={`${
+                        selectedTransmission === 'Коробка передач' ||
+                        selectedTransmission === ''
+                          ? 'Коробка передач'
+                          : selectedTransmission
+                      }`}
                       allOptionsLabel="Коробка передач"
                       option={selectedTransmission}
                       setOption={setSelectedTransmission}
@@ -1364,6 +1552,7 @@ export const NewAnnouncement: React.FC = () => {
                 {isOpen.block11 && (
                   <div className={styles.item_dropdown_box}>
                     <input
+                      autoComplete="off"
                       ref={input2Ref}
                       className={styles.inputPhone}
                       type="text"
@@ -1405,6 +1594,7 @@ export const NewAnnouncement: React.FC = () => {
                 {isOpen.block12 && (
                   <div className={styles.item_dropdown_box}>
                     <input
+                      autoComplete="off"
                       className={styles.inputPhone}
                       type="text"
                       maxLength={4}
@@ -1438,10 +1628,11 @@ export const NewAnnouncement: React.FC = () => {
                 {isOpen.block13 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
+                      isDissabled={immutableData}
                       stylepaddingZero={true}
                       isShow={isShow[12]}
                       index={12}
-                      closeModal={closeModal}
+                      closeMessage={closeMessage}
                       updateStyle="advSearch"
                       options={
                         driveType
@@ -1449,7 +1640,12 @@ export const NewAnnouncement: React.FC = () => {
                           : 'Нема співпадінь'
                       }
                       label="Привід"
-                      startValue="Привід"
+                      startValue={`${
+                        selectedDriveType === 'Привід' ||
+                        selectedDriveType === ''
+                          ? 'Привід'
+                          : selectedDriveType
+                      }`}
                       allOptionsLabel="Привід"
                       option={selectedDriveType}
                       setOption={setSelectedDriveType}
@@ -1487,7 +1683,7 @@ export const NewAnnouncement: React.FC = () => {
                     stylepaddingZero={true}
                     isShow={isShow[13]}
                     index={13}
-                    closeModal={closeModal}
+                    closeMessage={closeMessage}
                     updateStyle="advSearch"
                     options={
                       regions
@@ -1495,7 +1691,11 @@ export const NewAnnouncement: React.FC = () => {
                         : 'Нема співпадінь'
                     }
                     label="Область"
-                    startValue="Область"
+                    startValue={`${
+                      selectedRegions === 'Область' || selectedRegions === ''
+                        ? 'Область'
+                        : selectedRegions
+                    }`}
                     allOptionsLabel="Вся Україна"
                     option={selectedRegions}
                     setOption={setSelectedRegions}
@@ -1533,7 +1733,7 @@ export const NewAnnouncement: React.FC = () => {
                       stylepaddingZero={true}
                       isShow={isShow[14]}
                       index={14}
-                      closeModal={closeModal}
+                      closeMessage={closeMessage}
                       updateStyle="advSearch"
                       options={
                         city && city.length > 0
@@ -1541,7 +1741,11 @@ export const NewAnnouncement: React.FC = () => {
                           : 'Місто'
                       }
                       label="Місто"
-                      startValue="Місто"
+                      startValue={`${
+                        selectedCity === 'Місто' || selectedCity === ''
+                          ? 'Місто'
+                          : selectedCity
+                      }`}
                       allOptionsLabel="Місто"
                       option={selectedCity}
                       setOption={setSelectedCity}
@@ -1578,6 +1782,7 @@ export const NewAnnouncement: React.FC = () => {
                 {isOpen.block16 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
+                      isDissabled={immutableData}
                       stylepaddingZero={true}
                       updateStyle="advSearch"
                       options={
@@ -1585,7 +1790,11 @@ export const NewAnnouncement: React.FC = () => {
                         transportColor.map((item: any) => item.transportColor)
                       }
                       label="Колір"
-                      startValue="Колір"
+                      startValue={`${
+                        selectedColor === 'Колір' || selectedColor === ''
+                          ? 'Колір'
+                          : selectedColor
+                      }`}
                       allOptionsLabel="Вся Україна"
                       option={selectedColor}
                       setOption={setSelectedColor}
@@ -1626,7 +1835,12 @@ export const NewAnnouncement: React.FC = () => {
                           : 'Нема співпадінь'
                       }
                       label="Технічний стан"
-                      startValue="Технічний стан"
+                      startValue={`${
+                        selectedCondition === 'Технічний стан' ||
+                        selectedCondition === ''
+                          ? 'Технічний стан'
+                          : selectedCondition
+                      }`}
                       allOptionsLabel="Технічний стан"
                       option={selectedCondition}
                       setOption={setSelectedCondition}
@@ -1659,6 +1873,7 @@ export const NewAnnouncement: React.FC = () => {
                 {isOpen.block18 && (
                   <div className={styles.item_dropdown_box}>
                     <input
+                      autoComplete="off"
                       className={styles.inputPhone}
                       type="text"
                       maxLength={1}
@@ -1694,6 +1909,7 @@ export const NewAnnouncement: React.FC = () => {
                 {isOpen.block19 && (
                   <div className={styles.item_dropdown_box}>
                     <input
+                      autoComplete="off"
                       className={styles.inputPhone}
                       onBlur={handleBlurSeats}
                       type="text"
@@ -1737,7 +1953,11 @@ export const NewAnnouncement: React.FC = () => {
                           : 'Нема співпадінь'
                       }
                       label="Кількість осей"
-                      startValue="Кількість осей"
+                      startValue={`${
+                        selectedAxle === 'Кількість осей' || selectedAxle === ''
+                          ? 'Кількість осей'
+                          : selectedAxle
+                      }`}
                       allOptionsLabel="Кількість осей"
                       option={selectedAxle}
                       setOption={setSelectedAxle}
@@ -1780,7 +2000,12 @@ export const NewAnnouncement: React.FC = () => {
                           : 'Нема співпадінь'
                       }
                       label="Конфігурація коліс"
-                      startValue="Конфігурація коліс"
+                      startValue={`${
+                        selectedWheelConfiguration === 'Конфігурація коліс' ||
+                        selectedWheelConfiguration === ''
+                          ? 'Кількість осей'
+                          : selectedWheelConfiguration
+                      }`}
                       allOptionsLabel="Конфігурація коліс"
                       option={selectedWheelConfiguration}
                       setOption={setSelectedWheelConfiguration}
@@ -1829,7 +2054,12 @@ export const NewAnnouncement: React.FC = () => {
                           : 'Нема співпадінь'
                       }
                       label="Країна"
-                      startValue="Країна"
+                      startValue={`${
+                        selectedProducingCountry === 'Країна' ||
+                        selectedProducingCountry === ''
+                          ? 'Країна'
+                          : selectedProducingCountry
+                      }`}
                       allOptionsLabel="Весь Світ"
                       option={selectedProducingCountry}
                       setOption={setSelectedProducingCountry}
@@ -1861,6 +2091,7 @@ export const NewAnnouncement: React.FC = () => {
               {isOpen.block24 && (
                 <div className={styles.item_dropdown_box}>
                   <input
+                    autoComplete="off"
                     ref={input3Ref}
                     className={styles.inputPhone}
                     type="text"
@@ -1953,13 +2184,14 @@ export const NewAnnouncement: React.FC = () => {
             {isOpen.block1 && (
               <div className={styles.wrapper_item}>
                 <div className={styles.item}>
+                  <span className={styles.staticValue}>+380</span>
                   <input
+                    autoComplete="off"
                     ref={input4Ref}
-                    className={styles.inputPhone}
+                    className={styles.inputPhone_withStaticValue}
                     type="text"
                     pattern="\+[0-9]*"
-                    placeholder={`+380`}
-                    maxLength={maxDigits + 1}
+                    maxLength={maxDigits}
                     value={inputPhone}
                     title={`${remainingDigits} цифр залишилось`}
                     // onFocus={handleInputPhoneFocus}
@@ -1980,7 +2212,7 @@ export const NewAnnouncement: React.FC = () => {
             <button
               className={styles.btn_advers}
               type="button"
-              onClick={handleClick}
+              onClick={handleAddOrUpdateAdvers}
             >
               Розмістити оголошення
             </button>
@@ -1988,17 +2220,17 @@ export const NewAnnouncement: React.FC = () => {
           {isAdvertisementsEdit && (
             <div className={styles.buttonContainer}>
               <button
-                className={styles.btn_advers}
+                className={styles.btn_advers_delete}
                 type="button"
                 onClick={handleDeleteAdvers}
               >
                 Видалити оголошення
-                <Trash />
-              </button>{' '}
+                <Trash className={styles.trashIcon} />
+              </button>
               <button
                 className={styles.btn_advers}
                 type="button"
-                onClick={handleUpdateAdvers}
+                onClick={handleAddOrUpdateAdvers}
               >
                 Зберегти
               </button>
@@ -2009,75 +2241,3 @@ export const NewAnnouncement: React.FC = () => {
     </section>
   );
 };
-
-// accidentHistory:true
-// bargain:true
-// bodyType:"Седан"
-// brand:"BMW"
-// city:"Вінниця"
-// color:"Сірий"
-// condition:"Повністю непошкоджене"
-// description:"Потужний німецький автомобіль."
-// driveType:"Задній"
-// engineDisplacement:3
-// enginePower:300
-// fuelConsumptionMixed:10
-// fuelType:"Бензин"
-// galleries:
-// [{transportGalleryId: 53,…}]
-// id:66
-// importedFrom:"Німеччина"
-// lastUpdate:"2024-03-29T13:55:01.081403"
-// mainPhoto:"http://res.cloudinary.com/de4bysqtm/image/upload/v1711637041/1711637040888_bmw-m3.jpg.jpg"
-// mileage:100000
-// model:"M3"
-// numberOfDoors:4
-// numberOfSeats:5
-// phone:"+380980341818"
-// price:5000
-// region:"Вінницька область"
-// trade:true
-// transmission:"Типтронік"
-// uncleared:true
-// vincode:"SA22TT45U367X4Z2M"
-// year:2015
-// ================to send update==================
-// {
-//   "multipartFiles": [
-//     "string"
-//   ],
-//   "body": {
-//     "year": 2023,
-//     "mileage": 0,
-//     "bodyType": 0,
-//     "city": 0,
-//     "vincode": "",
-//     "description": "string",
-//     "transmission": 0,
-//     "fuelType": 0,
-//     "consumptionCity": 50,
-//     "consumptionHighway": 50,
-//     "consumptionMixed": 50,
-//     "engineDisplacement": 0,
-//     "enginePower": 0,
-//     "driveType": 0,
-//     "numberOfDoors": 0,
-//     "numberOfSeats": 0,
-//     "color": 0,
-//     "accidentHistory": true,
-//     "condition": 0,
-//     "price": 0,
-//     "bargain": true,
-//     "trade": true,
-//     "military": true,
-//     "installmentPayment": true,
-//     "uncleared": true,
-//     "loadCapacity": 0,
-//     "producingCountry": 0,
-//     "wheelConfiguration": 0,
-//     "numberAxles": 0,
-//     "mainPhoto": "string",
-//     "phone": ""vincode
-
-//   }
-// }

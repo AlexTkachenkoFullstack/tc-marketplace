@@ -7,13 +7,17 @@ import { UploadedImage } from 'types/UploadedImage';
 import { useLocation } from 'react-router-dom';
 
 type Props = {
-  mainPhoto:string;
+  resetCheckedItemId: boolean;
+  mainPhoto: string;
   isShow: boolean;
   inputRef: React.RefObject<HTMLInputElement>;
-  selectedImages: UploadedImage[] ;
+  selectedImages: UploadedImage[];
   handleAddPhoto: (newImages: UploadedImage[]) => void;
   handleDeletePhoto: (imageId: string, name: string) => void;
   addMainPhoto: (title: string) => void;
+  closeMessage: (index: number) => void;
+  errorAddPhoto: (numberindex: number, message: string) => void;
+  setResetCheckedItemId: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const UploadPhoto: React.FC<Props> = ({
@@ -21,23 +25,37 @@ export const UploadPhoto: React.FC<Props> = ({
   isShow,
   inputRef,
   selectedImages,
+  resetCheckedItemId,
+  setResetCheckedItemId,
   addMainPhoto,
+  closeMessage,
+  errorAddPhoto,
   handleAddPhoto,
   handleDeletePhoto,
 }) => {
   const location = useLocation();
   const [checkedItemId, setCheckedItemId] = useState<string | null>(null);
-  const [firstPhotoSelected, setFirstPhotoSelected] = useState<boolean>(false)
+  const [firstPhotoSelected, setFirstPhotoSelected] = useState<boolean>(false);
   useEffect(() => {
-    if (selectedImages && mainPhoto && location.pathname === '/advertisements/edit') {
+    if (resetCheckedItemId) {
+      setCheckedItemId(null);
+      setResetCheckedItemId(false);
+    }
+  }, [resetCheckedItemId,setResetCheckedItemId]);
+  useEffect(() => {
+    if (
+      selectedImages &&
+      mainPhoto &&
+      location.pathname === '/advertisements/edit'
+    ) {
       const image = selectedImages.find(item => item.name === mainPhoto);
       if (image) {
         setCheckedItemId(image.id);
         setFirstPhotoSelected(true);
-     }
+      }
     }
-  }, [selectedImages, mainPhoto,location.pathname]);
-  
+  }, [selectedImages, mainPhoto, location.pathname]);
+
   const handleChekedItem = (imageId: string, name: string) => {
     if (checkedItemId === imageId) {
       addMainPhoto('');
@@ -48,34 +66,42 @@ export const UploadPhoto: React.FC<Props> = ({
     }
   };
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    closeMessage(0);
     const files = event.target.files;
     if (files) {
       const newImages: UploadedImage[] = [];
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        const reader = new FileReader();
-        const id = nanoid();
-        reader.onloadend = () => {
-          newImages.push({
-            name: file.name,
-            size: file.size,
-            url: reader.result as string,
-            id: id,
-            file: files,
-          });
-  
-          if (!firstPhotoSelected && i === 0) { 
-            setCheckedItemId(id);
-            addMainPhoto(file.name);
-            setFirstPhotoSelected(true);
-          }
-  
-          if (newImages.length === files.length) {
-            handleAddPhoto(newImages);
-          }     
-        };
-  
-        reader.readAsDataURL(file);
+        if (file.size <= 5 * 1024 * 1024) {
+          const reader = new FileReader();
+          const id = nanoid();
+          reader.onloadend = () => {
+            newImages.push({
+              name: file.name,
+              size: file.size,
+              url: reader.result as string,
+              id: id,
+              file: files,
+            });
+
+            if (!firstPhotoSelected && i === 0) {
+              setCheckedItemId(id);
+              addMainPhoto(file.name);
+              setFirstPhotoSelected(true);
+            }
+
+            if (newImages.length === files.length) {
+              handleAddPhoto(newImages);
+            }
+          };
+
+          reader.readAsDataURL(file);
+        } else {
+          errorAddPhoto(
+            0,
+            `Файл ${file.name} перевищує максимальний розмір 5 МБ і не буде додано.`,
+          );
+        }
       }
     }
   };
@@ -90,7 +116,7 @@ export const UploadPhoto: React.FC<Props> = ({
             <Preview
               resetFirstPhotoSelected={resetFirstPhotoSelected}
               onDelete={handleDeletePhoto}
-              key={item.id}
+              key={nanoid()}
               image={item}
               handleChekedItem={handleChekedItem}
               isChecked={checkedItemId === item.id}

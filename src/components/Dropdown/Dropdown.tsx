@@ -16,7 +16,7 @@ type Props = {
   stylepaddingZero?: boolean;
   isShow?: boolean;
   index?: number;
-  closeModal?: (index: number) => void;
+  closeMessage?: (index: number) => void;
   label: string;
   startValue: string;
   options?: string | string[];
@@ -40,7 +40,7 @@ export const Dropdown: FC<Props> = props => {
     stylepaddingZero,
     isShow,
     index,
-    closeModal,
+    closeMessage,
     pickedRegions,
     pickedBrands,
     label,
@@ -69,24 +69,22 @@ export const Dropdown: FC<Props> = props => {
     setCheckedValue([]);
   }, [carMark]);
 
-  const setChecked = 
-    (newOption: string) => {
-      const newState = [...checkedValue, newOption];
-      setCheckedValue(newState);
-      setOption(newState);
-    };
-  const setUnchecked = 
-    (newOption: string) => {
-      const newState = checkedValue.filter(value => value !== newOption);
-      if (newState.length === 0) {
-        setCheckedValue([]);
-        setOption(startValue);
-        return;
-      }
-      setCheckedValue(newState);
-      setOption(newState);
-    };
-  
+  const setChecked = (newOption: string) => {
+    const newState = [...checkedValue, newOption];
+    setCheckedValue(newState);
+    setOption(newState);
+  };
+  const setUnchecked = (newOption: string) => {
+    const newState = checkedValue.filter(value => value !== newOption);
+    if (newState.length === 0) {
+      setCheckedValue([]);
+      setOption(startValue);
+      return;
+    }
+    setCheckedValue(newState);
+    setOption(newState);
+  };
+
   const closeDropdown = () => {
     setIsActive(false);
     setfilterValue('');
@@ -101,8 +99,8 @@ export const Dropdown: FC<Props> = props => {
       setChecked(newOption);
       return;
     }
-    if (closeModal) {
-      closeModal(index!);
+    if (closeMessage) {
+      closeMessage(index!);
     }
 
     setOption(newOption);
@@ -141,8 +139,10 @@ export const Dropdown: FC<Props> = props => {
   );
 
   useEffect(() => {
-    setfilterValue('');
-    setCheckedValue([]);
+    if (resetValue) {
+      setfilterValue('');
+      setCheckedValue([]);
+    }
   }, [resetValue]);
 
   useEffect(() => {

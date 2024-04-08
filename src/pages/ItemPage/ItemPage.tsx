@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import styles from './ItemPage.module.scss'
-import { useParams } from "react-router-dom";
-import {  getCarInfo, getUserContacts, getUserDetails } from "services/services";
-import { ITransport } from "types/ITransport";
-import { ItemGallery } from "components/ItemGallery";
+import React, { useEffect, useState } from 'react';
+import styles from './ItemPage.module.scss';
+import { useParams } from 'react-router-dom';
+import { getCarInfo, getUserContacts, getUserDetails } from 'services/services';
+import { ITransport } from 'types/ITransport';
+import { ItemGallery } from 'components/ItemGallery';
 import millageIcon from 'assets/icons/millage.svg';
 import transmissionIcon from 'assets/icons/transmission.svg';
 import locationIcon from 'assets/icons/location.svg';
@@ -26,17 +26,21 @@ import { fetchNewCars, getCarDetails } from "redux/cars/operations";
 import Loader from "components/Loader/Loader";
 import { ItemRightGalleryBigScreen } from "./ItemRightGalleryBigScreen";
 
+
 export const ItemPage: React.FC = () => {
-const jsonString = localStorage.getItem('persist:userRoot');
- const dispatch=useAppDispatch()
- const [authToken, setAuthToken] = useState<string>('');
-  const newCars=useAppSelector(getNewCars);
-  const [carInfo, setCarInfo] = useState<null | ITransport>(null)
-  const [userDetailsInfo, setUserDetailsInfo] = useState<null | IUserDetails>(null)
-  const [userContacts, setUserContacts] = useState<null | IUserContacts>(null)
-  const [error, setError] = useState<any>(null)
-  const [isLoading, setIsLoading]=useState<boolean>(false)
+//   const jsonString = localStorage.getItem('persist:userRoot');
+  const dispatch = useAppDispatch();
+  //  const [authToken, setAuthToken] = useState<string>('');
+  const newCars = useAppSelector(getNewCars);
+  const [carInfo, setCarInfo] = useState<null | ITransport>(null);
+  const [userDetailsInfo, setUserDetailsInfo] = useState<null | IUserDetails>(
+    null,
+  );
+  const [userContacts, setUserContacts] = useState<null | IUserContacts>(null);
+  const [error, setError] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { id } = useParams();
+
   const carDetails=useAppSelector(carDetail)
   useEffect(() => {
     if (jsonString) {
@@ -46,40 +50,46 @@ const jsonString = localStorage.getItem('persist:userRoot');
     }
   }, [jsonString]);
 
-  useEffect(() => {  
+
+  useEffect(() => {
     const fetchCarDetails = async () => {
-       try {
-          if(id && authToken){                       
-            setIsLoading(true)
-            const carInfo = await getCarInfo(id,authToken)
-            const userDetails= await getUserDetails(id,authToken)
-            setCarInfo(carInfo)
-            setUserDetailsInfo(userDetails)
-            setIsLoading(false)
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }    
-        }catch (error: any) {
-            setError('Авто із таким id не знайдено');
-            setCarInfo(null)
-            setIsLoading(false) 
+      try {
+        if (id) {
+          setIsLoading(true);
+          const carInfo = await getCarInfo(id);
+          const userDetails = await getUserDetails(id);
+          setCarInfo(carInfo);
+          setUserDetailsInfo(userDetails);
+          setIsLoading(false);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-    }
-    fetchCarDetails()
-}, [ id,authToken])
+      } catch (error: any) {
+        setError('Авто із таким id не знайдено');
+        setCarInfo(null);
+        setIsLoading(false);
+      }
+    };
+    fetchCarDetails();
+  }, [id]);
 
-useEffect(()=>{
+  useEffect(() => {
     const fetchUserContacts = async () => {
-    try {
-        if(id && authToken) {
-    const userContacts= await getUserContacts(id, authToken) 
-    dispatch(getCarDetails(id,))
-    setUserContacts(userContacts)  
-    }
-    }catch(er){ setError(er)}
+      try {
+        if (id) {
+          const userContacts = await getUserContacts(id);
+          dispatch(getCarDetails(id));
+          setUserContacts(userContacts);
         }
-        fetchUserContacts()
-},[dispatch, id, authToken])
+      } catch (er) {
+        setError(er);
+      }
+    };
+    fetchUserContacts();
+  }, [dispatch, id]);
 
+  useEffect(() => {
+    dispatch(fetchNewCars());
+  }, [dispatch]);
 
 
 useEffect(()=>{
@@ -103,9 +113,12 @@ useEffect(()=>{
           </div>
           <div className={styles.itemInfoTop}>
             <div className={styles.itemInfoTopLeft}>
+
                 <div className={styles.titleSection}>
-                    <p className={styles.titleName}>{carInfo.brand} {carInfo.model} {carInfo.year}</p>
-                    <p className={styles.titlePrice}>{carInfo.price} $</p>
+                  <p className={styles.titleName}>
+                    {carInfo.brand} {carInfo.model} {carInfo.year}
+                  </p>
+                  <p className={styles.titlePrice}>{carInfo.price} $</p>
                 </div>
                     <div className={styles.mainCharacteristicsSection}>    
                         <div className={styles.mainCharacteristicsItem}>

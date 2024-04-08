@@ -36,32 +36,36 @@ export default function DropdownList(props: Props) {
     pickedRegions,
   } = props;
   const [filtredItem, setFiltredItem] = useState<string[]>([]);
-  const filterOptionsFunc = useCallback ((text: string) => {
-    if (filterValue.length === 0) return true;
+  const filterOptionsFunc = useCallback(
+    (text: string) => {
+      if (filterValue.length === 0) return true;
 
-    const translit = cyrillicToTranslit();
-    const translitUa = cyrillicToTranslit({ preset: 'uk' });
+      const translit = cyrillicToTranslit();
+      const translitUa = cyrillicToTranslit({ preset: 'uk' });
 
-    const optionValue = text.toLowerCase();
-    const checkValue = filterValue.toLowerCase().trim();
+      const optionValue = text.toLowerCase();
+      const checkValue = filterValue.toLowerCase().trim();
 
-    const cyrillicPattern = /^[\u0400-\u04FF]+$/;
+      const cyrillicPattern = /^[\u0400-\u04FF]+$/;
 
-    if (cyrillicPattern.test(filterValue)) {
-      if (optionValue.includes(checkValue)) return true;
-      if (optionValue.includes(translitUa.transform(checkValue))) return true;
-      return optionValue.includes(translit.transform(checkValue));
-    }
-    if (optionValue.includes(translit.reverse(checkValue))) return true;
-    if (optionValue.includes(translitUa.reverse(checkValue))) return true;
-    return optionValue.includes(checkValue);
-  },[filterValue])
+      if (cyrillicPattern.test(filterValue)) {
+        if (optionValue.includes(checkValue)) return true;
+        if (optionValue.includes(translitUa.transform(checkValue))) return true;
+        return optionValue.includes(translit.transform(checkValue));
+      }
+      if (optionValue.includes(translit.reverse(checkValue))) return true;
+      if (optionValue.includes(translitUa.reverse(checkValue))) return true;
+      return optionValue.includes(checkValue);
+    },
+    [filterValue],
+  );
   useEffect(() => {
     if (typeof options !== 'string' && options !== undefined) {
       const filtredItem = options?.filter(filterOptionsFunc);
       setFiltredItem(filtredItem);
     }
-  }, [options,filterOptionsFunc]);
+  }, [options, filterOptionsFunc]);
+
   const filtredItems =
     optionList &&
     optionList?.map((option: any) => {
@@ -145,7 +149,7 @@ export default function DropdownList(props: Props) {
                   <DropdownOption
                     {...props}
                     currentOption={currentOption}
-                    key={'item' + i + '-' + index} // Используйте уникальные ключи для каждого элемента в цикле
+                    key={'item' + i + '-' + index}
                   />
                 ))}
             </React.Fragment>

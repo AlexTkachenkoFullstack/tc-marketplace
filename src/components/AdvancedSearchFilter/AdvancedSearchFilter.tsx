@@ -55,10 +55,9 @@ const portal = document.querySelector('#modal-root') as Element;
 interface Props {
   onAdvencedFilter: () => void;
 }
+
 const N = 9;
 export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
-  const jsonString = localStorage.getItem('persist:userRoot');
-  const [authToken, setAuthToken] = useState<string>('');
   const dispatch = useAppDispatch();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isOpen, setIsOpen] = useState<BlocksVisibilityState>(() => {
@@ -92,9 +91,11 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const cities: ICities[] = useAppSelector(getFilterCitys);
   const brands: IBrand[] = useAppSelector(getFilterBrands);
   const carsList: IModel[] = useAppSelector(getFilterCarsList);
-
   // type categotry cars
   const [selectedCategory, setSelectedCategory] = useState<string>('Легкові');
+  const [prevSelectedCategory, setPrevSelectedCategory] =
+    useState<string>('Легкові');
+  const [optionList, setOptionList] = useState<ICities[]>(cities);
   const [carBody, setCarBody] = useState<string | string[]>('');
 
   const [carFuel, setCarFuel] = useState<string | string[]>('');
@@ -129,9 +130,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const toggleModalIsOpen = () => {
     setIsModalOpen(prev => !prev);
   };
-  console.log('countryDeliver :>> ', countryDeliver);
-  const requestParams = { selectedCategory, carMark, carModel };
-
+  const requestParams = { selectedCategory, carMark, carModel, carBody };
   // response catalog/get-param/id
   const bodyTypes = data?.bodyTypeDTOS;
   const fuel = data?.fuelTypeDTOS;
@@ -159,14 +158,12 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
       pickedRegions.push(item);
     }
   });
+  
   useEffect(() => {
-    if (jsonString) {
-      const data = JSON.parse(jsonString);
-      const token = data.token.replace(/^"(.*)"$/, '$1');
-      setAuthToken(token);
-    }
-  }, [jsonString]);
-
+    dispatch(fetchRegions());
+    dispatch(fetchTypes());
+  }, [dispatch]);
+  
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -191,6 +188,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
         : getInitialButtonVisibility(true);
     });
   }, [windowWidth]);
+
   useEffect(() => {
     if (selectedRegions) {
       const regionId = getArrayOfId(regions, selectedRegions);
@@ -215,30 +213,69 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
       if (transportTypeId !== null) {
         const data = await getCarTypeParam(
           transportTypeId.toString(),
-          authToken,
+        
         );
         setData(data);
       }
     }
     getCarTypeParams();
-  }, [transportTypeId,authToken]);
-
-  useEffect(() => {
-    dispatch(fetchRegions());
-    dispatch(fetchTypes());
-  }, [dispatch]);
-
-  useEffect(() => {
-    setCarModel('Модель');
-  }, [carMark]);
+  }, [transportTypeId]);
 
   // обработчики категории машин
   const handlerType = (category: string) => {
-    setCarMark('Марка');
+    const newResetValue = Array(N).fill(true);
+    setResetValue(newResetValue);
+    setSelectedRegions('Регіон');
+    setSelectedCity('Місто');
+    setCarMark('Бренд');
     setCarModel('Модель');
     setBrandId([]);
     setSelectedCategory(category);
+    setTimeout(() => {
+      const newResetValueFalse = Array(N).fill(false);
+      setResetValue(newResetValueFalse);
+    }, 200);
   };
+
+  useEffect(() => {
+    const type = typeCars.find(item => item.type === selectedCategory);
+    type && setTransportTypeId(type?.typeId);
+    if (type) {
+      dispatch(fetchBrands(type.typeId));
+    }
+  }, [typeCars, dispatch, selectedCategory]);
+
+  useEffect(() => {
+    const type = typeCars.find(item => item.type === selectedCategory);
+    const brand = getArrayBrandsOfId(brands, carMark);
+
+    if (type && brand && brand.length > 0) {
+      const id = type.typeId;
+      const searchParams: Pick<ISearchParams, 'transportBrandsId'> = {
+        transportBrandsId: brand,
+      };
+      const searchConfig = {
+        searchParams,
+      };
+      setBrandId(brand);
+      dispatch(fetchCars({ id, searchConfig }));
+    }
+  }, [brands, carMark, typeCars, dispatch, selectedCategory]);
+
+  useEffect(() => {
+    if (selectedCategory !== prevSelectedCategory) {
+      dispatch(cleanFiltredStore({ field: 'carsList' }));
+      setTimeout(() => {
+        dispatch(cleanFiltredStore({ field: 'cities' }));
+      }, 100);
+      setOptionList([]);
+    } else {
+      setOptionList(cities);
+    }
+
+    setPrevSelectedCategory(selectedCategory);
+  }, [selectedCategory, prevSelectedCategory, cities,dispatch]);
+
   const handlerCarBody = (valueType: string[]) => {
     setCarBody(valueType);
   };
@@ -280,31 +317,6 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
       [blockName]: !prevState[blockName],
     }));
   };
-  useEffect(() => {
-    const type = typeCars.find(item => item.type === selectedCategory);
-    type && setTransportTypeId(type?.typeId);
-    if (type) {
-      dispatch(fetchBrands(type.typeId));
-    }
-  }, [typeCars, dispatch, selectedCategory]);
-
-  useEffect(() => {
-    const type = typeCars.find(item => item.type === selectedCategory);
-    const brand = getArrayBrandsOfId(brands, carMark);
-
-    if (type && brand && brand.length > 0) {
-      const id = type.typeId;
-      const searchParams: Pick<ISearchParams, 'transportBrandsId'> = {
-        transportBrandsId: brand,
-      };
-      const searchConfig = {
-        searchParams,
-      };
-      setBrandId(brand);
-      dispatch(fetchCars({ id, searchConfig }));
-    }
-  }, [brands, carMark, typeCars, dispatch, selectedCategory]);
-
   const handlerResetFilter = () => {
     const newResetValue = Array(N).fill(true);
     setResetValue(newResetValue);
@@ -325,11 +337,15 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     setCarNumberAxles('');
     setCarWheelConfiguration('');
     setSelectedOption(undefined);
-    setCarMark('Всі марки');
-    setCarModel('Всі моделі');
+    setCarMark('Бренд');
+    setCarModel('Модель');
     setSelectedCity('Місто');
-    setSelectedRegions('Вся Україна');
-    setCountryDeliver('Весь світ');
+    setSelectedRegions('Регіон');
+    setCountryDeliver('Країна');
+    dispatch(cleanFiltredStore({ field: 'carsList' }));
+      setTimeout(() => {
+        dispatch(cleanFiltredStore({ field: 'cities' }));
+      }, 100);
     setTimeout(() => {
       const newResetValueFalse = Array(N).fill(false);
       setResetValue(newResetValueFalse);
@@ -339,7 +355,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   // надсилання данних фільтра запиту
   const handlerSendRequest = () => {
     const regionId = getArrayOfId(regions, selectedRegions);
-    dispatch(cleanFiltredStore());
+    // dispatch(cleanFiltredStore({ field: 'filtredCars' }));
     const modelId = getArrayModelsOfId(carsList, carModel);
     const cityId = getArrayCityOfId(cities, selectedCity);
     const bodyTypeId = getArrayCarBodyOfId(bodyTypes, carBody);
@@ -494,7 +510,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                       resetValue={resetValue[1]}
                       pickedRegions={pickedRegions}
                       updateStyle="advSearch"
-                      optionList={cities}
+                      optionList={optionList}
                       label="Місто"
                       startValue="Місто"
                       checkboxAllowed
@@ -603,7 +619,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                   <Dropdown
                     resetValue={resetValue[3]}
                     updateStyle="advSearch"
-                    optionList={carsList}
+                    optionList={carMark !== 'Всі марки' ? carsList : []}
                     label="Модель"
                     startValue="Модель"
                     allOptionsLabel="Всі моделі"
