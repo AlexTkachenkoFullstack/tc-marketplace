@@ -57,6 +57,7 @@ export const getArrayModelsOfId = (
   selectedModels: string | string[],
 ) => {
   const newArray: string[] = [];
+  console.log('newArray :>> ', newArray);
   if (typeof selectedModels === 'string') {
     newArray.push(selectedModels);
   }

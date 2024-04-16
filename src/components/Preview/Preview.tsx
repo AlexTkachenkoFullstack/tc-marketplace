@@ -4,6 +4,8 @@ import styles from './Preview.module.scss';
 import { UploadedImage } from 'types/UploadedImage';
 
 type Props = {
+  isDisabled?:boolean;
+  newStyles?:any;
   resetFirstPhotoSelected:()=>void;
   onDelete: (image: string,name:string) => void;
   image: UploadedImage;
@@ -11,7 +13,7 @@ type Props = {
   isChecked: boolean 
 };
 
-export const Preview: FC<Props> = ({ image, onDelete, handleChekedItem,isChecked,resetFirstPhotoSelected }) => {
+export const Preview: FC<Props> = ({isDisabled,newStyles, image, onDelete, handleChekedItem,isChecked,resetFirstPhotoSelected }) => {
   const { id, name, url } = image;
   const handleChange = () => {
     handleChekedItem(id,name);
@@ -19,10 +21,12 @@ export const Preview: FC<Props> = ({ image, onDelete, handleChekedItem,isChecked
   const handleDelete = () => {
     onDelete(id, name);
     resetFirstPhotoSelected();
-  };
+  }; 
   return (
-    <div className={styles.imgCard}>
-      <div className={styles.box_input}>
+    <div className={`
+     ${styles.imgCard}
+     ${newStyles && newStyles[0].imgCard_user}`}>
+      <div className={isDisabled ? styles.hidden : styles.box_input}>
         <input
           type="checkbox"
           id={`foto-${id}`}

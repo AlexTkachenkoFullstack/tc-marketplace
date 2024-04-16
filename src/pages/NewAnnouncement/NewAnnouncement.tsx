@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { franc } from 'franc';
 import styles from './NewAnnouncement.module.scss';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
@@ -85,6 +86,7 @@ export const NewAnnouncement: React.FC = () => {
   const isAdvertisementsEdit = location.pathname === '/advertisements/edit';
   const isAdvertisements = location.pathname === '/advertisements';
   const dispatch = useAppDispatch();
+  const [isValid, setIsValid] = useState(false);
   const [immutableData, setImmutableData] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -136,7 +138,7 @@ export const NewAnnouncement: React.FC = () => {
   const [inputPhone, setInputPhone] = useState<string>('');
   const maxDigits = 9;
   const [selectedRegions, setSelectedRegions] = useState<string | string[]>(
-    'Вся Україна',
+    'Область',
   );
   const [yearCar, setYearCar] = useState<string | string[]>('Рік');
   const [selectedCity, setSelectedCity] = useState<string | string[]>('Місто');
@@ -180,8 +182,8 @@ export const NewAnnouncement: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<boolean>();
   const [transportTypeId, setTransportTypeId] = useState<number | null>(null);
   const [typeCategory, setTypeCategory] = useState<string | string[]>('');
-  const [carBrand, setCarBrand] = useState<string | string[]>('');
-  const [carModel, setCarModel] = useState<string | string[]>('');
+  const [carBrand, setCarBrand] = useState<string | string[]>('Бренд');
+  const [carModel, setCarModel] = useState<string | string[]>('Модель');
 
   const typeCars: IType[] = useAppSelector(getFilterTypes);
   const brands: IBrand[] = useAppSelector(getFilterBrands);
@@ -418,11 +420,46 @@ export const NewAnnouncement: React.FC = () => {
     event: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
     const value = event.target.value;
+    event.currentTarget.classList.remove(styles.textareaInvalid);
+    setTextValue(value);
+    closeMessage(17);
+  };
 
-    if (value.length <= 2000) {
-      setTextValue(value);
+  const handleTextareaBlur = (
+    event: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    const value = event.target.value;
+    const detectedLanguage = franc(value);
+
+    if (value.length < 100) {
+      event.currentTarget.classList.add(styles.textareaInvalid);
+      openNotification(
+        17,
+        'Опис автомобіля має становити 100 і більше символів!',
+      );
+    }
+    if (detectedLanguage === 'ukr') {
+      event.currentTarget.classList.remove(styles.textareaInvalid);
+      closeMessage(17);
+    }
+    if (detectedLanguage === 'eng') {
+      event.currentTarget.classList.remove(styles.textareaInvalid);
+      closeMessage(17);
+    }
+
+    // Якщо мова не відповідає жодній перевірці
+    if (detectedLanguage !== 'ukr' && detectedLanguage !== 'eng') {
+      event.currentTarget.classList.add(styles.textareaInvalid);
+      openNotification(
+        17,
+        'Неправильний формат тексту! Використовуйте українську чи англійську мови!',
+      );
+    } else {
+      event.currentTarget.classList.remove(styles.textareaInvalid);
+      closeMessage(17);
     }
   };
+
   const handleAddMorePhoto = () => {
     inputRef.current && (inputRef.current.value = '');
     if (inputRef.current) {
@@ -430,7 +467,6 @@ export const NewAnnouncement: React.FC = () => {
     }
   };
   const handleAddPhoto = (newImages: UploadedImage[]) => {
-    inputRef.current && (inputRef.current.value = '');
     closeMessage(0);
     setSelectedImages(prevImages => [...prevImages, ...newImages]);
     setNeedToAddFile(true);
@@ -469,14 +505,7 @@ export const NewAnnouncement: React.FC = () => {
 
   const handleVinCode = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    const regexp = '(^[A-Z0-9]*$)|^$';
-    const regex = new RegExp(regexp);
-    const isValid = regex.test(value);
-    if (isValid || value === '') {
-      setVinCode(value);
-    } else {
-      setVinCode('');
-    }
+    setVinCode(value.toUpperCase().trim());
   };
   const handleFocus = (
     index: number,
@@ -498,22 +527,25 @@ export const NewAnnouncement: React.FC = () => {
     event: React.FocusEvent<HTMLInputElement>,
   ) => {
     const value = event.target.value;
-    setActiveField(prevState => {
-      const activeField = [...prevState];
-      activeField[index] = null;
-      return activeField;
-    });
-    if (value.length !== 17) {
+    const regexp = /^[a-zA-Z0-9]*$/;
+    const regex = new RegExp(regexp);
+    const isValid = regex.test(value);
+    if (isValid && value.length === 17) {
+      event.currentTarget.classList.remove(styles.inputVincodeInValid);
+      closeMessage(index);
+      setVinCode(value);
+    } else {
       event.currentTarget.classList.add(styles.inputVincodeInValid);
       openNotification(
         index,
         'VIN code містить 17 символів, приклад SN2X03BW4ZTUA08WF',
       );
     }
-    if (value.length === 17) {
-      event.currentTarget.classList.remove(styles.inputVincodeInValid);
-      closeMessage(index);
-    }
+    setActiveField(prevState => {
+      const activeField = [...prevState];
+      activeField[index] = null;
+      return activeField;
+    });
   };
 
   const handleMileage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -604,10 +636,14 @@ export const NewAnnouncement: React.FC = () => {
       }, 500);
     }
   };
+  // const handleInputClick=()=>{
 
+  // }
   const handleAddOrUpdateAdvers = () => {
     if (isAdvertisements) {
       if (
+        textValue.length >= 100 &&
+        isValid &&
         selectedImages.length > 0 &&
         mainPhoto !== '' &&
         price &&
@@ -750,48 +786,53 @@ export const NewAnnouncement: React.FC = () => {
         if (!selectedImages.length && !mainPhoto) {
           openNotification(0, 'Додайте фото!');
         }
-        if (typeCategory === 'Тип') {
+        if (typeCategory === 'Тип' || typeCategory === '') {
           openNotification(1, 'Виберіть тип автомобіля!');
         }
-        // if (!vincode && input1Ref.current) {
-        //   input1Ref.current.classList.add(styles.inputVincodeInValid);
-        //   openNotification(2, 'Додайте VIN code!');
-        // }
-        if (carBrand === 'Бренд') {
+        if (textValue.length < 100) {
+          openNotification(
+            17,
+            'Опис автомобіля має становити 100 і більше символів!',
+          );
+        }
+        if (carBrand === 'Бренд' || carBrand === '') {
           openNotification(3, 'Виберіть бренд автомобіля!');
         }
-        if (carModel === 'Модель') {
+        if (carModel === 'Модель' || carModel === '') {
           openNotification(4, 'Виберіть модель автомобіля!');
         }
-        if (yearCar === 'Рік') {
+        if (yearCar === 'Рік' || yearCar === '') {
           openNotification(5, 'Виберіть рік випуску автомобіля!');
         }
-        if (selectedBodyType === 'Тип кузову') {
+        if (selectedBodyType === 'Тип кузову' || selectedBodyType === '') {
           openNotification(6, 'Виберіть тип кузову автомобіля!');
         }
-        if (selectedFuelType === 'Тип палива') {
+        if (selectedFuelType === 'Тип палива' || selectedFuelType === '') {
           openNotification(7, 'Виберіть тип палива автомобіля!');
         }
-        if (fuelConsumption === 'Літри') {
+        if (fuelConsumption === 'Літри' || fuelConsumption === '') {
           openNotification(8, 'Виберіть середню витрату палива!');
         }
-        if (engineVolumes === 'Літри') {
+        if (engineVolumes === 'Літри' || engineVolumes === '') {
           openNotification(9, "Виберіть об'єм двигуна автомобіля!");
         }
-        if (selectedTransmission === 'Коробка передач') {
+        if (
+          selectedTransmission === 'Коробка передач' ||
+          selectedTransmission === ''
+        ) {
           openNotification(10, 'Виберіть коробку передач автомобіля!');
         }
         if (!mileage && input2Ref.current) {
           input2Ref.current.classList.add(styles.inputVincodeInValid);
           openNotification(11, 'Додайте пробіг автомобіля!');
         }
-        if (selectedDriveType === 'Привід') {
+        if (selectedDriveType === 'Привід' || selectedDriveType === '') {
           openNotification(12, 'Виберіть привід автомобіля!');
         }
-        if (selectedRegions === 'Область') {
+        if (selectedRegions === 'Область' || selectedRegions === '') {
           openNotification(13, 'Виберіть область!');
         }
-        if (selectedCity === 'Місто') {
+        if (selectedCity === 'Місто' || selectedCity === '') {
           openNotification(14, 'Виберіть місто!');
         }
         if (!price && input3Ref.current) {
@@ -913,6 +954,7 @@ export const NewAnnouncement: React.FC = () => {
             }
           }
         }
+        console.log('newData :>> ', newData);
         formData.append(
           'body',
           new Blob([JSON.stringify(newData)], { type: 'application/json' }),
@@ -979,9 +1021,9 @@ export const NewAnnouncement: React.FC = () => {
               className={`${styles.mobileButton}  ${
                 getWindowWidth() >= 768 ? styles.hide : ''
               }`}
-              onClick={() => handleMobileBtnIsOpen('block3')}
+              onClick={() => handleMobileBtnIsOpen('block0')}
             >
-              {isOpen.block3 ? (
+              {isOpen.block0 ? (
                 <Arrowup width={24} height={24} />
               ) : (
                 <Arrowdown width={24} height={24} />
@@ -989,7 +1031,7 @@ export const NewAnnouncement: React.FC = () => {
             </div>
           </div>
           <div className={styles.listItem}>
-            {isOpen.block3 && (
+            {isOpen.block0 && (
               <div className={styles.item_dropdown_box}>
                 <Dropdown
                   isDissabled={immutableData}
@@ -1029,16 +1071,16 @@ export const NewAnnouncement: React.FC = () => {
               className={`${styles.mobileButton}  ${
                 getWindowWidth() >= 768 ? styles.hide : ''
               }`}
-              onClick={() => handleMobileBtnIsOpen('block2')}
+              onClick={() => handleMobileBtnIsOpen('block1')}
             >
-              {isOpen.block2 ? (
+              {isOpen.block1 ? (
                 <Arrowup width={24} height={24} />
               ) : (
                 <Arrowdown width={24} height={24} />
               )}
             </div>
           </div>
-          {isOpen.block2 && (
+          {isOpen.block1 && (
             <div className={styles.wrapper_item}>
               <div className={styles.listItem}>
                 <textarea
@@ -1046,11 +1088,14 @@ export const NewAnnouncement: React.FC = () => {
                   name="story"
                   rows={15}
                   cols={133}
-                  className={styles.textarea}
+                  className={
+                    isShow[17] ? styles.textareaInvalid : styles.textarea
+                  }
                   maxLength={2000}
                   placeholder="Text"
                   value={textValue}
                   onChange={handleTextareaChange}
+                  onBlur={handleTextareaBlur}
                 />
                 <div
                   style={{
@@ -1061,6 +1106,11 @@ export const NewAnnouncement: React.FC = () => {
                   }}
                 >
                   {textValue.length.toString().padStart(4, '0')} / 2000
+                  {isShow[17] && (
+                    <span className={styles.VinCode_errorMessage}>
+                      {messages[17]}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -1075,9 +1125,9 @@ export const NewAnnouncement: React.FC = () => {
                 className={`${styles.mobileButton}  ${
                   getWindowWidth() >= 768 ? styles.hide : ''
                 }`}
-                onClick={() => handleMobileBtnIsOpen('block3')}
+                onClick={() => handleMobileBtnIsOpen('block2')}
               >
-                {isOpen.block3 ? (
+                {isOpen.block2 ? (
                   <Arrowup width={24} height={24} />
                 ) : (
                   <Arrowdown width={24} height={24} />
@@ -1085,7 +1135,7 @@ export const NewAnnouncement: React.FC = () => {
               </div>
             </div>
             <div className={styles.listItem}>
-              {isOpen.block3 && (
+              {isOpen.block2 && (
                 <div className={styles.item_dropdown_box}>
                   {vincode ? (
                     <label
@@ -1135,9 +1185,9 @@ export const NewAnnouncement: React.FC = () => {
                   className={`${styles.mobileButton}  ${
                     getWindowWidth() >= 768 ? styles.hide : ''
                   }`}
-                  onClick={() => handleMobileBtnIsOpen('block4')}
+                  onClick={() => handleMobileBtnIsOpen('block3')}
                 >
-                  {isOpen.block4 ? (
+                  {isOpen.block3 ? (
                     <Arrowup width={24} height={24} />
                   ) : (
                     <Arrowdown width={24} height={24} />
@@ -1145,7 +1195,7 @@ export const NewAnnouncement: React.FC = () => {
                 </div>
               </div>
               <div className={styles.listItem}>
-                {isOpen.block4 && (
+                {isOpen.block3 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
                       isDissabled={immutableData}
@@ -1185,9 +1235,9 @@ export const NewAnnouncement: React.FC = () => {
                   className={`${styles.mobileButton}  ${
                     getWindowWidth() >= 768 ? styles.hide : ''
                   }`}
-                  onClick={() => handleMobileBtnIsOpen('block5')}
+                  onClick={() => handleMobileBtnIsOpen('block4')}
                 >
-                  {isOpen.block5 ? (
+                  {isOpen.block4 ? (
                     <Arrowup width={24} height={24} />
                   ) : (
                     <Arrowdown width={24} height={24} />
@@ -1195,7 +1245,7 @@ export const NewAnnouncement: React.FC = () => {
                 </div>
               </div>
               <div className={styles.listItem}>
-                {isOpen.block5 && (
+                {isOpen.block4 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
                       isDissabled={immutableData}
@@ -1237,9 +1287,9 @@ export const NewAnnouncement: React.FC = () => {
                 className={`${styles.mobileButton}  ${
                   getWindowWidth() >= 768 ? styles.hide : ''
                 }`}
-                onClick={() => handleMobileBtnIsOpen('block6')}
+                onClick={() => handleMobileBtnIsOpen('block5')}
               >
-                {isOpen.block6 ? (
+                {isOpen.block5 ? (
                   <Arrowup width={24} height={24} />
                 ) : (
                   <Arrowdown width={24} height={24} />
@@ -1247,7 +1297,7 @@ export const NewAnnouncement: React.FC = () => {
               </div>
             </div>
             <div className={styles.listItem}>
-              {isOpen.block6 && (
+              {isOpen.block5 && (
                 <div className={styles.item_dropdown_box}>
                   <Dropdown
                     isDissabled={immutableData}
@@ -1282,9 +1332,9 @@ export const NewAnnouncement: React.FC = () => {
                   className={`${styles.mobileButton}  ${
                     getWindowWidth() >= 768 ? styles.hide : ''
                   }`}
-                  onClick={() => handleMobileBtnIsOpen('block7')}
+                  onClick={() => handleMobileBtnIsOpen('block6')}
                 >
-                  {isOpen.block7 ? (
+                  {isOpen.block6 ? (
                     <Arrowup width={24} height={24} />
                   ) : (
                     <Arrowdown width={24} height={24} />
@@ -1292,7 +1342,7 @@ export const NewAnnouncement: React.FC = () => {
                 </div>
               </div>
               <div className={styles.listItem}>
-                {isOpen.block7 && (
+                {isOpen.block6 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
                       isDissabled={immutableData}
@@ -1336,9 +1386,9 @@ export const NewAnnouncement: React.FC = () => {
                   className={`${styles.mobileButton}  ${
                     getWindowWidth() >= 768 ? styles.hide : ''
                   }`}
-                  onClick={() => handleMobileBtnIsOpen('block8')}
+                  onClick={() => handleMobileBtnIsOpen('block7')}
                 >
-                  {isOpen.block8 ? (
+                  {isOpen.block7 ? (
                     <Arrowup width={24} height={24} />
                   ) : (
                     <Arrowdown width={24} height={24} />
@@ -1346,7 +1396,7 @@ export const NewAnnouncement: React.FC = () => {
                 </div>
               </div>
               <div className={styles.listItem}>
-                {isOpen.block8 && (
+                {isOpen.block7 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
                       isDissabled={immutableData}
@@ -2078,9 +2128,9 @@ export const NewAnnouncement: React.FC = () => {
                 className={`${styles.mobileButton}  ${
                   getWindowWidth() >= 768 ? styles.hide : ''
                 }`}
-                onClick={() => handleMobileBtnIsOpen('block24')}
+                onClick={() => handleMobileBtnIsOpen('block23')}
               >
-                {isOpen.block24 ? (
+                {isOpen.block23 ? (
                   <Arrowup width={24} height={24} />
                 ) : (
                   <Arrowdown width={24} height={24} />
@@ -2088,7 +2138,7 @@ export const NewAnnouncement: React.FC = () => {
               </div>
             </div>
             <div className={styles.listItem}>
-              {isOpen.block24 && (
+              {isOpen.block23 && (
                 <div className={styles.item_dropdown_box}>
                   <input
                     autoComplete="off"
@@ -2115,9 +2165,9 @@ export const NewAnnouncement: React.FC = () => {
                 className={`${styles.mobileButton}  ${
                   getWindowWidth() >= 768 ? styles.hide : ''
                 }`}
-                onClick={() => handleMobileBtnIsOpen('block23')}
+                onClick={() => handleMobileBtnIsOpen('block24')}
               >
-                {isOpen.block23 ? (
+                {isOpen.block24 ? (
                   <Arrowup width={24} height={24} />
                 ) : (
                   <Arrowdown width={24} height={24} />
@@ -2125,7 +2175,7 @@ export const NewAnnouncement: React.FC = () => {
               </div>
             </div>
             <div className={styles.listItem}>
-              {isOpen.block23 && (
+              {isOpen.block24 && (
                 <div className={styles.listItemSelectTitle}>
                   <label
                     htmlFor="No"
@@ -2172,16 +2222,16 @@ export const NewAnnouncement: React.FC = () => {
                 className={`${styles.mobileButton}  ${
                   getWindowWidth() >= 768 ? styles.hide : ''
                 }`}
-                onClick={() => handleMobileBtnIsOpen('block1')}
+                onClick={() => handleMobileBtnIsOpen('block25')}
               >
-                {isOpen.block1 ? (
+                {isOpen.block25 ? (
                   <Arrowup width={24} height={24} />
                 ) : (
                   <Arrowdown width={24} height={24} />
                 )}
               </div>
             </div>
-            {isOpen.block1 && (
+            {isOpen.block25 && (
               <div className={styles.wrapper_item}>
                 <div className={styles.item}>
                   <span className={styles.staticValue}>+380</span>
@@ -2194,7 +2244,6 @@ export const NewAnnouncement: React.FC = () => {
                     maxLength={maxDigits}
                     value={inputPhone}
                     title={`${remainingDigits} цифр залишилось`}
-                    // onFocus={handleInputPhoneFocus}
                     onBlur={handleInputPhoneBlur}
                     onChange={handleInputPhone}
                   />
