@@ -49,10 +49,7 @@ export const UploadPhoto: React.FC<Props> = ({
     }
   }, [resetCheckedItemId, setResetCheckedItemId]);
   useEffect(() => {
-    if (
-      selectedImages &&
-      mainPhoto &&
-      location.pathname === '/advertisements/edit' || isMainePhoto
+    if ( (selectedImages && mainPhoto && location.pathname === '/advertisements/edit') || isMainePhoto
     ) {
       const image = selectedImages.find(item => item.name === mainPhoto);
       if (image) {
