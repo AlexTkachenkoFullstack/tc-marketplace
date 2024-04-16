@@ -26,6 +26,22 @@
     border: 1px solid red;
   }
 }
+.imgCard_user {
+  position: relative;
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  background: #e4e4e4;
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 312px;
+  height: 176px;
+  @include onTablet {
+    width: 192px;
+    height: 108px;
+  }
+}
 .box_input {
   position: absolute;
   display: flex;
@@ -84,6 +100,13 @@
   border: none;
   cursor: pointer;
 }
-.hiddenInput {
+.add_foto_btn_user_foto {
+  padding: 0px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  cursor: pointer;
+}
+.hidden {
   display: none;
 }

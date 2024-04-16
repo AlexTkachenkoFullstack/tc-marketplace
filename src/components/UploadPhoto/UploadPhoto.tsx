@@ -6,7 +6,10 @@ import { Preview } from 'components/Preview/Preview';
 import { UploadedImage } from 'types/UploadedImage';
 import { useLocation } from 'react-router-dom';
 
-type Props = {
+type Props = { 
+  isMainePhoto?:boolean;
+  isDisabled?: boolean;
+  stylesUserInfo?: any;
   resetCheckedItemId: boolean;
   mainPhoto: string;
   isShow: boolean;
@@ -22,9 +25,12 @@ type Props = {
 
 export const UploadPhoto: React.FC<Props> = ({
   mainPhoto,
+  isMainePhoto,
   isShow,
   inputRef,
   selectedImages,
+  stylesUserInfo,
+  isDisabled,
   resetCheckedItemId,
   setResetCheckedItemId,
   addMainPhoto,
@@ -41,12 +47,9 @@ export const UploadPhoto: React.FC<Props> = ({
       setCheckedItemId(null);
       setResetCheckedItemId(false);
     }
-  }, [resetCheckedItemId,setResetCheckedItemId]);
+  }, [resetCheckedItemId, setResetCheckedItemId]);
   useEffect(() => {
-    if (
-      selectedImages &&
-      mainPhoto &&
-      location.pathname === '/advertisements/edit'
+    if ( (selectedImages && mainPhoto && location.pathname === '/advertisements/edit') || isMainePhoto
     ) {
       const image = selectedImages.find(item => item.name === mainPhoto);
       if (image) {
@@ -54,7 +57,7 @@ export const UploadPhoto: React.FC<Props> = ({
         setFirstPhotoSelected(true);
       }
     }
-  }, [selectedImages, mainPhoto, location.pathname]);
+  }, [selectedImages, mainPhoto, location.pathname,isMainePhoto]);
 
   const handleChekedItem = (imageId: string, name: string) => {
     if (checkedItemId === imageId) {
@@ -114,6 +117,8 @@ export const UploadPhoto: React.FC<Props> = ({
         selectedImages.map(item => {
           return (
             <Preview
+              isDisabled={isDisabled}
+              newStyles={stylesUserInfo}
               resetFirstPhotoSelected={resetFirstPhotoSelected}
               onDelete={handleDeletePhoto}
               key={nanoid()}
@@ -126,17 +131,19 @@ export const UploadPhoto: React.FC<Props> = ({
       <div
         className={
           !isShow
-            ? `${styles.imgCard}`
+            ? `${
+                isDisabled ? styles.hidden : stylesUserInfo && stylesUserInfo[1].imgCard_user ? stylesUserInfo[1].imgCard_user : styles.imgCard
+              }`
             : `${styles.imgCard} ${styles.imgCard_errorMessage}`
         }
         onClick={() => inputRef.current !== null && inputRef.current.click()}
       >
-        <div className={styles.add_foto_btn}>
+        <div className={stylesUserInfo && stylesUserInfo[1].add_foto_btn_user_foto ? stylesUserInfo[1].add_foto_btn_user_foto : styles.add_foto_btn}>
           <input
             type="file"
             ref={inputRef}
             accept="image/png, image/jpeg"
-            className={styles.hiddenInput}
+            className={styles.hidden}
             onChange={handleFileChange}
             multiple
           />
