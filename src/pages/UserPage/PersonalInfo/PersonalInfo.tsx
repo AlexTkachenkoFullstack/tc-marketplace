@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { franc } from 'franc';
+// import { franc } from 'franc';
 import styles from './PersonalInfo.module.scss';
 import styles_preview from '../../../components/Preview/Preview.module.scss';
 import styles_uploadPhoto from '../../../components/UploadPhoto/UploadPhoto.module.scss';
@@ -31,6 +31,7 @@ const PersonalInfo: React.FC = () => {
   const dispatch = useAppDispatch();
   // const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+
   const inputRef = useRef<HTMLInputElement>(null);
   const input4Ref = useRef<HTMLInputElement>(null);
   // const [isOpen, setIsOpen] = useState<BlocksVisibilityState>(() => {
@@ -98,14 +99,14 @@ const PersonalInfo: React.FC = () => {
               : '',
           ),
         );
-        setName(response.name);
+        setName(response.name !== null ? response.name : '');
         setInputPhone(response.phone !== null ? response.phone.slice(4) : '');
         setEmail(response.email);
         setSelectedRegion(
           response.region !== null ? response.region : 'Область',
         );
         setTimeout(() => {
-          setSelectedCity(response.city);
+          setSelectedCity(response.city !== null ? response.city : 'Місто');
           setIsLoading(false);
         }, 300);
         setImmutableData(true);
@@ -198,33 +199,99 @@ const PersonalInfo: React.FC = () => {
   };
   const handleOnChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    if (value.length === 0) {
-      setIsValidate(false);
-    }
+    // if (value.length === 0) {
+    //   setIsValidate(false);
+    // }
     setName(value);
   };
+  const detectInputLanguage = (inputValue: string) => {
+    const ukrLower = 'абвгґдеєжзиіїйклмнопрстуфхцчшщьюя';
+    const ukrUpper = ukrLower.toUpperCase();
+    const ruLower = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя';
+    const ruUpper = ruLower.toUpperCase();
+    const enLower = 'abcdefghijklmnopqrstuvwxyz';
+    const enUpper = enLower.toUpperCase();
+
+    let hasUkr = false;
+    let hasRu = false;
+    let hasEn = false;
+
+    for (let i = 0; i < inputValue.length; i++) {
+      const char = inputValue[i];
+      console.log('char :>> ', ukrLower.includes(char));
+      if (ukrLower.includes(char) || ukrUpper.includes(char)) {
+        hasUkr = true;
+      }
+      if (ruLower.includes(char) || ruUpper.includes(char)) {
+        hasRu = true;
+      }
+      if (enLower.includes(char) || enUpper.includes(char)) {
+        hasEn = true;
+      }
+    }
+
+    if (hasUkr && !hasRu && !hasEn) {
+      return 'ukr';
+    } else if (hasRu && !hasUkr && !hasEn) {
+      return 'ru';
+    } else if (hasEn && !hasUkr && !hasRu) {
+      return 'eng';
+    } else {
+      return 'unknown';
+    }
+
+    // return language;
+  };
+
   const handleOnBlurName = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     event.target.classList.remove(styles.inputVincodeInValid);
     closeMessage(1);
 
-    if (name && name.length > 2) {
-      const isValid = franc(value);;
-      if (isValid ===  'ukr' || isValid === 'eng') {       
+    if (value && value.length > 2) {
+      const isValid = detectInputLanguage(value);
+
+      if (isValid === 'ukr' || isValid === 'eng') {
         closeMessage(1);
         event.target.classList.remove(styles.inputVincodeInValid);
+        console.log('true');
         setIsValidate(true);
         setName(value);
       }
-    } else {     
+    } else {
       event.currentTarget.classList.add(styles.inputVincodeInValid);
       setIsValidate(false);
       openNotification(
         1,
-        `Введіть будь ласка ім'я, українською або ангійською мовою!`,
+        `Введіть будь ласка ім'я, українською або англійською мовою!`,
       );
     }
   };
+  // const handleOnBlurName = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const value = event.target.value;
+  //   event.target.classList.remove(styles.inputVincodeInValid);
+  //   closeMessage(1);
+
+  //   if (name && name.length > 2) {
+  //     const isValid = franc(name);
+  //     console.log('isValid :>> ', isValid);
+  //     if (isValid === 'ukr' || isValid === 'eng') {
+  //       closeMessage(1);
+  //       event.target.classList.remove(styles.inputVincodeInValid);
+  //       console.log('true');
+  //       setIsValidate(true);
+  //       setName(value);
+  //     }
+  //   } else {
+  //     event.currentTarget.classList.add(styles.inputVincodeInValid);
+  //     setIsValidate(false);
+  //     openNotification(
+  //       1,
+  //       `Введіть будь ласка ім'я, українською або ангійською мовою!`,
+  //     );
+  //   }
+  // };
+
   const handleOnChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     closeMessage(4);
     const value = event.target.value;
@@ -261,9 +328,6 @@ const PersonalInfo: React.FC = () => {
   };
   const handleInputPhone = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    if (value.length === 0) {
-      setIsValidate(false);
-    }
     event.target.classList.remove(styles.inputVincodeInValid_staticValue);
     closeMessage(3);
     if (/^[0-9]*$/.test(value) && value.length <= maxDigits) {
@@ -290,8 +354,9 @@ const PersonalInfo: React.FC = () => {
     }
   };
 
+  console.log('isValidate :>> ', isValidate);
   const handleAddOrUpdateInfo = () => {
-    if (name && isValidate && inputPhone) {
+    if (name.length > 2 && isValidate && inputPhone.length === 9) {
       const createFormData = () => {
         const cityId = getArrayCityOfId(cities, selectedCity);
 
@@ -468,6 +533,7 @@ const PersonalInfo: React.FC = () => {
               maxLength={17}
               placeholder={'Ім’я'}
               value={name}
+              // onKeyDown={handleKeyPress}
               onBlur={handleOnBlurName}
               onChange={handleOnChangeName}
             />

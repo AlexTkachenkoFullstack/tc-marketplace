@@ -8,6 +8,7 @@ import {
   getFilterModels,
   getFilterRegions,
   getFilterTypes,
+  getIsloadingFiltredCars,
 } from 'redux/filter/selectors';
 import { IType } from 'types/IType';
 import { Dropdown } from 'components/Dropdown/Dropdown';
@@ -50,7 +51,7 @@ import {
   getArrayWheelConfigurationOfId,
 } from 'utils/getArrayOfId';
 import { useLocation, useNavigate } from 'react-router-dom';
-// import Loader from 'components/Loader/Loader';
+import Loader from 'components/Loader/Loader';
 import { getInitialBlocksVisibility } from 'utils/getInitialBlocksVisibility';
 import { getWindowWidth } from 'utils/getWindowWidth';
 import { BlocksVisibilityState } from 'types/BlocksVisibilityState';
@@ -61,6 +62,7 @@ import { yearNow } from 'utils/yearNow';
 import { extractPhotoName } from 'utils/extractPhotoName';
 import { ReactComponent as Trash } from '../../assets/icons/delete.svg';
 import { cleanFiltredStore } from 'redux/filter/slice';
+import { useSelector } from 'react-redux';
 interface RequestData {
   [key: string]: any;
 }
@@ -88,8 +90,9 @@ export const NewAnnouncement: React.FC = () => {
   const dispatch = useAppDispatch();
   const [isValid, setIsValid] = useState(false);
   const [immutableData, setImmutableData] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  console.log('isLoading :>> ', isLoading);
+
+  const isLoading = useSelector(getIsloadingFiltredCars);
+
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [responseData, setResponseData] = useState<ResponseData | null>(null);
   const [isOpen, setIsOpen] = useState<BlocksVisibilityState>(() => {
@@ -231,6 +234,7 @@ export const NewAnnouncement: React.FC = () => {
         return;
       }
       if (isAdvertisementsEdit && id) {
+        // setIsLoading(true)
         try {
           const response = await getAdvertisement(id);
           setResponseData(response);
@@ -289,7 +293,7 @@ export const NewAnnouncement: React.FC = () => {
             });
           });
           setImmutableData(true);
-          setIsLoading(false);
+          // setIsLoading(false);
         } catch (error) {
           console.log('error :>> ', error);
         }
@@ -303,6 +307,7 @@ export const NewAnnouncement: React.FC = () => {
     if (typeCars.length > 0) {
       return;
     }
+
     dispatch(fetchTypes());
     if (regions.length > 0) {
       return;
@@ -397,7 +402,7 @@ export const NewAnnouncement: React.FC = () => {
     closeMessage(16);
     if (/^[0-9]*$/.test(value) && value.length <= maxDigits) {
       setInputPhone(value);
-      setIsValid(true)
+      setIsValid(true);
     }
   };
   const remainingDigits = maxDigits - (inputPhone.length - 1);
@@ -406,14 +411,14 @@ export const NewAnnouncement: React.FC = () => {
     const value = event.target.value;
     if (value.length !== 9) {
       event.currentTarget.classList.add(styles.inputVincodeInValid_staticValue);
-      setIsValid(false)
+      setIsValid(false);
       openNotification(16, `Залишилось ввести цифр ${remainingDigits - 1}!`);
     }
     if (value.length === 9) {
       event.currentTarget.classList.remove(
         styles.inputVincodeInValid_staticValue,
       );
-      setIsValid(true)
+      setIsValid(true);
       closeMessage(16);
     }
   };
@@ -434,7 +439,7 @@ export const NewAnnouncement: React.FC = () => {
     const detectedLanguage = franc(value);
 
     if (value.length < 100) {
-      setIsValid(false)
+      setIsValid(false);
       event.currentTarget.classList.add(styles.textareaInvalid);
       openNotification(
         17,
@@ -442,26 +447,26 @@ export const NewAnnouncement: React.FC = () => {
       );
     }
     if (detectedLanguage === 'ukr') {
-      setIsValid(true)
+      setIsValid(true);
       event.currentTarget.classList.remove(styles.textareaInvalid);
       closeMessage(17);
     }
     if (detectedLanguage === 'eng') {
-      setIsValid(true)
+      setIsValid(true);
       event.currentTarget.classList.remove(styles.textareaInvalid);
       closeMessage(17);
     }
 
     // Якщо мова не відповідає жодній перевірці
     if (detectedLanguage !== 'ukr' && detectedLanguage !== 'eng') {
-      setIsValid(false)
+      setIsValid(false);
       event.currentTarget.classList.add(styles.textareaInvalid);
       openNotification(
         17,
         'Неправильний формат тексту! Використовуйте українську чи англійську мови!',
       );
     } else {
-      setIsValid(true)
+      setIsValid(true);
       event.currentTarget.classList.remove(styles.textareaInvalid);
       closeMessage(17);
     }
@@ -751,7 +756,7 @@ export const NewAnnouncement: React.FC = () => {
           return formData;
         };
         const formData: FormData = createFormData(selectedImages);
-        setIsLoading(true);
+        // setIsLoading(true);
 
         postNewAdvertisement(formData)
           .then(response => {
@@ -788,7 +793,7 @@ export const NewAnnouncement: React.FC = () => {
         setTimeout(() => {
           dispatch(cleanFiltredStore({ field: 'cities' }));
         }, 100);
-        setIsLoading(false);
+        // setIsLoading(false);
       } else {
         if (!selectedImages.length && !mainPhoto) {
           openNotification(0, 'Додайте фото!');
@@ -982,7 +987,7 @@ export const NewAnnouncement: React.FC = () => {
 
   return (
     <section className={styles.section}>
-      {/* {isLoading && <Loader />} */}
+      {isLoading && <Loader />}
       <div className={styles.container}>
         <h1 className={styles.mainTitle}>
           {isAdvertisementsEdit
