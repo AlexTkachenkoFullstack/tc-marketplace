@@ -53,7 +53,7 @@ const PersonalInfo: React.FC = () => {
   const [mainPhoto, setMainPhoto] = useState<string>('');
   const [responseData, setResponseData] = useState<ResponseData | null>(null);
   const [name, setName] = useState<string>('');
-
+  const [prevStateCity, setPrevStateCity] = useState<string | string[]>('');
   const [email, setEmail] = useState<string>('');
   const [inputPhone, setInputPhone] = useState<string>('');
 
@@ -107,7 +107,9 @@ const PersonalInfo: React.FC = () => {
         );
         setTimeout(() => {
           setSelectedCity(response.city !== null ? response.city : 'Місто');
+          setPrevStateCity(response.city !== null ? response.city : '')
           setIsLoading(false);
+          setIsValidate(false);
         }, 300);
         setImmutableData(true);
       } catch (error) {
@@ -139,7 +141,13 @@ const PersonalInfo: React.FC = () => {
       setOptionList(cities);
     }
   }, [cities, selectedRegion]);
-
+  useEffect(() => {
+    // setIsValidate(false);
+    if (selectedCity !== prevStateCity) {
+      setIsValidate(true);
+      setPrevStateCity(selectedCity)
+    }
+  }, [selectedCity, prevStateCity]);
   const openNotification = (index: number, message: string) => {
     setIsShow(prevState => {
       const newState = [...prevState];
@@ -180,6 +188,7 @@ const PersonalInfo: React.FC = () => {
         setNeedToAddFile(true);
         setIsDisabled(false);
         setIsLoading(false);
+        setIsValidate(true)
         if (name === mainPhoto) {
           setMainPhoto('');
         }
@@ -191,7 +200,7 @@ const PersonalInfo: React.FC = () => {
       setSelectedImage(selectedImage.filter(image => image.id !== imageId));
       setIsDisabled(false);
       setNeedToAddFile(true);
-
+      setIsValidate(true)
       if (name === mainPhoto) {
         setMainPhoto('');
       }
@@ -354,7 +363,7 @@ const PersonalInfo: React.FC = () => {
     }
   };
 
-  console.log('isValidate :>> ', isValidate);
+ 
   const handleAddOrUpdateInfo = () => {
     if (name.length > 2 && isValidate && inputPhone.length === 9) {
       const createFormData = () => {
@@ -444,6 +453,7 @@ const PersonalInfo: React.FC = () => {
         putUserInfo(formData).then(response => {
           // openNotification(18, 'Дані оновлені!');
           setIsLoading(false);
+          setIsValidate(false);
         });
       } else {
         setIsLoading(true);
