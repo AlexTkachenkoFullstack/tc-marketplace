@@ -158,12 +158,12 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
       pickedRegions.push(item);
     }
   });
-  
+
   useEffect(() => {
     dispatch(fetchRegions());
     dispatch(fetchTypes());
   }, [dispatch]);
-  
+
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -211,10 +211,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     }
     async function getCarTypeParams() {
       if (transportTypeId !== null) {
-        const data = await getCarTypeParam(
-          transportTypeId.toString(),
-        
-        );
+        const data = await getCarTypeParam(transportTypeId.toString());
         setData(data);
       }
     }
@@ -274,7 +271,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     }
 
     setPrevSelectedCategory(selectedCategory);
-  }, [selectedCategory, prevSelectedCategory, cities,dispatch]);
+  }, [selectedCategory, prevSelectedCategory, cities, dispatch]);
 
   const handlerCarBody = (valueType: string[]) => {
     setCarBody(valueType);
@@ -343,9 +340,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     setSelectedRegions('Регіон');
     setCountryDeliver('Країна');
     dispatch(cleanFiltredStore({ field: 'carsList' }));
-      setTimeout(() => {
-        dispatch(cleanFiltredStore({ field: 'cities' }));
-      }, 100);
+    setTimeout(() => {
+      dispatch(cleanFiltredStore({ field: 'cities' }));
+    }, 100);
     setTimeout(() => {
       const newResetValueFalse = Array(N).fill(false);
       setResetValue(newResetValueFalse);
@@ -431,6 +428,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
         bargain,
       }),
     );
+    handlerResetFilter();
     onAdvencedFilter();
   };
   return (
