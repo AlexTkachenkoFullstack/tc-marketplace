@@ -4,7 +4,7 @@ import styles from './AdvancedSearchFilter.module.scss';
 import {
   getFilterBrands,
   getFilterCarsList,
-  getFilterCitys,
+  getFilterCities,
   getFilterRegions,
   getFilterTypes,
 } from 'redux/filter/selectors';
@@ -88,7 +88,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   // redux filtred
   const typeCars: IType[] = useAppSelector(getFilterTypes);
   const regions: IRegion[] = useAppSelector(getFilterRegions);
-  const cities: ICities[] = useAppSelector(getFilterCitys);
+  const cities: ICities[] = useAppSelector(getFilterCities);
   const brands: IBrand[] = useAppSelector(getFilterBrands);
   const carsList: IModel[] = useAppSelector(getFilterCarsList);
   // type categotry cars
@@ -1071,7 +1071,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
           type="button"
           onClick={toggleModalIsOpen}
         >
-          Зберекти пошук
+          Зберегти пошук
         </button>
         <button
           className={styles.resultFilterShow}

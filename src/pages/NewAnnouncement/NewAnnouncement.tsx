@@ -4,7 +4,7 @@ import styles from './NewAnnouncement.module.scss';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   getFilterBrands,
-  getFilterCitys,
+  getFilterCities,
   getFilterModels,
   getFilterRegions,
   getFilterTypes,
@@ -193,7 +193,7 @@ export const NewAnnouncement: React.FC = () => {
   const brands: IBrand[] = useAppSelector(getFilterBrands);
   const models: IModel[] = useAppSelector(getFilterModels);
   const regions: IRegion[] = useAppSelector(getFilterRegions);
-  const cities: ICities[] = useAppSelector(getFilterCitys);
+  const cities: ICities[] = useAppSelector(getFilterCities);
 
   const sortedImages = [...selectedImages].sort((a, b) => {
     if (a.name === mainPhoto && b.name !== mainPhoto) {
