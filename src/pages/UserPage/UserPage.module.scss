@@ -3,11 +3,11 @@
 .userPage {
   .container {
     width: $mobile-min-width;
-    padding: 96px 0;
+    padding: 96px 0 0 0px;
     margin: 0 auto;
     @include onTablet {
       width: $tablet-min-width;
-      padding: 116px 0 0 40px;
+      padding: 116px 40px 0 40px;
     }
     @include onDesktop {
       width: $desktop-min-width;

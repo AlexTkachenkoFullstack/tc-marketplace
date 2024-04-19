@@ -147,3 +147,45 @@ export const fetchUserInfo = async () => {
     console.error('Помилка при отриманні даних!', error);
   }
 };
+  
+export const getUserInfo = async () => {
+  setAuth();
+  try {
+    const response = await instance.get(
+      'user-page',
+    );   
+    return response.data;
+  } catch (error) {
+    console.error('Помилка в отриманні даних!', error);
+  }
+};
+export const putUserInfo = async (formData: FormData) => {
+  setAuth();
+  const config = {
+    headers: {
+      'Content-type': 'multipart/form-data',
+    },
+  };
+  try {
+    const response = await instance.put(
+      'user-page',
+      formData,
+      config,
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Помилка в даних!', error);
+  }
+};
+export const deletePhotoUserInfo = async (callback: () => void) => {
+  setAuth();
+  try {
+    const response = await instance.delete(
+      'user-page/delete-photo',
+    );
+    callback(); 
+    return response.data;
+  } catch (error) {
+    console.error('Помилка в отриманні даних!', error);
+  }
+};

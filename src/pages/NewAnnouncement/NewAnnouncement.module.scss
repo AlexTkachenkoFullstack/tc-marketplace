@@ -99,10 +99,10 @@
   background: var(--Light, #f0f0f0);
   outline: none;
 }
-.inputPhone_withStaticValue{
+.inputPhone_withStaticValue {
   width: 100%;
   display: flex;
-  padding: 9px  51px;
+  padding: 9px 51px;
   justify-content: center;
   align-items: center;
   gap: 8px;
@@ -128,7 +128,7 @@
 .inputVincodeInValid {
   width: 100%;
   display: flex;
-  padding: 10px var(--Border, 20px);
+  padding: 10px 20px;
   justify-content: center;
   align-items: center;
   gap: 8px;
@@ -205,7 +205,7 @@
   &_red {
     @extend .VinCode_label;
     color: red;
-  }
+  }  
 }
 .messageContainer {
   position: relative;
@@ -365,19 +365,6 @@
     width: 704px;
   }
 }
-.textarea {
-  margin-bottom: 5px;
-  width: 100%;
-  display: flex;
-  min-height: 120px;
-  padding: 10px var(--Border, 20px);
-  justify-content: center;
-  align-items: flex-start;
-  align-self: stretch;
-  border-radius: 18px;
-  border: 1px solid var(--light-gray, #e4e4e4);
-  background: var(--Light, #f0f0f0);
-}
 .item_dropdown_box {
   position: relative;
   width: 100%;
@@ -489,8 +476,18 @@
   color: var(--White, #feffff);
 }
 .textarea {
+  margin-bottom: 5px;
+  width: 100%;
+  display: flex;
+  min-height: 120px;
+  padding: 10px 20px;
+  justify-content: center;
+  align-items: flex-start; 
+  border-radius: 18px;
+  border: 1px solid #e4e4e4;
+  background: #f0f0f0;
   resize: none;
-  color: var(--Black, #434343);
+  color:  #434343;
   font-family: Roboto;
   font-size: 14px;
   font-style: normal;
@@ -498,6 +495,27 @@
   line-height: 20px;
   letter-spacing: 0.1px;
   outline: none;
+}
+.textareaInvalid {
+  margin-bottom: 5px;
+  width: 100%;
+  display: flex;
+  min-height: 120px;
+  padding: 10px 20px;
+  justify-content: center;
+  align-items: flex-start; 
+  border-radius: 18px;
+  border: 1px solid red;
+  background: #f0f0f0;
+  resize: none;
+  color:  red;
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+  outline: non
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -559,7 +577,7 @@ input::-webkit-inner-spin-button {
 .btn_advers_delete:active .trashIcon path {
   fill: $white-color;
 }
-.staticValue{
+.staticValue {
   position: absolute;
   font-size: 14px;
   top: 12px;
@@ -568,7 +586,7 @@ input::-webkit-inner-spin-button {
 .inputVincodeInValid_staticValue {
   width: 100%;
   display: flex;
-  padding: 9px  51px;
+  padding: 9px 51px;
   justify-content: center;
   align-items: center;
   gap: 8px;

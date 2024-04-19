@@ -17,7 +17,7 @@ type Props = {
   stylepaddingZero?: boolean;
   isShow?: boolean;
   index?: number;
-  closeModal?: (index: number) => void;
+  closeMessage?: (index: number) => void;
   label: string;
   startValue: string;
   options?: string | string[];
@@ -41,7 +41,7 @@ export const Dropdown: FC<Props> = props => {
     stylepaddingZero,
     isShow,
     index,
-    closeModal,
+    closeMessage,
     pickedRegions,
     pickedBrands,
     label,
@@ -100,8 +100,8 @@ export const Dropdown: FC<Props> = props => {
       setChecked(newOption);
       return;
     }
-    if (closeModal) {
-      closeModal(index!);
+    if (closeMessage) {
+      closeMessage(index!);
     }
 
     setOption(newOption);

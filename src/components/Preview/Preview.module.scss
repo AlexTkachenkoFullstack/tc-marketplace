@@ -2,7 +2,7 @@
 .imgCard {
   position: relative;
   border-radius: 8px;
-  background: var(--light-gray, #e4e4e4);
+  background: #e4e4e4;
   width: 150px;
   height: 90px;
   box-sizing: border-box;
@@ -15,6 +15,22 @@
     width: 234px;
     height: 146px;
   }
+}
+.imgCard_user {
+  position: relative;
+  border-radius: 8px;
+  background: #e4e4e4;
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 312px;
+  height: 176px;
+  // min-width: 312px;
+  // max-width: 312px;
+  // min-height: 176px;
+  @include onTablet {
+    width: 192px;
+    height: 108px;
+  }  
 }
 .imgCard > img {
   display: block;
@@ -80,6 +96,6 @@
   border: none;
   cursor: pointer;
 }
-.hiddenInput {
+.hidden {
   display: none;
 }
