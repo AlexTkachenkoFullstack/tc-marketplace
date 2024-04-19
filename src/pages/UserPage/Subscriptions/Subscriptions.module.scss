@@ -1,11 +1,26 @@
 @import '/src/styles/main.scss';
 
 .container {
-  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 20px;
+  margin-bottom: 32px;
 
-  @include onDesktop {
+  @include onTablet {
     border-radius: 16px;
     border: 1px solid $ads-border-color;
+  }
+  &::before {
+    content: '';
+    position: absolute;
+    top: 226px;
+    left: 0;
+    width: 100vw;
+    height: 1px;
+    background-color: $background-color-white;
+    @include onTablet {
+      display: none;
+    }
   }
 
   .title {
@@ -13,5 +28,49 @@
     font-size: 22px;
     font-weight: 700;
     line-height: 120%;
+  }
+
+  .subscriptionsList {
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .addButton {
+    align-self: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 8px;
+    width: 315px;
+    height: 52px;
+    border-radius: 32px;
+    background-color: $color-grey;
+
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    color: $white-color;
+
+    transition: all 250ms ease-in-out;
+
+    &:hover {
+      border: 1px solid $color-grey;
+      color: $color-grey;
+      background-color: $background-color-white;
+    }
+    & path {
+      transition: all 250ms ease-in-out;
+    }
+    &:hover path {
+      fill: $color-grey;
+    }
+
+    @include onTablet {
+      align-self: flex-start;
+    }
   }
 }

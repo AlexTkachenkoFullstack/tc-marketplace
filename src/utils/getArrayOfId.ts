@@ -12,6 +12,7 @@ import { IRegion } from 'types/IRegion';
 import { ITransmission } from 'types/ITransmission';
 import { IWheelConfiguration } from 'types/IWheelConfiguration';
 
+
 export const getArrayOfId = (
   regions: IRegion[],
   selectedRegions: string | string[],
@@ -57,6 +58,7 @@ export const getArrayModelsOfId = (
   selectedModels: string | string[],
 ) => {
   const newArray: string[] = [];
+  console.log('newArray :>> ', newArray);
   if (typeof selectedModels === 'string') {
     newArray.push(selectedModels);
   }
@@ -68,6 +70,31 @@ export const getArrayModelsOfId = (
   for (const item of models) {
     if (selectedToFilter.has(item.model)) {
       ids.push(item.modelId);
+    }
+  }
+  return ids;
+};
+
+export const getArrayModelsOfIdForSearch = (
+  modelsList: any,
+  selectedModels: string | string[],
+) => {
+
+  const newArray: string[] = [];
+  if (typeof selectedModels === 'string') {
+    newArray.push(selectedModels);
+  }
+  const filterElementsArr = Array.isArray(selectedModels)
+    ? selectedModels
+    : newArray;
+
+  const ids: number[] = [];
+
+  for (const { models } of modelsList) {
+    for (const modelObj of models) {
+      if (filterElementsArr.includes(modelObj.model)) {
+        ids.push(modelObj.modelId);
+      }
     }
   }
   return ids;
@@ -137,7 +164,9 @@ export const getArrayDriveOfid = (
   if (typeof carDriveType === 'string') {
     newArray.push(carDriveType);
   }
-  const selectedToFilter = new Set(Array.isArray(carDriveType) ? carDriveType : newArray);
+  const selectedToFilter = new Set(
+    Array.isArray(carDriveType) ? carDriveType : newArray,
+  );
   const ids: number[] = [];
   for (const item of driveType) {
     if (selectedToFilter.has(item.driveType)) {
@@ -155,7 +184,9 @@ export const getArrayTransmissionOfId = (
   if (typeof carTransmission === 'string') {
     newArray.push(carTransmission);
   }
-  const selectedToFilter = new Set(Array.isArray(carTransmission) ? carTransmission : newArray);
+  const selectedToFilter = new Set(
+    Array.isArray(carTransmission) ? carTransmission : newArray,
+  );
   const ids: number[] = [];
   for (const item of transmission) {
     if (selectedToFilter.has(item.transmission)) {
@@ -173,7 +204,9 @@ export const getArrayColorOfId = (
   if (typeof carColor === 'string') {
     newArray.push(carColor);
   }
-  const selectedToFilter = new Set(Array.isArray(carColor) ? carColor : newArray);
+  const selectedToFilter = new Set(
+    Array.isArray(carColor) ? carColor : newArray,
+  );
   const ids: number[] = [];
   for (const item of transportColor) {
     if (selectedToFilter.has(item.transportColor)) {
@@ -191,7 +224,9 @@ export const getArrayConditionOfId = (
   if (typeof carTransportCondition === 'string') {
     newArray.push(carTransportCondition);
   }
-  const selectedToFilter = new Set(Array.isArray(carTransportCondition) ? carTransportCondition : newArray);
+  const selectedToFilter = new Set(
+    Array.isArray(carTransportCondition) ? carTransportCondition : newArray,
+  );
 
   const ids: number[] = [];
   for (const item of transportCondition) {
@@ -210,7 +245,9 @@ export const getArrayNumberAxlesOfId = (
   if (typeof carNumberAxles === 'string') {
     newArray.push(carNumberAxles);
   }
-  const selectedToFilter = new Set(Array.isArray(carNumberAxles) ? carNumberAxles : newArray);
+  const selectedToFilter = new Set(
+    Array.isArray(carNumberAxles) ? carNumberAxles : newArray,
+  );
   const ids: number[] = [];
   for (const item of numberAxles) {
     if (selectedToFilter.has(item.numberAxles)) {
@@ -228,7 +265,9 @@ export const getArrayProducingCountryOfId = (
   if (typeof countryDeliver === 'string') {
     newArray.push(countryDeliver);
   }
-  const selectedToFilter = new Set(Array.isArray(countryDeliver) ? countryDeliver : newArray);
+  const selectedToFilter = new Set(
+    Array.isArray(countryDeliver) ? countryDeliver : newArray,
+  );
 
   const ids: number[] = [];
   for (const item of producingCountry) {
@@ -246,7 +285,9 @@ export const getArrayWheelConfigurationOfId = (
   if (typeof carWheelConfiguration === 'string') {
     newArray.push(carWheelConfiguration);
   }
-  const selectedToFilter = new Set(Array.isArray(carWheelConfiguration) ? carWheelConfiguration : newArray);
+  const selectedToFilter = new Set(
+    Array.isArray(carWheelConfiguration) ? carWheelConfiguration : newArray,
+  );
   const ids: number[] = [];
   for (const item of wheelConfiguration) {
     if (selectedToFilter.has(item.wheelConfiguration)) {

@@ -137,3 +137,13 @@ export const deletePhotoAdvertisement = async (
     console.error('Помилка при видаленні даних!', error);
   }
 };
+
+export const fetchUserInfo = async () => {
+  setAuth();
+  try {
+    const {data} = await instance(`user-page`);
+    return data;
+  } catch (error) {
+    console.error('Помилка при отриманні даних!', error);
+  }
+};

@@ -1,1 +1,106 @@
 @import '/src/styles/main.scss';
+
+.subscriptionCard {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  width: 100%;
+
+  border: 1px solid $ads-border-color;
+  border-radius: 16px;
+  background-color: $color-light;
+  padding: 16px;
+
+  .subscrHeader {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    @include onTablet {
+        flex-direction: row;
+      align-items: center;
+    }
+
+    .nameThumb {
+      display: flex;
+      flex-wrap: wrap;
+
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 110%;
+
+      @include onTablet {
+        flex-direction: row;
+      }
+
+      h4 {
+        margin-right: 8px;
+      }
+
+      p {
+        color: $color-text-grey;
+      }
+    }
+
+    svg {
+      display: block;
+    }
+
+    .menuWrap {
+      display: flex;
+      column-gap: 8px;
+      align-items: center;
+    }
+
+    button:first-of-type {
+      border: 1px solid $color-grey;
+      border-radius: 24px;
+      background-color: $color-grey;
+      transition: all 250ms ease-in-out;
+      path,
+      rect {
+        transition: all 250ms ease-in-out;
+      }
+
+      &:hover {
+        border: 1px solid $color-grey;
+        color: $color-grey;
+        background-color: $background-color-white;
+      }
+      &:hover path {
+        fill: $color-grey;
+      }
+      &:hover rect {
+        fill: $background-color-white;
+      }
+
+      @include onTablet {
+        padding: 0;
+      }
+    }
+
+    button:nth-child(2),
+    button:nth-child(3) {
+      padding: 10px 0;
+      transition: all 250ms ease-in-out;
+      @include onTablet {
+        padding: 4px;
+      }
+      &:hover {
+        border-radius: 32px;
+        background-color: $color-light;
+        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
+      }
+    }
+    button:last-of-type svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .content {
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+  }
+}

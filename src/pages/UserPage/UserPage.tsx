@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import styles from './UserPage.module.scss';
 
 import GoToTop from 'components/GoToTop/GoToTop';
 import { CategoryBar } from 'components/CategoryBar/CategoryBar';
-import MyAds from './MyAds';
-import Subscriptions from './Subscriptions';
-import PersonalInfo from './PersonalInfo';
-import Security from './Security';
+// import MyAds from './MyAds';
+// import Subscriptions from './Subscriptions';
+// import PersonalInfo from './PersonalInfo';
+// import Security from './Security';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 enum Tab {
   MyAds,
@@ -19,6 +20,9 @@ enum Tab {
 
 export const UserPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<Tab>(Tab.MyAds);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const categories = [
     'Мої оголошення',
@@ -51,39 +55,44 @@ export const UserPage: React.FC = () => {
       break;
   }
 
-  const renderTabContent = () => {
-    switch (activeTab) {
-      case Tab.MyAds:
-        return <MyAds />;
-      case Tab.Subscriptions:
-        return <Subscriptions />;
-      case Tab.StopList:
-        return <Subscriptions />;
-      case Tab.PersonalInfo:
-        return <PersonalInfo />;
-      case Tab.Security:
-        return <Security />;
-      default:
-        return null;
-    }
-  };
+  // const renderTabContent = () => {
+  //   switch (activeTab) {
+  //     case Tab.MyAds:
+  //       return <MyAds />;
+  //     case Tab.Subscriptions:
+  //       return <Subscriptions />;
+  //     case Tab.StopList:
+  //       return <Subscriptions />;
+  //     case Tab.PersonalInfo:
+  //       return <PersonalInfo />;
+  //     case Tab.Security:
+  //       return <Security />;
+  //     default:
+  //       return null;
+  //   }
+  // };
 
   const handleSelectCategory = (category: string) => {
     switch (category) {
       case categories[0]:
         setActiveTab(Tab.MyAds);
+        navigate('my-adverts');
         break;
       case categories[1]:
         setActiveTab(Tab.Subscriptions);
+        navigate('subscriptions');
         break;
       case categories[2]:
         setActiveTab(Tab.StopList);
+        navigate('stop-list');
         break;
       case categories[3]:
         setActiveTab(Tab.PersonalInfo);
+        navigate('user-info');
         break;
       case categories[4]:
         setActiveTab(Tab.Security);
+        navigate('security');
         break;
 
       default:
@@ -91,6 +100,30 @@ export const UserPage: React.FC = () => {
         break;
     }
   };
+
+  useEffect(() => {
+    const activePage = location.pathname.split('/').pop();
+    switch (activePage) {
+      case 'my - adverts':
+        setActiveTab(Tab.MyAds);
+        break;
+      case 'subscriptions':
+        setActiveTab(Tab.Subscriptions);
+        break;
+      case 'stop-list':
+        setActiveTab(Tab.StopList);
+        break;
+      case 'user-info':
+        setActiveTab(Tab.PersonalInfo);
+        break;
+      case 'security':
+        setActiveTab(Tab.Security);
+        break;
+
+      default:
+        break;
+    }
+  }, [location.pathname]);
 
   return (
     <>
@@ -104,7 +137,8 @@ export const UserPage: React.FC = () => {
             selectedCategory={activeCategory}
             selectedStyle="userPageStyle"
           />
-          {renderTabContent()}
+          <Outlet />
+          {/* {renderTabContent()} */}
         </div>
       </div>
     </>

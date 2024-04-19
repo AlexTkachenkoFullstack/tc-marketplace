@@ -11,12 +11,13 @@ import { IModel } from 'types/IModel';
 import { IBrand } from 'types/IBrand';
 import { IRegion } from 'types/IRegion';
 import { ICities } from 'types/ICities';
+import ModelListType from 'types/ModelListType';
 type Props = {
   checkedValue: string[];
   checkboxAllowed: boolean | undefined;
   filterValue: string;
   options?: string | string[];
-  optionList?: ICities[] | IModel[];
+  optionList?: ICities[] | IModel[] | ModelListType;
   changeOption: (option: string) => void;
   checkboxHandler: (option: string) => void;
   allOptionsLabel?: string;

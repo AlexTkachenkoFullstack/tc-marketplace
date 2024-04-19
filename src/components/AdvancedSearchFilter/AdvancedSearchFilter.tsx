@@ -4,7 +4,7 @@ import styles from './AdvancedSearchFilter.module.scss';
 import {
   getFilterBrands,
   getFilterCarsList,
-  getFilterCitys,
+  getFilterCities,
   getFilterRegions,
   getFilterTypes,
 } from 'redux/filter/selectors';
@@ -18,7 +18,6 @@ import {
 import { IType } from 'types/IType';
 import { IRegion } from 'types/IRegion';
 import { IBrand } from 'types/IBrand';
-import { IModel } from 'types/IModel';
 import { ISearchParams } from 'types/ISearchParam';
 import { getCarTypeParam } from 'services/services';
 import { changeFiltredParams, cleanFiltredStore } from 'redux/filter/slice';
@@ -30,7 +29,7 @@ import {
   getArrayConditionOfId,
   getArrayDriveOfid,
   getArrayFuelOfId,
-  getArrayModelsOfId,
+  getArrayModelsOfIdForSearch,
   getArrayNumberAxlesOfId,
   getArrayOfId,
   getArrayProducingCountryOfId,
@@ -49,6 +48,7 @@ import { getWindowWidth } from 'utils/getWindowWidth';
 import { getInitialButtonVisibility } from 'utils/getInitialButtonVisibility';
 import { createPortal } from 'react-dom';
 import SubscriptionModal from 'components/SubscriptionModal';
+import ModelListType from 'types/ModelListType';
 
 const portal = document.querySelector('#modal-root') as Element;
 
@@ -90,9 +90,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   // redux filtred
   const typeCars: IType[] = useAppSelector(getFilterTypes);
   const regions: IRegion[] = useAppSelector(getFilterRegions);
-  const cities: ICities[] = useAppSelector(getFilterCitys);
+  const cities: ICities[] = useAppSelector(getFilterCities);
   const brands: IBrand[] = useAppSelector(getFilterBrands);
-  const carsList: IModel[] = useAppSelector(getFilterCarsList);
+  const carsList: ModelListType = useAppSelector(getFilterCarsList);
   // type categotry cars
   const [selectedCategory, setSelectedCategory] = useState<string>('Легкові');
   const [prevSelectedCategory, setPrevSelectedCategory] =
@@ -111,13 +111,13 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const [carWheelConfiguration, setCarWheelConfiguration] = useState<
     string | string[]
   >('');
-  const [selectedOption, setSelectedOption] = useState<boolean>(); // Yes or No
+  const [selectedOption, setSelectedOption] = useState<boolean>(false); // Yes or No
   const [transportTypeId, setTransportTypeId] = useState<number | null>(null);
   // select state for dropdown
   const [carMark, setCarMark] = useState<string | string[]>('Всі марки');
   const [brandId, setBrandId] = useState<number[] | []>([]);
 
-  const [carModel, setCarModel] = useState<string | string[]>('Всі моделі');
+  const [carModel, setCarModel] = useState<string | string[]>('');
 
   // dropdown
   const [selectedCity, setSelectedCity] = useState<string | string[]>('Місто');
@@ -132,7 +132,32 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const toggleModalIsOpen = () => {
     setIsModalOpen(prev => !prev);
   };
-  const requestParams = { selectedCategory, carMark, carModel, carBody };
+
+  const requestParams = {
+    selectedCategory,
+    carMark,
+    carModel,
+    carBody,
+    year,
+    carFuel,
+    carTransmission,
+    mileage,
+    engineDisplacement,
+    enginePower,
+    carDriveType,
+    selectedRegions,
+    selectedCity,
+    carColor,
+    carTransportCondition,
+    numberOfDoors,
+    numberOfSeats,
+    carNumberAxles,
+    carWheelConfiguration,
+    countryDeliver,
+    price,
+    data,
+    selectedOption,
+  };
   // response catalog/get-param/id
   const bodyTypes = data?.bodyTypeDTOS;
   const fuel = data?.fuelTypeDTOS;
@@ -160,12 +185,12 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
       pickedRegions.push(item);
     }
   });
-  
+
   useEffect(() => {
     dispatch(fetchRegions());
     dispatch(fetchTypes());
   }, [dispatch]);
-  
+
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -213,10 +238,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     }
     async function getCarTypeParams() {
       if (transportTypeId !== null) {
-        const data = await getCarTypeParam(
-          transportTypeId.toString(),
-        
-        );
+        const data = await getCarTypeParam(transportTypeId.toString());
         setData(data);
       }
     }
@@ -276,7 +298,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     }
 
     setPrevSelectedCategory(selectedCategory);
-  }, [selectedCategory, prevSelectedCategory, cities,dispatch]);
+  }, [selectedCategory, prevSelectedCategory, cities, dispatch]);
 
   const handlerCarBody = (valueType: string[]) => {
     setCarBody(valueType);
@@ -304,6 +326,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   };
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value === 'Так';
+
     setSelectedOption(value);
   };
   // mobile btnShow
@@ -338,16 +361,16 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     setCarDriveType('');
     setCarNumberAxles('');
     setCarWheelConfiguration('');
-    setSelectedOption(undefined);
+    setSelectedOption(false);
     setCarMark('Бренд');
     setCarModel('Модель');
     setSelectedCity('Місто');
     setSelectedRegions('Регіон');
     setCountryDeliver('Країна');
     dispatch(cleanFiltredStore({ field: 'carsList' }));
-      setTimeout(() => {
-        dispatch(cleanFiltredStore({ field: 'cities' }));
-      }, 100);
+    setTimeout(() => {
+      dispatch(cleanFiltredStore({ field: 'cities' }));
+    }, 100);
     setTimeout(() => {
       const newResetValueFalse = Array(N).fill(false);
       setResetValue(newResetValueFalse);
@@ -358,7 +381,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const handlerSendRequest = () => {
     const regionId = getArrayOfId(regions, selectedRegions);
     // dispatch(cleanFiltredStore({ field: 'filtredCars' }));
-    const modelId = getArrayModelsOfId(carsList, carModel);
+    const modelId = getArrayModelsOfIdForSearch(carsList, carModel);
     const cityId = getArrayCityOfId(cities, selectedCity);
     const bodyTypeId = getArrayCarBodyOfId(bodyTypes, carBody);
     const fuelTypeId = getArrayFuelOfId(fuel, carFuel);

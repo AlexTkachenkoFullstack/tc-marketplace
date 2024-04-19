@@ -7,3 +7,4 @@ export const getMyInactiveAds = (state: RootState) =>
 export const getMyDeletedAds = (state: RootState) => state.profile.myDeletedAds;
 export const isLoading = (state: RootState) => state.profile.isLoading;
 export const getAdsCount = (state: RootState) => state.profile.count
+export const getSubscriptions = (state: RootState) => state.profile.mySubscriptions;

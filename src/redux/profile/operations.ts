@@ -1,8 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from 'redux/store';
-import  { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 
 import { KnownError, instance, setAuthHeader } from 'redux/auth/operations';
+import { ISearchParams } from 'types/ISearchParam';
+import { subscriptionRequestType } from 'types/subscriptionRequestType';
+import { paramsSerializer } from 'utils/paramsSerializer';
 // import { ISearchParams } from 'types/ISearchParam';
 // import { SearchParams } from 'types';
 
@@ -22,7 +25,7 @@ export const fetchMyActiveAds = createAsyncThunk(
     } = thunkAPI.getState() as RootState;
     token && setAuthHeader(token);
     try {
-        const { data } = await instance(`user-page/my-transports`, {
+      const { data } = await instance(`user-page/my-transports`, {
         params: { status: 'active' },
       });
       return data;
@@ -146,14 +149,129 @@ export const changeTransportStatus = createAsyncThunk(
 
 export const saveSubscription = createAsyncThunk(
   'profile/saveSubscription',
-  async (requestSearch: any, thunkAPI) => {
+  async (
+    {
+      modifiedRequestSearch,
+      subscriptionRequest,
+    }: {
+      modifiedRequestSearch: ISearchParams;
+      subscriptionRequest: subscriptionRequestType;
+    },
+    thunkAPI,
+  ) => {
+    const {
+      auth: { token },
+    } = thunkAPI.getState() as RootState;
+    token && setAuthHeader(token);
+    const config = {
+      params: modifiedRequestSearch,
+      paramsSerializer,
+    };
+    try {
+      const { data } = await instance.post(
+        'subscriptions',
+        subscriptionRequest,
+        config,
+      );
+      return data;
+    } catch (err) {
+      const error: AxiosError<KnownError> = err as any;
+      if (!error.response) {
+        throw err;
+      }
+      return thunkAPI.rejectWithValue({ errorMessage: error.response.data });
+    }
+  },
+);
+
+export const editSubscription = createAsyncThunk(
+  'profile/editSubscription',
+  async (
+    {
+      id,
+      modifiedRequestSearch,
+      subscriptionRequest,
+    }: {
+      id: number;
+      modifiedRequestSearch: ISearchParams;
+      subscriptionRequest: subscriptionRequestType;
+    },
+    thunkAPI,
+  ) => {
+    const {
+      auth: { token },
+    } = thunkAPI.getState() as RootState;
+    token && setAuthHeader(token);
+    const config = {
+      params: modifiedRequestSearch,
+      paramsSerializer,
+    };
+    try {
+      const { data } = await instance.put(
+        `subscriptions/${id}`,
+        subscriptionRequest,
+        config,
+      );
+      return data;
+    } catch (err) {
+      const error: AxiosError<KnownError> = err as any;
+      if (!error.response) {
+        throw err;
+      }
+      return thunkAPI.rejectWithValue({ errorMessage: error.response.data });
+    }
+  },
+);
+
+export const fetchSubscriptions = createAsyncThunk(
+  'profile/fetchSubscription',
+  async (_, thunkAPI) => {
     const {
       auth: { token },
     } = thunkAPI.getState() as RootState;
     token && setAuthHeader(token);
     try {
-      const { data } = await instance.post('subscriptions', requestSearch);
-      console.log('data', data);
+      const { data } = await instance('subscriptions');
+      return data;
+    } catch (err) {
+      const error: AxiosError<KnownError> = err as any;
+      if (!error.response) {
+        throw err;
+      }
+      return thunkAPI.rejectWithValue({ errorMessage: error.response.data });
+    }
+  },
+);
+
+export const deleteSubscription = createAsyncThunk(
+  'profile/deleteSubscription',
+  async (id: number, thunkAPI) => {
+    const {
+      auth: { token },
+    } = thunkAPI.getState() as RootState;
+    token && setAuthHeader(token);
+    try {
+      const { data } = await instance.delete(`subscriptions/${id}`);
+      return data;
+    } catch (err) {
+      const error: AxiosError<KnownError> = err as any;
+      if (!error.response) {
+        throw err;
+      }
+      return thunkAPI.rejectWithValue({ errorMessage: error.response.data });
+    }
+  },
+);
+
+export const fetchCarsBySubscription = createAsyncThunk(
+  'profile/getCarsBySubscription',
+  async (id: number, thunkAPI) => {
+    const {
+      auth: { token },
+    } = thunkAPI.getState() as RootState;
+    token && setAuthHeader(token);
+    try {
+      const { data } = await instance.get(`subscriptions/${id}`);
       return data;
     } catch (err) {
       const error: AxiosError<KnownError> = err as any;

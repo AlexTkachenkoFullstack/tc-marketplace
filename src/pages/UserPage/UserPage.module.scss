@@ -3,7 +3,7 @@
 .userPage {
   .container {
     width: $mobile-min-width;
-    padding: 96px 0 0 20px;
+    padding: 96px 0;
     margin: 0 auto;
     @include onTablet {
       width: $tablet-min-width;
@@ -16,10 +16,15 @@
   }
 
   &_title {
+    padding-left: 20px;
     @include title-styles;
     margin-bottom: 0;
     font-weight: 700;
     margin-bottom: 20px;
+
+    @include onTablet {
+      padding-left: 0;
+    }
   }
 
   .tabs {
