@@ -189,3 +189,16 @@ export const deletePhotoUserInfo = async (callback: () => void) => {
     console.error('Помилка в отриманні даних!', error);
   }
 };
+
+export const getHiddenUsersData = async () => {
+  setAuth();
+  try {
+    const response = await instance.get(
+      'user-page/hidden/users',
+    );   
+    return response.data;
+  } catch (error) {
+    console.error('Помилка в отриманні даних!', error);
+  }
+};
+

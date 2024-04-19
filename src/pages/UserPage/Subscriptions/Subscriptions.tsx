@@ -147,10 +147,12 @@ const Subscriptions: React.FC = () => {
 
     dispatch(fetchTypes());
     dispatch(fetchRegions());
+
   };
 
   return (
     <div className={styles.container}>
+
       {isSubscrLoading ? (
         <Loader />
       ) : (

@@ -8,7 +8,7 @@ import { UploadedImage } from 'types/UploadedImage';
 import { Dropdown } from 'components/Dropdown/Dropdown';
 import { fetchCity, fetchRegions } from 'redux/filter/operations';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { getFilterCitys, getFilterRegions } from 'redux/filter/selectors';
+import { getFilterCities, getFilterRegions } from 'redux/filter/selectors';
 import { IRegion } from 'types/IRegion';
 import { getArrayCityOfId, getArrayOfId } from 'utils/getArrayOfId';
 import { ISearchParams } from 'types/ISearchParam';
@@ -62,7 +62,7 @@ const PersonalInfo: React.FC = () => {
   );
   const [selectedCity, setSelectedCity] = useState<string | string[]>('Місто');
   const regions: IRegion[] = useAppSelector(getFilterRegions);
-  const cities: ICities[] = useAppSelector(getFilterCitys);
+  const cities: ICities[] = useAppSelector(getFilterCities);
   const [optionList, setOptionList] = useState<ICities[]>([]);
   useEffect(() => {
     dispatch(fetchRegions());

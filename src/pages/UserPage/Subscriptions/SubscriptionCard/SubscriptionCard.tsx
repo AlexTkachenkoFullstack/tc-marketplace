@@ -63,6 +63,7 @@ const SubscriptionCard: React.FC<IProps> = ({
         </p>
       </div>
     </li>
+
   );
 };
 

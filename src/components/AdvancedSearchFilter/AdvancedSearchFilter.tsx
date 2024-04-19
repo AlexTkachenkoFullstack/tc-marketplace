@@ -1097,7 +1097,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
           type="button"
           onClick={toggleModalIsOpen}
         >
-          Зберекти пошук
+          Зберегти пошук
         </button>
         <button
           className={styles.resultFilterShow}
