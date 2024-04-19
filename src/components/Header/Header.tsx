@@ -59,43 +59,51 @@ export const Header: FC = () => {
           <img src={menu} alt="Меню" />
         </button>
         <Logo className={styles.header__logo} />
-
-
       </div>
 
       <div className={styles.header__right}>
-        <button className={styles.header__add_button} style={{
-          display: ( isAdvertisementsEdit || isAdvertisements) ?"none":''      
-        }} onClick={handleNewAnnouncementClick}>
-          <span className={styles.header__add_button_text}>Додати оголошення</span>
-          <img className={styles.header__add_button_icon} src={plus} alt="Додати" />
+        <button
+          className={styles.header__add_button}
+          style={{
+            display: isAdvertisementsEdit || isAdvertisements ? 'none' : '',
+          }}
+          onClick={handleNewAnnouncementClick}
+        >
+          <span className={styles.header__add_button_text}>
+            Додати оголошення
+          </span>
+          <img
+            className={styles.header__add_button_icon}
+            src={plus}
+            alt="Додати"
+          />
         </button>
         <button className={styles.header__favorite_button}>
           <img src={favorite} alt="Улюблене" />
           <img src={point} className={styles.header__favorite_button_point} />
         </button>
 
-        {auth
-        ? (
+        {auth ? (
           <div className={styles.header__auth_container}>
-              <NavLink to="/user" >
-                <img className={styles.header__login_icon} src={account} alt="Акаунт" />
-              </NavLink>
-              <button
-                className={styles.header__login_button}
-                onClick={handleLogout}
-              >
-                <span className={styles.header__login_text}>Вийти</span>
-               </button>
+            <NavLink to="/user/my-adverts">
+              <img
+                className={styles.header__login_icon}
+                src={account}
+                alt="Акаунт"
+              />
+            </NavLink>
+            <button
+              className={styles.header__login_button}
+              onClick={handleLogout}
+            >
+              <span className={styles.header__login_text}>Вийти</span>
+            </button>
           </div>
-          )
-        :  (
-           <NavLink to="/login/log-in" className={styles.header__login_button}>
-              <span className={styles.header__login_text}>Увійти</span>
+        ) : (
+          <NavLink to="/login/log-in" className={styles.header__login_button}>
+            <span className={styles.header__login_text}>Увійти</span>
           </NavLink>
-          )
-        }
-
+        )}
       </div>
     </header>
   );

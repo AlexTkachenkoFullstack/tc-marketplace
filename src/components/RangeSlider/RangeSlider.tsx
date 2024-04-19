@@ -14,14 +14,17 @@ interface RangeSliderProps {
   setObjectValue: React.Dispatch<React.SetStateAction<SliderValue>>;
   typeRange: string;
   resetValue?: boolean;
+  selectedValue?: { from: number; to: number };
 }
 
 const RangeSlider: React.FC<RangeSliderProps> = ({
   setObjectValue,
   typeRange,
   resetValue,
+  selectedValue,
 }) => {
   const [value, setValue] = useState<SliderValue>({ from: 0, to: 0 });
+  const [isMounted, setisMounted] = useState(false);
   useEffect(() => {
     if (!resetValue) {
       return;
@@ -98,6 +101,16 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
       setObjectValue({ from: newValue[0], to: newValue[1] });
     }
   };
+
+  useEffect(() => {
+    if (!isMounted) {
+      if (selectedValue) {
+        setValue({ from: selectedValue.from, to: selectedValue.to });
+        setObjectValue({ from: selectedValue.from, to: selectedValue.to });
+      }
+    }
+    setisMounted(true);
+  }, [isMounted, selectedValue, setObjectValue]);
 
   return (
     <div>

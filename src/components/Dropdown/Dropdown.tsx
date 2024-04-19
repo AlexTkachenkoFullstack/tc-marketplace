@@ -10,6 +10,7 @@ import { IModel } from 'types/IModel';
 import { IBrand } from 'types/IBrand';
 import { IRegion } from 'types/IRegion';
 import { ICities } from 'types/ICities';
+import ModelListType from 'types/ModelListType';
 
 type Props = {
   resetValue?: boolean;
@@ -20,7 +21,7 @@ type Props = {
   label: string;
   startValue: string;
   options?: string | string[];
-  optionList?: ICities[] | IModel[];
+  optionList?: ICities[] | IModel[] | ModelListType;
   checkboxAllowed?: boolean;
   isDissabled?: boolean;
   option: string | string[];
@@ -31,7 +32,7 @@ type Props = {
   title?: string | string[];
   pickedBrands?: IBrand[];
   pickedRegions?: IRegion[];
-  filteredOptions?: string | string[] | undefined;
+  selectedOptions?: string | string[] | undefined;
 };
 
 export const Dropdown: FC<Props> = props => {
@@ -55,7 +56,7 @@ export const Dropdown: FC<Props> = props => {
     updateStyle,
     title,
     optionList,
-    filteredOptions,
+    selectedOptions,
   } = props;
 
   const [isActive, setIsActive] = useState(false);
@@ -142,38 +143,40 @@ export const Dropdown: FC<Props> = props => {
     if (resetValue) {
       setfilterValue('');
       setCheckedValue([]);
+      setOption(startValue);
     }
-  }, [resetValue]);
+  }, [resetValue, setOption, startValue]);
 
-  useEffect(() => {
-    if (filteredOptions) {
-      return;
-    }
-    setOption(startValue);
-  }, [setOption, startValue, filteredOptions]);
+  // useEffect(() => {
+  //   if (selectedOptions) {
+  //     return;
+  //   }
+  //   setOption(startValue);
+  // }, [setOption, startValue, selectedOptions]);
 
   useEffect(() => {
     if (isFirstRender) {
-      if (!filteredOptions) {
-        return;
+      if (!selectedOptions) {
+        setOption(startValue);
+        // return;
       }
-      if (Array.isArray(filteredOptions)) {
-        setCheckedValue(filteredOptions);
-        setOption(filteredOptions);
+      if (Array.isArray(selectedOptions)) {
+        setCheckedValue(selectedOptions);
+        setOption(selectedOptions);
       }
     }
     setIsFirstRender(false);
-  }, [filteredOptions, setCheckedValue, isFirstRender, setOption]);
+  }, [selectedOptions, setCheckedValue, isFirstRender, setOption, startValue]);
 
-  useEffect(() => {
-    if (!filteredOptions) {
-      return;
-    }
-    if (Array.isArray(filteredOptions)) {
-      setCheckedValue(filteredOptions);
-      setOption(filteredOptions);
-    }
-  }, [carMark, filteredOptions, setOption]);
+  // useEffect(() => {
+  //   if (!selectedOptions) {
+  //     return;
+  //   }
+  //   if (Array.isArray(selectedOptions)) {
+  //     setCheckedValue(selectedOptions);
+  //     setOption(selectedOptions);
+  //   }
+  // }, [carMark, selectedOptions, setOption]);
 
   return (
     <div

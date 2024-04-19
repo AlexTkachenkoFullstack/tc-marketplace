@@ -16,10 +16,15 @@
   }
 
   &_title {
+    padding-left: 20px;
     @include title-styles;
     margin-bottom: 0;
     font-weight: 700;
     margin-bottom: 20px;
+
+    @include onTablet {
+      padding-left: 0;
+    }
   }
 
   .tabs {

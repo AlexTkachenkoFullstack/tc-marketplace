@@ -1,0 +1,45 @@
+export interface ISubscription {
+  countNewTransports: number;
+  id: number;
+  name: string;
+  notificationStatus: boolean;
+  parameterResponse: {
+    bargain: boolean;
+    bodyType: string[];
+    brand: string[];
+    city: string[];
+    color: string[];
+    condition: string[];
+    driveType: string[];
+    engineDisplacementFrom: number;
+    engineDisplacementTo: number;
+    enginePowerFrom: number;
+    enginePowerTo: number;
+    fuelType: string[];
+    installmentPayment?: boolean;
+    loadCapacityFrom: number;
+    loadCapacityTo: number;
+    mileageFrom: number;
+    mileageTo: number;
+    military?: boolean;
+    model: string[];
+    numberAxles: string[];
+    numberOfDoorsFrom: number;
+    numberOfDoorsTo: number;
+    numberOfSeatsFrom: number;
+    numberOfSeatsTo: number;
+    orderBy: string;
+    priceFrom: number;
+    priceTo: number;
+    producingCountry: string[];
+    region: string[];
+    sortBy: string;
+    trade: boolean;
+    transmission: string[];
+    transportType: string;
+    uncleared: boolean;
+    wheelConfiguration: null;
+    yearsFrom: null;
+    yearsTo: null;
+  };
+}

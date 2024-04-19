@@ -224,7 +224,7 @@ export const fetchCars = createAsyncThunk(
         `/catalog/get-param?transportTypeId=${id}`,
         config,
       );
-      return response.data.transportModelDTOS;
+      return response.data.transportModelDTOS || [];
     } catch (err) {
       const error: AxiosError<KnownError> = err as any;
       if (!error.response) {

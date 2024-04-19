@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'redux/hooks';
 import _ from 'lodash.throttle';
@@ -24,6 +30,8 @@ import Loader from 'components/Loader/Loader';
 import SearchingCard from './SearchingCard';
 import CatalogPagination from './CatalogPagination';
 import SearchingResultsMenu from './SearchingResultsMenu';
+import { useLocation } from 'react-router-dom';
+import { fetchCarsBySubscription } from 'redux/profile/operations';
 
 interface IProps {
   handleAdvancedFilter: () => void;
@@ -178,6 +186,21 @@ const SearchingResults: React.FC<IProps> = ({ handleAdvancedFilter }) => {
   //   // Заменяем URL в истории
   //   window.history.replaceState(null, '', finalUrl);
   // }, [memoParam, fetchParam.page]);
+  const location = useLocation();
+  const [subscrId, setSubscrId] = useState(null);
+  // console.log('location.state', location.state)
+  useEffect(() => {
+    if (location.state) {
+      const {
+        state: { id },
+      } = location;
+      id && setSubscrId(id);
+    }
+  }, [location]);
+console.log('subscrId', subscrId)
+  useEffect(() => {
+    subscrId && dispatch(fetchCarsBySubscription(subscrId));
+  }, [dispatch, subscrId]);
 
   return (
     <>

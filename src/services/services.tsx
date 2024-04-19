@@ -137,6 +137,17 @@ export const deletePhotoAdvertisement = async (
     console.error('Помилка при видаленні даних!', error);
   }
 };
+
+export const fetchUserInfo = async () => {
+  setAuth();
+  try {
+    const {data} = await instance(`user-page`);
+    return data;
+  } catch (error) {
+    console.error('Помилка при отриманні даних!', error);
+  }
+};
+  
 export const getUserInfo = async () => {
   setAuth();
   try {
@@ -178,6 +189,7 @@ export const deletePhotoUserInfo = async (callback: () => void) => {
     console.error('Помилка в отриманні даних!', error);
   }
 };
+
 export const getHiddenUsersData = async () => {
   setAuth();
   try {
@@ -189,3 +201,4 @@ export const getHiddenUsersData = async () => {
     console.error('Помилка в отриманні даних!', error);
   }
 };
+

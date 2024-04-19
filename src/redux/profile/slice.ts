@@ -11,13 +11,22 @@ import {
   fetchMyInactiveAds,
   fetchMyPendingAds,
   saveSubscription,
+  fetchSubscriptions,
+  deleteSubscription,
+  editSubscription,
+  fetchCarsBySubscription,
 } from './operations';
+import { ISubscription } from 'types/ISubscription';
 
 interface IProfileState {
   myActiveAds: ICar[] | [];
   myPendingAds: ICar[] | [];
   myInactiveAds: ICar[] | [];
   myDeletedAds: ICar[] | [];
+  mySubscriptions: ISubscription[] | [];
+  carListBySubscription:
+    { unseenTransportList: ICar[]; viewedTransportList: ICar[] }
+    | { unseenTransportList: []; viewedTransportList: [] };
   count: ICount[] | [];
   error: unknown;
   isLoading: boolean;
@@ -28,12 +37,14 @@ const initialState: IProfileState = {
   myPendingAds: [],
   myInactiveAds: [],
   myDeletedAds: [],
+  mySubscriptions: [],
+  carListBySubscription: {unseenTransportList: [], viewedTransportList: [] },
   count: [],
   error: null,
   isLoading: false,
 };
 
-const handleFulfilledGetMyAds = (
+const handleFulfilledGetMyAdsAndSubscriptions = (
   type:
     | keyof Pick<
         IProfileState,
@@ -44,18 +55,41 @@ const handleFulfilledGetMyAds = (
         | 'count'
       >
     | 'status'
-    | 'subscription',
+    | 'saveSubscription'
+    | 'mySubscriptions'
+    | 'deleteSubscription'
+    | 'editSubscription'
+    | 'carListBySubscription',
 ) => {
   return (
     state: IProfileState,
-    action: PayloadAction<ICar[]> | PayloadAction<ICount[]>,
+    action:
+      | PayloadAction<ICar[]>
+      | PayloadAction<ICount[]>
+      | PayloadAction<ISubscription[]>
+      | PayloadAction<{
+          unseenTransportList: ICar[];
+          viewedTransportList: ICar[];
+        }>,
   ) => {
     state.isLoading = false;
     state.error = null;
     if (type === 'count') {
       state[type] = action.payload as ICount[];
-    } else if (type === 'status' || type === 'subscription') {
+    } else if (
+      type === 'status' ||
+      type === 'saveSubscription' ||
+      type === 'deleteSubscription' ||
+      type === 'editSubscription'
+    ) {
       return;
+    } else if (type === 'mySubscriptions') {
+      state[type] = action.payload as ISubscription[];
+    } else if (type === 'carListBySubscription') {
+      state[type] = action.payload as {
+        unseenTransportList: ICar[];
+        viewedTransportList: ICar[];
+      };
     } else {
       state[type] = action.payload as ICar[];
     }
@@ -90,31 +124,59 @@ const handleRejected = (
 export const profileSlice = createSlice({
   name: 'profile',
   initialState,
-  reducers: {},
+  reducers: {
+    deleteSubscrInState(state, { payload }) {
+      state.mySubscriptions = state.mySubscriptions.filter(
+        ({ id }) => id !== payload,
+      );
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(
         fetchMyActiveAds.fulfilled,
-        handleFulfilledGetMyAds('myActiveAds'),
+        handleFulfilledGetMyAdsAndSubscriptions('myActiveAds'),
       )
       .addCase(
         fetchMyPendingAds.fulfilled,
-        handleFulfilledGetMyAds('myPendingAds'),
+        handleFulfilledGetMyAdsAndSubscriptions('myPendingAds'),
       )
       .addCase(
         fetchMyInactiveAds.fulfilled,
-        handleFulfilledGetMyAds('myInactiveAds'),
+        handleFulfilledGetMyAdsAndSubscriptions('myInactiveAds'),
       )
       .addCase(
         fetchMyDeletedAds.fulfilled,
-        handleFulfilledGetMyAds('myDeletedAds'),
+        handleFulfilledGetMyAdsAndSubscriptions('myDeletedAds'),
       )
-      .addCase(fetchMyAdsCount.fulfilled, handleFulfilledGetMyAds('count'))
+      .addCase(
+        fetchMyAdsCount.fulfilled,
+        handleFulfilledGetMyAdsAndSubscriptions('count'),
+      )
       .addCase(
         changeTransportStatus.fulfilled,
-        handleFulfilledGetMyAds('status'),
+        handleFulfilledGetMyAdsAndSubscriptions('status'),
       )
-      .addCase(saveSubscription.fulfilled, handleFulfilledGetMyAds('subscription'))
+      .addCase(
+        saveSubscription.fulfilled,
+        handleFulfilledGetMyAdsAndSubscriptions('saveSubscription'),
+      )
+      .addCase(
+        fetchSubscriptions.fulfilled,
+        handleFulfilledGetMyAdsAndSubscriptions('mySubscriptions'),
+      )
+      .addCase(
+        deleteSubscription.fulfilled,
+        handleFulfilledGetMyAdsAndSubscriptions('deleteSubscription'),
+      )
+      .addCase(
+        editSubscription.fulfilled,
+        handleFulfilledGetMyAdsAndSubscriptions('editSubscription'),
+      )
+      .addCase(
+        fetchCarsBySubscription.fulfilled,
+        handleFulfilledGetMyAdsAndSubscriptions('carListBySubscription'),
+      )
       .addMatcher(
         isAnyOf(
           fetchMyActiveAds.pending,
@@ -123,6 +185,10 @@ export const profileSlice = createSlice({
           fetchMyDeletedAds.pending,
           changeTransportStatus.pending,
           saveSubscription.pending,
+          fetchSubscriptions.pending,
+          deleteSubscription.pending,
+          editSubscription.pending,
+          fetchCarsBySubscription.pending,
         ),
         handlePending,
       )
@@ -135,8 +201,14 @@ export const profileSlice = createSlice({
           fetchMyAdsCount.rejected,
           changeTransportStatus.rejected,
           saveSubscription.rejected,
+          fetchSubscriptions.rejected,
+          deleteSubscription.rejected,
+          editSubscription.rejected,
+          fetchCarsBySubscription.rejected,
         ),
         handleRejected,
       );
   },
 });
+
+export const { deleteSubscrInState } = profileSlice.actions;

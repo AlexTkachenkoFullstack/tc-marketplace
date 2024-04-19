@@ -191,7 +191,7 @@ export const NewAnnouncement: React.FC = () => {
 
   const typeCars: IType[] = useAppSelector(getFilterTypes);
   const brands: IBrand[] = useAppSelector(getFilterBrands);
-  const models: IModel[] = useAppSelector(getFilterModels);
+  const models: IModel[]  = useAppSelector(getFilterModels);
   const regions: IRegion[] = useAppSelector(getFilterRegions);
   const cities: ICities[] = useAppSelector(getFilterCities);
 

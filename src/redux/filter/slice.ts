@@ -16,6 +16,7 @@ import { IModel } from 'types/IModel';
 import { ICities } from 'types/ICities';
 import { ICar, IFiltredCarsPayload } from 'types/IСar';
 import { addToFavourites, removeFromFavourites } from 'redux/cars/operations';
+import ModelListType from 'types/ModelListType';
 
 interface IFilterState {
   regions: IRegion[] | [];
@@ -23,7 +24,7 @@ interface IFilterState {
   types: IType[] | [];
   brand: IBrand[] | [];
   models: IModel[] | [];
-  carsList: IModel[] | [];
+  carsList: ModelListType | [];
   error: unknown;
   isLoading: boolean;
   select: {
@@ -112,7 +113,7 @@ const handleFulfilledGetModels = (
 };
 const handleFulfilledGetCars = (
   state: IFilterState,
-  action: PayloadAction<IModel[]>,
+  action: PayloadAction<ModelListType>,
 ) => {
   state.isLoading = false;
   state.error = null;
