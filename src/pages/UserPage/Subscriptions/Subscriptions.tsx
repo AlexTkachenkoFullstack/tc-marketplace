@@ -145,7 +145,7 @@ const Subscriptions: React.FC = () => {
     setSelectedParams(paramsForEdit);
     toggleModalIsOpen();
 
-    dispatch(fetchTypes());
+    dispatch(fetchTypes())
     dispatch(fetchRegions());
 
   };

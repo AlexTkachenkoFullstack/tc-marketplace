@@ -130,6 +130,9 @@ export const profileSlice = createSlice({
         ({ id }) => id !== payload,
       );
     },
+    cleanSubscrCarList(state) {
+      state.carListBySubscription = {unseenTransportList: [], viewedTransportList: [] };
+    },
   },
   extraReducers: builder => {
     builder
@@ -211,4 +214,4 @@ export const profileSlice = createSlice({
   },
 });
 
-export const { deleteSubscrInState } = profileSlice.actions;
+export const { deleteSubscrInState, cleanSubscrCarList } = profileSlice.actions;
