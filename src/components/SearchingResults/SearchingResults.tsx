@@ -32,6 +32,7 @@ import CatalogPagination from './CatalogPagination';
 import SearchingResultsMenu from './SearchingResultsMenu';
 import { useLocation } from 'react-router-dom';
 import { fetchCarsBySubscription } from 'redux/profile/operations';
+import { getSubscrCarList } from 'redux/profile/selectors';
 
 interface IProps {
   handleAdvancedFilter: () => void;
@@ -188,7 +189,10 @@ const SearchingResults: React.FC<IProps> = ({ handleAdvancedFilter }) => {
   // }, [memoParam, fetchParam.page]);
   const location = useLocation();
   const [subscrId, setSubscrId] = useState(null);
-  // console.log('location.state', location.state)
+  const { unseenTransportList, viewedTransportList } =
+    useSelector(getSubscrCarList);
+  const subsrcCarArr = [...unseenTransportList, ...viewedTransportList];
+  // console.log('location.state', subsrcCarArr);
   useEffect(() => {
     if (location.state) {
       const {
@@ -197,10 +201,12 @@ const SearchingResults: React.FC<IProps> = ({ handleAdvancedFilter }) => {
       id && setSubscrId(id);
     }
   }, [location]);
-console.log('subscrId', subscrId)
+
   useEffect(() => {
     subscrId && dispatch(fetchCarsBySubscription(subscrId));
   }, [dispatch, subscrId]);
+
+  const arr = subsrcCarArr.length > 0 ? subsrcCarArr : arrForRender;
 
   return (
     <>
@@ -214,7 +220,7 @@ console.log('subscrId', subscrId)
           <>
             {isLoading && isShowMore && <Loader />}
             <div className={styles.catalogContainer}>
-              {arrForRender.map((advert, index) => (
+              {arr.map((advert, index) => (
                 <SearchingCard
                   key={advert.id}
                   car={advert}

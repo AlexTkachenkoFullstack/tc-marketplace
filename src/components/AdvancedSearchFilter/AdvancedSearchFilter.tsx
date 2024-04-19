@@ -49,6 +49,7 @@ import { getInitialButtonVisibility } from 'utils/getInitialButtonVisibility';
 import { createPortal } from 'react-dom';
 import SubscriptionModal from 'components/SubscriptionModal';
 import ModelListType from 'types/ModelListType';
+import { cleanSubscrCarList } from 'redux/profile/slice';
 
 const portal = document.querySelector('#modal-root') as Element;
 
@@ -456,6 +457,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     );
     handlerResetFilter();
     onAdvencedFilter();
+    cleanSubscrCarList()
   };
   return (
     <div className={styles.AdvSearchFilter}>
