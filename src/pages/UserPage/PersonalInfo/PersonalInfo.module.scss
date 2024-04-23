@@ -1,16 +1,29 @@
 @import '/src/styles/main.scss';
 .container {
-  padding: 24px;
+  padding: 20px;
   width: 100%;
-  border-radius: 16px;
-  border-top: 1px solid var(--light-gray, #e4e4e4);
-  border-bottom: 1px solid #e4e4e4;
+
   @include onTablet {
-    border: 1px solid var(--light-gray, #e4e4e4);
+    border: 1px solid #e4e4e4;
+    border-radius: 16px;
+    margin-bottom: 32px
   }
 }
+.container::before {
+  content: '';
+  position: absolute;
+  top: 226px;
+  left: 0;
+  width: 100vw;
+  height: 1px;
+  background-color: $background-color-white;
+  @include onTablet {
+    display: none;
+  }
+}
+
 .title_category {
-  color: var(--Black, #434343);
+  color: #434343;
   font-family: Roboto;
   font-size: 22px;
   font-style: normal;
@@ -28,7 +41,7 @@
   margin-bottom: 3px;
 }
 .titleAddFoto {
-  color: var(--Black, #434343);
+  color: #434343;
   /* Title 3/Bold */
   font-family: Roboto;
   font-size: 22px;
@@ -88,7 +101,7 @@
   }
 }
 .description_car_title {
-  color: var(--Black, #434343);
+  color: #434343;
   /* Title 4/Bold */
   font-family: Roboto;
   font-size: 20px;
@@ -152,19 +165,19 @@
 .inputPhone {
   width: 100%;
   display: flex;
-  padding: 10px var(--Border, 20px);
+  padding: 10px 20px;
   justify-content: center;
   align-items: center;
   gap: 8px;
   align-self: stretch;
   border-radius: 32px;
-  border: 1px solid var(--light-gray, #e4e4e4);
-  background: var(--Light, #f0f0f0);
+  border: 1px solid #e4e4e4;
+  background: #f0f0f0;
   outline: none;
 }
 .title {
   width: 224px;
-  color: var(--Black, #434343);
+  color: #434343;
   /* Title 4/Bold */
   font-family: Roboto;
   font-size: 20px;
@@ -215,8 +228,8 @@
   font-size: 14px;
   align-self: stretch;
   border-radius: 32px;
-  border: 1px solid var(--light-gray, #e4e4e4);
-  background: var(--Light, #f0f0f0);
+  border: 1px solid #e4e4e4;
+  background: #f0f0f0;
   outline: none;
 }
 .inputVincodeInValid_staticValue {
@@ -228,8 +241,8 @@
   gap: 8px;
   align-self: stretch;
   border-radius: 32px;
-  border: 1px solid var(--light-gray, red);
-  background: var(--Light, #f0f0f0);
+  border: 1px solid red;
+  background: #f0f0f0;
 }
 .inputVincodeInValid {
   width: 100%;
@@ -240,8 +253,8 @@
   gap: 8px;
   align-self: stretch;
   border-radius: 32px;
-  border: 1px solid var(--light-gray, red);
-  background: var(--Light, #f0f0f0);
+  border: 1px solid red;
+  background: #f0f0f0;
 }
 .btn {
   display: flex;
@@ -263,11 +276,11 @@
   border: 1px solid #434343;
 }
 .btn:hover {
-  background: var(--light-gray, #e4e4e4);
+  background: #e4e4e4;
   color: $color-black;
 }
 .btn:active {
-  background: var(--Dark-Gray, #606060);
+  background: #606060;
   color: $white-color;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
 }

@@ -113,7 +113,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const [selectedOption, setSelectedOption] = useState<boolean>(false); // Yes or No
   const [transportTypeId, setTransportTypeId] = useState<number | null>(null);
   // select state for dropdown
-  const [carMark, setCarMark] = useState<string | string[]>('Всі марки');
+  const [carMark, setCarMark] = useState<string | string[]>('Бренд');
   const [brandId, setBrandId] = useState<number[] | []>([]);
 
   const [carModel, setCarModel] = useState<string | string[]>('');
@@ -121,10 +121,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   // dropdown
   const [selectedCity, setSelectedCity] = useState<string | string[]>('Місто');
   const [selectedRegions, setSelectedRegions] = useState<string | string[]>(
-    'Вся Україна',
+    'Регіон',
   );
   const [countryDeliver, setCountryDeliver] = useState<string | string[]>(
-    'Весь світ',
+    'Країна',
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -253,6 +253,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     setCarMark('Бренд');
     setCarModel('Модель');
     setBrandId([]);
+    // handlerResetFilter()
     setSelectedCategory(category);
     setTimeout(() => {
       const newResetValueFalse = Array(N).fill(false);
@@ -510,6 +511,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                     checkboxAllowed
                     allOptionsLabel="Вся Україна"
                     option={selectedRegions}
+                    selectedOptions={selectedRegions}
                     setOption={setSelectedRegions}
                   />
                 </div>
@@ -542,6 +544,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                       checkboxAllowed
                       allOptionsLabel="Місто"
                       option={selectedCity}
+                      selectedOptions={selectedCity}
                       setOption={setSelectedCity}
                       title={selectedRegions}
                     />
@@ -569,6 +572,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                   resetValue={resetValue[1]}
                   setObjectValue={setPrice}
                   typeRange={'price'}
+                  selectedValue={price}
                 />
               </div>
             )}
@@ -610,13 +614,19 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
               )}
             </div>
           )}
-          {/*Бренд/Модель  Select */}
+          {/*Бренд*/}
 
           <div className={styles.selectBrand}>
             <div className={styles.title}>
               <h2>Бренд</h2>
+              <div
+                  className={`${styles.mobileButton} ${
+                    isOpen.block19 ? styles.active : ''
+                  }`}
+                  onClick={() => handleMobileBtnIsOpen('block19')}
+                />
             </div>
-            <div className={styles.listItemBrand}>
+            {isOpen.block19 &&  <div className={styles.listItemBrand}>
               <div className={styles.dropdownContainer}>
                 <Dropdown
                   resetValue={resetValue[2]}
@@ -627,20 +637,27 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                   label="Бренд"
                   startValue="Бренд"
                   option={carMark}
+                  selectedOptions={carMark}
                   setOption={setCarMark}
                   allOptionsLabel="Всі марки"
                   checkboxAllowed
                 />
               </div>
-            </div>
+            </div>}
           </div>
 
           {carsList && carsList.length > 0 && (
             <div className={styles.selectBrand}>
               <div className={styles.title}>
                 <h2>Модель</h2>
+                <div
+                  className={`${styles.mobileButton} ${
+                    isOpen.block20 ? styles.active : ''
+                  }`}
+                  onClick={() => handleMobileBtnIsOpen('block20')}
+                />
               </div>
-              <div className={styles.listItemBrand}>
+              {isOpen.block20 &&   <div className={styles.listItemBrand}>
                 <div className={styles.dropdownContainer}>
                   <Dropdown
                     resetValue={resetValue[3]}
@@ -651,13 +668,14 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                     allOptionsLabel="Всі моделі"
                     checkboxAllowed
                     option={carModel}
+                    selectedOptions={carModel}
                     title={carMark}
                     setOption={setCarModel}
                     carMark={carMark}
                     pickedBrands={pickedBrands}
                   />
                 </div>
-              </div>
+              </div>}
             </div>
           )}
           {/*Рік виготовлення инпут слайдер inputText, inputRange   Доработать по стилям! */}
@@ -678,6 +696,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                   resetValue={resetValue[2]}
                   setObjectValue={setYear}
                   typeRange={'year'}
+                  selectedValue={year}
                 />
               </div>
             )}
@@ -861,6 +880,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                   resetValue={resetValue[4]}
                   setObjectValue={setEngineDisplacement}
                   typeRange={'engineDisplacement'}
+                  selectedValue={engineDisplacement}
                 />
               </div>
             )}
@@ -884,6 +904,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                   resetValue={resetValue[5]}
                   setObjectValue={setEnginePower}
                   typeRange={'enginePower'}
+                  selectedValue={enginePower}
                 />
               </div>
             )}
@@ -1042,6 +1063,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                       checkboxAllowed
                       allOptionsLabel="Весь світ"
                       option={countryDeliver}
+                      selectedOptions={countryDeliver}
                       setOption={setCountryDeliver}
                     />
                   )}

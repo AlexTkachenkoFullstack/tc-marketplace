@@ -76,7 +76,7 @@ const endVolume = 20.0;
 const step = 0.1;
 const startYear = 1970;
 const endYear = yearNow();
-const N = 20;
+const N = 30;
 export const NewAnnouncement: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const input1Ref = useRef<HTMLInputElement>(null);
@@ -88,9 +88,12 @@ export const NewAnnouncement: React.FC = () => {
   const isAdvertisementsEdit = location.pathname === '/advertisements/edit';
   const isAdvertisements = location.pathname === '/advertisements';
   const dispatch = useAppDispatch();
+  const [resetValue, setResetValue] = useState(Array(N).fill(false));
   const [isValid, setIsValid] = useState(false);
   const [immutableData, setImmutableData] = useState(false);
-
+  const [prevTypeCategory, setPrevTypeCategory] = useState<string | string[]>(
+    '',
+  );
   const isLoading = useSelector(getIsloadingFiltredCars);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -185,13 +188,15 @@ export const NewAnnouncement: React.FC = () => {
   const [mileage, setMileage] = useState<number | null>(null);
   const [selectedOption, setSelectedOption] = useState<boolean>();
   const [transportTypeId, setTransportTypeId] = useState<number | null>(null);
-  const [typeCategory, setTypeCategory] = useState<string | string[]>('');
+  const [typeCategory, setTypeCategory] = useState<string | string[]>(
+    'Легкові',
+  );
   const [carBrand, setCarBrand] = useState<string | string[]>('Бренд');
   const [carModel, setCarModel] = useState<string | string[]>('Модель');
 
   const typeCars: IType[] = useAppSelector(getFilterTypes);
   const brands: IBrand[] = useAppSelector(getFilterBrands);
-  const models: IModel[]  = useAppSelector(getFilterModels);
+  const models: IModel[] = useAppSelector(getFilterModels);
   const regions: IRegion[] = useAppSelector(getFilterRegions);
   const cities: ICities[] = useAppSelector(getFilterCities);
 
@@ -228,6 +233,70 @@ export const NewAnnouncement: React.FC = () => {
   const mileageTo = data?.mileageTo;
 
   const id = location.state && location.state.id ? location.state.id : null;
+  const resetALLValue = () => {
+    if (
+      input2Ref.current &&
+      input2Ref.current.classList.contains(styles.inputVincodeInValid)
+    ) {
+      input2Ref.current.classList.remove(styles.inputVincodeInValid);
+    }
+    if (
+      input3Ref.current &&
+      input3Ref.current.classList.contains(styles.inputVincodeInValid)
+    ) {
+      input3Ref.current.classList.remove(styles.inputVincodeInValid);
+    }
+    if (
+      input4Ref.current &&
+      input4Ref.current.classList.contains(
+        styles.inputVincodeInValid_staticValue,
+      )
+    ) {
+      input4Ref.current.classList.remove(
+        styles.inputVincodeInValid_staticValue,
+      );
+    }
+    const newResetValue = Array(N).fill(true);
+    const newResetValueFalse = Array(N).fill(false);
+    setIsShow(newResetValueFalse);
+    setResetValue(newResetValue);
+    setCarModel('Модель');
+    setVinCode('');
+    setSelectedCity('');
+    setSelectedBodyType('');
+    setSelectedFuelType('');
+    setSelectedDriveType('');
+    setSelectedTransmission('');
+    setSelectedColor('');
+    setSelectedCondition('');
+    setSelectedAxle('');
+    setSelectedProducingCountry('');
+    setSelectedWheelConfiguration('');
+    setYearCar('Рік');
+    setPrice(null);
+    setSelectedOption(undefined);
+    setTextValue('');
+    setMainPhoto('');
+    setEngineVolumes('');
+    setEnginePower(null);
+    setMileage(null);
+    setNumberOfDoors(null);
+    setNumberOfSeats(null);
+    setInputPhone('');
+    setSelectedImages([]);
+    dispatch(cleanFiltredStore({ field: 'models' }));
+    setTimeout(() => {
+      setResetValue(newResetValueFalse);
+      dispatch(cleanFiltredStore({ field: 'cities' }));
+    }, 100);
+  };
+  useEffect(() => {
+    if (typeCategory !== prevTypeCategory && isAdvertisements) {
+      resetALLValue();
+      console.log('Worked!!! :>> ');
+    }
+    setPrevTypeCategory(typeCategory);
+  }, [typeCategory, prevTypeCategory, dispatch, isAdvertisements]);
   useEffect(() => {
     const fetchData = async () => {
       if (!isAdvertisementsEdit || !id) {
@@ -648,9 +717,7 @@ export const NewAnnouncement: React.FC = () => {
       }, 500);
     }
   };
-  // const handleInputClick=()=>{
 
-  // }
   const handleAddOrUpdateAdvers = () => {
     if (isAdvertisements) {
       if (
@@ -665,12 +732,20 @@ export const NewAnnouncement: React.FC = () => {
         selectedBodyType !== 'Тип кузову' &&
         selectedFuelType !== 'Тип палива' &&
         fuelConsumption !== 'Літри' &&
-        selectedTransmission !== 'Коробка передач' &&
-        mileage &&
-        engineVolumes !== 'Літри' &&
-        selectedDriveType !== 'Привід' &&
+        (typeCategory === 'Водний транспорт'
+          ? true
+          : selectedTransmission !== 'Коробка передач') &&
+        (typeCategory === 'Водний транспорт' ? true : mileage) &&
+        (typeCategory === 'Сільгосптехніка' ||
+        typeCategory === 'Водний транспорт'
+          ? true
+          : engineVolumes !== 'Літри') &&
+        (typeCategory === 'Водний транспорт'
+          ? true
+          : selectedDriveType !== 'Привід') &&
         inputPhone.length === 9
       ) {
+        console.log('click :>> ');
         const createFormData = (selectedImageFile: any) => {
           const modelId = getArrayModelsOfId(models, carModel);
           const cityId = getArrayCityOfId(cities, selectedCity);
@@ -765,34 +840,7 @@ export const NewAnnouncement: React.FC = () => {
           .catch(error => {
             console.error('Произошла ошибка:', error);
           });
-
-        setCarModel('Модель');
-        setSelectedCity('');
-        setSelectedBodyType('');
-        setSelectedFuelType('');
-        setSelectedDriveType('');
-        setSelectedTransmission('');
-        setSelectedColor('');
-        setSelectedCondition('');
-        setSelectedAxle('');
-        setSelectedProducingCountry('');
-        setSelectedWheelConfiguration('');
-        setYearCar('');
-        setPrice(null);
-        setSelectedOption(undefined);
-        setTextValue('');
-        setMainPhoto('');
-        setEngineVolumes('');
-        setEnginePower(null);
-        setMileage(null);
-        setNumberOfDoors(null);
-        setNumberOfSeats(null);
-        setInputPhone('');
-        setSelectedImages([]);
-        dispatch(cleanFiltredStore({ field: 'models' }));
-        setTimeout(() => {
-          dispatch(cleanFiltredStore({ field: 'cities' }));
-        }, 100);
+        resetALLValue();
         // setIsLoading(false);
       } else {
         if (!selectedImages.length && !mainPhoto) {
@@ -966,7 +1014,7 @@ export const NewAnnouncement: React.FC = () => {
             }
           }
         }
-        console.log('newData :>> ', newData);
+
         formData.append(
           'body',
           new Blob([JSON.stringify(newData)], { type: 'application/json' }),
@@ -1058,13 +1106,10 @@ export const NewAnnouncement: React.FC = () => {
                       : 'Нема співпадінь'
                   }
                   label="Тип"
-                  startValue={`${
-                    typeCategory === 'Тип' || typeCategory === ''
-                      ? 'Тип'
-                      : typeCategory
-                  }`}
+                  startValue="Тип"
                   allOptionsLabel="Всі типи"
                   option={typeCategory}
+                  selectedOptions={typeCategory}
                   setOption={setTypeCategory}
                 />
                 {isShow[1] && (
@@ -1210,6 +1255,7 @@ export const NewAnnouncement: React.FC = () => {
                 {isOpen.block3 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
+                      resetValue={resetValue[0]}
                       isDissabled={immutableData}
                       stylepaddingZero={true}
                       isShow={isShow[3]}
@@ -1220,12 +1266,9 @@ export const NewAnnouncement: React.FC = () => {
                         (a, b) => a.localeCompare(b),
                       )}
                       label="Бренд"
-                      startValue={`${
-                        carBrand === 'Бренд' || carBrand === ''
-                          ? 'Бренд'
-                          : carBrand
-                      }`}
+                      startValue="Бренд"
                       option={carBrand}
+                      selectedOptions={carBrand}
                       setOption={setCarBrand}
                       allOptionsLabel="Всі бренди"
                     />
@@ -1260,6 +1303,7 @@ export const NewAnnouncement: React.FC = () => {
                 {isOpen.block4 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
+                      resetValue={resetValue[1]}
                       isDissabled={immutableData}
                       stylepaddingZero={true}
                       isShow={isShow[4]}
@@ -1272,13 +1316,10 @@ export const NewAnnouncement: React.FC = () => {
                           : []
                       }
                       label="Модель"
-                      startValue={`${
-                        carModel === 'Модель' || carModel === ''
-                          ? 'Модель'
-                          : carModel
-                      }`}
+                      startValue="Модель"
                       allOptionsLabel="Всі моделі"
                       option={carModel}
+                      selectedOptions={carModel}
                       setOption={setCarModel}
                       carMark={carBrand}
                     />
@@ -1312,6 +1353,7 @@ export const NewAnnouncement: React.FC = () => {
               {isOpen.block5 && (
                 <div className={styles.item_dropdown_box}>
                   <Dropdown
+                    resetValue={resetValue[2]}
                     isDissabled={immutableData}
                     stylepaddingZero={true}
                     isShow={isShow[5]}
@@ -1320,11 +1362,9 @@ export const NewAnnouncement: React.FC = () => {
                     updateStyle="advSearch"
                     options={yearsArray.map(item => item)}
                     label="Рік"
-                    startValue={`${
-                      yearCar === 'Рік' || yearCar === '' ? 'Рік' : yearCar
-                    }`}
-                    // allOptionsLabel="Всі моделі"
+                    startValue="Рік"
                     option={yearCar}
+                    selectedOptions={yearCar}
                     setOption={setYearCar}
                   />
                   {isShow[5] && (
@@ -1357,6 +1397,7 @@ export const NewAnnouncement: React.FC = () => {
                 {isOpen.block6 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
+                      resetValue={resetValue[3]}
                       isDissabled={immutableData}
                       stylepaddingZero={true}
                       isShow={isShow[6]}
@@ -1369,14 +1410,10 @@ export const NewAnnouncement: React.FC = () => {
                           : 'Нема співпадінь'
                       }
                       label="Тип кузову"
-                      startValue={`${
-                        selectedBodyType === 'Тип кузову' ||
-                        selectedBodyType === ''
-                          ? 'Тип кузову'
-                          : selectedBodyType
-                      }`}
+                      startValue="Тип кузову"
                       allOptionsLabel="Тип кузову"
                       option={selectedBodyType}
+                      selectedOptions={selectedBodyType}
                       setOption={setSelectedBodyType}
                     />
                     {isShow[6] && (
@@ -1411,6 +1448,7 @@ export const NewAnnouncement: React.FC = () => {
                 {isOpen.block7 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
+                      resetValue={resetValue[4]}
                       isDissabled={immutableData}
                       stylepaddingZero={true}
                       isShow={isShow[7]}
@@ -1423,14 +1461,9 @@ export const NewAnnouncement: React.FC = () => {
                           : 'Нема співпадінь'
                       }
                       label="Тип палива"
-                      startValue={`${
-                        selectedFuelType === 'Тип палива' ||
-                        selectedFuelType === ''
-                          ? 'Тип палива'
-                          : selectedFuelType
-                      }`}
-                      // allOptionsLabel="Тип палива"
+                      startValue="Тип палива"
                       option={selectedFuelType}
+                      selectedOptions={selectedFuelType}
                       setOption={setSelectedFuelType}
                     />
                     {isShow[7] && (
@@ -1466,6 +1499,7 @@ export const NewAnnouncement: React.FC = () => {
                 {isOpen.block8 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
+                      resetValue={resetValue[5]}
                       stylepaddingZero={true}
                       isShow={isShow[8]}
                       index={8}
@@ -1473,12 +1507,9 @@ export const NewAnnouncement: React.FC = () => {
                       updateStyle="advSearch"
                       options={engineVolumesArray.map(item => item)}
                       label="Літри"
-                      startValue={`${
-                        fuelConsumption === 'Літри' || fuelConsumption === ''
-                          ? 'Літри'
-                          : fuelConsumption
-                      }`}
+                      startValue="Літри"
                       option={fuelConsumption}
+                      selectedOptions={fuelConsumption}
                       setOption={setFuelConsumption}
                     />
                     {isShow[8] && (
@@ -1512,6 +1543,7 @@ export const NewAnnouncement: React.FC = () => {
                 {isOpen.block9 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
+                      resetValue={resetValue[6]}
                       stylepaddingZero={true}
                       isShow={isShow[9]}
                       index={9}
@@ -1519,13 +1551,10 @@ export const NewAnnouncement: React.FC = () => {
                       updateStyle="advSearch"
                       options={engineVolumesArray.map(item => item)}
                       label="Літри"
-                      startValue={`${
-                        engineVolumes === 'Літри' || engineVolumes === ''
-                          ? 'Літри'
-                          : engineVolumes
-                      }`}
+                      startValue="Літри"
                       allOptionsLabel="Об'єм двигуна"
                       option={engineVolumes}
+                      selectedOptions={engineVolumes}
                       setOption={setEngineVolumes}
                     />
                     {isShow[9] && (
@@ -1561,6 +1590,7 @@ export const NewAnnouncement: React.FC = () => {
                 {isOpen.block10 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
+                      resetValue={resetValue[7]}
                       isDissabled={immutableData}
                       stylepaddingZero={true}
                       isShow={isShow[10]}
@@ -1573,14 +1603,10 @@ export const NewAnnouncement: React.FC = () => {
                           : 'Нема співпадінь'
                       }
                       label="Коробка передач"
-                      startValue={`${
-                        selectedTransmission === 'Коробка передач' ||
-                        selectedTransmission === ''
-                          ? 'Коробка передач'
-                          : selectedTransmission
-                      }`}
+                      startValue="Коробка передач"
                       allOptionsLabel="Коробка передач"
                       option={selectedTransmission}
+                      selectedOptions={selectedTransmission}
                       setOption={setSelectedTransmission}
                     />
                     {isShow[10] && (
@@ -1690,6 +1716,7 @@ export const NewAnnouncement: React.FC = () => {
                 {isOpen.block13 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
+                      resetValue={resetValue[8]}
                       isDissabled={immutableData}
                       stylepaddingZero={true}
                       isShow={isShow[12]}
@@ -1702,14 +1729,10 @@ export const NewAnnouncement: React.FC = () => {
                           : 'Нема співпадінь'
                       }
                       label="Привід"
-                      startValue={`${
-                        selectedDriveType === 'Привід' ||
-                        selectedDriveType === ''
-                          ? 'Привід'
-                          : selectedDriveType
-                      }`}
+                      startValue="Привід"
                       allOptionsLabel="Привід"
                       option={selectedDriveType}
+                      selectedOptions={selectedDriveType}
                       setOption={setSelectedDriveType}
                     />
                     {isShow[12] && (
@@ -1742,6 +1765,7 @@ export const NewAnnouncement: React.FC = () => {
               {isOpen.block14 && (
                 <div className={styles.item_dropdown_box}>
                   <Dropdown
+                    resetValue={resetValue[9]}
                     stylepaddingZero={true}
                     isShow={isShow[13]}
                     index={13}
@@ -1753,13 +1777,10 @@ export const NewAnnouncement: React.FC = () => {
                         : 'Нема співпадінь'
                     }
                     label="Область"
-                    startValue={`${
-                      selectedRegions === 'Область' || selectedRegions === ''
-                        ? 'Область'
-                        : selectedRegions
-                    }`}
+                    startValue="Область"
                     allOptionsLabel="Вся Україна"
                     option={selectedRegions}
+                    selectedOptions={selectedRegions}
                     setOption={setSelectedRegions}
                   />
                   {isShow[13] && (
@@ -1792,6 +1813,7 @@ export const NewAnnouncement: React.FC = () => {
                 {isOpen.block15 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
+                      resetValue={resetValue[10]}
                       stylepaddingZero={true}
                       isShow={isShow[14]}
                       index={14}
@@ -1803,13 +1825,10 @@ export const NewAnnouncement: React.FC = () => {
                           : 'Місто'
                       }
                       label="Місто"
-                      startValue={`${
-                        selectedCity === 'Місто' || selectedCity === ''
-                          ? 'Місто'
-                          : selectedCity
-                      }`}
+                      startValue="Місто"
                       allOptionsLabel="Місто"
                       option={selectedCity}
+                      selectedOptions={selectedCity}
                       setOption={setSelectedCity}
                     />
                     {isShow[14] && (
@@ -1844,6 +1863,7 @@ export const NewAnnouncement: React.FC = () => {
                 {isOpen.block16 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
+                      resetValue={resetValue[11]}
                       isDissabled={immutableData}
                       stylepaddingZero={true}
                       updateStyle="advSearch"
@@ -1852,13 +1872,10 @@ export const NewAnnouncement: React.FC = () => {
                         transportColor.map((item: any) => item.transportColor)
                       }
                       label="Колір"
-                      startValue={`${
-                        selectedColor === 'Колір' || selectedColor === ''
-                          ? 'Колір'
-                          : selectedColor
-                      }`}
+                      startValue="Колір"
                       allOptionsLabel="Вся Україна"
                       option={selectedColor}
+                      selectedOptions={selectedColor}
                       setOption={setSelectedColor}
                     />
                   </div>
@@ -1887,6 +1904,7 @@ export const NewAnnouncement: React.FC = () => {
                 {isOpen.block17 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
+                      resetValue={resetValue[12]}
                       stylepaddingZero={true}
                       updateStyle="advSearch"
                       options={
@@ -1897,14 +1915,10 @@ export const NewAnnouncement: React.FC = () => {
                           : 'Нема співпадінь'
                       }
                       label="Технічний стан"
-                      startValue={`${
-                        selectedCondition === 'Технічний стан' ||
-                        selectedCondition === ''
-                          ? 'Технічний стан'
-                          : selectedCondition
-                      }`}
+                      startValue="Технічний стан"
                       allOptionsLabel="Технічний стан"
                       option={selectedCondition}
+                      selectedOptions={selectedCondition}
                       setOption={setSelectedCondition}
                     />
                   </div>
@@ -2007,6 +2021,7 @@ export const NewAnnouncement: React.FC = () => {
                 {isOpen.block20 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
+                      resetValue={resetValue[13]}
                       stylepaddingZero={true}
                       updateStyle="advSearch"
                       options={
@@ -2015,13 +2030,10 @@ export const NewAnnouncement: React.FC = () => {
                           : 'Нема співпадінь'
                       }
                       label="Кількість осей"
-                      startValue={`${
-                        selectedAxle === 'Кількість осей' || selectedAxle === ''
-                          ? 'Кількість осей'
-                          : selectedAxle
-                      }`}
+                      startValue="Кількість осей"
                       allOptionsLabel="Кількість осей"
                       option={selectedAxle}
+                      selectedOptions={selectedAxle}
                       setOption={setSelectedAxle}
                     />
                   </div>
@@ -2052,6 +2064,7 @@ export const NewAnnouncement: React.FC = () => {
                 {isOpen.block21 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
+                      resetValue={resetValue[14]}
                       stylepaddingZero={true}
                       updateStyle="advSearch"
                       options={
@@ -2062,14 +2075,10 @@ export const NewAnnouncement: React.FC = () => {
                           : 'Нема співпадінь'
                       }
                       label="Конфігурація коліс"
-                      startValue={`${
-                        selectedWheelConfiguration === 'Конфігурація коліс' ||
-                        selectedWheelConfiguration === ''
-                          ? 'Кількість осей'
-                          : selectedWheelConfiguration
-                      }`}
+                      startValue="Конфігурація коліс"
                       allOptionsLabel="Конфігурація коліс"
                       option={selectedWheelConfiguration}
+                      selectedOptions={selectedWheelConfiguration}
                       setOption={setSelectedWheelConfiguration}
                     />
                   </div>
@@ -2106,6 +2115,7 @@ export const NewAnnouncement: React.FC = () => {
                 {isOpen.block22 && (
                   <div className={styles.item_dropdown_box}>
                     <Dropdown
+                      resetValue={resetValue[15]}
                       stylepaddingZero={true}
                       updateStyle="advSearch"
                       options={
@@ -2116,14 +2126,10 @@ export const NewAnnouncement: React.FC = () => {
                           : 'Нема співпадінь'
                       }
                       label="Країна"
-                      startValue={`${
-                        selectedProducingCountry === 'Країна' ||
-                        selectedProducingCountry === ''
-                          ? 'Країна'
-                          : selectedProducingCountry
-                      }`}
+                      startValue="Країна"
                       allOptionsLabel="Весь Світ"
                       option={selectedProducingCountry}
+                      selectedOptions={selectedProducingCountry}
                       setOption={setSelectedProducingCountry}
                     />
                   </div>

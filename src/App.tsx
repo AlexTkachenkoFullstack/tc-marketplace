@@ -24,6 +24,7 @@ import MyAds from 'pages/UserPage/MyAds';
 import Subscriptions from 'pages/UserPage/Subscriptions';
 import PersonalInfo from 'pages/UserPage/PersonalInfo';
 import Security from 'pages/UserPage/Security';
+import StopList from 'pages/UserPage/StopList/StopList';
 export const App: React.FC = () => {
     const dispatch:Dispatch=useAppDispatch()
     useEffect(()=>{
@@ -42,7 +43,7 @@ export const App: React.FC = () => {
             <Route path="user/" element={<UserPage />}>
               <Route path="my-adverts" element={<MyAds />} />
               <Route path="subscriptions" element={<Subscriptions />} />
-              <Route path="stop-list" element={<Subscriptions />} />
+              <Route path="stop-list" element={<StopList />} />
               <Route path="user-info" element={<PersonalInfo />} />
               <Route path="security" element={<Security />} />
             </Route>
