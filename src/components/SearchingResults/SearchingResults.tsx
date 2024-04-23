@@ -33,12 +33,17 @@ import SearchingResultsMenu from './SearchingResultsMenu';
 import { useLocation } from 'react-router-dom';
 import { fetchCarsBySubscription } from 'redux/profile/operations';
 import { getSubscrCarList } from 'redux/profile/selectors';
+import { AdvancedSearchFilter } from 'components/AdvancedSearchFilter/AdvancedSearchFilter';
 
 interface IProps {
   handleAdvancedFilter: () => void;
+  isOpenAdvancedFilter: boolean;
 }
 
-const SearchingResults: React.FC<IProps> = ({ handleAdvancedFilter }) => {
+const SearchingResults: React.FC<IProps> = ({
+  handleAdvancedFilter,
+  isOpenAdvancedFilter,
+}) => {
   const [optionMenuId, setOptionMenuId] = useState<number | null>(null);
   const [arrForRender, setArrForRender] = useState<ICar[]>([]);
   const [isShowMore, setIsShowMore] = useState(false);
@@ -211,6 +216,13 @@ const SearchingResults: React.FC<IProps> = ({ handleAdvancedFilter }) => {
   return (
     <>
       <SearchingResultsMenu onAdvancedFilter={handleAdvancedFilter} />
+
+      {isOpenAdvancedFilter && (
+        <AdvancedSearchFilter
+          onAdvencedFilter={handleAdvancedFilter}
+          // toggleModalIsOpen={toggleModalIsOpen}
+        />
+      )}
       <div className={styles.container}>
         {isLoading && !isShowMore ? (
           <Loader />

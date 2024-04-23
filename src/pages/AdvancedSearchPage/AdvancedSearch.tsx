@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styles from './AdvancedSearch.module.scss';
 import SearchingResults from 'components/SearchingResults/SearchingResults';
-import { AdvancedSearchFilter } from 'components/AdvancedSearchFilter/AdvancedSearchFilter';
+// import { AdvancedSearchFilter } from 'components/AdvancedSearchFilter/AdvancedSearchFilter';
 
 // import { SearchTop } from '../../components/SearchTop/SearchTop';
 // import AdvSearchBottom from './AdvSearchBottom/AdvSearchBottom';
@@ -26,13 +26,10 @@ export const AdvancedSearch: React.FC = () => {
   return (
     <section className={styles.AdvSearch}>
       <div className={styles.AdvSearch_container}>
-        {isOpenAdvancedFilter && (
-          <AdvancedSearchFilter
-            onAdvencedFilter={handleAdvancedFilter}
-            // toggleModalIsOpen={toggleModalIsOpen}
-          />
-        )}
-        <SearchingResults handleAdvancedFilter={handleAdvancedFilter} />
+        <SearchingResults
+          handleAdvancedFilter={handleAdvancedFilter}
+          isOpenAdvancedFilter={isOpenAdvancedFilter}
+        />
       </div>
     </section>
   );
