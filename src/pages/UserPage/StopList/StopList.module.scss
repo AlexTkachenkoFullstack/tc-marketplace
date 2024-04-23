@@ -1,0 +1,78 @@
+@import '../../../styles/main.scss';
+.container {
+  padding: 20px;
+  width: 100%;
+  margin-bottom: 32px;
+  @include onTablet {
+    border: 1px solid #e4e4e4;
+    border-radius: 16px;
+  }
+}
+.container::before {
+  content: '';
+  position: absolute;
+  top: 226px;
+  left: 0;
+  width: 100vw;
+  height: 1px;
+  background-color: $background-color-white;
+  @include onTablet {
+    display: none;
+  }
+}
+.title_container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+.counter_container {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  background: #e4e4e4;
+  color: #434343;
+  /* H5/Regular */
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 142.857% */
+  letter-spacing: 0.1px;
+}
+.item {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  width: 100%;
+}
+.tab {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 150%;
+  letter-spacing: 0.15px;
+  padding: 8px 0;
+  color: $color-dark-grey;
+  @extend %tab-styles;
+}
+.count {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  padding: 0px 6px;
+  background: $background-color-white;
+  color: $color-grey;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+}

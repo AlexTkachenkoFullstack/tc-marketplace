@@ -141,19 +141,17 @@ export const deletePhotoAdvertisement = async (
 export const fetchUserInfo = async () => {
   setAuth();
   try {
-    const {data} = await instance(`user-page`);
+    const { data } = await instance(`user-page`);
     return data;
   } catch (error) {
     console.error('Помилка при отриманні даних!', error);
   }
 };
-  
+
 export const getUserInfo = async () => {
   setAuth();
   try {
-    const response = await instance.get(
-      'user-page',
-    );   
+    const response = await instance.get('user-page');
     return response.data;
   } catch (error) {
     console.error('Помилка в отриманні даних!', error);
@@ -167,11 +165,7 @@ export const putUserInfo = async (formData: FormData) => {
     },
   };
   try {
-    const response = await instance.put(
-      'user-page',
-      formData,
-      config,
-    );
+    const response = await instance.put('user-page', formData, config);
     return response.data;
   } catch (error) {
     console.error('Помилка в даних!', error);
@@ -180,10 +174,8 @@ export const putUserInfo = async (formData: FormData) => {
 export const deletePhotoUserInfo = async (callback: () => void) => {
   setAuth();
   try {
-    const response = await instance.delete(
-      'user-page/delete-photo',
-    );
-    callback(); 
+    const response = await instance.delete('user-page/delete-photo');
+    callback();
     return response.data;
   } catch (error) {
     console.error('Помилка в отриманні даних!', error);
@@ -193,12 +185,38 @@ export const deletePhotoUserInfo = async (callback: () => void) => {
 export const getHiddenUsersData = async () => {
   setAuth();
   try {
-    const response = await instance.get(
-      'user-page/hidden/users',
-    );   
+    const response = await instance.get('user-page/hidden/users');
     return response.data;
   } catch (error) {
     console.error('Помилка в отриманні даних!', error);
   }
 };
+export const getHiddenTransportsData = async () => {
+  setAuth();
+  try {
+    const response = await instance.get('user-page/hidden/transports');
+    return response.data;
+  } catch (error) {
+    console.error('Помилка в отриманні даних!', error);
+  }
+};
+export const putUnHideUser = async (id: number) => {
+  setAuth();
+  try {
+    const response = await instance.put(`user-page/unhide-all/user/${id}`);
 
+    return response.data;
+  } catch (error) {
+    console.error('Помилка в отриманні даних!', error);
+  }
+};
+export const putUnHideTransport = async (id: number) => {
+  setAuth();
+  try {
+    const response = await instance.put(`user-page/unhide/transport/${id}`);
+
+    return response.data;
+  } catch (error) {
+    console.error('Помилка в отриманні даних!', error);
+  }
+};

@@ -27,10 +27,11 @@ import {
 
 export interface CardProps {
   car: IAd;
-  advType: number;
+  advType?: number;
+  onClickDelete?: (id: number) => void;
 }
 
-const Card: React.FC<CardProps> = ({ car, advType }) => {
+const Card: React.FC<CardProps> = ({ car, advType, onClickDelete }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -39,6 +40,8 @@ const Card: React.FC<CardProps> = ({ car, advType }) => {
     firstButtonContent = 'Активувати';
   } else if (advType === 3) {
     firstButtonContent = 'Відновити';
+  } else if (advType === 4) {
+    firstButtonContent = 'Видалити зі списку';
   }
 
   let secondButtonContent: string = 'Деактивувати';
@@ -48,7 +51,10 @@ const Card: React.FC<CardProps> = ({ car, advType }) => {
 
   convertDate(car.created);
 
-  const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleButtonClick = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    id?: number,
+  ) => {
     const targetButton = e.target as HTMLButtonElement;
     if (targetButton.textContent === 'Редагувати') {
       navigate('/advertisements/edit', { state: { id: car.id } });
@@ -68,7 +74,10 @@ const Card: React.FC<CardProps> = ({ car, advType }) => {
       dispatch(
         changeTransportStatus({ id: car.id, transportStatus: 'deleted' }),
       );
+    } else if (targetButton.textContent === 'Видалити зі списку') {
+      if (onClickDelete) onClickDelete(id ?? 0);
     }
+    
     if (targetButton.textContent !== 'Редагувати') {
       setTimeout(() => {
         dispatch(fetchMyAdsCount());
@@ -85,7 +94,6 @@ const Card: React.FC<CardProps> = ({ car, advType }) => {
           case 3:
             dispatch(fetchMyDeletedAds());
             break;
-
           default:
             break;
         }
@@ -166,15 +174,16 @@ const Card: React.FC<CardProps> = ({ car, advType }) => {
               )}
             </div>
           </div>
-          <p className={styles.card_info_description}>
-            {car.description}
-          </p>
+          <p className={styles.card_info_description}>{car.description}</p>
 
           <div className={styles.card_buttons}>
-            <button className={styles.button} onClick={handleButtonClick}>
+            <button
+              className={styles.button}
+              onClick={e => handleButtonClick(e, car.id)}
+            >
               {firstButtonContent}
             </button>
-            {advType !== 3 && (
+            {(advType !== 3 && advType !== 4) && (
               <button className={styles.button} onClick={handleButtonClick}>
                 {secondButtonContent}
               </button>
