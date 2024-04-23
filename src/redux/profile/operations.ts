@@ -147,6 +147,34 @@ export const changeTransportStatus = createAsyncThunk(
   },
 );
 
+export const changeUserPassword = createAsyncThunk(
+  'profile/cnangePassword',
+  async (
+   params: {
+      oldPassword: string;
+      password: string;
+      confirmPassword: string;
+      email: string;
+    },
+    thunkAPI,
+  ) => {
+    const {
+      auth: { token },
+    } = thunkAPI.getState() as RootState;
+    token && setAuthHeader(token);
+    try {
+      const { data } = await instance.put(`user-page/security-info`, params);
+      return data;
+    } catch (err) {
+      const error: AxiosError<KnownError> = err as any;
+      if (!error.response) {
+        throw err;
+      }
+      return thunkAPI.rejectWithValue({ errorMessage: error.response.data });
+    }
+  },
+);
+
 export const saveSubscription = createAsyncThunk(
   'profile/saveSubscription',
   async (

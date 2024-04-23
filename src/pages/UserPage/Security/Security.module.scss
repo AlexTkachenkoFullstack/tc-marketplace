@@ -22,55 +22,114 @@
       display: none;
     }
   }
+  .titleThumb {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-  .title {
-    margin-bottom: 24px;
-    font-size: 22px;
-    font-weight: 700;
-    line-height: 120%;
+    & h3 {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 120%;
+    }
+    & button {
+      display: block;
+      padding: 6px 8px;
+      font-family: Roboto;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+      letter-spacing: 0.1px;
+      color: $button-active;
+    }
   }
 
-  .subscriptionsList {
+  .form {
     display: flex;
     flex-direction: column;
-    row-gap: 12px;
-    margin-bottom: 12px;
-  }
 
-  .addButton {
-    align-self: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    column-gap: 8px;
-    width: 315px;
-    height: 52px;
-    border-radius: 32px;
-    background-color: $color-grey;
+    & label {
+      margin-top: 24px;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 110%;
 
-    font-family: Roboto;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 24px;
-    letter-spacing: 0.15px;
-    color: $white-color;
+      @include onTablet {
+        display: flex;
+        column-gap: 16px;
+        align-items: center;
+      }
+      & span {
+        width: 224px;
+        @include onTablet {
+          align-self: flex-start;
+        }
+      }
+      & .eyeThumb {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        @include onTablet {
+          top: 10px;
+        }
+      }
+    }
 
-    transition: all 250ms ease-in-out;
+    & .inputField {
+      width: 100%;
+      height: 40px;
+      padding: 10px 44px 10px 20px;
+      border-radius: 32px;
+      border: 1px solid $ads-border-color;
+      background-color: $color-light;
+    }
 
-    &:hover {
+    & .fieldThumb {
+      position: relative;
+      margin-top: 16px;
+      @include onTablet {
+        width: 384px;
+        margin-top: 0;
+      }
+    }
+
+    & .errorMessage {
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 16px;
+      letter-spacing: 0.5px;
+      color: $color-text-grey;
+      @include onTablet {
+      }
+    }
+
+    & .eyeIconStyle path {
+      fill: red;
+    }
+
+    & .submitBtn {
+      width: 207px;
+      height: 52px;
+      margin-top: 32px;
+      border-radius: 32px;
       border: 1px solid $color-grey;
-      color: $color-grey;
-      background-color: $background-color-white;
-    }
-    & path {
+      background-color: $color-grey;
+      font-family: Roboto;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 24px;
+      letter-spacing: 0.15px;
+      color: $white-color;
       transition: all 250ms ease-in-out;
-    }
-    &:hover path {
-      fill: $color-grey;
-    }
-
-    @include onTablet {
-      align-self: flex-start;
+      &:hover {
+        background-color: $background-color-white;
+        color: $color-grey;
+      }
+      &:active {
+        background-color: $color-dark-grey;
+        border: 1px solid $color-dark-grey;
+        color: $white-color;
+      }
     }
   }
 }

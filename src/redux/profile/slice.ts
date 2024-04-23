@@ -15,6 +15,7 @@ import {
   deleteSubscription,
   editSubscription,
   fetchCarsBySubscription,
+  changeUserPassword,
 } from './operations';
 import { ISubscription } from 'types/ISubscription';
 
@@ -59,7 +60,8 @@ const handleFulfilledGetMyAdsAndSubscriptions = (
     | 'mySubscriptions'
     | 'deleteSubscription'
     | 'editSubscription'
-    | 'carListBySubscription',
+    | 'carListBySubscription'
+    | 'changeUserPassword',
 ) => {
   return (
     state: IProfileState,
@@ -80,7 +82,8 @@ const handleFulfilledGetMyAdsAndSubscriptions = (
       type === 'status' ||
       type === 'saveSubscription' ||
       type === 'deleteSubscription' ||
-      type === 'editSubscription'
+      type === 'editSubscription' ||
+      type === 'changeUserPassword'
     ) {
       return;
     } else if (type === 'mySubscriptions') {
@@ -180,6 +183,10 @@ export const profileSlice = createSlice({
         fetchCarsBySubscription.fulfilled,
         handleFulfilledGetMyAdsAndSubscriptions('carListBySubscription'),
       )
+      .addCase(
+        changeUserPassword.fulfilled,
+        handleFulfilledGetMyAdsAndSubscriptions('changeUserPassword'),
+      )
       .addMatcher(
         isAnyOf(
           fetchMyActiveAds.pending,
@@ -192,6 +199,7 @@ export const profileSlice = createSlice({
           deleteSubscription.pending,
           editSubscription.pending,
           fetchCarsBySubscription.pending,
+          changeUserPassword.pending,
         ),
         handlePending,
       )
@@ -208,6 +216,7 @@ export const profileSlice = createSlice({
           deleteSubscription.rejected,
           editSubscription.rejected,
           fetchCarsBySubscription.rejected,
+          changeUserPassword.rejected,
         ),
         handleRejected,
       );
