@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { franc } from 'franc';
 import styles from './NewAnnouncement.module.scss';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
@@ -233,7 +233,7 @@ export const NewAnnouncement: React.FC = () => {
   const mileageTo = data?.mileageTo;
 
   const id = location.state && location.state.id ? location.state.id : null;
-  const resetALLValue = () => {
+  const resetALLValue = useCallback(() => {
     if (
       input2Ref.current &&
       input2Ref.current.classList.contains(styles.inputVincodeInValid)
@@ -289,7 +289,7 @@ export const NewAnnouncement: React.FC = () => {
       setResetValue(newResetValueFalse);
       dispatch(cleanFiltredStore({ field: 'cities' }));
     }, 100);
-  };
+  }, []);
   useEffect(() => {
     if (typeCategory !== prevTypeCategory && isAdvertisements) {
       resetALLValue();
