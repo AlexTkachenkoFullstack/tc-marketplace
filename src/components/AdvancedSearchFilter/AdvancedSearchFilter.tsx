@@ -75,16 +75,16 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   // response(catalog) get-param
   const [data, setData] = useState<any>([]);
   // для рендж слайдера
-  const [price, setPrice] = useState({ from: 0, to: 0 });
-  const [year, setYear] = useState({ from: 0, to: 0 });
-  const [mileage, setMileage] = useState({ from: 0, to: 0 });
-  const [enginePower, setEnginePower] = useState({ from: 0, to: 0 });
+  const [price, setPrice] = useState({ from: 100, to: 1000000 });
+  const [year, setYear] = useState({ from: 1970, to: 2024 });
+  const [mileage, setMileage] = useState({ from: 0, to: 1000000 });
+  const [enginePower, setEnginePower] = useState({ from: 0, to: 1000 });
   const [engineDisplacement, setEngineDisplacement] = useState({
     from: 0,
-    to: 0,
+    to: 20,
   });
-  const [numberOfDoors, setNumberOfDoors] = useState({ from: 0, to: 0 });
-  const [numberOfSeats, setNumberOfSeats] = useState({ from: 0, to: 0 });
+  const [numberOfDoors, setNumberOfDoors] = useState({ from: 2, to: 5 });
+  const [numberOfSeats, setNumberOfSeats] = useState({ from: 2, to: 18 });
   const [resetValue, setResetValue] = useState(Array(N).fill(false));
   // redux filtred
   const typeCars: IType[] = useAppSelector(getFilterTypes);
@@ -248,12 +248,12 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const handlerType = (category: string) => {
     const newResetValue = Array(N).fill(true);
     setResetValue(newResetValue);
-    setSelectedRegions('Регіон');
-    setSelectedCity('Місто');
-    setCarMark('Бренд');
-    setCarModel('Модель');
-    setBrandId([]);
-    // handlerResetFilter()
+    // setSelectedRegions('Регіон');
+    // setSelectedCity('Місто');
+    // setCarMark('Бренд');
+    // setCarModel('Модель');
+    // setBrandId([]);
+    handlerResetFilter()
     setSelectedCategory(category);
     setTimeout(() => {
       const newResetValueFalse = Array(N).fill(false);
@@ -858,6 +858,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                     resetValue={resetValue[3]}
                     setObjectValue={setMileage}
                     typeRange={'mileage'}
+                    selectedValue={mileage}
                   />
                 </div>
               )}
@@ -953,6 +954,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                     resetValue={resetValue[6]}
                     setObjectValue={setNumberOfDoors}
                     typeRange={'numberOfDoors'}
+                    selectedValue={numberOfDoors}
                   />
                 </div>
               )}
@@ -977,6 +979,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                     resetValue={resetValue[7]}
                     setObjectValue={setNumberOfSeats}
                     typeRange={'numberOfSeats'}
+                    selectedValue={numberOfSeats}
                   />
                 </div>
               )}
