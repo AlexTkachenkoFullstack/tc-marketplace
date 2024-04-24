@@ -289,7 +289,7 @@ export const NewAnnouncement: React.FC = () => {
       setResetValue(newResetValueFalse);
       dispatch(cleanFiltredStore({ field: 'cities' }));
     }, 100);
-  }, []);
+  }, [dispatch]);
   useEffect(() => {
     if (typeCategory !== prevTypeCategory && isAdvertisements) {
       resetALLValue();
