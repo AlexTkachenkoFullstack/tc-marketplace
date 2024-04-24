@@ -293,10 +293,15 @@ export const NewAnnouncement: React.FC = () => {
   useEffect(() => {
     if (typeCategory !== prevTypeCategory && isAdvertisements) {
       resetALLValue();
-      console.log('Worked!!! :>> ');
     }
     setPrevTypeCategory(typeCategory);
-  }, [typeCategory, prevTypeCategory, dispatch, isAdvertisements]);
+  }, [
+    typeCategory,
+    prevTypeCategory,
+    dispatch,
+    isAdvertisements,
+    resetALLValue,
+  ]);
   useEffect(() => {
     const fetchData = async () => {
       if (!isAdvertisementsEdit || !id) {

@@ -1,4 +1,3 @@
-import { CategoryBar } from 'components/CategoryBar/CategoryBar';
 import Loader from 'components/Loader/Loader';
 import React, { useEffect, useState } from 'react';
 import {
@@ -18,10 +17,7 @@ const StopList: React.FC = () => {
   const [transportData, setTransportData] = useState<any>();
   const [selectedCategory, setSelectedCategory] = useState<string>('Продавці');
   const categories = ['Продавці', 'Транспорт'];
-  console.log('userData :>> ', userData);
-  console.log('transportData :>> ', transportData);
-  const el =
-    transportData &&
+  transportData &&
     transportData.map((item: any) => console.log('item :>> ', item.transport));
   const fetchData = async () => {
     setIsLoading(true);
@@ -78,8 +74,9 @@ const StopList: React.FC = () => {
     }
   };
   const handleRedirect = (id: number) => {};
-  const counterUser = userData && userData.length ? userData.length: 0;
-  const counterCar = transportData && transportData.length ? transportData.length:0;
+  const counterUser = userData && userData.length ? userData.length : 0;
+  const counterCar =
+    transportData && transportData.length ? transportData.length : 0;
   return (
     <div className={styles.container}>
       {isLoading && <Loader />}
@@ -91,7 +88,9 @@ const StopList: React.FC = () => {
           onClick={() => handleSelectCategory(categories[0])}
         >
           {categories[0]}
-          {counterUser !== 0 && <span className={styles.count}>{counterUser}</span>}
+          {counterUser !== 0 && (
+            <span className={styles.count}>{counterUser}</span>
+          )}
         </button>
         <button
           className={`${styles.tab} ${
@@ -101,7 +100,9 @@ const StopList: React.FC = () => {
         >
           {categories[1]}
 
-          {counterCar !== 0 && <span className={styles.count}>{counterCar}</span>}
+          {counterCar !== 0 && (
+            <span className={styles.count}>{counterCar}</span>
+          )}
         </button>
       </div>
       {selectedCategory === 'Продавці' && (
