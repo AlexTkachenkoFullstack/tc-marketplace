@@ -77,7 +77,7 @@ const Card: React.FC<CardProps> = ({ car, advType, onClickDelete }) => {
     } else if (targetButton.textContent === 'Видалити зі списку') {
       if (onClickDelete) onClickDelete(id ?? 0);
     }
-    
+
     if (targetButton.textContent !== 'Редагувати') {
       setTimeout(() => {
         dispatch(fetchMyAdsCount());
@@ -134,18 +134,22 @@ const Card: React.FC<CardProps> = ({ car, advType, onClickDelete }) => {
           <p className={styles.card_info_price}>{car.price} $</p>
           <div className={styles.card_info_meta}>
             <div className={styles.card_info_meta_first_line}>
-              <div className={styles.card_info_views}>
-                <img className={styles.icon} src={eye} alt="Eye icon" />
-                <p className={styles.card_info_data}>{`${
-                  car.viewCount
-                } ${countViews(car.viewCount)}`}</p>
-              </div>
-              <div className={styles.card_info_phoneViews}>
-                <img className={styles.icon} src={phone} alt="Phone icon" />
-                <p className={styles.card_info_data}>{`${
-                  car.openedPhoneCount || 0
-                } ${countShows(car.openedPhoneCount)} телефону`}</p>
-              </div>
+              {car.viewCount ? (
+                <div className={styles.card_info_views}>
+                  <img className={styles.icon} src={eye} alt="Eye icon" />
+                  <p className={styles.card_info_data}>{`${
+                    car.viewCount
+                  } ${countViews(car.viewCount)}`}</p>
+                </div>
+              ) : null}
+              {car.openedPhoneCount ? (
+                <div className={styles.card_info_phoneViews}>
+                  <img className={styles.icon} src={phone} alt="Phone icon" />
+                  <p className={styles.card_info_data}>{`${
+                    car.openedPhoneCount || 0
+                  } ${countShows(car.openedPhoneCount)} телефону`}</p>
+                </div>
+              ) : null}
             </div>
             <div className={styles.card_info_meta_second_line}>
               <div className={styles.card_info_likes}>
@@ -183,7 +187,7 @@ const Card: React.FC<CardProps> = ({ car, advType, onClickDelete }) => {
             >
               {firstButtonContent}
             </button>
-            {(advType !== 3 && advType !== 4) && (
+            {advType !== 3 && advType !== 4 && (
               <button className={styles.button} onClick={handleButtonClick}>
                 {secondButtonContent}
               </button>
