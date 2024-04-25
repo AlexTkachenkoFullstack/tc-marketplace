@@ -53,7 +53,7 @@ const MyAds: React.FC = () => {
         return null;
     }
   };
-
+  
   return (
     <div className={styles.container}>
       {isAdsLoading && <Loader />}
@@ -68,7 +68,7 @@ const MyAds: React.FC = () => {
           {myActiveAds ? (
             <span
               className={styles.count}
-              style={{ display: adsCount.length === 0 ? 'none' : '' }}
+              style={{ display: !activeCount ? 'none' : '' }}
             >
               {activeCount}
             </span>
@@ -86,7 +86,7 @@ const MyAds: React.FC = () => {
           {myPendingAds ? (
             <span
               className={styles.count}
-              style={{ display: adsCount.length === 0 ? 'none' : '' }}
+              style={{ display: !pendingCount ? 'none' : '' }}
             >
               {pendingCount}
             </span>
@@ -104,7 +104,7 @@ const MyAds: React.FC = () => {
           {myInactiveAds ? (
             <span
               className={styles.count}
-              style={{ display: adsCount.length === 0 ? 'none' : '' }}
+              style={{ display: !inactiveCount ? 'none' : '' }}
             >
               {inactiveCount}
             </span>
@@ -122,7 +122,7 @@ const MyAds: React.FC = () => {
           {myDeletedAds ? (
             <span
               className={styles.count}
-              style={{ display: adsCount.length === 0 ? 'none' : '' }}
+              style={{ display: !deletedCount ? 'none' : '' }}
             >
               {deletedCount}
             </span>

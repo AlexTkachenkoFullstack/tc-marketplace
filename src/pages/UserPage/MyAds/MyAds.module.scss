@@ -75,13 +75,15 @@
   width: 20px;
   height: 20px;
   border-radius: 5px;
-  padding: 0px 6px;
+  // padding: 0px 6px;
+
   background: $background-color-white;
   color: $color-grey;
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
   letter-spacing: 0.1px;
+  text-align: center;
 }
 
 .empty {
