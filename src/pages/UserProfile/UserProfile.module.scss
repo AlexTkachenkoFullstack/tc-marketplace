@@ -1,0 +1,179 @@
+@import '../../styles/main.scss';
+.container {
+  width: 360px;
+  padding: 20px;
+  margin-top: 66px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #ffffff;  
+  @include onTablet {
+    padding: 40px;
+    margin: 66px auto 0px;   
+    width: 768px;
+  }
+  @include onDesktop {
+    width: 1024px;
+  }
+}
+.title_container {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 32px;
+  align-items: center;
+  @include onTablet {
+    align-items: center;
+  }
+}
+.btn_back {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  justify-content: center;
+  align-items: center; 
+  border-radius: 32px;
+  @include onTablet {
+    width: 24px;
+    height: 24px;
+  }
+  transition: box-shadow 0.3s ease;
+}
+.btn_back:hover {
+  @include onTablet {
+  display: flex; 
+  justify-content: center; 
+  border-radius: 32px;
+  }
+  background: #f0f0f0; 
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06), 0px 0px 0px 4px #f0f0f0;  
+}
+.title {
+  color: #434343; 
+  font-family: Roboto;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+  margin-right: 20px;
+  @include onTablet {
+    font-size: 32px;
+  }
+}
+.user_info_container {
+  width: 320px;
+  height: 152px;
+  padding: 24px;
+  border-radius: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  background: #f0f0f0;
+  margin-bottom: 16px;
+  @include onTablet {
+    width: 100%;
+  }
+}
+.wrapper {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.user_title {
+  color: var(--Black, #434343); 
+  font-family: Roboto;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+  margin-bottom: 12px;
+}
+.img_container {
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  background: #434343;
+  border-radius: 50%;
+  @include onTablet {
+    width: 95px;
+    height: 95px;
+  }
+}
+.no_img {
+  background: #434343;
+  overflow: hidden;
+  box-sizing: border-box;
+  border-radius: 100%;
+  width: 40px;
+  height: 40px;
+  @include onTablet {
+    width: 95px;
+    height: 95px;
+  }
+}
+.user_photo {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.btn_subscription {
+  color: #f0f0f0;
+  display: flex;
+  padding: 10px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 24px;
+  background: #434343;
+}
+.text {
+  color: var(--Black, #434343);
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%; 
+}
+.category_container {
+  display: flex;
+  column-gap: 20px;
+  padding: 8px 0;
+  width: 100%;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  margin-bottom: 24px;
+  scrollbar-width: none;
+  @include onTablet {
+    justify-content: center;
+  }
+}
+.tab {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 150%;
+  letter-spacing: 0.15px;
+  padding: 8px 0;
+  color: $color-dark-grey;
+  @extend %tab-styles;
+}
+.count {  
+  border-radius: 5px;
+  padding: 0px 6px;
+  background: $background-color-white;
+  color: $color-grey;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+}
+.item {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  width: 100%;
+}
