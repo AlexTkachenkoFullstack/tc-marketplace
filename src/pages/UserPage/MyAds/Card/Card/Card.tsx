@@ -28,10 +28,11 @@ import {
 export interface CardProps {
   car: IAd;
   advType?: number;
+  isDisabled?:boolean;
   onClickDelete?: (id: number) => void;
 }
 
-const Card: React.FC<CardProps> = ({ car, advType, onClickDelete }) => {
+const Card: React.FC<CardProps> = ({ car,isDisabled, advType, onClickDelete }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -183,12 +184,13 @@ const Card: React.FC<CardProps> = ({ car, advType, onClickDelete }) => {
           <div className={styles.card_buttons}>
             <button
               className={styles.button}
+              style={{display: isDisabled ? "none" : ""}}
               onClick={e => handleButtonClick(e, car.id)}
             >
               {firstButtonContent}
             </button>
             {advType !== 3 && advType !== 4 && (
-              <button className={styles.button} onClick={handleButtonClick}>
+              <button className={styles.button} style={{display: isDisabled ? "none" : ""}} onClick={handleButtonClick}>
                 {secondButtonContent}
               </button>
             )}

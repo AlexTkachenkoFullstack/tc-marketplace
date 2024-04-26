@@ -9,8 +9,10 @@ import {
 import StopListItem from './StopListItem/StopListItem';
 import Card from '../MyAds/Card/Card';
 import styles from './StopList.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 const StopList: React.FC = () => {
+  const navigate = useNavigate();
   const [active, setActive] = useState<string>('Продавці');
   const [isLoading, setIsLoading] = useState(false);
   const [userData, setUserData] = useState<any>();
@@ -73,7 +75,10 @@ const StopList: React.FC = () => {
       setIsLoading(false);
     }
   };
-  const handleRedirect = (id: number) => {};
+
+  const handleRedirect = (id: number) => {
+    navigate(`/user-profile/${id}`);
+  };
   const counterUser = userData && userData.length ? userData.length : 0;
   const counterCar =
     transportData && transportData.length ? transportData.length : 0;
@@ -115,7 +120,7 @@ const StopList: React.FC = () => {
                 title={item.userName}
                 userPhoto={item.userPhoto}
                 onClickDelete={handleUnHideUser}
-                onClickRedirect={handleRedirect}
+                onClickRedirect={() => handleRedirect(item.userId)}
               />
             ))}
         </ul>

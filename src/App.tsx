@@ -25,80 +25,78 @@ import Subscriptions from 'pages/UserPage/Subscriptions';
 import PersonalInfo from 'pages/UserPage/PersonalInfo';
 import Security from 'pages/UserPage/Security';
 import StopList from 'pages/UserPage/StopList/StopList';
+import UserProfile from 'pages/UserProfile/UserProfile';
 export const App: React.FC = () => {
-    const dispatch:Dispatch=useAppDispatch()
-    useEffect(()=>{
-        fetchGoogleUser(dispatch)
-    }, [ dispatch])
-    return (
-      <>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<HomePage />} />
+  const dispatch: Dispatch = useAppDispatch();
+  useEffect(() => {
+    fetchGoogleUser(dispatch);
+  }, [dispatch]);
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="home" my-adverts element={<Navigate to="/" replace />} />
+          <Route path="user/" element={<UserPage />}>
+            <Route path="my-adverts" element={<MyAds />} />
+            <Route path="subscriptions" element={<Subscriptions />} />
+            <Route path="stop-list" element={<StopList />} />
+            <Route path="user-info" element={<PersonalInfo />} />
+            <Route path="security" element={<Security />} />
+          </Route>
+          <Route path="user-profile/:id" element={<UserProfile />} />
+          <Route path="advertisements" element={<NewAnnouncement />} />
+          <Route path="advertisements/edit" element={<NewAnnouncement />} />
+          <Route path="advanced-search" element={<AdvancedSearch />} />
+          <Route path="login/" element={<LoginLayout />}>
             <Route
-              path="home"
-              my-adverts
-              element={<Navigate to="/" replace />}
+              path="sign-up"
+              element={
+                <RestrictedRoute redirectTo="/" component={<SignUpPage />} />
+              }
             />
-            <Route path="user/" element={<UserPage />}>
-              <Route path="my-adverts" element={<MyAds />} />
-              <Route path="subscriptions" element={<Subscriptions />} />
-              <Route path="stop-list" element={<StopList />} />
-              <Route path="user-info" element={<PersonalInfo />} />
-              <Route path="security" element={<Security />} />
-            </Route>
-            <Route path="advertisements" element={<NewAnnouncement />} />
-            <Route path="advertisements/edit" element={<NewAnnouncement />} />
-            <Route path="advanced-search" element={<AdvancedSearch />} />
-            <Route path="login/" element={<LoginLayout />}>
-              <Route
-                path="sign-up"
-                element={
-                  <RestrictedRoute redirectTo="/" component={<SignUpPage />} />
-                }
-              />
-              <Route
-                path="log-in"
-                element={
-                  <RestrictedRoute redirectTo="/" component={<LoginPage />} />
-                }
-              />
-              <Route
-                path="finish-registration"
-                element={
-                  <RestrictedRoute
-                    redirectTo="/"
-                    component={<ConfirmEmailPage />}
-                  />
-                }
-              />
-              <Route
-                path="recover"
-                element={
-                  <RestrictedRoute
-                    redirectTo="/"
-                    component={<RecoverPasswordPage />}
-                  />
-                }
-              />
-              <Route
-                path="recover/new"
-                element={
-                  <RestrictedRoute
-                    redirectTo="/"
-                    component={<NewPasswordPage />}
-                  />
-                }
-              />
-            </Route>
-            <Route path="favorites" element={<FavoritesPage />} />
-            <Route path="catalog/:id/" element={<ItemPage />} />
             <Route
-              path="catalog/:id/gallery"
-              element={<TransportGalleryPage />}
+              path="log-in"
+              element={
+                <RestrictedRoute redirectTo="/" component={<LoginPage />} />
+              }
+            />
+            <Route
+              path="finish-registration"
+              element={
+                <RestrictedRoute
+                  redirectTo="/"
+                  component={<ConfirmEmailPage />}
+                />
+              }
+            />
+            <Route
+              path="recover"
+              element={
+                <RestrictedRoute
+                  redirectTo="/"
+                  component={<RecoverPasswordPage />}
+                />
+              }
+            />
+            <Route
+              path="recover/new"
+              element={
+                <RestrictedRoute
+                  redirectTo="/"
+                  component={<NewPasswordPage />}
+                />
+              }
             />
           </Route>
-        </Routes>
-      </>
-    );
+          <Route path="favorites" element={<FavoritesPage />} />
+          <Route path="catalog/:id/" element={<ItemPage />} />
+          <Route
+            path="catalog/:id/gallery"
+            element={<TransportGalleryPage />}
+          />
+        </Route>
+      </Routes>
+    </>
+  );
 };

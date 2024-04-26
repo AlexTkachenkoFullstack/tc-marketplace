@@ -220,3 +220,21 @@ export const putUnHideTransport = async (id: number) => {
     console.error('Помилка в отриманні даних!', error);
   }
 };
+export const getUserProfile = async (id:number) => {
+  setAuth();
+  try {
+    const response = await instance.get(`user-page/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Помилка в отриманні даних!', error);
+  }
+};
+// export const getSubscriptions = async (id:number) => {
+//   setAuth();
+//   try {
+//     const response = await instance.get(`subscripitions/${id}`);
+//     return response.data;
+//   } catch (error) {
+//     console.error('Помилка в отриманні даних!', error);
+//   }
+// };
