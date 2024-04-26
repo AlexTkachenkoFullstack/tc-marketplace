@@ -71,7 +71,7 @@
   }
 
   &__add_button {
-  display: flex;
+  // display: flex;
   align-items: center;
   height: 40px;
   color: $color-grey;
@@ -79,9 +79,10 @@
   border: 1px solid $color-grey;
   border-radius: 100px;
   cursor: pointer;
+  display: none;
 
-  @media (max-width: 880px) {
-    display: none;
+  @include onTablet{
+    display: flex;
   }
 
   &_text {

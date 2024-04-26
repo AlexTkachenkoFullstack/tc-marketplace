@@ -67,7 +67,6 @@
     div:first-child button {
       border-top-right-radius: 0px;
       border-bottom-right-radius: 0px;
-
     }
 
     div:nth-child(2) button {
@@ -81,7 +80,7 @@
 
     &::before {
       position: absolute;
-      content: "";
+      content: '';
       width: 2px;
       height: 20px;
       z-index: 3;
@@ -93,7 +92,7 @@
 
     &::after {
       position: absolute;
-      content: "";
+      content: '';
       width: 2px;
       height: 20px;
       z-index: 3;
@@ -103,9 +102,7 @@
       background: url('../../assets/icons/line.svg') no-repeat;
     }
   }
-
 }
-
 
 .centered_container {
   @media (min-width: $mobile-min-width) {
@@ -117,7 +114,7 @@
     transform: translate(-50%, -50%);
   }
 
-  @media (min-width:$desktop-min-width) {
+  @media (min-width: $desktop-min-width) {
     max-width: 850px;
     position: absolute;
     top: 50%;
@@ -139,7 +136,11 @@
 .search {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  // justify-content: space-between;
+  gap: 12px;
+  @include onTablet{
+    justify-content: space-between;
+  }
 
   &_button {
     display: flex;
@@ -158,6 +159,14 @@
     font-weight: 600;
 
     &_text {
+      color: #feffff;
+      text-align: center;
+      font-family: Roboto;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 24px; /* 150% */
+      letter-spacing: 0.15px;
       margin-right: 8px;
     }
   }
@@ -170,22 +179,66 @@
 
   &_more {
     color: $background-color-white;
-    background-color: $color-grey;
-    border-radius: 100px;
-    white-space: nowrap;
-    height: 30px;
-    line-height: 26px;
+    // background-color: inherit;
+    // border-radius: 100px;
+    // white-space: nowrap;
+    // height: 30px;
+    // line-height: 26px;
 
+    // font-family: Roboto;
+    // font-size: 12px;
+    // font-style: normal;
+    // font-weight: 500;
+    width: 139px;
+    padding: 10px 12px;
+    text-align: center;
+    height: var(--Spacing-32-spacing, 40px);
+    /* Label Medium */
     font-family: Roboto;
-    font-size: 12px;
+    font-size: 11px;
     font-style: normal;
-    font-weight: 500;
+    font-weight: 400;
+    line-height: 16px; /* 145.455% */
+    letter-spacing: 0.5px;
 
-    @media (min-width: $desktop-min-width) {
+    @media (min-width: $desktop-min-width) {    
       margin-top: 12px;
     }
   }
+  &_more:hover {
+    width: 139px;
+    color: black;
+    padding: 10px 12px;
+    display: inline-flex;
+    height: var(--Spacing-32-spacing, 40px);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--Spacing-8-spacing, 8px);
+    flex-shrink: 0;
+    border-radius: var(--Spacing-24-spacing, 24px);
+    border: 1px solid var(--Black, #434343);
+    background: var(--light-gray, #e4e4e4);
+    /* 2 */
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
+  }
+  &_more:active {
+    border-radius: var(--Spacing-24-spacing, 24px);
+    border: 1px solid var(--White, #feffff);
+    background: var(--Dark-Gray, #606060);
 
+    /* 2 */
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
+    color: var(--White, #feffff);
+    text-align: center;
+    /* Label Medium */
+    font-family: Roboto;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px; /* 145.455% */
+    letter-spacing: 0.5px;
+  }
   @media (min-width: $desktop-min-width) {
     flex-direction: column;
   }

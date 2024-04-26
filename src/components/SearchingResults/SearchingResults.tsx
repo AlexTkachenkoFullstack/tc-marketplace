@@ -215,7 +215,7 @@ const SearchingResults: React.FC<IProps> = ({
 
   return (
     <>
-      <SearchingResultsMenu onAdvancedFilter={handleAdvancedFilter} />
+      <SearchingResultsMenu onAdvancedFilter={handleAdvancedFilter}   isOpenAdvancedFilter={isOpenAdvancedFilter}/>
 
       {isOpenAdvancedFilter && (
         <AdvancedSearchFilter
