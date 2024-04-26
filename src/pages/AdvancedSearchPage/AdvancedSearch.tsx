@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styles from './AdvancedSearch.module.scss';
 import SearchingResults from 'components/SearchingResults/SearchingResults';
+import { useAppDispatch } from 'redux/hooks';
+import { cleanFiltredStore } from 'redux/filter/slice';
 // import { AdvancedSearchFilter } from 'components/AdvancedSearchFilter/AdvancedSearchFilter';
 
 // import { SearchTop } from '../../components/SearchTop/SearchTop';
@@ -11,6 +13,7 @@ import SearchingResults from 'components/SearchingResults/SearchingResults';
 export const AdvancedSearch: React.FC = () => {
   const location = useLocation();
   const [isOpenAdvancedFilter, setIsOpenAdvancedFilter] = useState(false);
+  const dispatch = useAppDispatch();
 
   const handleAdvancedFilter = () => {
     setIsOpenAdvancedFilter(prev => !prev);
@@ -22,6 +25,12 @@ export const AdvancedSearch: React.FC = () => {
       searchParams.get('isOpenAdvancedFilter') === 'true',
     );
   }, [location.search]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(cleanFiltredStore({ field: 'all' }));
+    };
+  }, [dispatch]);
 
   return (
     <section className={styles.AdvSearch}>

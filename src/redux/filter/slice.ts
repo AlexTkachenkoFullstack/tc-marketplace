@@ -194,18 +194,20 @@ export const filterSlice = createSlice({
     // },
     cleanFiltredStore(state, action: PayloadAction<{ field: string }>) {
       const { field } = action.payload;
-        switch (field) {
-          case 'carsList':
-            return { ...state, carsList: [] };
-          case 'cities':
-            return { ...state, cities: [] };
-          case 'filtredCars':
-            return { ...state, filtredCars: [] };
-            case 'models':
-            return { ...state, models: [] };
-          default:
-            return state;        
-      }  
+      switch (field) {
+        case 'carsList':
+          return { ...state, carsList: [] };
+        case 'cities':
+          return { ...state, cities: [] };
+        case 'filtredCars':
+          return { ...state, filtredCars: [] };
+        case 'models':
+          return { ...state, models: [] };
+        case 'all':
+          return state = initialState ;
+        default:
+          return state;
+      }
     },
     updateFilteredStoreAfterHide(state, { payload }) {
       state.filtredCars = payload;
