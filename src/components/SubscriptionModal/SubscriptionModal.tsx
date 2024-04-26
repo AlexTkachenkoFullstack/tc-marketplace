@@ -71,7 +71,7 @@ interface Iprops {
     price: { from: number; to: number };
     engineDisplacement: { from: number; to: number };
     data: any;
-    selectedOption: boolean;
+    selectedOption: boolean | undefined;
     selectedName?: string;
     editSubscrId?: number;
     notificationStatus?: boolean;
@@ -123,7 +123,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
     '',
   );
   const [price, setPrice] = useState({ from: 0, to: 0 });
-  const [bargain, setBargain] = useState<boolean>(false);
+  const [bargain, setBargain] = useState<boolean | undefined>(undefined);
   const [isNotificationEnabled, setIsNotificationEnabled] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -291,7 +291,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
       dispatch(fetchBrands(transportTypeId));
       dispatch(fetchRegions());
       (async () => {
-        const data = await getCarTypeParam(transportTypeId.toString());
+        const data = await getCarTypeParam(transportTypeId);
         setData(data);
       })();
     }

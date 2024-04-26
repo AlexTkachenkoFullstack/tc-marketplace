@@ -91,10 +91,7 @@
   background-color: #e4e4e4;
   color: #434343;
 }
-.selected {
-  background-color: #434343;
-  color: #feffff;
-}
+
 /*Технічний стан */
 .listTechCondition {
   display: flex;
@@ -271,6 +268,10 @@
 }
 /* Для экранов шириной 768px */
 @media screen and (min-width: 768px) {
+  .selected {
+    background-color: #797979;
+    color: #feffff;
+  }
   .AdvSearchFilter {
     &_container {
       width: 768px;
@@ -535,10 +536,10 @@
     background-color: #e4e4e4;
     color: #434343;
   }
-  .selected {
-    background-color: #434343;
-    color: #feffff;
-  }
+  // .selected {
+  //   background-color: #434343;
+  //   color: #feffff;
+  // }
   /*Технічний стан */
   .listTechCondition {
     display: flex;

@@ -110,7 +110,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const [carWheelConfiguration, setCarWheelConfiguration] = useState<
     string | string[]
   >('');
-  const [selectedOption, setSelectedOption] = useState<boolean>(false); // Yes or No
+  const [selectedOption, setSelectedOption] = useState<boolean | undefined>(undefined); // Yes or No
   const [transportTypeId, setTransportTypeId] = useState<number | null>(null);
   // select state for dropdown
   const [carMark, setCarMark] = useState<string | string[]>('Бренд');
@@ -237,7 +237,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     }
     async function getCarTypeParams() {
       if (transportTypeId !== null) {
-        const data = await getCarTypeParam(transportTypeId.toString());
+        const data = await getCarTypeParam(transportTypeId);
         setData(data);
       }
     }
@@ -253,7 +253,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     // setCarMark('Бренд');
     // setCarModel('Модель');
     // setBrandId([]);
-    handlerResetFilter()
+    handlerResetFilter();
     setSelectedCategory(category);
     setTimeout(() => {
       const newResetValueFalse = Array(N).fill(false);
@@ -458,7 +458,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     );
     handlerResetFilter();
     onAdvencedFilter();
-    cleanSubscrCarList()
+    cleanSubscrCarList();
   };
   return (
     <div className={styles.AdvSearchFilter}>
@@ -620,30 +620,32 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
             <div className={styles.title}>
               <h2>Бренд</h2>
               <div
-                  className={`${styles.mobileButton} ${
-                    isOpen.block19 ? styles.active : ''
-                  }`}
-                  onClick={() => handleMobileBtnIsOpen('block19')}
-                />
+                className={`${styles.mobileButton} ${
+                  isOpen.block19 ? styles.active : ''
+                }`}
+                onClick={() => handleMobileBtnIsOpen('block19')}
+              />
             </div>
-            {isOpen.block19 &&  <div className={styles.listItemBrand}>
-              <div className={styles.dropdownContainer}>
-                <Dropdown
-                  resetValue={resetValue[2]}
-                  updateStyle="advSearch"
-                  options={[...brands.map(brand => brand.brand)].sort((a, b) =>
-                    a.localeCompare(b),
-                  )}
-                  label="Бренд"
-                  startValue="Бренд"
-                  option={carMark}
-                  selectedOptions={carMark}
-                  setOption={setCarMark}
-                  allOptionsLabel="Всі марки"
-                  checkboxAllowed
-                />
+            {isOpen.block19 && (
+              <div className={styles.listItemBrand}>
+                <div className={styles.dropdownContainer}>
+                  <Dropdown
+                    resetValue={resetValue[2]}
+                    updateStyle="advSearch"
+                    options={[...brands.map(brand => brand.brand)].sort(
+                      (a, b) => a.localeCompare(b),
+                    )}
+                    label="Бренд"
+                    startValue="Бренд"
+                    option={carMark}
+                    selectedOptions={carMark}
+                    setOption={setCarMark}
+                    allOptionsLabel="Всі марки"
+                    checkboxAllowed
+                  />
+                </div>
               </div>
-            </div>}
+            )}
           </div>
 
           {carsList && carsList.length > 0 && (
@@ -657,25 +659,27 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
                   onClick={() => handleMobileBtnIsOpen('block20')}
                 />
               </div>
-              {isOpen.block20 &&   <div className={styles.listItemBrand}>
-                <div className={styles.dropdownContainer}>
-                  <Dropdown
-                    resetValue={resetValue[3]}
-                    updateStyle="advSearch"
-                    optionList={carMark !== 'Всі марки' ? carsList : []}
-                    label="Модель"
-                    startValue="Модель"
-                    allOptionsLabel="Всі моделі"
-                    checkboxAllowed
-                    option={carModel}
-                    selectedOptions={carModel}
-                    title={carMark}
-                    setOption={setCarModel}
-                    carMark={carMark}
-                    pickedBrands={pickedBrands}
-                  />
+              {isOpen.block20 && (
+                <div className={styles.listItemBrand}>
+                  <div className={styles.dropdownContainer}>
+                    <Dropdown
+                      resetValue={resetValue[3]}
+                      updateStyle="advSearch"
+                      optionList={carMark !== 'Всі марки' ? carsList : []}
+                      label="Модель"
+                      startValue="Модель"
+                      allOptionsLabel="Всі моделі"
+                      checkboxAllowed
+                      option={carModel}
+                      selectedOptions={carModel}
+                      title={carMark}
+                      setOption={setCarModel}
+                      carMark={carMark}
+                      pickedBrands={pickedBrands}
+                    />
+                  </div>
                 </div>
-              </div>}
+              )}
             </div>
           )}
           {/*Рік виготовлення инпут слайдер inputText, inputRange   Доработать по стилям! */}
