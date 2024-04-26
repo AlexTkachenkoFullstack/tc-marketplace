@@ -111,7 +111,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     string | string[]
   >('');
   const [selectedOption, setSelectedOption] = useState<boolean | undefined>(undefined); // Yes or No
-  const [transportTypeId, setTransportTypeId] = useState<number | null>(null);
+  const [transportTypeId, setTransportTypeId] = useState<number | null>(null);  
   // select state for dropdown
   const [carMark, setCarMark] = useState<string | string[]>('Бренд');
   const [brandId, setBrandId] = useState<number[] | []>([]);

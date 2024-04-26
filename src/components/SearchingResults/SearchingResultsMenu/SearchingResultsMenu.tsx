@@ -10,9 +10,13 @@ import { Dropdown } from 'components/Dropdown/Dropdown';
 
 interface Iprops {
   onAdvancedFilter: () => void;
+  isOpenAdvancedFilter: boolean;
 }
 
-const SearchingResultsMenu: React.FC<Iprops> = ({ onAdvancedFilter }) => {
+const SearchingResultsMenu: React.FC<Iprops> = ({
+  onAdvancedFilter,
+  isOpenAdvancedFilter,
+}) => {
   const [typeOfSort, setTypeOfSort] = useState<string | string[]>('');
   const [orderBy, setOrderBy] = useState<'CREATED' | 'PRICE' | 'MILEAGE'>(
     'CREATED',
@@ -88,8 +92,12 @@ const SearchingResultsMenu: React.FC<Iprops> = ({ onAdvancedFilter }) => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Результати пошуку: "{filterType}"</h1>
-      <div className={styles.menu}>
+      <h1 className={styles.title}>
+        {isOpenAdvancedFilter
+          ? 'Розширений пошук'
+          : `Результати пошуку: ${filterType}`}
+      </h1>
+      <div className={styles.menu} style={{justifyContent:isOpenAdvancedFilter? "unset":''}}>
         <button
           type="button"
           onClick={handleAdvancedFilter}

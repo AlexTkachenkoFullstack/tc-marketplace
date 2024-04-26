@@ -5,10 +5,10 @@
   margin-top: 66px;
   margin-left: auto;
   margin-right: auto;
-  background-color: #ffffff;  
+  background-color: #ffffff;
   @include onTablet {
     padding: 40px;
-    margin: 66px auto 0px;   
+    margin: 66px auto 0px;
     width: 768px;
   }
   @include onDesktop {
@@ -29,7 +29,7 @@
   width: 20px;
   height: 20px;
   justify-content: center;
-  align-items: center; 
+  align-items: center;
   border-radius: 32px;
   @include onTablet {
     width: 24px;
@@ -39,15 +39,15 @@
 }
 .btn_back:hover {
   @include onTablet {
-  display: flex; 
-  justify-content: center; 
-  border-radius: 32px;
+    display: flex;
+    justify-content: center;
+    border-radius: 32px;
   }
-  background: #f0f0f0; 
-  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06), 0px 0px 0px 4px #f0f0f0;  
+  background: #f0f0f0;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06), 0px 0px 0px 4px #f0f0f0;
 }
 .title {
-  color: #434343; 
+  color: #434343;
   font-family: Roboto;
   font-size: 22px;
   font-style: normal;
@@ -59,8 +59,8 @@
   }
 }
 .user_info_container {
-  width: 320px;
-  height: 152px;
+  // width: 320px;
+  // height: 152px;
   padding: 24px;
   border-radius: 32px;
   display: flex;
@@ -81,13 +81,18 @@
   align-items: center;
 }
 .user_title {
-  color: var(--Black, #434343); 
+  color: #434343;
   font-family: Roboto;
   font-size: 22px;
   font-style: normal;
   font-weight: 700;
   line-height: 120%;
-  margin-bottom: 12px;
+  margin-bottom: 4px;
+  @include onTablet {
+    margin-bottom: 12px;
+    font-size: 32px;
+  }
+
 }
 .img_container {
   box-sizing: border-box;
@@ -134,7 +139,7 @@
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
-  line-height: 100%; 
+  line-height: 100%;
 }
 .category_container {
   display: flex;
@@ -161,7 +166,7 @@
   color: $color-dark-grey;
   @extend %tab-styles;
 }
-.count {  
+.count {
   border-radius: 5px;
   padding: 0px 6px;
   background: $background-color-white;
