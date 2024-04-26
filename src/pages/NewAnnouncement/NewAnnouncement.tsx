@@ -404,7 +404,7 @@ export const NewAnnouncement: React.FC = () => {
     }
     async function getCarTypeParams() {
       if (transportTypeId !== null) {
-        const data = await getCarTypeParam(transportTypeId.toString());
+        const data = await getCarTypeParam(transportTypeId);
         setData(data);
       }
     }

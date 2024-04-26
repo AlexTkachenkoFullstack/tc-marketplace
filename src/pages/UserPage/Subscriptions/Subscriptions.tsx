@@ -51,7 +51,7 @@ const Subscriptions: React.FC = () => {
 
   useEffect(() => {
     async function getCarTypeParams() {
-      const data = await getCarTypeParam('1');
+      const data = await getCarTypeParam(1);
       setData(data);
     }
     getCarTypeParams();

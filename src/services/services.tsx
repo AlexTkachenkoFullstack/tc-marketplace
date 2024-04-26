@@ -51,7 +51,7 @@ export const getCarTypes = async () => {
   return response.data;
 };
 
-export const getCarTypeParam = async (id: string) => {
+export const getCarTypeParam = async (id: number) => {
   setAuth();
   try {
     const response = await instance.get(
