@@ -361,7 +361,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     setCarDriveType('');
     setCarNumberAxles('');
     setCarWheelConfiguration('');
-    setSelectedOption(false);
+    setSelectedOption(undefined);
     setCarMark('Бренд');
     setCarModel('Модель');
     setSelectedCity('Місто');
@@ -422,7 +422,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     const numberOfSeatsFrom = numberOfSeats.from;
     const numberOfSeatsTo = numberOfSeats.to;
     const bargain = selectedOption;
-
+console.log('bargain', bargain)
     dispatch(
       changeFiltredParams({
         transportTypeId,

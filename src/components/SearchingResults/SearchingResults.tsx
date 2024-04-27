@@ -69,10 +69,36 @@ const SearchingResults: React.FC<IProps> = ({
   const filteredFetchParams = useMemo(
     () =>
       Object.fromEntries(
-        Object.entries(searchParams).filter(([_, value]) => {
+        Object.entries(searchParams).filter(([key, value]) => {
           if (Array.isArray(value)) {
             return value.length > 0;
           } else {
+            console.log('string');
+            if (key.includes('price') && (value === 100 || value === 1000000)) {
+              console.log(key.includes('price'));
+              return false;
+            } else if (
+              key.includes('year') &&
+              (value === 1970 || value === 2024)
+            ) {
+              return false;
+            } else if (key.includes('mileage') && value === 1000000) {
+              return false;
+            } else if (key.includes('engineDisplacement') && value === 20) {
+              return false;
+            } else if (key.includes('enginePower') && value === 1000) {
+              return false;
+            } else if (
+              key.includes('numberOfDoors') &&
+              (value === 2 || value === 5)
+            ) {
+              return false;
+            } else if (
+              key.includes('numberOfSeats') &&
+              (value === 2 || value === 18)
+            ) {
+              return false;
+            }
             return value !== undefined && value !== 0;
           }
         }),
@@ -215,7 +241,10 @@ const SearchingResults: React.FC<IProps> = ({
 
   return (
     <>
-      <SearchingResultsMenu onAdvancedFilter={handleAdvancedFilter}   isOpenAdvancedFilter={isOpenAdvancedFilter}/>
+      <SearchingResultsMenu
+        onAdvancedFilter={handleAdvancedFilter}
+        isOpenAdvancedFilter={isOpenAdvancedFilter}
+      />
 
       {isOpenAdvancedFilter && (
         <AdvancedSearchFilter
