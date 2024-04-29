@@ -6,9 +6,7 @@ export const paramsOptimization = (searchParams: ISearchParams) => {
       if (Array.isArray(value)) {
         return value.length > 0;
       } else {
-        console.log('string');
         if (key.includes('price') && (value === 100 || value === 1000000)) {
-          console.log(key.includes('price'));
           return false;
         } else if (key.includes('year') && (value === 1970 || value === 2024)) {
           return false;

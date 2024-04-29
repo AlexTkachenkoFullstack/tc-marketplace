@@ -41,6 +41,14 @@
       line-height: 20px;
       letter-spacing: 0.1px;
       color: $button-active;
+      border: 1px solid transparent;
+    }
+    & button:hover {
+      border-radius: 24px;
+      border: var(--Adding-new, 1px) solid var(--Black, #434343);
+      background: var(--light-gray, #e4e4e4);
+      box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
+
     }
   }
 

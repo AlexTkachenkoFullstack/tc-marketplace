@@ -1,7 +1,8 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styles from './RecoverPassword.module.scss';
 import axios from 'axios';
 import { ShowToast } from 'components/Notification/ShowToast';
+import { useLocation } from 'react-router-dom';
 
 export const RecoverPasswordPage: FC = () => {
   const [userEmail, setUserEmail] = useState('');
@@ -12,20 +13,28 @@ export const RecoverPasswordPage: FC = () => {
   const [countdown, setCountdown] = useState(60);
   const [inputFocused, setInputFocused] = useState(false);
   const [emailHasValue, setEmailHasValue] = useState(false);
-  const [activeField, setActiveField] = useState<Email | null>(null);
-  console.log(activeField);
-  type Email = string;
+  // const [activeField, setActiveField] = useState<Email | null>(null);
+
+  const location = useLocation();
+
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  // type Email = string;
+
+  useEffect(() => {
+    location.state && setUserEmail(location.state);
+  }, [location.state]);
 
   let timer: NodeJS.Timeout | undefined;
 
   const handleInputFocus = () => {
     setInputFocused(true);
-    setActiveField('email');
+    // setActiveField('email');
   };
 
   const handleInputBlur = () => {
     setInputFocused(false);
-    setActiveField(null);
+    // setActiveField(null);
   };
 
   const handleFieldChange = (value: string) => {
@@ -37,6 +46,8 @@ export const RecoverPasswordPage: FC = () => {
   const handleResend = () => {
     if (userEmail.length === 0) return;
     handleRecover();
+    if (!emailRegex.test(userEmail)) return;
+
     if (timer) {
       clearTimeout(timer);
     }
@@ -45,7 +56,7 @@ export const RecoverPasswordPage: FC = () => {
     setCountdown(60);
 
     timer = setInterval(() => {
-      setCountdown((prevCountdown) => {
+      setCountdown(prevCountdown => {
         if (prevCountdown > 0) {
           return prevCountdown - 1;
         }
@@ -71,7 +82,6 @@ export const RecoverPasswordPage: FC = () => {
   };
 
   const handleRecover = async () => {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(userEmail)) {
       setEmailError('E-mail має містити @ і бути валідною адресою!');
       return;
@@ -103,11 +113,10 @@ export const RecoverPasswordPage: FC = () => {
           <label
             htmlFor="email"
             className={
-                emailError && !inputFocused
+              emailError && !inputFocused
                 ? `${styles.Login_label_red}`
                 : `${styles.Login_label}`
             }
-
           >
             E-mail
           </label>
@@ -116,12 +125,12 @@ export const RecoverPasswordPage: FC = () => {
           type="email"
           placeholder="E-mail"
           className={
-             emailError && !inputFocused
+            emailError && !inputFocused
               ? `${styles.Login_field} ${styles.Login_field_warning} ${styles.Login_field_error}`
               : `${styles.Login_field}`
           }
           value={userEmail}
-          onChange={(e) => handleFieldChange(e.target.value)}
+          onChange={e => handleFieldChange(e.target.value)}
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
           required
