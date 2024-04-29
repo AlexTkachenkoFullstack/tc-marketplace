@@ -9,5 +9,5 @@ export const getSelectedCars = (state: RootState) => state.filter.select;
 export const getFiltredCars = (state: RootState) => state.filter.filtredCars;
 // export const getFiltredCarsAdvancedSearch = (state: RootState) => state.filter.filtredCarsAdvancedSearch;
 export const getTotalAdverts = (state: RootState) => state.filter.totalAdverts;
-export const getIsloadingFiltredCars = (state: RootState) =>
+export const getIsloadingFilterInfo = (state: RootState) =>
   state.filter.isLoading;

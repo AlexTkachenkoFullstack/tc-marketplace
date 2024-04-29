@@ -1,5 +1,12 @@
 import { useSelector } from "react-redux";
-import { getAdsCount, getMyActiveAds, getMyDeletedAds, getMyInactiveAds, getMyPendingAds, isLoading } from "redux/profile/selectors";
+import {
+  getAdsCount,
+  getMyActiveAds,
+  getMyDeletedAds,
+  getMyInactiveAds,
+  getMyPendingAds,
+  isLoadingProfileInfo,
+} from 'redux/profile/selectors';
 
 export const useProfile = () => {
   const myActiveAds = useSelector(getMyActiveAds);
@@ -7,7 +14,7 @@ export const useProfile = () => {
   const myInactiveAds = useSelector(getMyInactiveAds);
   const myDeletedAds = useSelector(getMyDeletedAds);
   const adsCount = useSelector(getAdsCount);
-  const isAdsLoading = useSelector(isLoading);
+  const isAdsLoading = useSelector(isLoadingProfileInfo);
 
   return {
     myActiveAds,

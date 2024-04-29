@@ -8,7 +8,7 @@ import {
   getFilterModels,
   getFilterRegions,
   getFilterTypes,
-  getIsloadingFiltredCars,
+  getIsloadingFilterInfo,
 } from 'redux/filter/selectors';
 import { IType } from 'types/IType';
 import { Dropdown } from 'components/Dropdown/Dropdown';
@@ -94,7 +94,7 @@ export const NewAnnouncement: React.FC = () => {
   const [prevTypeCategory, setPrevTypeCategory] = useState<string | string[]>(
     '',
   );
-  const isLoading = useSelector(getIsloadingFiltredCars);
+  const isLoading = useSelector(getIsloadingFilterInfo);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [responseData, setResponseData] = useState<ResponseData | null>(null);
