@@ -70,24 +70,8 @@ export const App: React.FC = () => {
                 />
               }
             />
-            <Route
-              path="recover"
-              element={
-                <RestrictedRoute
-                  redirectTo="/"
-                  component={<RecoverPasswordPage />}
-                />
-              }
-            />
-            <Route
-              path="recover/new"
-              element={
-                <RestrictedRoute
-                  redirectTo="/"
-                  component={<NewPasswordPage />}
-                />
-              }
-            />
+            <Route path="recover" element={<RecoverPasswordPage />} />
+            <Route path="recover/new" element={<NewPasswordPage />} />
           </Route>
           <Route path="favorites" element={<FavoritesPage />} />
           <Route path="catalog/:id/" element={<ItemPage />} />
