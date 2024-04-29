@@ -26,7 +26,7 @@ interface IProfileState {
   myDeletedAds: ICar[] | [];
   mySubscriptions: ISubscription[] | [];
   carListBySubscription:
-    { unseenTransportList: ICar[]; viewedTransportList: ICar[] }
+    | { unseenTransportList: ICar[]; viewedTransportList: ICar[] }
     | { unseenTransportList: []; viewedTransportList: [] };
   count: ICount[] | [];
   error: unknown;
@@ -39,7 +39,7 @@ const initialState: IProfileState = {
   myInactiveAds: [],
   myDeletedAds: [],
   mySubscriptions: [],
-  carListBySubscription: {unseenTransportList: [], viewedTransportList: [] },
+  carListBySubscription: { unseenTransportList: [], viewedTransportList: [] },
   count: [],
   error: null,
   isLoading: false,
@@ -134,7 +134,10 @@ export const profileSlice = createSlice({
       );
     },
     cleanSubscrCarList(state) {
-      state.carListBySubscription = {unseenTransportList: [], viewedTransportList: [] };
+      state.carListBySubscription = {
+        unseenTransportList: [],
+        viewedTransportList: [],
+      };
     },
   },
   extraReducers: builder => {
