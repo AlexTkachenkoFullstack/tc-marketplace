@@ -167,9 +167,9 @@ useEffect(()=>{
         : <div>{error}</div> 
     }
       </div> 
-      <div className={styles.newGoods}>
+      {!isLoading && <div className={styles.newGoods}>
             <CardSlider title={"Нові автомобілі на сайті"} cars={newCars} />
-        </div>  
+        </div> } 
         {isLoading && <Loader/>}
       </div>   
   )

@@ -63,16 +63,9 @@ const SearchingCard: React.FC<IProps> = ({
     const buttonId = (e.target as HTMLElement).closest('button')?.id;
     if (buttonId === 'hideAdvert') {
       car && dispatch(hideTransport(car.id)).then(() => onUpdateAfterHide());
-      // car && setTimeout(() => {
-      //   onUpdateAfterHide();
-      // }, 200); 
     } else if (buttonId === 'hideAllAdverts') {
       car &&
         dispatch(hideAllTransport(car.id)).then(() => updateAfterAllHide());
-      // car &&
-      //   setTimeout(() => {
-      //     updateAfterAllHide();
-      //   }, 300);
     }
     onInfoContainerClick();
   };
