@@ -112,14 +112,15 @@ const SearchingResults: React.FC<IProps> = ({
     setFetchParam({ ...memoParam, page: 0 });
   }, [memoParam]);
 
+  const id = location.state ? location.state.id : 0;
   useEffect(() => {
     if (isComponentMounted) {
-      !location.state.id && dispatch(fetchFiltredCars(fetchParam));
-      location.state.id && dispatch(fetchCarsBySubscription(location.state.id));
+      !id && dispatch(fetchFiltredCars(fetchParam));
+      id && dispatch(fetchCarsBySubscription(id));
     } else {
       setIsComponentMounted(true);
     }
-  }, [dispatch, fetchParam, isComponentMounted, location.state.id]);
+  }, [dispatch, fetchParam, isComponentMounted, id]);
 
   useEffect(() => {
     if (!isShowMore) {
@@ -190,7 +191,7 @@ const SearchingResults: React.FC<IProps> = ({
     useSelector(getSubscrCarList);
   const subsrcCarsArr = [...unseenTransportList, ...viewedTransportList];
 
-  const arrForRender = location.state.id ? subsrcCarsArr : filteredCarsArr;
+  const arrForRender = id ? subsrcCarsArr : filteredCarsArr;
 
   return (
     <>
@@ -200,11 +201,7 @@ const SearchingResults: React.FC<IProps> = ({
       />
 
       {isOpenAdvancedFilter && (
-        <AdvancedSearchFilter
-          onAdvencedFilter={handleAdvancedFilter}
-
-          // toggleModalIsOpen={toggleModalIsOpen}
-        />
+        <AdvancedSearchFilter onAdvencedFilter={handleAdvancedFilter} />
       )}
       <div className={styles.container}>
         {(isLoadingFilteredCars || isLoadingSubscrCars) && !isShowMore ? (
