@@ -1,9 +1,9 @@
 /* eslint-disable */
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Logo } from '../Logo';
 import styles from './Header.module.scss';
-import menu from '../../assets/icons/menu.svg';
+// import menu from '../../assets/icons/menu.svg';
 import plus from '../../assets/icons/add.svg';
 import favorite from '../../assets/icons/favorite.svg';
 import point from '../../assets/icons/point.svg';
@@ -11,7 +11,8 @@ import account from '../../assets/icons/account_circle.svg';
 import { isAuthUser } from 'redux/auth/selectors';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { logoutThunk } from 'redux/auth/operations';
-import { fetchNewCars, fetchPopularCars } from 'redux/cars/operations';
+import { ReactComponent as Add } from '../../assets/icons/addCircle.svg';
+// import { fetchNewCars, fetchPopularCars } from 'redux/cars/operations';
 
 export const links = [
   {
@@ -26,38 +27,55 @@ export const links = [
     title: 'Link3',
     path: '/link3',
   },
-    {
+  {
     title: 'Link4',
     path: '/link4',
   },
 ];
 
 export const Header: FC = () => {
-  const auth: boolean = useAppSelector(isAuthUser)
+  const auth: boolean = useAppSelector(isAuthUser);
   const dispatchLogout = useAppDispatch();
   const navigate = useNavigate();
   const isAdvertisementsEdit = location.pathname === '/advertisements/edit';
   const isAdvertisements = location.pathname === '/advertisements';
-  // const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // const [activeLink, setActiveLink] = useState('');
+  const isAdvencedSearch = location.pathname === '/advanced-search';
+  const isFavoritesPage =location.pathname === '/favorites'
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
-  // const toggleMenu = () => {
-  //   setIsMenuOpen(!isMenuOpen);
-  // };
-  const handleNewAnnouncementClick=()=>{
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const isMobile = screenWidth < 768;
+
+  const handleFavoritesClick = () => {
+    navigate('/favorites');
+  };
+  const handleNewAnnouncementClick = () => {
     navigate('/advertisements');
-  }
-  const handleLogout = async() => {
-    dispatchLogout(logoutThunk())
+  };
+  const handleLogout = async () => {
+    dispatchLogout(logoutThunk());
     navigate('/');
-  }
+  };
 
   return (
-    <header className={styles.header}>
+    <header className={styles.header}
+    style={{backgroundColor:isFavoritesPage || isAdvencedSearch ? '#E4E4E4':''}}
+    >
       <div className={styles.header__left}>
-        <button className={styles.header__burger}>
+        {/* <button className={styles.header__burger}>
           <img src={menu} alt="Меню" />
-        </button>
+        </button> */}
         <Logo className={styles.header__logo} />
       </div>
 
@@ -69,16 +87,25 @@ export const Header: FC = () => {
           }}
           onClick={handleNewAnnouncementClick}
         >
-          <span className={styles.header__add_button_text}>
-            Додати оголошення
-          </span>
-          <img
-            className={styles.header__add_button_icon}
-            src={plus}
-            alt="Додати"
-          />
+          {isMobile ? (
+            <Add  className={styles.svgIcon} />
+          ) : (
+            <>            
+              <span className={styles.header__add_button_text}>
+                Додати оголошення
+              </span>
+              <img
+                className={styles.header__add_button_icon}
+                src={plus}
+                alt="Додати"
+              />
+            </>
+          )}
         </button>
-        <button className={styles.header__favorite_button}>
+        <button
+          className={styles.header__favorite_button}
+          onClick={handleFavoritesClick}
+        >
           <img src={favorite} alt="Улюблене" />
           <img src={point} className={styles.header__favorite_button_point} />
         </button>

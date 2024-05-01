@@ -181,16 +181,17 @@ export const Dropdown: FC<Props> = props => {
   return (
     <div
       className={`${styles.container} ${
-        updateStyle === 'advSearch' ? styles._advSearch : null
+        updateStyle === 'advSearch' ? styles._advSearch : ''
       }`}
       ref={dropdownRef}
+      style={{ marginBottom: updateStyle === 'favoritPage' ? 0 : '' }}
     >
       {((isActive && filterValue.trim().length === 0) ||
         option !== startValue) && (
         <span
           className={`${styles.label} ${
-            updateStyle === 'menuStyle' ? styles.labelAdvMenu : null
-          }`}
+            updateStyle === 'menuStyle' ? styles.labelAdvMenu : ''
+          } ${updateStyle === 'favoritPage' ? styles.labelAdvMenu : ''}`}
         >
           {label}
         </span>
@@ -199,9 +200,9 @@ export const Dropdown: FC<Props> = props => {
       <button
         className={`${styles.trigger} ${
           isActive ? styles.trigger_active : ''
-        } ${updateStyle === 'menuStyle' ? styles.triggerAdvMenu : null} ${
-          updateStyle === 'advSearch' ? styles.advSearch_trigger : null
-        }`}
+        } ${updateStyle === 'menuStyle' ? styles.triggerAdvMenu : ''} ${
+          updateStyle === 'favoritPage' ? styles.triggerAdvMenu : ''
+        } ${updateStyle === 'advSearch' ? styles.advSearch_trigger : ''}`}
         style={{
           padding: stylepaddingZero ? '0px' : undefined,
           cursor: isDissabled ? 'not-allowed' : 'pointer',
@@ -220,6 +221,10 @@ export const Dropdown: FC<Props> = props => {
               : styles.trigger_content
           } ${isActive ? styles.trigger_content_active : ''} ${
             updateStyle && styles[updateStyle]
+          }  ${
+            updateStyle === 'favoritPage'
+              ? styles.trigger_content_favoritPage
+              : ''
           }`}
         >
           {isActive ? (
@@ -235,6 +240,7 @@ export const Dropdown: FC<Props> = props => {
               className={`${styles.text} ${
                 updateStyle === 'menuStyle' ? styles.textAdvMenu : null
               }`}
+              style={{ maxWidth: updateStyle === 'favoritPage' ? 164 : '' }}
             >
               {Array.isArray(option) ? renderPlaceholder() : option}
             </div>

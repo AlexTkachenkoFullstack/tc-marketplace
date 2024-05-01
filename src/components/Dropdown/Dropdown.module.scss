@@ -154,3 +154,16 @@
     }
   }
 }
+.trigger_content_favoritPage{
+  display: flex;
+  box-sizing: border-box;
+  width: calc(100%);
+  height: calc(100% - 10px);
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 8px 8px 8px;
+  border-radius: 1000px;
+  background-color: none;
+  background-color: $white-color;
+  gap: 8px;
+}

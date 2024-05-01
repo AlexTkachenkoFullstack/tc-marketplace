@@ -67,48 +67,51 @@
 
     @media (max-width: 880px) {
       gap: 8px;
+      display: flex;
+      align-items: center;
     }
   }
 
   &__add_button {
-  // display: flex;
-  align-items: center;
-  height: 40px;
-  color: $color-grey;
-  padding: 0 8px;
-  border: 1px solid $color-grey;
-  border-radius: 100px;
-  cursor: pointer;
-  display: none;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
 
-  @include onTablet{
+    @include onTablet {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      height: 40px;
+      color: $color-grey;
+      padding: 0 8px;
+      border: 1px solid $color-grey;
+      border-radius: 100px;
+    }
+
+    &_text {
+      margin-right: 8px;
+      font-family: Roboto;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 24px;
+    }
+
+    &_icon {
+      font-size: 16px;
+    }
+  }
+
+  &__auth_container {
     display: flex;
+    align-items: center;
   }
 
-  &_text {
-    margin-right: 8px;
-    font-family: Roboto;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 24px;
+  &__login_icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
   }
-
-  &_icon {
-    font-size: 16px;
-  }
-}
-
-&__auth_container{
-  display: flex;
-  align-items: center;
-}
-
-&__login_icon{
-  width:24px;
-  height: 24px;
-  cursor: pointer;
-}
 
   &__favorite_button,
   &__login_button {
@@ -139,4 +142,8 @@
     font-style: normal;
     font-weight: 600;
   }
+}
+.svgIcon {
+  width: 24px;
+  height: 24px;
 }

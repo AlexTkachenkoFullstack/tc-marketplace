@@ -11,6 +11,7 @@ interface IProps {
   totalPages: number;
   forcePage: number;
   handlePageClick: ({ selected }: { selected: number }) => void;
+  updateStyles?:string;
 }
 
 const CatalogPagination: React.FC<IProps> = ({
@@ -19,9 +20,12 @@ const CatalogPagination: React.FC<IProps> = ({
   totalPages,
   handlePageClick,
   forcePage,
+  updateStyles
 }) => {
   return (
-    <div className={styles.container}>
+    <div className={styles.container}
+    style={{rowGap:updateStyles==='isFavoritesPage' ? 20:''}}
+    >
       <button
         type="button"
         className={styles.LoadMoreBtn}

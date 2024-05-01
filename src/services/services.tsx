@@ -229,12 +229,13 @@ export const getUserProfile = async (id:number) => {
     console.error('Помилка в отриманні даних!', error);
   }
 };
-// export const getSubscriptions = async (id:number) => {
-//   setAuth();
-//   try {
-//     const response = await instance.get(`subscripitions/${id}`);
-//     return response.data;
-//   } catch (error) {
-//     console.error('Помилка в отриманні даних!', error);
-//   }
-// };
+export const getFavoritesCars = async () => {
+  setAuth();
+  try {
+    const response = await instance.get('main/favorite-transports');
+    return response.data;
+  } catch (error) {
+    console.error('Помилка в отриманні даних!', error);
+  }
+}; 
+//https://api.pawo.space/api/v1/main/favorite-transports

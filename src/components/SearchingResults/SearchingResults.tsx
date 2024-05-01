@@ -218,7 +218,7 @@ const SearchingResults: React.FC<IProps> = ({
           // toggleModalIsOpen={toggleModalIsOpen}
         />
       )}
-      <div className={styles.container}>
+      <div className={`${isOpenAdvancedFilter ? styles.containerIsOpen :styles.container }`}>
         {isLoading && !isShowMore ? (
           <Loader />
         ) : !isLoading && isComponentMounted && arrForRender.length === 0 ? (

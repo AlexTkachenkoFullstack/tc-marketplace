@@ -9,8 +9,8 @@ import { getSelectedCars } from 'redux/filter/selectors';
 import { Dropdown } from 'components/Dropdown/Dropdown';
 
 interface Iprops {
-  onAdvancedFilter: () => void;
-  isOpenAdvancedFilter: boolean;
+  onAdvancedFilter?: () => void;
+  isOpenAdvancedFilter?: boolean;
 }
 
 const SearchingResultsMenu: React.FC<Iprops> = ({
@@ -22,8 +22,22 @@ const SearchingResultsMenu: React.FC<Iprops> = ({
     'CREATED',
   );
   const [sortBy, setSortBy] = useState<'ASC' | 'DESC'>('ASC');
-
   const dispatch = useAppDispatch();
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const isMobile = screenWidth < 768;
 
   const { transportTypeId } = useAppSelector(getSelectedCars);
   let filterType;
@@ -87,7 +101,7 @@ const SearchingResultsMenu: React.FC<Iprops> = ({
   }, [dispatch, orderBy, sortBy]);
 
   const handleAdvancedFilter = () => {
-    onAdvancedFilter();
+    onAdvancedFilter?.();
   };
 
   return (
@@ -97,7 +111,12 @@ const SearchingResultsMenu: React.FC<Iprops> = ({
           ? 'Розширений пошук'
           : `Результати пошуку: ${filterType}`}
       </h1>
-      <div className={styles.menu} style={{justifyContent:isOpenAdvancedFilter? "unset":''}}>
+      <div
+        className={styles.menu}
+        style={{
+          justifyContent: isOpenAdvancedFilter && isMobile ? 'unset' : '',
+        }}
+      >
         <button
           type="button"
           onClick={handleAdvancedFilter}

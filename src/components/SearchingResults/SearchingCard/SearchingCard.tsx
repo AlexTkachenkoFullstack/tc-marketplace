@@ -31,6 +31,7 @@ interface IProps {
   onUpdateAfterHide: () => void;
   isShowMenu: boolean;
   updateAfterAllHide: () => void;
+  cancelFavorite?: (id: number) => void;
 }
 
 const SearchingCard: React.FC<IProps> = ({
@@ -40,6 +41,7 @@ const SearchingCard: React.FC<IProps> = ({
   onUpdateAfterHide,
   isShowMenu,
   updateAfterAllHide,
+  cancelFavorite,
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -49,8 +51,12 @@ const SearchingCard: React.FC<IProps> = ({
     if (!isAuth) {
       navigate('/login/log-in', { replace: true });
     }
-    if (car?.isFavorite) {
-      car && dispatch(removeFromFavourites(car?.id));
+    if (car && car.isFavorite) {
+      if (typeof cancelFavorite === 'function') {
+      cancelFavorite(car.id);
+      }
+      dispatch(removeFromFavourites(car?.id));
+      
     } else {
       car && dispatch(addToFavourites(car?.id));
     }
@@ -65,7 +71,7 @@ const SearchingCard: React.FC<IProps> = ({
       car && dispatch(hideTransport(car.id)).then(() => onUpdateAfterHide());
       // car && setTimeout(() => {
       //   onUpdateAfterHide();
-      // }, 200); 
+      // }, 200);
     } else if (buttonId === 'hideAllAdverts') {
       car &&
         dispatch(hideAllTransport(car.id)).then(() => updateAfterAllHide());
