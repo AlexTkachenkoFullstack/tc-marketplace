@@ -49,7 +49,9 @@ import { getInitialButtonVisibility } from 'utils/getInitialButtonVisibility';
 import { createPortal } from 'react-dom';
 import SubscriptionModal from 'components/SubscriptionModal';
 import ModelListType from 'types/ModelListType';
-import { cleanSubscrCarList } from 'redux/profile/slice';
+import { useNavigate } from 'react-router-dom';
+
+// import { cleanSubscrCarList } from 'redux/profile/slice';
 
 const portal = document.querySelector('#modal-root') as Element;
 
@@ -58,8 +60,13 @@ interface Props {
 }
 
 const N = 9;
-export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
+export const AdvancedSearchFilter: React.FC<Props> = ({
+  onAdvencedFilter,
+  // clearSubscrId,
+}) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isOpen, setIsOpen] = useState<BlocksVisibilityState>(() => {
     return getWindowWidth() < 767
@@ -110,8 +117,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
   const [carWheelConfiguration, setCarWheelConfiguration] = useState<
     string | string[]
   >('');
-  const [selectedOption, setSelectedOption] = useState<boolean | undefined>(undefined); // Yes or No
-  const [transportTypeId, setTransportTypeId] = useState<number | null>(null);  
+  const [selectedOption, setSelectedOption] = useState<boolean | undefined>(
+    undefined,
+  ); // Yes or No
+  const [transportTypeId, setTransportTypeId] = useState<number | null>(null);
   // select state for dropdown
   const [carMark, setCarMark] = useState<string | string[]>('Бренд');
   const [brandId, setBrandId] = useState<number[] | []>([]);
@@ -422,7 +431,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({ onAdvencedFilter }) => {
     const numberOfSeatsFrom = numberOfSeats.from;
     const numberOfSeatsTo = numberOfSeats.to;
     const bargain = selectedOption;
-console.log('bargain', bargain)
+
     dispatch(
       changeFiltredParams({
         transportTypeId,
@@ -458,7 +467,7 @@ console.log('bargain', bargain)
     );
     handlerResetFilter();
     onAdvencedFilter?.();
-    cleanSubscrCarList();
+    navigate('', { state: { id: 0 } });
   };
   return (
     <div className={styles.AdvSearchFilter}>

@@ -1,4 +1,4 @@
-import React, {  useRef } from 'react';
+import React, { useRef } from 'react';
 import { ISubscription } from 'types/ISubscription';
 import styles from './SubscriptionCard.module.scss';
 import { ReactComponent as BucketIcon } from '../../../../assets/icons/delete.svg';
@@ -8,7 +8,7 @@ import { ReactComponent as UpdateBtnIcon } from '../../../../assets/icons/update
 import { subscriptionContent } from 'utils/descriptionContent';
 import { useAppDispatch } from 'redux/hooks';
 import { deleteSubscription } from 'redux/profile/operations';
-import { deleteSubscrInState } from 'redux/profile/slice';
+import { cleanSubscrCarList, deleteSubscrInState } from 'redux/profile/slice';
 import { useNavigate } from 'react-router-dom';
 
 interface IProps {
@@ -26,7 +26,8 @@ const SubscriptionCard: React.FC<IProps> = ({
   const { name, countNewTransports, parameterResponse, id } = subscription;
 
   const handleShowUpdate = () => {
-    navigate('/advanced-search', {state: {id}});
+    dispatch(cleanSubscrCarList());
+    navigate('/advanced-search', { state: { id } });
   };
 
   const handleDelete = () => {
@@ -63,7 +64,6 @@ const SubscriptionCard: React.FC<IProps> = ({
         </p>
       </div>
     </li>
-
   );
 };
 

@@ -72,7 +72,7 @@ const Security: React.FC = () => {
   };
 
   const handleRecoverPassword = () => {
-    navigate('/login/recover');
+    navigate('/login/recover', { state: userEmail });
   };
 
   const handleShowPassword = (key: string) => {
@@ -92,12 +92,16 @@ const Security: React.FC = () => {
       userEmail = data?.email;
     })();
   }, []);
-  console.log('data', userEmail);
+  
   return (
     <div className={styles.container}>
       <div className={styles.titleThumb}>
         <h3>Зміна паролю</h3>
-        <button type="button" onClick={handleRecoverPassword}>
+        <button
+          type="button"
+          onClick={handleRecoverPassword}
+          
+        >
           Забули пароль?
         </button>
       </div>
@@ -117,7 +121,6 @@ const Security: React.FC = () => {
               <span>Введіть поточний пароль</span>
               <div className={styles.fieldThumb}>
                 <Field
-                  // autoFocus
                   name="oldPassword"
                   type={isShowPassword.oldPassword ? 'text' : 'password'}
                   placeholder="Поточний пароль"

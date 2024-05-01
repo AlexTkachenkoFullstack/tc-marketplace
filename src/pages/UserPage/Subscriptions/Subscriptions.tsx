@@ -4,7 +4,10 @@ import styles from './Subscriptions.module.scss';
 import SubscriptionCard from './SubscriptionCard';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { fetchSubscriptions } from 'redux/profile/operations';
-import { getSubscriptions, isLoading } from 'redux/profile/selectors';
+import {
+  getSubscriptions,
+  isLoadingProfileInfo,
+} from 'redux/profile/selectors';
 import { ISubscription } from 'types/ISubscription';
 
 import { ReactComponent as AddIcon } from '../../../assets/icons/addSuscr.svg';
@@ -47,7 +50,7 @@ const Subscriptions: React.FC = () => {
   const [selectedParams, setSelectedParams] = useState(initialRequestParams);
 
   const dispatch = useAppDispatch();
-  const isSubscrLoading = useAppSelector(isLoading);
+  const isSubscrLoading = useAppSelector(isLoadingProfileInfo);
 
   useEffect(() => {
     async function getCarTypeParams() {
@@ -75,7 +78,6 @@ const Subscriptions: React.FC = () => {
     notificationStatus,
     parameterResponse,
   }: ISubscription) => {
-    
     const {
       bodyType,
       transportType,
@@ -145,27 +147,27 @@ const Subscriptions: React.FC = () => {
     setSelectedParams(paramsForEdit);
     toggleModalIsOpen();
 
-    dispatch(fetchTypes())
+    dispatch(fetchTypes());
     dispatch(fetchRegions());
-
   };
 
   return (
     <div className={styles.container}>
-
       {isSubscrLoading ? (
         <Loader />
       ) : (
         <>
           <h3 className={styles.title}>Твої підписки</h3>
           <ul className={styles.subscriptionsList}>
-            {mySubscriptions.map((item: ISubscription) => (
-              <SubscriptionCard
-                key={item.id}
-                subscription={item}
-                handleEditParams={handleEditParams}
-              />
-            ))}
+            {[...mySubscriptions]
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((item: ISubscription) => (
+                <SubscriptionCard
+                  key={item.id}
+                  subscription={item}
+                  handleEditParams={handleEditParams}
+                />
+              ))}
           </ul>
           <button
             type="button"

@@ -14,13 +14,10 @@ import styles from './SearchingResults.module.scss';
 import { ICar } from 'types/IСar';
 import { ISearchParams } from 'types/ISearchParam';
 
-import {
-  cleanFiltredStore,
-  // updateFilteredStoreAfterHide,
-} from 'redux/filter/slice';
+import { cleanFiltredStore } from 'redux/filter/slice';
 import {
   getFiltredCars,
-  getIsloadingFiltredCars,
+  getIsloadingFilterInfo,
   getTotalAdverts,
   getSelectedCars,
 } from 'redux/filter/selectors';
@@ -32,7 +29,10 @@ import CatalogPagination from './CatalogPagination';
 import SearchingResultsMenu from './SearchingResultsMenu';
 import { useLocation } from 'react-router-dom';
 import { fetchCarsBySubscription } from 'redux/profile/operations';
-import { getSubscrCarList } from 'redux/profile/selectors';
+import {
+  getSubscrCarList,
+  isLoadingProfileInfo,
+} from 'redux/profile/selectors';
 import { AdvancedSearchFilter } from 'components/AdvancedSearchFilter/AdvancedSearchFilter';
 import { paramsOptimization } from 'utils/paramsOptimization';
 
@@ -46,18 +46,20 @@ const SearchingResults: React.FC<IProps> = ({
   isOpenAdvancedFilter,
 }) => {
   const [optionMenuId, setOptionMenuId] = useState<number | null>(null);
-  const [arrForRender, setArrForRender] = useState<ICar[]>([]);
+  const [filteredCarsArr, setFilteredCarsArr] = useState<ICar[]>([]);
   const [isShowMore, setIsShowMore] = useState(false);
   const [isComponentMounted, setIsComponentMounted] = useState(false);
 
   const dispatch = useAppDispatch();
+  const location = useLocation();
 
   const searchParams: Pick<
     ISearchParams,
     'transportTypeId' | 'brandId' | 'modelId' | 'regionId' | 'orderBy'
   > = useSelector(getSelectedCars);
   const adverts = useSelector(getFiltredCars);
-  const isLoading = useSelector(getIsloadingFiltredCars);
+  const isLoadingFilteredCars = useSelector(getIsloadingFilterInfo);
+  const isLoadingSubscrCars = useSelector(isLoadingProfileInfo);
   const totalAdverts: number | null = useSelector(getTotalAdverts);
   let advertsPerPage = 4;
   let totalPages: number;
@@ -110,19 +112,21 @@ const SearchingResults: React.FC<IProps> = ({
     setFetchParam({ ...memoParam, page: 0 });
   }, [memoParam]);
 
+  const id = location.state ? location.state.id : 0;
   useEffect(() => {
     if (isComponentMounted) {
-      dispatch(fetchFiltredCars(fetchParam));
+      !id && dispatch(fetchFiltredCars(fetchParam));
+      id && dispatch(fetchCarsBySubscription(id));
     } else {
       setIsComponentMounted(true);
     }
-  }, [dispatch, fetchParam, isComponentMounted]);
+  }, [dispatch, fetchParam, isComponentMounted, id]);
 
   useEffect(() => {
     if (!isShowMore) {
-      setArrForRender(adverts);
+      setFilteredCarsArr(adverts);
     } else {
-      setArrForRender(prevState => [...prevState, ...adverts]);
+      setFilteredCarsArr(prevState => [...prevState, ...adverts]);
     }
   }, [adverts, isShowMore]);
 
@@ -143,8 +147,6 @@ const SearchingResults: React.FC<IProps> = ({
   };
 
   const updateAfterHide = () => {
-    // const updatedArr = arrForRender.filter(({ id }) => id !== carId);
-    // dispatch(updateFilteredStoreAfterHide(updatedArr));
     dispatch(fetchFiltredCars(fetchParam));
   };
 
@@ -184,26 +186,12 @@ const SearchingResults: React.FC<IProps> = ({
   //   // Заменяем URL в истории
   //   window.history.replaceState(null, '', finalUrl);
   // }, [memoParam, fetchParam.page]);
-  const location = useLocation();
-  const [subscrId, setSubscrId] = useState(null);
+
   const { unseenTransportList, viewedTransportList } =
     useSelector(getSubscrCarList);
-  const subsrcCarArr = [...unseenTransportList, ...viewedTransportList];
-  // console.log('location.state', subsrcCarArr);
-  useEffect(() => {
-    if (location.state) {
-      const {
-        state: { id },
-      } = location;
-      id && setSubscrId(id);
-    }
-  }, [location]);
+  const subsrcCarsArr = [...unseenTransportList, ...viewedTransportList];
 
-  useEffect(() => {
-    subscrId && dispatch(fetchCarsBySubscription(subscrId));
-  }, [dispatch, subscrId]);
-
-  const arr = subsrcCarArr.length > 0 ? subsrcCarArr : arrForRender;
+  const arrForRender = id ? subsrcCarsArr : filteredCarsArr;
 
   return (
     <>
@@ -213,21 +201,20 @@ const SearchingResults: React.FC<IProps> = ({
       />
 
       {isOpenAdvancedFilter && (
-        <AdvancedSearchFilter
-          onAdvencedFilter={handleAdvancedFilter}
-          // toggleModalIsOpen={toggleModalIsOpen}
-        />
+        <AdvancedSearchFilter onAdvencedFilter={handleAdvancedFilter} />
       )}
-      <div className={`${isOpenAdvancedFilter ? styles.containerIsOpen :styles.container }`}>
-        {isLoading && !isShowMore ? (
+      <div className={styles.container}>
+        {(isLoadingFilteredCars || isLoadingSubscrCars) && !isShowMore ? (
           <Loader />
-        ) : !isLoading && isComponentMounted && arrForRender.length === 0 ? (
+        ) : !isLoadingFilteredCars &&
+          isComponentMounted &&
+          arrForRender.length === 0 ? (
           "We don't have any adverts"
         ) : (
           <>
-            {isLoading && isShowMore && <Loader />}
+            {isLoadingFilteredCars && isShowMore && <Loader />}
             <div className={styles.catalogContainer}>
-              {arr.map((advert, index) => (
+              {arrForRender.map(advert => (
                 <SearchingCard
                   key={advert.id}
                   car={advert}

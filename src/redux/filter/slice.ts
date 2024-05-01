@@ -209,9 +209,7 @@ export const filterSlice = createSlice({
           return state;
       }
     },
-    updateFilteredStoreAfterHide(state, { payload }) {
-      state.filtredCars = payload;
-    },
+  
   },
   extraReducers: builder => {
     builder
@@ -260,5 +258,5 @@ export const filterSlice = createSlice({
 export const {
   changeFiltredParams,
   cleanFiltredStore,
-  updateFilteredStoreAfterHide,
+
 } = filterSlice.actions;
