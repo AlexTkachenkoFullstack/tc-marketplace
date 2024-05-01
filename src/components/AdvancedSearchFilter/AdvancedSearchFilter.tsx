@@ -56,8 +56,7 @@ import { useNavigate } from 'react-router-dom';
 const portal = document.querySelector('#modal-root') as Element;
 
 interface Props {
-  onAdvencedFilter: () => void;
-  // clearSubscrId: Dispatch<SetStateAction<null>>;
+  onAdvencedFilter?: () => void;
 }
 
 const N = 9;
@@ -467,8 +466,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
       }),
     );
     handlerResetFilter();
-    onAdvencedFilter();
-
+    onAdvencedFilter?.();
     navigate('', { state: { id: 0 } });
   };
   return (
@@ -477,7 +475,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
         <div className={styles.AdvSearchFilter_box}>
           {/*RadioButton type car */}
           <div className={styles.list}>
-            <div className={styles.title}>
+            <div className={styles.title} style={{marginBottom:isOpen.block1 ? 16:''}}>
               <h2>Тип</h2>
               <div
                 className={`${styles.mobileButton} ${
@@ -501,7 +499,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {/*Select Regions */}
 
           <div className={styles.list}>
-            <div className={styles.title}>
+            <div className={styles.title} style={{marginBottom:isOpen.block2 ? 16:''}}>
               <h2>Регіон</h2>
               <div
                 className={`${styles.mobileButton} ${
@@ -533,7 +531,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           {cities && cities.length > 0 && (
             <div className={styles.list}>
-              <div className={styles.title}>
+              <div className={styles.title} style={{marginBottom:isOpen.block3 ? 16:''}}>
                 <h2>Місто</h2>
                 <div
                   className={`${styles.mobileButton} ${
@@ -568,7 +566,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {/*InputRange Price car */}
 
           <div className={styles.list}>
-            <div className={styles.title}>
+            <div className={styles.title} style={{marginBottom:isOpen.block4 ? 16:''}}>
               <h2>Ціна</h2>
               <div
                 className={`${styles.mobileButton} ${
@@ -592,7 +590,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           {bodyTypes && (
             <div className={styles.typeCarBody}>
-              <div className={styles.title}>
+              <div className={styles.title} style={{marginBottom:isOpen.block5 ? 16:''}}>
                 <h2>Тип кузову</h2>
                 <div
                   className={`${styles.mobileButton} ${
@@ -628,16 +626,16 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {/*Бренд*/}
 
           <div className={styles.selectBrand}>
-            <div className={styles.title}>
+            <div className={styles.title} style={{marginBottom:isOpen.block20 ? 16:''}}>
               <h2>Бренд</h2>
               <div
                 className={`${styles.mobileButton} ${
-                  isOpen.block19 ? styles.active : ''
+                  isOpen.block20 ? styles.active : ''
                 }`}
-                onClick={() => handleMobileBtnIsOpen('block19')}
+                onClick={() => handleMobileBtnIsOpen('block20')}
               />
             </div>
-            {isOpen.block19 && (
+            {isOpen.block20 && (
               <div className={styles.listItemBrand}>
                 <div className={styles.dropdownContainer}>
                   <Dropdown
@@ -661,16 +659,16 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           {carsList && carsList.length > 0 && (
             <div className={styles.selectBrand}>
-              <div className={styles.title}>
+              <div className={styles.title} style={{marginBottom:isOpen.block21 ? 16:''}}>
                 <h2>Модель</h2>
                 <div
                   className={`${styles.mobileButton} ${
-                    isOpen.block20 ? styles.active : ''
+                    isOpen.block21 ? styles.active : ''
                   }`}
-                  onClick={() => handleMobileBtnIsOpen('block20')}
+                  onClick={() => handleMobileBtnIsOpen('block21')}
                 />
               </div>
-              {isOpen.block20 && (
+              {isOpen.block21 && (
                 <div className={styles.listItemBrand}>
                   <div className={styles.dropdownContainer}>
                     <Dropdown
@@ -696,7 +694,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {/*Рік виготовлення инпут слайдер inputText, inputRange   Доработать по стилям! */}
 
           <div className={styles.list}>
-            <div className={styles.title}>
+            <div className={styles.title} style={{marginBottom:isOpen.block6 ? 16:''}}>
               <h2>Рік</h2>
               <div
                 className={`${styles.mobileButton} ${
@@ -720,7 +718,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           {fuel && (
             <div className={styles.listTypeFuil}>
-              <div className={styles.title}>
+              <div className={styles.title} style={{marginBottom:isOpen.block7 ? 16:''}}>
                 <h2>Тип палива</h2>
                 <div
                   className={`${styles.mobileButton} ${
@@ -757,7 +755,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           {transmission && (
             <div className={styles.list}>
-              <div className={styles.title}>
+              <div className={styles.title} style={{marginBottom:isOpen.block8 ? 16:''}}>
                 <h2>Коробка передач</h2>
                 <div
                   className={`${styles.mobileButton} ${
@@ -784,7 +782,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           {transportColor && (
             <div className={styles.listColor}>
-              <div className={styles.title}>
+              <div className={styles.title} style={{marginBottom:isOpen.block9 ? 16:''}}>
                 <h2>Колір</h2>
                 <div
                   className={`${styles.mobileButton} ${
@@ -821,7 +819,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           {transportCondition && (
             <div className={styles.listTechCondition}>
-              <div className={styles.title}>
+              <div className={styles.title} style={{marginBottom:isOpen.block10 ? 16:''}}>
                 <h2>Технічний стан</h2>
                 <div
                   className={`${styles.mobileButton} ${
@@ -858,7 +856,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           {mileages && (
             <div className={styles.lisCarMileage}>
-              <div className={styles.title}>
+              <div className={styles.title} style={{marginBottom:isOpen.block11 ? 16:''}}>
                 <h2>Пробіг</h2>
                 <div
                   className={`${styles.mobileButton} ${
@@ -881,7 +879,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           )}
           {/* Об`єм двигуна */}
           <div className={styles.listMotorPower}>
-            <div className={styles.title}>
+            <div className={styles.title} style={{marginBottom:isOpen.block12 ? 16:''}}>
               <h2>Об`єм двигуна</h2>
               <div
                 className={`${styles.mobileButton} ${
@@ -905,16 +903,16 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {/* Потужність двигуна */}
 
           <div className={styles.listMotorPower}>
-            <div className={styles.title}>
+            <div className={styles.title} style={{marginBottom:isOpen.block13 ? 16:''}}>
               <h2>Потужність двигуна</h2>
               <div
                 className={`${styles.mobileButton} ${
-                  isOpen.block12 ? styles.active : ''
+                  isOpen.block13 ? styles.active : ''
                 }`}
-                onClick={() => handleMobileBtnIsOpen('block12')}
+                onClick={() => handleMobileBtnIsOpen('block13')}
               />
             </div>
-            {isOpen.block12 && (
+            {isOpen.block13 && (
               <div className={styles.listItem}>
                 <RangeSlider
                   resetValue={resetValue[5]}
@@ -929,16 +927,16 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           {driveType && (
             <div className={styles.listMachineDrive}>
-              <div className={styles.title}>
+              <div className={styles.title} style={{marginBottom:isOpen.block14 ? 16:''}}>
                 <h2>Привід</h2>
                 <div
                   className={`${styles.mobileButton} ${
-                    isOpen.block13 ? styles.active : ''
+                    isOpen.block14 ? styles.active : ''
                   }`}
-                  onClick={() => handleMobileBtnIsOpen('block13')}
+                  onClick={() => handleMobileBtnIsOpen('block14')}
                 />
               </div>
-              {isOpen.block13 && (
+              {isOpen.block14 && (
                 <div className={styles.listItem}>
                   <CategoryCheckBar
                     resetValue={resetValue[6]}
@@ -954,16 +952,16 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           {door && (
             <div className={styles.howManyDoors}>
-              <div className={styles.title}>
+              <div className={styles.title} style={{marginBottom:isOpen.block15 ? 16:''}}>
                 <h2>Кількість дверей</h2>
                 <div
                   className={`${styles.mobileButton} ${
-                    isOpen.block14 ? styles.active : ''
+                    isOpen.block15 ? styles.active : ''
                   }`}
-                  onClick={() => handleMobileBtnIsOpen('block14')}
+                  onClick={() => handleMobileBtnIsOpen('block15')}
                 />
               </div>
-              {isOpen.block14 && (
+              {isOpen.block15 && (
                 <div className={styles.listItem}>
                   <RangeSlider
                     resetValue={resetValue[6]}
@@ -979,16 +977,16 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           {seats && (
             <div className={styles.listNumberSeats}>
-              <div className={styles.title}>
+              <div className={styles.title} style={{marginBottom:isOpen.block16 ? 16:''}}>
                 <h2>Кількість місць</h2>
                 <div
                   className={`${styles.mobileButton} ${
-                    isOpen.block15 ? styles.active : ''
+                    isOpen.block16 ? styles.active : ''
                   }`}
-                  onClick={() => handleMobileBtnIsOpen('block15')}
+                  onClick={() => handleMobileBtnIsOpen('block16')}
                 />
               </div>
-              {isOpen.block15 && (
+              {isOpen.block16 && (
                 <div className={styles.listItem}>
                   <RangeSlider
                     resetValue={resetValue[7]}
@@ -1003,16 +1001,16 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {/* RadioButton type Кількість осей*/}
           {numberAxles && (
             <div className={styles.listNumberAxles}>
-              <div className={styles.title}>
+              <div className={styles.title} style={{marginBottom:isOpen.block17 ? 16:''}}>
                 <h2>Кількість осей</h2>
                 <div
                   className={`${styles.mobileButton} ${
-                    isOpen.block16 ? styles.active : ''
+                    isOpen.block17 ? styles.active : ''
                   }`}
-                  onClick={() => handleMobileBtnIsOpen('block16')}
+                  onClick={() => handleMobileBtnIsOpen('block17')}
                 />
               </div>
-              {isOpen.block16 && (
+              {isOpen.block17 && (
                 <div className={styles.listItem}>
                   <CategoryCheckBar
                     resetValue={resetValue[7]}
@@ -1029,16 +1027,16 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {/* RadioButton type Конфігурація коліс*/}
           {wheelConfiguration && (
             <div className={styles.listWheelConfiguration}>
-              <div className={styles.title}>
+              <div className={styles.title} style={{marginBottom:isOpen.block18 ? 16:''}}>
                 <h2>Конфігурація коліс</h2>
                 <div
                   className={`${styles.mobileButton} ${
-                    isOpen.block17 ? styles.active : ''
+                    isOpen.block18 ? styles.active : ''
                   }`}
-                  onClick={() => handleMobileBtnIsOpen('block17')}
+                  onClick={() => handleMobileBtnIsOpen('block18')}
                 />
               </div>
-              {isOpen.block17 && (
+              {isOpen.block18 && (
                 <div className={styles.listItem}>
                   <CategoryCheckBar
                     resetValue={resetValue[8]}
@@ -1054,20 +1052,20 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           )}
           {/* Країна з якої доставили    Select   */}
           <div className={styles.listCountryDelivery}>
-            <div className={styles.title}>
+            <div className={styles.title} style={{marginBottom:isOpen.block19 ? 16:''}}>
               <h2>
                 Країна з якої <br />
                 доставили:
               </h2>
               <div
                 className={`${styles.mobileButton} ${
-                  isOpen.block18 ? styles.active : ''
+                  isOpen.block19 ? styles.active : ''
                 }`}
-                onClick={() => handleMobileBtnIsOpen('block18')}
+                onClick={() => handleMobileBtnIsOpen('block19')}
               />
             </div>
             <div className={styles.itemdropdowncontainer}>
-              {isOpen.block18 && (
+              {isOpen.block19 && (
                 <div className={styles.itemdropdownbox}>
                   {producingCountry && (
                     <Dropdown
@@ -1091,7 +1089,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           </div>
           {/* RadioButton type */}
           <div className={styles.listSelectTitle}>
-            <div className={styles.title}>
+            <div className={styles.title} >
               <h2>Можливість торгу</h2>
             </div>
             <div className={styles.listItem}>
@@ -1135,18 +1133,18 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
       </div>
       <div className={styles.resultFilter}>
         <button
-          className={styles.resultFilterReset}
-          type="button"
-          onClick={toggleModalIsOpen}
-        >
-          Зберегти пошук
-        </button>
-        <button
           className={styles.resultFilterShow}
           type="button"
           onClick={handlerSendRequest}
         >
           Показати
+        </button>
+        <button
+          className={styles.resultFilterReset}
+          type="button"
+          onClick={toggleModalIsOpen}
+        >
+          Зберегти пошук
         </button>
         <button
           className={styles.resultFilterReset}

@@ -75,7 +75,7 @@ export const CategoryBar: React.FC<Props> = ({
         isAdvancedSearchPage ? styles.advanced_search_container : ''
       } ${selectedStyle === 'userPageStyle' ? styles.userPageContainer : null}`}
     >
-      {showLeftScrollButton && (
+      {/* {showLeftScrollButton && (
         <button
           className={`${styles.container__scroll_left} ${
             isAdvancedSearchPage ? styles.btn : ''
@@ -86,7 +86,7 @@ export const CategoryBar: React.FC<Props> = ({
         >
           <img src={scrollLeft} alt="scroll right" />
         </button>
-      )}
+      )} */}
 
       <div
         className={`${styles.category_bar} ${
@@ -146,7 +146,7 @@ export const CategoryBar: React.FC<Props> = ({
             ))}
       </div>
 
-      {showRightScrollButton && (
+      {/* {showRightScrollButton && (
         <button
           className={`${styles.container__scroll_right} ${
             isAdvancedSearchPage ? styles.btn : ''
@@ -159,7 +159,7 @@ export const CategoryBar: React.FC<Props> = ({
         >
           <img src={scrollRight} alt="scroll right" />
         </button>
-      )}
+      )} */}
     </div>
   );
 };

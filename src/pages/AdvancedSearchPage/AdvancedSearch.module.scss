@@ -2,8 +2,10 @@
 @import '../../styles/utils/breakpoints';
 
 .AdvSearch {
+  padding-top: 56px;
+  @include onTablet {
   padding-top: 68px;
-
+  }
   &_container {
     width: $mobile-min-width;
     margin: 0 auto;

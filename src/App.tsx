@@ -47,7 +47,7 @@ export const App: React.FC = () => {
           <Route path="user-profile/:id" element={<UserProfile />} />
           <Route path="advertisements" element={<NewAnnouncement />} />
           <Route path="advertisements/edit" element={<NewAnnouncement />} />
-          <Route path="advanced-search" element={<AdvancedSearch />} />
+          <Route path="advanced-search" element={<AdvancedSearch />} />         
           <Route path="login/" element={<LoginLayout />}>
             <Route
               path="sign-up"
