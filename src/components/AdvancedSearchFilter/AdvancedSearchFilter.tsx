@@ -475,7 +475,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
         <div className={styles.AdvSearchFilter_box}>
           {/*RadioButton type car */}
           <div className={styles.list}>
-            <div className={styles.title} style={{marginBottom:isOpen.block1 ? 16:''}}>
+            <div
+              className={styles.title}
+              style={{ marginBottom: isOpen.block1 ? 16 : '' }}
+            >
               <h2>Тип</h2>
               <div
                 className={`${styles.mobileButton} ${
@@ -499,7 +502,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {/*Select Regions */}
 
           <div className={styles.list}>
-            <div className={styles.title} style={{marginBottom:isOpen.block2 ? 16:''}}>
+            <div
+              className={styles.title}
+              style={{ marginBottom: isOpen.block2 ? 16 : '' }}
+            >
               <h2>Регіон</h2>
               <div
                 className={`${styles.mobileButton} ${
@@ -522,6 +528,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                     option={selectedRegions}
                     selectedOptions={selectedRegions}
                     setOption={setSelectedRegions}
+                    hideLabel={true}
                   />
                 </div>
               )}
@@ -531,7 +538,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           {cities && cities.length > 0 && (
             <div className={styles.list}>
-              <div className={styles.title} style={{marginBottom:isOpen.block3 ? 16:''}}>
+              <div
+                className={styles.title}
+                style={{ marginBottom: isOpen.block3 ? 16 : '' }}
+              >
                 <h2>Місто</h2>
                 <div
                   className={`${styles.mobileButton} ${
@@ -556,6 +566,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                       selectedOptions={selectedCity}
                       setOption={setSelectedCity}
                       title={selectedRegions}
+                      hideLabel={true}
                     />
                   </div>
                 )}
@@ -566,7 +577,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {/*InputRange Price car */}
 
           <div className={styles.list}>
-            <div className={styles.title} style={{marginBottom:isOpen.block4 ? 16:''}}>
+            <div
+              className={styles.title}
+              style={{ marginBottom: isOpen.block4 ? 16 : '' }}
+            >
               <h2>Ціна</h2>
               <div
                 className={`${styles.mobileButton} ${
@@ -590,7 +604,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           {bodyTypes && (
             <div className={styles.typeCarBody}>
-              <div className={styles.title} style={{marginBottom:isOpen.block5 ? 16:''}}>
+              <div
+                className={styles.title}
+                style={{ marginBottom: isOpen.block5 ? 16 : '' }}
+              >
                 <h2>Тип кузову</h2>
                 <div
                   className={`${styles.mobileButton} ${
@@ -626,7 +643,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {/*Бренд*/}
 
           <div className={styles.selectBrand}>
-            <div className={styles.title} style={{marginBottom:isOpen.block20 ? 16:''}}>
+            <div
+              className={styles.title}
+              style={{ marginBottom: isOpen.block20 ? 16 : '' }}
+            >
               <h2>Бренд</h2>
               <div
                 className={`${styles.mobileButton} ${
@@ -651,6 +671,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                     setOption={setCarMark}
                     allOptionsLabel="Всі марки"
                     checkboxAllowed
+                    hideLabel={true}
                   />
                 </div>
               </div>
@@ -659,7 +680,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           {carsList && carsList.length > 0 && (
             <div className={styles.selectBrand}>
-              <div className={styles.title} style={{marginBottom:isOpen.block21 ? 16:''}}>
+              <div
+                className={styles.title}
+                style={{ marginBottom: isOpen.block21 ? 16 : '' }}
+              >
                 <h2>Модель</h2>
                 <div
                   className={`${styles.mobileButton} ${
@@ -685,6 +709,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                       setOption={setCarModel}
                       carMark={carMark}
                       pickedBrands={pickedBrands}
+                      hideLabel={true}
                     />
                   </div>
                 </div>
@@ -694,7 +719,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {/*Рік виготовлення инпут слайдер inputText, inputRange   Доработать по стилям! */}
 
           <div className={styles.list}>
-            <div className={styles.title} style={{marginBottom:isOpen.block6 ? 16:''}}>
+            <div
+              className={styles.title}
+              style={{ marginBottom: isOpen.block6 ? 16 : '' }}
+            >
               <h2>Рік</h2>
               <div
                 className={`${styles.mobileButton} ${
@@ -718,7 +746,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           {fuel && (
             <div className={styles.listTypeFuil}>
-              <div className={styles.title} style={{marginBottom:isOpen.block7 ? 16:''}}>
+              <div
+                className={styles.title}
+                style={{ marginBottom: isOpen.block7 ? 16 : '' }}
+              >
                 <h2>Тип палива</h2>
                 <div
                   className={`${styles.mobileButton} ${
@@ -755,7 +786,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           {transmission && (
             <div className={styles.list}>
-              <div className={styles.title} style={{marginBottom:isOpen.block8 ? 16:''}}>
+              <div
+                className={styles.title}
+                style={{ marginBottom: isOpen.block8 ? 16 : '' }}
+              >
                 <h2>Коробка передач</h2>
                 <div
                   className={`${styles.mobileButton} ${
@@ -782,7 +816,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           {transportColor && (
             <div className={styles.listColor}>
-              <div className={styles.title} style={{marginBottom:isOpen.block9 ? 16:''}}>
+              <div
+                className={styles.title}
+                style={{ marginBottom: isOpen.block9 ? 16 : '' }}
+              >
                 <h2>Колір</h2>
                 <div
                   className={`${styles.mobileButton} ${
@@ -819,7 +856,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           {transportCondition && (
             <div className={styles.listTechCondition}>
-              <div className={styles.title} style={{marginBottom:isOpen.block10 ? 16:''}}>
+              <div
+                className={styles.title}
+                style={{ marginBottom: isOpen.block10 ? 16 : '' }}
+              >
                 <h2>Технічний стан</h2>
                 <div
                   className={`${styles.mobileButton} ${
@@ -856,7 +896,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           {mileages && (
             <div className={styles.lisCarMileage}>
-              <div className={styles.title} style={{marginBottom:isOpen.block11 ? 16:''}}>
+              <div
+                className={styles.title}
+                style={{ marginBottom: isOpen.block11 ? 16 : '' }}
+              >
                 <h2>Пробіг</h2>
                 <div
                   className={`${styles.mobileButton} ${
@@ -879,7 +922,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           )}
           {/* Об`єм двигуна */}
           <div className={styles.listMotorPower}>
-            <div className={styles.title} style={{marginBottom:isOpen.block12 ? 16:''}}>
+            <div
+              className={styles.title}
+              style={{ marginBottom: isOpen.block12 ? 16 : '' }}
+            >
               <h2>Об`єм двигуна</h2>
               <div
                 className={`${styles.mobileButton} ${
@@ -903,7 +949,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {/* Потужність двигуна */}
 
           <div className={styles.listMotorPower}>
-            <div className={styles.title} style={{marginBottom:isOpen.block13 ? 16:''}}>
+            <div
+              className={styles.title}
+              style={{ marginBottom: isOpen.block13 ? 16 : '' }}
+            >
               <h2>Потужність двигуна</h2>
               <div
                 className={`${styles.mobileButton} ${
@@ -927,7 +976,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           {driveType && (
             <div className={styles.listMachineDrive}>
-              <div className={styles.title} style={{marginBottom:isOpen.block14 ? 16:''}}>
+              <div
+                className={styles.title}
+                style={{ marginBottom: isOpen.block14 ? 16 : '' }}
+              >
                 <h2>Привід</h2>
                 <div
                   className={`${styles.mobileButton} ${
@@ -952,7 +1004,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           {door && (
             <div className={styles.howManyDoors}>
-              <div className={styles.title} style={{marginBottom:isOpen.block15 ? 16:''}}>
+              <div
+                className={styles.title}
+                style={{ marginBottom: isOpen.block15 ? 16 : '' }}
+              >
                 <h2>Кількість дверей</h2>
                 <div
                   className={`${styles.mobileButton} ${
@@ -977,7 +1032,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           {seats && (
             <div className={styles.listNumberSeats}>
-              <div className={styles.title} style={{marginBottom:isOpen.block16 ? 16:''}}>
+              <div
+                className={styles.title}
+                style={{ marginBottom: isOpen.block16 ? 16 : '' }}
+              >
                 <h2>Кількість місць</h2>
                 <div
                   className={`${styles.mobileButton} ${
@@ -1001,7 +1059,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {/* RadioButton type Кількість осей*/}
           {numberAxles && (
             <div className={styles.listNumberAxles}>
-              <div className={styles.title} style={{marginBottom:isOpen.block17 ? 16:''}}>
+              <div
+                className={styles.title}
+                style={{ marginBottom: isOpen.block17 ? 16 : '' }}
+              >
                 <h2>Кількість осей</h2>
                 <div
                   className={`${styles.mobileButton} ${
@@ -1027,7 +1088,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {/* RadioButton type Конфігурація коліс*/}
           {wheelConfiguration && (
             <div className={styles.listWheelConfiguration}>
-              <div className={styles.title} style={{marginBottom:isOpen.block18 ? 16:''}}>
+              <div
+                className={styles.title}
+                style={{ marginBottom: isOpen.block18 ? 16 : '' }}
+              >
                 <h2>Конфігурація коліс</h2>
                 <div
                   className={`${styles.mobileButton} ${
@@ -1052,7 +1116,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           )}
           {/* Країна з якої доставили    Select   */}
           <div className={styles.listCountryDelivery}>
-            <div className={styles.title} style={{marginBottom:isOpen.block19 ? 16:''}}>
+            <div
+              className={styles.title}
+              style={{ marginBottom: isOpen.block19 ? 16 : '' }}
+            >
               <h2>
                 Країна з якої <br />
                 доставили:
@@ -1081,6 +1148,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                       option={countryDeliver}
                       selectedOptions={countryDeliver}
                       setOption={setCountryDeliver}
+                      hideLabel={true}
                     />
                   )}
                 </div>
@@ -1089,7 +1157,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           </div>
           {/* RadioButton type */}
           <div className={styles.listSelectTitle}>
-            <div className={styles.title} >
+            <div className={styles.title}>
               <h2>Можливість торгу</h2>
             </div>
             <div className={styles.listItem}>

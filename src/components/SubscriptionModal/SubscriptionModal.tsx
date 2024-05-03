@@ -495,6 +495,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                 option={transportType}
                 setOption={setTransportType}
                 selectedOptions={transportType}
+                hideLabel={true}
               />
             </div>
 
@@ -513,6 +514,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                 checkboxAllowed
                 selectedOptions={brand}
                 resetValue={isTypeChanged}
+                hideLabel={true}
               />
             </div>
             {Array.isArray(brand) && (
@@ -532,6 +534,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                   pickedBrands={pickedBrands}
                   selectedOptions={model}
                   resetValue={isTypeChanged}
+                  hideLabel={true}
                 />
               </div>
             )}
@@ -559,6 +562,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                 setOption={setBodyType}
                 selectedOptions={bodyType}
                 resetValue={isTypeChanged}
+                hideLabel={true}
               />
               <div className={styles.listItem}></div>
             </div>
@@ -575,6 +579,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                 setOption={setFuelType}
                 selectedOptions={fuelType}
                 resetValue={isTypeChanged}
+                hideLabel={true}
               />
               <div className={styles.listItem}></div>
             </div>
@@ -592,6 +597,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                   setOption={setTransmission}
                   selectedOptions={transmission}
                   resetValue={isTypeChanged}
+                  hideLabel={true}
                 />
                 <div className={styles.listItem}></div>
               </div>
@@ -645,6 +651,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                   setOption={setDriveType}
                   selectedOptions={driveType}
                   resetValue={isTypeChanged}
+                  hideLabel={true}
                 />
                 <div className={styles.listItem}></div>
               </div>
@@ -662,6 +669,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                 setOption={setRegion}
                 selectedOptions={region}
                 resetValue={isTypeChanged}
+                hideLabel={true}
               />
             </div>
             {Array.isArray(region) && (
@@ -680,6 +688,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                   pickedRegions={pickedRegions}
                   selectedOptions={city}
                   resetValue={isTypeChanged}
+                  hideLabel={true}
                 />
               </div>
             )}
@@ -696,6 +705,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                 setOption={setColor}
                 selectedOptions={color}
                 resetValue={isTypeChanged}
+                hideLabel={true}
               />
               <div className={styles.listItem}></div>
             </div>
@@ -712,6 +722,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                 setOption={setCondition}
                 selectedOptions={condition}
                 resetValue={isTypeChanged}
+                hideLabel={true}
               />
             </div>
             {data.numberOfDoorsFrom && (
@@ -754,6 +765,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                   setOption={setNumberAxles}
                   selectedOptions={numberAxles}
                   resetValue={isTypeChanged}
+                  hideLabel={true}
                 />
               </div>
             )}
@@ -771,6 +783,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                   setOption={setWheelConfiguration}
                   selectedOptions={wheelConfiguration}
                   resetValue={isTypeChanged}
+                  hideLabel={true}
                 />
               </div>
             )}
@@ -790,6 +803,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                 setOption={setProducingCountry}
                 selectedOptions={producingCountry}
                 resetValue={isTypeChanged}
+                hideLabel={true}
               />
             </div>
             <div>
