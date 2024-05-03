@@ -3,14 +3,14 @@
 .plugContainer {
     text-align: center;
   & h3 {
-    font-size: var(--Typography-2xl-mobile);
+    font-size: $mobile-2xl;
     font-weight: 700;
     line-height: 100%;
     @include onTablet {
-      font-size: var(--Typography-2xl-tablet);
+      font-size: $tablet-2xl;
     }
     @include onDesktop {
-      font-size: var(--Typography-2xl-desctop);
+      font-size: $desctop-2xl;
     }
   }
 

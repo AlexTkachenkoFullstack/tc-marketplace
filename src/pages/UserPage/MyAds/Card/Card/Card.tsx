@@ -28,11 +28,18 @@ import {
 export interface CardProps {
   car: IAd;
   advType?: number;
-  isDisabled?:boolean;
+  isDisabled?: boolean;
   onClickDelete?: (id: number) => void;
+  isShowPlug?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Card: React.FC<CardProps> = ({ car,isDisabled, advType, onClickDelete }) => {
+const Card: React.FC<CardProps> = ({
+  car,
+  isDisabled,
+  advType,
+  onClickDelete,
+  isShowPlug,
+}) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -84,16 +91,32 @@ const Card: React.FC<CardProps> = ({ car,isDisabled, advType, onClickDelete }) =
         dispatch(fetchMyAdsCount());
         switch (advType) {
           case 0:
-            dispatch(fetchMyActiveAds());
+            dispatch(fetchMyActiveAds()).then(({ payload }: any) => {
+              payload && payload.length === 0
+                ? isShowPlug && isShowPlug(true)
+                : isShowPlug && isShowPlug(false);
+            });
             break;
           case 1:
-            dispatch(fetchMyPendingAds());
+            dispatch(fetchMyPendingAds()).then(({ payload }: any) => {
+              payload && payload.length === 0
+                ? isShowPlug && isShowPlug(true)
+                : isShowPlug && isShowPlug(false);
+            });
             break;
           case 2:
-            dispatch(fetchMyInactiveAds());
+            dispatch(fetchMyInactiveAds()).then(({ payload }: any) => {
+              payload && payload.length === 0
+                ? isShowPlug && isShowPlug(true)
+                : isShowPlug && isShowPlug(false);
+            });
             break;
           case 3:
-            dispatch(fetchMyDeletedAds());
+            dispatch(fetchMyDeletedAds()).then(({ payload }: any) => {
+              payload && payload.length === 0
+                ? isShowPlug && isShowPlug(true)
+                : isShowPlug && isShowPlug(false);
+            });
             break;
           default:
             break;
@@ -184,13 +207,17 @@ const Card: React.FC<CardProps> = ({ car,isDisabled, advType, onClickDelete }) =
           <div className={styles.card_buttons}>
             <button
               className={styles.button}
-              style={{display: isDisabled ? "none" : ""}}
+              style={{ display: isDisabled ? 'none' : '' }}
               onClick={e => handleButtonClick(e, car.id)}
             >
               {firstButtonContent}
             </button>
             {advType !== 3 && advType !== 4 && (
-              <button className={styles.button} style={{display: isDisabled ? "none" : ""}} onClick={handleButtonClick}>
+              <button
+                className={styles.button}
+                style={{ display: isDisabled ? 'none' : '' }}
+                onClick={handleButtonClick}
+              >
                 {secondButtonContent}
               </button>
             )}
