@@ -48,7 +48,7 @@ const PersonalInfo: React.FC = () => {
   const [needToAddFile, setNeedToAddFile] = useState(false);
   const [resetCheckedItemId, setResetCheckedItemId] = useState(false);
   const [isMainePhoto, setIsMainePhoto] = useState(false);
-  const [activeField, setActiveField] = useState(Array(N).fill(''));
+  // const [activeField, setActiveField] = useState(Array(N).fill(''));
   const [selectedImage, setSelectedImage] = useState<UploadedImage[]>([]);
   const [mainPhoto, setMainPhoto] = useState<string>('');
   const [responseData, setResponseData] = useState<ResponseData | null>(null);
@@ -324,13 +324,13 @@ const PersonalInfo: React.FC = () => {
       }
     }
   };
-  const handleOnFocusEmail = (index: number, name: string) => {
-    setActiveField(prevState => {
-      const activeField = [...prevState];
-      activeField[index] = name;
-      return activeField;
-    });
-  };
+  // const handleOnFocusEmail = (index: number, name: string) => {
+  //   setActiveField(prevState => {
+  //     const activeField = [...prevState];
+  //     activeField[index] = name;
+  //     return activeField;
+  //   });
+  // };
 
   const handleAddMainePhoto = (title: string) => {
     setMainPhoto(title);
@@ -522,7 +522,7 @@ const PersonalInfo: React.FC = () => {
         <div className={styles.listItem}>
           {/* {isOpen.block1 && ( */}
           <div className={styles.item_dropdown_box}>
-            {name ? (
+            {/* {name ? (
               <label
                 htmlFor="name"
                 className={
@@ -533,7 +533,7 @@ const PersonalInfo: React.FC = () => {
               >
                 Ім’я
               </label>
-            ) : null}
+            ) : null} */}
             <input
               autoComplete="off"
               className={`${styles.inputPhone} ${styles.VinCode_field}`}
@@ -616,7 +616,7 @@ const PersonalInfo: React.FC = () => {
         <div className={styles.listItem}>
           {/* {isOpen.block4 && ( */}
           <div className={styles.item_dropdown_box}>
-            {email ? (
+            {/* {email ? (
               <label
                 htmlFor="email"
                 className={
@@ -627,7 +627,7 @@ const PersonalInfo: React.FC = () => {
               >
                 E-mail
               </label>
-            ) : null}
+            ) : null} */}
             <input
               readOnly={immutableData}
               disabled={immutableData}
@@ -642,7 +642,7 @@ const PersonalInfo: React.FC = () => {
               maxLength={50}
               placeholder={'example@example.com'}
               value={email}
-              onFocus={() => handleOnFocusEmail(4, 'email')}
+              // onFocus={() => handleOnFocusEmail(4, 'email')}
               onBlur={handleOnBlurEmail}
               onChange={handleOnChangeEmail}
             />
@@ -698,6 +698,7 @@ const PersonalInfo: React.FC = () => {
               allOptionsLabel="Вся Україна"
               option={selectedRegion}
               setOption={setSelectedRegion}
+              hideLabel={true}
             />
             {isShow[6] && (
               <span className={styles.photo_errorMessage}>{messages[6]}</span>
@@ -738,6 +739,7 @@ const PersonalInfo: React.FC = () => {
                 option={selectedCity}
                 setOption={setSelectedCity}
                 title={selectedRegion}
+                hideLabel={true}
               />
               {isShow[7] && (
                 <span className={styles.photo_errorMessage}>{messages[7]}</span>

@@ -16,6 +16,7 @@ import SubscriptionModal from 'components/SubscriptionModal';
 import { createPortal } from 'react-dom';
 import { getCarTypeParam } from 'services/services';
 import { fetchRegions, fetchTypes } from 'redux/filter/operations';
+import EmprtyPlug from 'components/EmptyPlug/EmptyPlug';
 
 const portal = document.querySelector('#modal-root') as Element;
 
@@ -158,6 +159,11 @@ const Subscriptions: React.FC = () => {
       ) : (
         <>
           <h3 className={styles.title}>Твої підписки</h3>
+
+          {!isSubscrLoading && mySubscriptions.length === 0 && (
+            <EmprtyPlug title="На даний момент відсутні ваши підписки" />
+          )}
+
           <ul className={styles.subscriptionsList}>
             {[...mySubscriptions]
               .sort((a, b) => a.name.localeCompare(b.name))

@@ -31,6 +31,34 @@ $shadow-btn: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
 
 $color-red: #f43d3d;
 
+:root {
+  --Typography-3xl-mobile: 28px;
+  --Typography-3xl-tablet: 32px;
+  --Typography-3xl-desctop: 32px;
+
+  --Typography-2xl-mobile: 24px;
+  --Typography-2xl-tablet: 28px;
+  --Typography-2xl-desctop: 26px;
+
+  --Typography-xl-mobile: 18px;
+  --Typography-xl-tablet: 18px;
+  --Typography-xl-desctop: 20px;
+
+  --Typography-lg-mobile: 16px;
+  --Typography-lg-tablet: 16px;
+  --Typography-lg-desctop: 18px;
+
+  --Typography-md-mobile: 14px;
+  --Typography-md-tablet: 14px;
+  --Typography-md-desctop: 16px;
+
+  --Typography-sm-mobile: 12px;
+  --Typography-sm-tablet: 12px;
+  --Typography-sm-desctop: 14px;
+
+  --Typography-xs: 12px;
+}
+
 %form-label {
   position: absolute;
   font-family: $font-family-main;
@@ -163,3 +191,5 @@ $color-red: #f43d3d;
   background-color: $color-grey;
   color: $white-color;
 }
+
+

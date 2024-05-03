@@ -21,13 +21,20 @@ export const persistConfig = {
   whitelist: ['token'],
 };
 
+const persistFilterConfig = {
+  key: "filterParams",
+  storage,
+  whitelist: ["select"]
+}
+
 const persistedAuthReducer = persistReducer(persistConfig, authSlice.reducer);
+const persistedFilterReducer = persistReducer(persistFilterConfig, filterSlice.reducer);
 
 export const store = configureStore({
   reducer: {
     auth: persistedAuthReducer,
     cars: carsSlice.reducer,
-    filter: filterSlice.reducer,
+    filter: persistedFilterReducer,
     profile: profileSlice.reducer,
   },
   middleware: getDefaultMiddleware =>

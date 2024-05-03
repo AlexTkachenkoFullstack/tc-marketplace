@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useAppDispatch } from 'redux/hooks';
 import { useProfile } from 'hooks/useProfile';
 
-import styles from '../MyAds.module.scss';
+// import styles from '../MyAds.module.scss';
 
 import Card from './Card';
 
@@ -15,6 +15,7 @@ import {
   fetchMyInactiveAds,
   fetchMyPendingAds,
 } from 'redux/profile/operations';
+import EmprtyPlug from 'components/EmptyPlug/EmptyPlug';
 
 interface IActiveCardProps {
   myAdverts: IAd[];
@@ -70,9 +71,14 @@ const ActiveCard: React.FC<IActiveCardProps> = ({ myAdverts, advType }) => {
       {myAdverts.length > 0 ? (
         myAdverts.map(car => <Card key={car.id} car={car} advType={advType} />)
       ) : (
-        <p className={styles.empty}>
-          {!isAdsLoading && `На даний момент відсутні ${typeText} оголошення`}
-        </p>
+        <>
+          {!isAdsLoading && myAdverts.length === 0 && (
+            <EmprtyPlug
+              title={`На даний момент відсутні ${typeText} оголошення`}
+            />
+          )}
+          {/* {!isAdsLoading && `На даний момент відсутні ${typeText} оголошення`} */}
+        </>
       )}
     </>
   );

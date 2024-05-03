@@ -1,0 +1,24 @@
+@import '/src/styles/main.scss';
+
+.plugContainer {
+    text-align: center;
+  & h3 {
+    font-size: var(--Typography-2xl-mobile);
+    font-weight: 700;
+    line-height: 100%;
+    @include onTablet {
+      font-size: var(--Typography-2xl-tablet);
+    }
+    @include onDesktop {
+      font-size: var(--Typography-2xl-desctop);
+    }
+  }
+
+  & .imgContainer {
+    width: 100%;
+    height: 500px;
+    background-image: url('../../assets/images/emptyPlugBcg.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+}

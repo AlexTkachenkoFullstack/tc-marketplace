@@ -33,6 +33,7 @@ type Props = {
   pickedBrands?: IBrand[];
   pickedRegions?: IRegion[];
   selectedOptions?: string | string[] | undefined;
+  hideLabel?: boolean;
 };
 
 export const Dropdown: FC<Props> = props => {
@@ -57,6 +58,7 @@ export const Dropdown: FC<Props> = props => {
     title,
     optionList,
     selectedOptions,
+    hideLabel,
   } = props;
 
   const [isActive, setIsActive] = useState(false);
@@ -186,8 +188,8 @@ export const Dropdown: FC<Props> = props => {
       ref={dropdownRef}
       style={{ marginBottom: updateStyle === 'favoritPage' ? 0 : '' }}
     >
-      {((isActive && filterValue.trim().length === 0) ||
-        option !== startValue) && (
+      {((!hideLabel && isActive && filterValue.trim().length === 0) ||
+        (option !== startValue && !hideLabel)) && (
         <span
           className={`${styles.label} ${
             updateStyle === 'menuStyle' ? styles.labelAdvMenu : ''
