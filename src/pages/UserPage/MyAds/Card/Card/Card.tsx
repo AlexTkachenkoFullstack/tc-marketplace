@@ -59,6 +59,12 @@ const Card: React.FC<CardProps> = ({
 
   convertDate(car.created);
 
+  const handleIsShowEmptyPlug = ({ payload }: any) => {
+    payload && payload.length === 0
+      ? isShowPlug && isShowPlug(true)
+      : isShowPlug && isShowPlug(false);
+  };
+
   const handleButtonClick = (
     e: React.MouseEvent<HTMLButtonElement>,
     id?: number,
@@ -69,19 +75,19 @@ const Card: React.FC<CardProps> = ({
     } else if (targetButton.textContent === 'Активувати') {
       dispatch(
         changeTransportStatus({ id: car.id, transportStatus: 'active' }),
-      );
+      ).then(() => dispatch(fetchMyInactiveAds()).then(handleIsShowEmptyPlug));
     } else if (targetButton.textContent === 'Деактивувати') {
       dispatch(
         changeTransportStatus({ id: car.id, transportStatus: 'inactive' }),
-      );
+      ).then(() => dispatch(fetchMyActiveAds()).then(handleIsShowEmptyPlug));
     } else if (targetButton.textContent === 'Відновити') {
       dispatch(
         changeTransportStatus({ id: car.id, transportStatus: 'active' }),
-      );
+      ).then(() => dispatch(fetchMyDeletedAds()).then(handleIsShowEmptyPlug));
     } else if (targetButton.textContent === 'Видалити') {
       dispatch(
         changeTransportStatus({ id: car.id, transportStatus: 'deleted' }),
-      );
+      ).then(() => dispatch(fetchMyInactiveAds()).then(handleIsShowEmptyPlug));
     } else if (targetButton.textContent === 'Видалити зі списку') {
       if (onClickDelete) onClickDelete(id ?? 0);
     }
@@ -90,13 +96,13 @@ const Card: React.FC<CardProps> = ({
       setTimeout(() => {
         dispatch(fetchMyAdsCount());
         switch (advType) {
-          case 0:
-            dispatch(fetchMyActiveAds()).then(({ payload }: any) => {
-              payload && payload.length === 0
-                ? isShowPlug && isShowPlug(true)
-                : isShowPlug && isShowPlug(false);
-            });
-            break;
+          // case 0:
+          //   dispatch(fetchMyActiveAds()).then(({ payload }: any) => {
+          //     payload && payload.length === 0
+          //       ? isShowPlug && isShowPlug(true)
+          //       : isShowPlug && isShowPlug(false);
+          //   });
+          //   break;
           case 1:
             dispatch(fetchMyPendingAds()).then(({ payload }: any) => {
               payload && payload.length === 0
@@ -105,23 +111,23 @@ const Card: React.FC<CardProps> = ({
             });
             break;
           case 2:
-            dispatch(fetchMyInactiveAds()).then(({ payload }: any) => {
-              payload && payload.length === 0
-                ? isShowPlug && isShowPlug(true)
-                : isShowPlug && isShowPlug(false);
-            });
+            // dispatch(fetchMyInactiveAds()).then(({ payload }: any) => {
+            //   payload && payload.length === 0
+            //     ? isShowPlug && isShowPlug(true)
+            //     : isShowPlug && isShowPlug(false);
+            // });
             break;
           case 3:
-            dispatch(fetchMyDeletedAds()).then(({ payload }: any) => {
-              payload && payload.length === 0
-                ? isShowPlug && isShowPlug(true)
-                : isShowPlug && isShowPlug(false);
-            });
+            // dispatch(fetchMyDeletedAds()).then(({ payload }: any) => {
+            //   payload && payload.length === 0
+            //     ? isShowPlug && isShowPlug(true)
+            //     : isShowPlug && isShowPlug(false);
+            // });
             break;
           default:
             break;
         }
-      }, 200);
+      }, 300);
     }
   };
 
