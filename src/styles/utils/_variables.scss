@@ -1,9 +1,19 @@
-$mobile-min-width: 22.5rem;
-$tablet-min-width: 48rem;
-$desktop-min-width: 64rem;
+$mobile-min-width: 360px;
+$tablet-min-width: 768px;
+$desktop-min-width: 1440px;
 
-$mobile-padding: 1.25rem;
-$tablet-padding: 2rem;
+$mobile-padding: 20px;
+$tablet-padding: 40px;
+$desktop-padding: 96px;
+
+$bg-color-light: #becbeb;
+$bg-color-active: #a2b7ea;
+$border-active: #7796e0;
+$bg-color-white: #fff;
+$border-gray: #ebebeb;
+$color-dark-blue: #403e87;
+$color-medium-dark-gray: #434343;
+$color-medium-gray: #606060;
 
 $color-black: #000000;
 $color-grey: #434343;

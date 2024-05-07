@@ -15,7 +15,8 @@ export const FavoritesPage: FC = () => {
   const [end, setEnd] = useState(4);
   const totalAdverts = responseData.length;
   const advertsPerPage = 4;
-  const totalPages = totalAdverts !== null ? Math.ceil(totalAdverts / advertsPerPage) : 1;
+  const totalPages =
+    totalAdverts !== null ? Math.ceil(totalAdverts / advertsPerPage) : 1;
   const [paginations, setPaginations] = useState({ page: 0 });
 
   useEffect(() => {
@@ -32,7 +33,10 @@ export const FavoritesPage: FC = () => {
     fetchFavoritesCars();
   }, []);
 
-  const handleOptionMenu = (event: React.MouseEvent<HTMLButtonElement>, cardId: number) => {
+  const handleOptionMenu = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    cardId: number,
+  ) => {
     event.stopPropagation();
     // Your logic for handling option menu
   };
@@ -59,7 +63,7 @@ export const FavoritesPage: FC = () => {
     const newEnd = end + advertsPerPage;
     setStart(newStart);
     setEnd(newEnd);
-    setPaginations((prev) => ({ ...prev, page: prev.page + 1 }));
+    setPaginations(prev => ({ ...prev, page: prev.page + 1 }));
   };
 
   const handleChangePage = ({ selected }: { selected: number }) => {
@@ -67,11 +71,11 @@ export const FavoritesPage: FC = () => {
     const newEnd = newStart + advertsPerPage;
     setStart(newStart);
     setEnd(newEnd);
-    setPaginations((prev) => ({ ...prev, page: selected }));
+    setPaginations(prev => ({ ...prev, page: selected }));
   };
 
   let sortedArray = [...responseData]; // Copy the responseData array
-  
+
   switch (typeOfSort) {
     case 'Від дешевих до дорогих':
       sortedArray = sortedArray.sort((a, b) => a.price - b.price);
@@ -96,7 +100,7 @@ export const FavoritesPage: FC = () => {
   }
 
   const arrayForRender = sortedArray.slice(start, end);
-
+  console.log('arrayForRender :>> ', arrayForRender);
   return (
     <div className={`${styles.Container}`}>
       {isLoading && <Loader />}
@@ -140,7 +144,7 @@ export const FavoritesPage: FC = () => {
         currentPage={paginations.page}
         totalPages={totalPages}
         handlePageClick={handleChangePage}
-        updateStyles='isFavoritesPage'
+        updateStyles="isFavoritesPage"
       />
     </div>
   );
