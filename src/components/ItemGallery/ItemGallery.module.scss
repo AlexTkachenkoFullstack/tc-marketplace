@@ -196,3 +196,56 @@ object-fit: cover;
 //     }
 //   }
 // }
+.modal {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* полупрозрачный черный фон */
+  z-index: 1000; /* уровень, чтобы модальное окно было поверх остального контента */
+}
+
+// .modalContent {
+//   position: absolute;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+//   background-color: #fefefe; /* белый фон модального окна */
+//   padding: 20px;
+//   border-radius: 8px;
+//   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* тень для эффекта всплывающего окна */
+// }
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #333; /* изменение цвета при наведении */
+}
+
+.modalContent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fefefe; /* белый фон модального окна */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* тень для эффекта всплывающего окна */
+  width: 50vw; /* ширина 50% от ширины окна просмотра */
+  height: 50vh; /* высота 50% от высоты окна просмотра */
+}
+
+.modalImage {
+  width: 100%; /* Заполнение ширины контейнера */
+  height: 100%; /* Заполнение высоты контейнера */
+  object-fit: cover; /* Подстройка размеров изображения, чтобы оно полностью поместилось в контейнер */
+}
