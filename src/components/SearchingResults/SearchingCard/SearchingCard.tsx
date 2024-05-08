@@ -12,10 +12,16 @@ import { ICar } from 'types/IСar';
 
 import LikeImg from '../../../assets/icons/favorite.svg';
 import ActiveLikeImg from '../../../assets/icons/favorite-active.svg';
-import { ReactComponent as EmptyIcon } from '../../../assets/icons/empty_icon.svg';
+// import { ReactComponent as EmptyIcon } from '../../../assets/icons/empty_icon.svg';
 import { ReactComponent as OptionDots } from '../../../assets/icons/option_dots.svg';
-import { ReactComponent as ClockIcon } from '../../../assets/icons/clock.svg';
+// import { ReactComponent as ClockIcon } from '../../../assets/icons/clock.svg';
 import imagePlug from '../../../assets/images/imagePlug.webp';
+import { ReactComponent as Millage } from '../../../assets/icons/millage.svg';
+import { ReactComponent as Transmission } from '../../../assets/icons/transmission.svg';
+import { ReactComponent as Fuel } from '../../../assets/icons/fuel.svg';
+import { ReactComponent as CalendarMonth } from '../../../assets/icons/calendar_month.svg';
+import { ReactComponent as Location } from '../../../assets/icons/location.svg';
+
 
 import { CommonBtn } from 'components/Buttons/CommonBtn';
 
@@ -32,6 +38,7 @@ interface IProps {
   isShowMenu: boolean;
   updateAfterAllHide: () => void;
   cancelFavorite?: (id: number) => void;
+  isFavoritePage?: string;
 }
 
 const SearchingCard: React.FC<IProps> = ({
@@ -42,6 +49,7 @@ const SearchingCard: React.FC<IProps> = ({
   isShowMenu,
   updateAfterAllHide,
   cancelFavorite,
+  isFavoritePage,
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -53,10 +61,9 @@ const SearchingCard: React.FC<IProps> = ({
     }
     if (car && car.isFavorite) {
       if (typeof cancelFavorite === 'function') {
-      cancelFavorite(car.id);
+        cancelFavorite(car.id);
       }
       dispatch(removeFromFavourites(car?.id));
-      
     } else {
       car && dispatch(addToFavourites(car?.id));
     }
@@ -92,15 +99,10 @@ const SearchingCard: React.FC<IProps> = ({
             onError={onSrcImageError}
           />
         </NavLink>
-        <div className={styles.iconIsFavouriteContainer} onClick={addFavorite}>
-          <CommonBtn
-            iconPath={car?.isFavorite && isAuth ? ActiveLikeImg : LikeImg}
-            className={cn(styles.likeBtn)}
-          />
-        </div>
       </div>
       <div className={styles.infoContainer} onClick={onInfoContainerClick}>
         <button
+          style={{ display: isFavoritePage ? 'none' : '' }}
           type="button"
           className={styles.optionBtn}
           onClick={event => car?.id !== undefined && onShowMenu(event, car.id)}
@@ -124,39 +126,58 @@ const SearchingCard: React.FC<IProps> = ({
           <h3 className={styles.title}>
             {car?.brand} {car?.model} {car?.year}
           </h3>
+          <div
+            className={styles.iconIsFavouriteContainer}
+            onClick={addFavorite}
+          >
+            <CommonBtn
+              iconPath={car?.isFavorite && isAuth ? ActiveLikeImg : LikeImg}
+              className={cn(styles.likeBtn)}
+            />
+          </div>
         </div>
         <p className={styles.price}>{car?.price} $</p>
         <ul className={styles.techSpecs}>
-          <li className={styles.techSpec}>
-            <EmptyIcon className={styles.emptyIcon} />
-            {car && car.mileage !== undefined
-              ? `${Math.floor(car.mileage / 1000)} тис. км`
-              : 'Нема данних'}
-          </li>
-          <li className={styles.techSpec}>
-            <EmptyIcon className={styles.emptyIcon} />
-            {car?.city}
-          </li>
-          <li className={styles.techSpec}>
-            <EmptyIcon className={styles.emptyIcon} />
-            {car?.transmission}
-          </li>
-          <li className={styles.techSpec}>
-            <EmptyIcon className={styles.emptyIcon} />
-            {car?.fuelType}, {car?.engineDisplacement}л
-          </li>
-          <li className={styles.techSpec}>
+          <div className={styles.wrapper}>
+            <li className={styles.techSpec}>
+              <Millage className={styles.emptyIcon} />
+              {car && car.mileage !== undefined
+                ? `${Math.floor(car.mileage / 1000)} тис. км`
+                : 'Нема данних'}
+            </li>
+
+            <li className={styles.techSpec}>
+              <Location className={styles.emptyIcon} />
+              {car?.city}
+            </li>
+          </div>
+          <div className={styles.wrapper}>
+            <li className={styles.techSpec}>
+              <Transmission className={styles.emptyIcon} />
+              {car?.transmission}
+            </li>
+
+            <li className={styles.techSpec}>
+              <Fuel className={styles.emptyIcon} />
+              {car?.fuelType}, {car?.engineDisplacement}л
+            </li>
+          </div>
+          {/* <li className={styles.techSpec}>
             <EmptyIcon className={styles.emptyIcon} />
             {car?.year} рік
-          </li>
+          </li> */}
         </ul>
 
-        <p id="discr" className={styles.description}>
+        <p
+          id="discr"
+          className={styles.description}
+          style={{ display: isFavoritePage ? 'none' : '' }}
+        >
           {car?.description}
         </p>
 
         <p className={styles.created}>
-          <ClockIcon className={styles.clockIcon} />
+          <CalendarMonth className={styles.clockIcon}  style={{ display: isFavoritePage ? 'none' : '' }}/>
           {created}
         </p>
       </div>

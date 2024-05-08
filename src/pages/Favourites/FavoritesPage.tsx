@@ -5,8 +5,10 @@ import SearchingCard from 'components/SearchingResults/SearchingCard';
 import CatalogPagination from 'components/SearchingResults/CatalogPagination';
 import Loader from 'components/Loader/Loader';
 import { Dropdown } from 'components/Dropdown/Dropdown';
-
+import { ReactComponent as Back } from '../../assets/icons/arrow_back.svg';
+import { useNavigate } from 'react-router-dom';
 export const FavoritesPage: FC = () => {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [typeOfSort, setTypeOfSort] = useState<string | string[]>('');
   const [optionMenuId, setOptionMenuId] = useState<number | null>(null);
@@ -74,6 +76,9 @@ export const FavoritesPage: FC = () => {
     setPaginations(prev => ({ ...prev, page: selected }));
   };
 
+  const handleBackClick = () => {
+    navigate(-1);
+  };
   let sortedArray = [...responseData]; // Copy the responseData array
 
   switch (typeOfSort) {
@@ -105,8 +110,11 @@ export const FavoritesPage: FC = () => {
     <div className={`${styles.Container}`}>
       {isLoading && <Loader />}
       <div className={styles.title_container}>
+        <button className={styles.backBtn} onClick={handleBackClick}>
+          <Back />
+        </button>
         <h1 className={styles.emptyFavorite}>Обрані</h1>
-        <div className={styles.dropdownMenu}>
+        {/* <div className={styles.dropdownMenu}>
           <Dropdown
             updateStyle="favoritPage"
             options={[
@@ -122,7 +130,7 @@ export const FavoritesPage: FC = () => {
             option={typeOfSort}
             setOption={setTypeOfSort}
           />
-        </div>
+        </div> */}
       </div>
       <ul className={styles.list_cars}>
         {arrayForRender.map((car: any) => (
@@ -135,6 +143,7 @@ export const FavoritesPage: FC = () => {
             isShowMenu={optionMenuId === car.id}
             updateAfterAllHide={updateAfterAllHide}
             cancelFavorite={handleCancelFavorite}
+            isFavoritePage="isFavoritePage"
           />
         ))}
       </ul>

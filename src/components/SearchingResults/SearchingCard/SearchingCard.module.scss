@@ -16,7 +16,8 @@
     flex-shrink: 0;
     width: 100%;
     height: 200px;
-    margin-bottom: 8px;
+    margin-bottom: 16px;
+    // margin-bottom: 8px;
 
     @include onTablet {
       width: 384px;
@@ -49,6 +50,7 @@
   .col {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 10px;
   }
 
   .link {
@@ -61,10 +63,18 @@
   }
 
   .title {
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 22px;
-    margin-bottom: 14px;
+    font-family: Roboto;
+    font-size: $mobile-lg;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px; /* 150% */
+    letter-spacing: 0.15px;
+    color: $color-medium-dark-gray;
+
+    // font-size: 20px;
+    // font-weight: 600;
+    // line-height: 22px;
+    // margin-bottom: 14px;
 
     @include onTablet {
       font-size: 22px;
@@ -75,10 +85,17 @@
   }
 
   .price {
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 22px;
-    margin-bottom: 12px;
+    font-family: Roboto;
+    font-size: $mobile-lg;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+    color: $color-black;
+    margin-bottom: 8px;
+    // margin-bottom: 12px;
+    // font-size: 20px;
+    // font-weight: 600;
+    // line-height: 22px;
 
     @include onTablet {
       font-size: 22px;
@@ -90,10 +107,13 @@
 
   .techSpecs {
     display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    row-gap: 8px;
-    margin-bottom: 12px;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    // align-items: center;
+    // flex-wrap: wrap;
+
+    // row-gap: 8px;
+    // margin-bottom: 12px;
     .emptyIcon {
       margin-right: 8px;
     }
@@ -105,8 +125,9 @@
   }
 
   .techSpec {
+    width: 154px;
     display: flex;
-    padding-inline-end: 18px;
+    // padding-inline-end: 18px;
     color: $color-dark-grey;
     font-size: 14px;
     font-weight: 500;
@@ -116,12 +137,18 @@
     @include onTablet {
       padding-inline-end: 16px;
     }
-
+    &:nth-child(2) {
+      padding-inline-end: 0;
+    }
     &:last-child {
       padding-inline-end: 0;
     }
   }
-
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
   .description {
     font-size: 16px;
     line-height: 24px;
@@ -150,14 +177,17 @@
 }
 
 .iconIsFavouriteContainer {
-  position: absolute;
+  // position: absolute;
+
   top: 12px;
   right: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 32px;
-  width: 32px;
+  // height: 32px;
+  // width: 32px;
+  height: 24px;
+  width: 24px;
 }
 
 .likeBtn {
@@ -165,7 +195,7 @@
   height: 40px;
   aspect-ratio: 1/1;
   border-radius: 50%;
-  box-shadow: $shadow-btn;
+  // box-shadow: $shadow-btn;
   border: none;
   background-color: $white-color;
 
