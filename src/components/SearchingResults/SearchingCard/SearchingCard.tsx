@@ -89,7 +89,7 @@ const SearchingCard: React.FC<IProps> = ({
   };
 
   return (
-    <article className={styles.card}>
+    <div className={styles.card}>
       <div className={styles.photo}>
         <NavLink to={`/catalog/${car?.id}`} className={styles.link}>
           <img
@@ -181,7 +181,7 @@ const SearchingCard: React.FC<IProps> = ({
           {created}
         </p>
       </div>
-    </article>
+    </div>
   );
 };
 

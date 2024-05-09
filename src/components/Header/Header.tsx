@@ -70,7 +70,7 @@ export const Header: FC = () => {
 
   return (
     <header className={styles.header}
-    style={{backgroundColor:isFavoritesPage || isAdvencedSearch ? '#E4E4E4':''}}
+    // style={{backgroundColor:isFavoritesPage || isAdvencedSearch ? '#E4E4E4':''}}
     >
       <div className={styles.header__left}>
         {/* <button className={styles.header__burger}>
