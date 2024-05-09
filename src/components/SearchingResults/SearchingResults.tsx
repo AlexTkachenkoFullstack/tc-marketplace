@@ -203,39 +203,42 @@ const SearchingResults: React.FC<IProps> = ({
       {isOpenAdvancedFilter && (
         <AdvancedSearchFilter onAdvencedFilter={handleAdvancedFilter} />
       )}
-      <div className={styles.container}>
-        {(isLoadingFilteredCars || isLoadingSubscrCars) && !isShowMore ? (
-          <Loader />
-        ) : !isLoadingFilteredCars &&
-          isComponentMounted &&
-          arrForRender.length === 0 ? (
-          "We don't have any adverts"
-        ) : (
-          <>
-            {isLoadingFilteredCars && isShowMore && <Loader />}
-            <div className={styles.catalogContainer}>
-              {arrForRender.map(advert => (
-                <SearchingCard
-                  key={advert.id}
-                  car={advert}
-                  onShowMenu={handleOptionMenu}
-                  onInfoContainerClick={handleInfoContainerClick}
-                  onUpdateAfterHide={updateAfterHide}
-                  isShowMenu={optionMenuId === advert.id}
-                  updateAfterAllHide={updateAfterAllHide}
-                />
-              ))}
-            </div>
-            <CatalogPagination
-              forcePage={fetchParam.page}
-              onSetPage={handleShowMore}
-              currentPage={fetchParam.page}
-              totalPages={totalPages}
-              handlePageClick={handleChangePage}
-            />
-          </>
-        )}
-      </div>
+
+      {!isOpenAdvancedFilter && (
+        <div className={styles.container}>
+          {(isLoadingFilteredCars || isLoadingSubscrCars) && !isShowMore ? (
+            <Loader />
+          ) : !isLoadingFilteredCars &&
+            isComponentMounted &&
+            arrForRender.length === 0 ? (
+            "We don't have any adverts"
+          ) : (
+            <>
+              {isLoadingFilteredCars && isShowMore && <Loader />}
+              <div className={styles.catalogContainer}>
+                {arrForRender.map(advert => (
+                  <SearchingCard
+                    key={advert.id}
+                    car={advert}
+                    onShowMenu={handleOptionMenu}
+                    onInfoContainerClick={handleInfoContainerClick}
+                    onUpdateAfterHide={updateAfterHide}
+                    isShowMenu={optionMenuId === advert.id}
+                    updateAfterAllHide={updateAfterAllHide}
+                  />
+                ))}
+              </div>
+              <CatalogPagination
+                forcePage={fetchParam.page}
+                onSetPage={handleShowMore}
+                currentPage={fetchParam.page}
+                totalPages={totalPages}
+                handlePageClick={handleChangePage}
+              />
+            </>
+          )}
+        </div>
+      )}
     </>
   );
 };
