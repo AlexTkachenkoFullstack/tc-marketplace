@@ -4,7 +4,7 @@ import { getFavoritesCars } from 'services/services';
 import SearchingCard from 'components/SearchingResults/SearchingCard';
 import CatalogPagination from 'components/SearchingResults/CatalogPagination';
 import Loader from 'components/Loader/Loader';
-import { Dropdown } from 'components/Dropdown/Dropdown';
+// import { Dropdown } from 'components/Dropdown/Dropdown';
 import { ReactComponent as Back } from '../../assets/icons/arrow_back.svg';
 import { useNavigate } from 'react-router-dom';
 export const FavoritesPage: FC = () => {
@@ -16,7 +16,7 @@ export const FavoritesPage: FC = () => {
   const [start, setStart] = useState(0);
   const [end, setEnd] = useState(4);
   const totalAdverts = responseData.length;
-  const advertsPerPage = 4;
+  const advertsPerPage = 12;
   const totalPages =
     totalAdverts !== null ? Math.ceil(totalAdverts / advertsPerPage) : 1;
   const [paginations, setPaginations] = useState({ page: 0 });
@@ -105,7 +105,7 @@ export const FavoritesPage: FC = () => {
   }
 
   const arrayForRender = sortedArray.slice(start, end);
-  console.log('arrayForRender :>> ', arrayForRender);
+ 
   return (
     <div className={`${styles.Container}`}>
       {isLoading && <Loader />}

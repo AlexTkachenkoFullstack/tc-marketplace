@@ -23,8 +23,7 @@ const CatalogPagination: React.FC<IProps> = ({
   updateStyles
 }) => {
   return (
-    <div className={styles.container}
-    style={{rowGap:updateStyles==='isFavoritesPage' ? 20:''}}
+    <div className={styles.container}   
     >
       <button
         type="button"

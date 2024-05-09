@@ -3,28 +3,28 @@
 .card {
   display: flex;
   flex-direction: column;
-  width: 100%;
-
+  width: 320px;
   @include onTablet {
-    flex-direction: row;
-    height: 240px;
-    column-gap: 16px;
+    width: 334px;
   }
-
+  @include onDesktop {
+    width: 400px;
+  }
   .photo {
     position: relative;
     flex-shrink: 0;
     width: 100%;
-    height: 200px;
-    margin-bottom: 16px;
-    // margin-bottom: 8px;
-
+    height: 240px;
+    margin-bottom: 10px;
     @include onTablet {
-      width: 384px;
-      height: 240px;
+      height: 251px;
+      margin-bottom: 12px;
+    }
+    @include onDesktop {
+      height: 300px;
+      margin-bottom: 16px;
     }
   }
-
   .img {
     display: block;
     width: 100%;
@@ -32,110 +32,97 @@
     object-fit: cover;
     border-radius: 0.5rem;
   }
-
   .infoContainer {
     position: relative;
     width: 320px;
     @include onTablet {
       display: flex;
       flex-direction: column;
-      width: 288px;
-      height: 240px;
+      width: 100%;    
     }
     @include onDesktop {
-      width: 544px;
     }
   }
-
   .col {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
+    @include onTablet {
+      margin-bottom: 12px;
+    }
+    @include onDesktop {
+      margin-bottom: 16px;
+    }
   }
-
   .link {
     transition: text-decoration-color $effectDuration;
     text-decoration-color: transparent;
-
     &:hover {
       text-decoration-color: inherit;
     }
   }
-
   .title {
+    width: 244px;
+    height: 35px;
     font-family: Roboto;
     font-size: $mobile-lg;
     font-style: normal;
     font-weight: 500;
-    line-height: 24px; /* 150% */
+    // line-height: 24px; /* 150% */
     letter-spacing: 0.15px;
     color: $color-medium-dark-gray;
-
-    // font-size: 20px;
-    // font-weight: 600;
-    // line-height: 22px;
-    // margin-bottom: 14px;
-
     @include onTablet {
-      font-size: 22px;
-      font-weight: 700;
-      line-height: 26.4px;
-      margin-bottom: 12px;
+      width: 258px;
+      font-size: $mobile-lg;
+    }
+    @include onDesktop {
+      width: 372px;
     }
   }
-
   .price {
     font-family: Roboto;
-    font-size: $mobile-lg;
+    font-size: $mobile-xl;
     font-style: normal;
     font-weight: 700;
-    line-height: 120%;
+    // line-height: 120%;
     color: $color-black;
     margin-bottom: 8px;
-    // margin-bottom: 12px;
-    // font-size: 20px;
-    // font-weight: 600;
-    // line-height: 22px;
-
     @include onTablet {
-      font-size: 22px;
+      font-size: $tablet-xl;
       font-weight: 700;
-      line-height: 26.4px;
+      // line-height: 26.4px;
+      margin-bottom: 10px;
+    }
+    @include onDesktop {
       margin-bottom: 12px;
     }
   }
-
   .techSpecs {
     display: flex;
     justify-content: space-between;
     margin-bottom: 8px;
-    // align-items: center;
-    // flex-wrap: wrap;
-
-    // row-gap: 8px;
-    // margin-bottom: 12px;
     .emptyIcon {
       margin-right: 8px;
     }
-
     @include onTablet {
-      row-gap: 16px;
+      margin-bottom: 10px;
+    }
+    @include onDesktop {
       margin-bottom: 12px;
     }
   }
-
   .techSpec {
     width: 154px;
-    display: flex;
-    // padding-inline-end: 18px;
+    display: flex;   
     color: $color-dark-grey;
-    font-size: 14px;
+    font-size: $mobile-sm;
     font-weight: 500;
-    line-height: 20px;
+    // line-height: 20px;
     letter-spacing: 0.15px;
 
     @include onTablet {
       padding-inline-end: 16px;
+      font-size: $tablet-sm;
     }
     &:nth-child(2) {
       padding-inline-end: 0;
@@ -147,7 +134,10 @@
   .wrapper {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
+    @include onDesktop {
+      gap: 8px;
+    }
   }
   .description {
     font-size: 16px;
@@ -164,7 +154,6 @@
     -webkit-line-clamp: 3;
     word-wrap: break-word;
   }
-
   .created {
     display: flex;
     align-items: center;
@@ -175,10 +164,8 @@
     }
   }
 }
-
 .iconIsFavouriteContainer {
-  // position: absolute;
-
+   // position: absolute;
   top: 12px;
   right: 12px;
   display: flex;
@@ -189,20 +176,17 @@
   height: 24px;
   width: 24px;
 }
-
 .likeBtn {
   width: 40px;
   height: 40px;
-  aspect-ratio: 1/1;
+  // aspect-ratio: 1/1;
   border-radius: 50%;
   // box-shadow: $shadow-btn;
   border: none;
   background-color: $white-color;
-
   &:hover {
     background-color: $bg-hover-btn;
   }
-
   img {
     display: block;
     width: 24px;
@@ -210,7 +194,6 @@
     object-fit: cover;
   }
 }
-
 .optionBtn {
   display: flex;
   justify-content: center;
