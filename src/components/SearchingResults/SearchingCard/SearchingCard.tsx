@@ -22,7 +22,6 @@ import { ReactComponent as Fuel } from '../../../assets/icons/fuel.svg';
 import { ReactComponent as CalendarMonth } from '../../../assets/icons/calendar_month.svg';
 import { ReactComponent as Location } from '../../../assets/icons/location.svg';
 
-
 import { CommonBtn } from 'components/Buttons/CommonBtn';
 
 import { convertDate } from 'utils/convertDate';
@@ -38,7 +37,7 @@ interface IProps {
   isShowMenu: boolean;
   updateAfterAllHide: () => void;
   cancelFavorite?: (id: number) => void;
-  isFavoritePage?: string;
+  isDisabled?: boolean;
 }
 
 const SearchingCard: React.FC<IProps> = ({
@@ -49,7 +48,7 @@ const SearchingCard: React.FC<IProps> = ({
   isShowMenu,
   updateAfterAllHide,
   cancelFavorite,
-  isFavoritePage,
+  isDisabled,
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -102,7 +101,7 @@ const SearchingCard: React.FC<IProps> = ({
       </div>
       <div className={styles.infoContainer} onClick={onInfoContainerClick}>
         <button
-          style={{ display: isFavoritePage ? 'none' : '' }}
+          style={{ display: isDisabled ? 'none' : '' }}
           type="button"
           className={styles.optionBtn}
           onClick={event => car?.id !== undefined && onShowMenu(event, car.id)}
@@ -171,13 +170,16 @@ const SearchingCard: React.FC<IProps> = ({
         <p
           id="discr"
           className={styles.description}
-          style={{ display: isFavoritePage ? 'none' : '' }}
+          style={{ display: isDisabled ? 'none' : '' }}
         >
           {car?.description}
         </p>
 
         <p className={styles.created}>
-          <CalendarMonth className={styles.clockIcon}  style={{ display: isFavoritePage ? 'none' : '' }}/>
+          <CalendarMonth
+            className={styles.clockIcon}
+            style={{ display: isDisabled ? 'none' : '' }}
+          />
           {created}
         </p>
       </div>

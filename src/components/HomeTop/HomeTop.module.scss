@@ -1,15 +1,20 @@
 @import '../../styles/main.scss';
 
 .homeTop {
-  background-color: $background-color-white;
-  background-image: url('../../assets/images/test8.jpeg');
-  background-position: 80% 50%;
-  background-size: cover;
-  height: 100vh;
+  background-color: $bg-color-light;
+  // background-image: url('../../assets/images/test8.jpeg');
+  // background-position: 80% 50%;
+  // background-size: cover;
 
-  @media (min-width: $tablet-min-width) {
-    background-position: 85% 40%;
-    background-size: cover;
+  height: 485px;
+
+  @include onTablet {
+    height: 342px;
+    // background-position: 85% 40%;
+    // background-size: cover;
+  }
+  @include onDesktop {
+    height: 331px;
   }
 }
 
@@ -24,46 +29,48 @@
 // }
 
 .title {
-  margin-bottom: 40px;
-  font-size: 32px;
-  font-weight: 700;
-  line-height: 36px;
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: 800;
+  // line-height: 36px;
 
-  @media (min-width: 880px) {
-    margin-top: -60px;
-    font-size: 62px;
+  @include onTablet {
+    margin-top: 60px;
+    margin-bottom: 20px;
+    font-size: 26px;
   }
 
-  @media (min-width: $desktop-min-width) {
+  @include onDesktop {
     margin-top: 60px;
-    margin-bottom: 60px;
-    font-size: 62px;
+    margin-bottom: 24px;
+    font-size: 32px;
   }
 }
 
-@media (min-width: $desktop-min-width) {
-  .container_bottom {
+.container_bottom {
+  @include onTablet {
     display: flex;
-    justify-content: space-between;
-    width: 769px;
+    // justify-content: space-between;
+    // width: 769px;
+    flex-direction: column;
+  }
+  @include onDesktop {
+    flex-direction: unset;
   }
 }
 
 .select_bar {
   position: relative;
   box-sizing: border-box;
-  max-width: 944px;
+  // max-width: 944px;
   display: flex;
   flex-direction: column;
-
-  @media (min-width: 880px) {
-    min-width: 768px;
-    margin-right: 8px;
+  @include onTablet {
+    width: 688px;
+    flex-direction: unset;
     display: grid;
     height: min-content;
-
     grid-template-columns: repeat(3, minmax(100px, 1fr));
-
     div:first-child button {
       border-top-right-radius: 0px;
       border-bottom-right-radius: 0px;
@@ -84,12 +91,10 @@
       width: 2px;
       height: 20px;
       z-index: 3;
-
       right: calc(100% / 3);
       top: calc(48px / 2 - 10px);
       background: url('../../assets/icons/line.svg') no-repeat;
     }
-
     &::after {
       position: absolute;
       content: '';
@@ -102,52 +107,54 @@
       background: url('../../assets/icons/line.svg') no-repeat;
     }
   }
+  @include onDesktop {
+    width: 1056px;
+    margin-right: 8px;
+  }
 }
 
 .centered_container {
-  @media (min-width: $mobile-min-width) {
-    width: 100%;
-    max-width: calc(100% - 10%);
+  width: 320px;
+  position: absolute;
+  // top: 245px;
+  top: 21.1%;
+  // left: 180px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  @include onTablet {
+    width: 688px;
     position: absolute;
-    top: 50%;
-    left: 50%;
+    // top: 134px;
+    top: 13.6%;
+    // left: 384px;
+
     transform: translate(-50%, -50%);
   }
 
-  @media (min-width: $desktop-min-width) {
-    max-width: 850px;
+  @include onDesktop {
+    width: 1248px;
     position: absolute;
-    top: 50%;
-    left: 50%;
+    // top: 162px;
+    top: 13.8%;
+    // left: 721px;
     transform: translate(-50%, -50%);
   }
 }
-
-@media (min-width: $desktop-min-width) {
-  .centered_container {
-    max-width: 850px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-}
-
 .search {
   display: flex;
   align-items: center;
   // justify-content: space-between;
   gap: 12px;
-  @include onTablet{
+  @include onTablet {
     justify-content: space-between;
   }
 
   &_button {
     display: flex;
     align-items: center;
-    padding: 14px 24px;
+    padding: 8px 16px;
     border-radius: 100px;
-    height: 52px;
+    // height: 40px;
     line-height: 48px;
 
     background-color: $color-grey;
@@ -157,14 +164,20 @@
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
-
+    @include onTablet {
+      // height: 40px;
+    }
+    @include onDesktop {
+      height: 48px;
+      padding: 10px 20px;
+    }
     &_text {
-      color: #feffff;
+      color: $bg-color-white;
       text-align: center;
       font-family: Roboto;
       font-size: 16px;
       font-style: normal;
-      font-weight: 600;
+      font-weight: 500;
       line-height: 24px; /* 150% */
       letter-spacing: 0.15px;
       margin-right: 8px;
@@ -178,7 +191,7 @@
   }
 
   &_more {
-    color: $background-color-white;
+    color: $color-dark-blue;
     // background-color: inherit;
     // border-radius: 100px;
     // white-space: nowrap;
@@ -189,26 +202,26 @@
     // font-size: 12px;
     // font-style: normal;
     // font-weight: 500;
-    width: 139px;
-    padding: 10px 12px;
+    // width: 139px;
+    // padding: 10px 12px;
     text-align: center;
     height: var(--Spacing-32-spacing, 40px);
     /* Label Medium */
     font-family: Roboto;
-    font-size: 11px;
+    font-size: $xs;
     font-style: normal;
     font-weight: 400;
     line-height: 16px; /* 145.455% */
     letter-spacing: 0.5px;
 
-    @media (min-width: $desktop-min-width) {    
+    @media (min-width: $desktop-min-width) {
       // margin-top: 12px;
     }
   }
   &_more:hover {
-    width: 139px;
+    // width: 139px;
     color: black;
-    padding: 10px 12px;
+    // padding: 10px 12px;
     display: inline-flex;
     height: var(--Spacing-32-spacing, 40px);
     flex-direction: column;
@@ -216,19 +229,19 @@
     align-items: center;
     gap: var(--Spacing-8-spacing, 8px);
     flex-shrink: 0;
-    border-radius: var(--Spacing-24-spacing, 24px);
-    border: 1px solid var(--Black, #434343);
-    background: var(--light-gray, #e4e4e4);
+    // border-radius: var(--Spacing-24-spacing, 24px);
+    // border: 1px solid var(--Black, #434343);
+    // background: var(--light-gray, #e4e4e4);
     /* 2 */
-    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
+    // box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
   }
   &_more:active {
-    border-radius: var(--Spacing-24-spacing, 24px);
-    border: 1px solid var(--White, #feffff);
-    background: var(--Dark-Gray, #606060);
+    // border-radius: var(--Spacing-24-spacing, 24px);
+    // border: 1px solid var(--White, #feffff);
+    // background: var(--Dark-Gray, #606060);
 
     /* 2 */
-    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
+    // box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
     color: var(--White, #feffff);
     text-align: center;
     /* Label Medium */

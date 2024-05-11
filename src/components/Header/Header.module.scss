@@ -11,17 +11,21 @@
   padding: 8px 20px;
   background-color: $bg-color-light;
   z-index: 3;
+  padding: 12px 20px;
 
-  @media (min-width: 768px) {
+  @include onTablet {
     height: 68px;
-    padding: 12px 32px;
+    padding: 12px 40px;
+  }
+  @include onDesktop {
+    padding: 12px 96px;
   }
 
-  &__burger {
-    border: none;
-    padding: 8px;
-    cursor: pointer;
-  }
+  // &__burger {
+  //   border: none;
+  //   padding: 8px;
+  //   cursor: pointer;
+  // }
 
   &__nav {
     display: none;
