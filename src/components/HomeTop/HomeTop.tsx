@@ -144,9 +144,9 @@ export const HomeTop = () => {
     dispatch(
       saveParamsForSubscr({
         selectedCategory: selectedCategory,
-        brand: Array.isArray(carMark) ? carMark : [carMark],
-        model: carModel,
-        region: selectedRegions,
+        carMark: Array.isArray(carMark) ? carMark : [carMark],
+        carModel: carModel,
+        selectedRegions: selectedRegions,
       }),
     );
   };
