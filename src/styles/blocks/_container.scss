@@ -3,8 +3,20 @@
 @import '../utils/breakpoints';
 
 .container {
-  @include contentPaddingInline;
-  max-width: $desktop-min-width;
-  margin-inline: auto;
+  max-width: $mobile-min-width;
   box-sizing: border-box;
+  margin-inline: auto;
+  padding: 0 20px;
+  @include onTablet {
+    padding: 0 40px;
+    max-width: $tablet-min-width;
+  }
+  @include onDesktop {
+    padding: 0 96px;
+    max-width: $desktop-min-width;
+  }
+  // @include contentPaddingInline;
+  // max-width: $desktop-min-width;
+  // margin-inline: auto;
+  // box-sizing: border-box;
 }

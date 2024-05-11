@@ -14,9 +14,9 @@ export const FavoritesPage: FC = () => {
   const [optionMenuId, setOptionMenuId] = useState<number | null>(null);
   const [responseData, setResponseData] = useState<any[]>([]);
   const [start, setStart] = useState(0);
-  const [end, setEnd] = useState(4);
+  const [end, setEnd] = useState(15);
   const totalAdverts = responseData.length;
-  const advertsPerPage = 12;
+  const advertsPerPage = 15;
   const totalPages =
     totalAdverts !== null ? Math.ceil(totalAdverts / advertsPerPage) : 1;
   const [paginations, setPaginations] = useState({ page: 0 });
@@ -105,7 +105,7 @@ export const FavoritesPage: FC = () => {
   }
 
   const arrayForRender = sortedArray.slice(start, end);
- 
+  console.log('arrayForRender :>> ', arrayForRender);
   return (
     <div className={`${styles.Container}`}>
       {isLoading && <Loader />}
@@ -143,7 +143,7 @@ export const FavoritesPage: FC = () => {
             isShowMenu={optionMenuId === car.id}
             updateAfterAllHide={updateAfterAllHide}
             cancelFavorite={handleCancelFavorite}
-            isFavoritePage="isFavoritePage"
+            isDisabled = {true}
           />
         ))}
       </ul>

@@ -16,12 +16,12 @@
 }
 
 .category {
-  padding: 10px 22px;
+  padding: 5px 16px;
   box-sizing: border-box;
-  background-color: $white-color;
+  background-color: $bg-color-white;
   border: none;
   border-radius: 20px;
-  color: $color-grey;
+  color: $color-black;
   cursor: pointer;
   white-space: nowrap;
   font-family: Roboto;
@@ -97,8 +97,9 @@
   text-align: left;
 }
 .selected {
-  background-color: #797979;
-  color: #feffff;
+  background-color: $bg-color-active;
+  border: 1px solid $border-active;
+  // color: $color-black;
 }
 .btn {
   display: none;

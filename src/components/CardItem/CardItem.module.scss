@@ -1,16 +1,28 @@
 @import '../../styles/utils/breakpoints';
-
 .card {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  width: 100%;
+  // width: 320px;
+  // @include onTablet {
+  //   width: 334px;
+  // }
+  // @include onDesktop {
+  //   width: 400px;
+  // }
 
   .photo {
     display: block;
-    flex-shrink: 0;
     width: 100%;
-    height: 17.5rem;
+    height: 240px;
+    margin-bottom: 10px;
+    @include onTablet {
+      height: 251px;
+      margin-bottom: 12px;
+    }
+    @include onDesktop {
+      height: 300px;
+      margin-bottom: 16px;
+    }
   }
 
   .img {
@@ -23,6 +35,10 @@
   .col {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 5px;
+    // @include onDesktop {
+    //   margin-bottom: 5px;
+    // }
   }
 
   .link {
@@ -37,52 +53,82 @@
   }
 
   .title {
-    font-size: 1.375rem;
+    font-family: Roboto;
+    font-size: $mobile-2xl;
     font-weight: 700;
     line-height: 1.65rem;
+    @include onTablet {
+      font-size: $tablet-2xl;
+    }
+    @include onDesktop {
+      width: 324px;
+      //  height: 35px;
+    }
   }
 
   .price {
     font-size: 1.25rem;
     font-weight: 700;
     line-height: 1.75rem;
+    margin-bottom: 5px;
+    // @include onDesktop {
+    // }
   }
 
   .techSpecs {
     display: flex;
-    align-items: center;
-    flex-wrap: wrap;
+    // align-items: center;
+    // flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    @include onDesktop {
+      margin-bottom: 12px;
+      gap: 12px;
+    }
   }
-
+  .emptyIcon {
+    margin-right: 8px;
+  }
   .techSpec {
+    display: flex;
+    align-items: center;
     position: relative;
-    padding-inline-end: 1.125rem;
+    // padding-inline-end: 1.125rem;
     color: $color-dark-grey;
     font-size: 0.875rem;
     font-weight: 500;
     line-height: 1.25rem;
     letter-spacing: 0.00625rem;
-
+    @include onDesktop {
+      width: 194px;
+    }
     &:last-child {
       padding-inline-end: 0;
     }
 
-    &:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      right: 0.5rem;
-      transform: translateY(-50%);
-      display: block;
-      width: 0.125rem;
-      height: 0.125rem;
-      background-color: $color-dark-grey;
-      border-radius: 50%;
-    }
+    // &:not(:last-child)::after {
+    //   content: '';
+    //   position: absolute;
+    //   top: 50%;
+    //   right: 0.5rem;
+    //   transform: translateY(-50%);
+    //   display: block;
+    //   width: 0.125rem;
+    //   height: 0.125rem;
+    //   background-color: $color-dark-grey;
+    //   border-radius: 50%;
+    // }
   }
 }
-
-.iconIsFavouriteContainer{
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  @include onDesktop {
+    gap: 8px;
+  }
+}
+.iconIsFavouriteContainer {
   display: flex;
   align-items: center;
   justify-content: center;

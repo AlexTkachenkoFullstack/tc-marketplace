@@ -722,7 +722,21 @@ export const NewAnnouncement: React.FC = () => {
       }, 500);
     }
   };
-
+console.log('selectedImages.length > 0 :>> ', selectedImages.length > 0);
+console.log('textValue.length >= 100 :>> ', textValue.length >= 100);
+console.log('isValid :>> ', isValid);
+console.log(' mainPhoto !== "" :>> ',  mainPhoto !== '');
+console.log('price :>> ', price);
+console.log('selectedCity !== Місто :>> ', selectedCity !== 'Місто');
+console.log(' carModel !==  :>> ',  carModel !== '');
+console.log('yearCar !== Ріk:>> ', yearCar !== 'Рік');
+console.log('selectedBodyType !== Тип кузову :>> ', selectedBodyType !== 'Тип кузову');
+console.log('selectedFuelType !== tип палива :>> ', selectedFuelType !== 'Тип палива');
+console.log('fuelConsumption !== Літри :>> ',  fuelConsumption !== 'Літри');
+console.log('selectedTransmission !== Коробка передач :>> ', selectedTransmission !== 'Коробка передач');
+console.log('mileage  :>> ', mileage);
+console.log('engineVolumes !== Літри', engineVolumes !== 'Літри');
+console.log('selectedDriveType !== Привід :>> ', selectedDriveType !== 'Привід');
   const handleAddOrUpdateAdvers = () => {
     if (isAdvertisements) {
       if (
@@ -740,7 +754,7 @@ export const NewAnnouncement: React.FC = () => {
         (typeCategory === 'Водний транспорт'
           ? true
           : selectedTransmission !== 'Коробка передач') &&
-        (typeCategory === 'Водний транспорт' ? true : mileage) &&
+        (typeCategory === 'Водний транспорт' || typeCategory === 'Сільгосптехніка' ? true : mileage) &&
         (typeCategory === 'Сільгосптехніка' ||
         typeCategory === 'Водний транспорт'
           ? true
@@ -750,7 +764,7 @@ export const NewAnnouncement: React.FC = () => {
           : selectedDriveType !== 'Привід') &&
         inputPhone.length === 9
       ) {
-        console.log('click :>> ');
+        // console.log('click :>> ');
         const createFormData = (selectedImageFile: any) => {
           const modelId = getArrayModelsOfId(models, carModel);
           const cityId = getArrayCityOfId(cities, selectedCity);
@@ -824,7 +838,6 @@ export const NewAnnouncement: React.FC = () => {
             numberAxles: numberAxlesId[0],
             phone: staticValue + inputPhone,
           };
-
           formData.append(
             'requestAddTransportDTO',
             new Blob([JSON.stringify(requestData)], {
@@ -832,7 +845,6 @@ export const NewAnnouncement: React.FC = () => {
             }),
           );
           formData.set('Content-Type', 'application/json');
-
           return formData;
         };
         const formData: FormData = createFormData(selectedImages);

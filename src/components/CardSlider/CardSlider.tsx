@@ -32,7 +32,6 @@ export const CardSlider: React.FC<Props> = ({ title, cars }) => {
     } else {
       swiperRef?.slidePrev();
     }
-    console.log('swiperRef', swiperRef);
     setIsPrevBtnDisabled(() => swiperRef?.isBeginning as boolean);
     setIsNextBtnDisabled(() => swiperRef?.isEnd as boolean);
   };
@@ -67,22 +66,32 @@ export const CardSlider: React.FC<Props> = ({ title, cars }) => {
       </div>
       <div className={styles.content}>
         <Swiper
-          style={{ width: '100%' }}
+          // style={{ width: '100%' }}
           onSwiper={setSwiperRef}
-          slidesPerView={'auto'}
-          spaceBetween={16}
-          className={'mySwiper'}
+          // slidesPerView={'auto'}
+          // spaceBetween={24}
+          className={styles.swiper}
           breakpoints={{
+            320: {
+              slidesPerView: 1,
+              spaceBetween: 16,
+            },
             768: {
               slidesPerView: 2,
+              spaceBetween: 20,
             },
-            1024: {
+            1440: {
               slidesPerView: 3,
+              spaceBetween: 24,
             },
           }}
         >
           {cars?.map((car, index) => (
-            <SwiperSlide className={styles.slide} key={index}>
+            <SwiperSlide
+              className={styles.slide}
+              key={index}
+              // style={{ width: '400px' }}
+            >
               <CardItem car={car} key={car.id} />
             </SwiperSlide>
           ))}
