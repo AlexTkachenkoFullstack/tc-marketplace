@@ -32,6 +32,7 @@ import {
   cleanParamsForSubscr,
   saveParamsForSubscr,
 } from 'redux/filter/slice';
+import { getCarTypeParam } from 'services/services';
 // import { ISearchParams } from 'types/ISearchParam';
 // import {Advancedsearch} from 'pages/AdvancedSearchPage/AdvancedSearch';
 
@@ -50,6 +51,20 @@ export const HomeTop = () => {
   const [selectedRegions, setSelectedRegions] = useState<string | string[]>(
     'Вся Україна',
   );
+  const [data, setData] = useState<any>({});
+
+  useEffect(() => {
+    if (!transportTypeId) {
+      return;
+    }
+    async function getCarTypeParams() {
+      if (transportTypeId !== null) {
+        const data = await getCarTypeParam(transportTypeId);
+        setData(data);
+      }
+    }
+    getCarTypeParams();
+  }, [transportTypeId]);
 
   useEffect(() => {
     dispatch(cleanParamsForSubscr());
@@ -147,6 +162,7 @@ export const HomeTop = () => {
         carMark: Array.isArray(carMark) ? carMark : [carMark],
         carModel: carModel,
         selectedRegions: selectedRegions,
+        data,
       }),
     );
   };

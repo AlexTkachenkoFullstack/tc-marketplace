@@ -251,6 +251,7 @@ export const filterSlice = createSlice({
         | { carMark: string | string[] }
         | { carModel: string | string[] }
         | { selectedRegions: string | string[] }
+        | { data: {} }
       >,
     ) {
       state.paramsForSubscr = { ...state.paramsForSubscr, ...action.payload };
