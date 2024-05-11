@@ -4,9 +4,13 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import styles from './SearchingResultsMenu.module.scss';
 
 import { changeFiltredParams } from 'redux/filter/slice';
-import { getSelectedCars } from 'redux/filter/selectors';
-
 import { Dropdown } from 'components/Dropdown/Dropdown';
+import { useSearchTitleCreator } from 'hooks/useSearchTitleCreator';
+import SubscriptionModal from 'components/SubscriptionModal';
+import { createPortal } from 'react-dom';
+import { getParamsForSuscr } from 'redux/filter/selectors';
+
+const portal = document.querySelector('#modal-root') as Element;
 
 interface Iprops {
   onAdvancedFilter?: () => void;
@@ -22,8 +26,16 @@ const SearchingResultsMenu: React.FC<Iprops> = ({
     'CREATED',
   );
   const [sortBy, setSortBy] = useState<'ASC' | 'DESC'>('ASC');
-  const dispatch = useAppDispatch();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const title = useSearchTitleCreator();
+  const dispatch = useAppDispatch();
+  const requestParams = useAppSelector(getParamsForSuscr);
+
+  const toggleModalIsOpen = () => {
+    setIsModalOpen(prev => !prev);
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -38,32 +50,6 @@ const SearchingResultsMenu: React.FC<Iprops> = ({
   }, []);
 
   const isMobile = screenWidth < 768;
-
-  const { transportTypeId } = useAppSelector(getSelectedCars);
-  let filterType;
-  switch (transportTypeId) {
-    case 1:
-      filterType = 'Легкові';
-      break;
-    case 2:
-      filterType = 'Мото';
-      break;
-    case 3:
-      filterType = 'Вантажівки';
-      break;
-    case 4:
-      filterType = 'Спецтехніка';
-      break;
-    case 5:
-      filterType = 'Сільгосптехніка';
-      break;
-    case 6:
-      filterType = 'Водний транспорт';
-      break;
-
-    default:
-      break;
-  }
 
   useEffect(() => {
     switch (typeOfSort) {
@@ -109,7 +95,7 @@ const SearchingResultsMenu: React.FC<Iprops> = ({
       <h1 className={styles.title}>
         {isOpenAdvancedFilter
           ? 'Розширений пошук'
-          : `Результати пошуку: ${filterType}`}
+          : `Пошук: "${title}"`}
       </h1>
       <div
         className={styles.menu}
@@ -141,7 +127,22 @@ const SearchingResultsMenu: React.FC<Iprops> = ({
             setOption={setTypeOfSort}
           />
         </div>
+        <button
+          className={styles.resultFilterReset}
+          type="button"
+          onClick={toggleModalIsOpen}
+        >
+          Підписатись на пошук
+        </button>
       </div>
+      {isModalOpen &&
+        createPortal(
+          <SubscriptionModal
+            toggleModalIsOpen={toggleModalIsOpen}
+            requestParams={requestParams}
+          />,
+          portal,
+        )}
     </div>
   );
 };

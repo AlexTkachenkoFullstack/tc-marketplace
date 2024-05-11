@@ -156,8 +156,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
     editSubscrId,
     notificationStatus,
   } = requestParams;
-  // console.log('requestParams', requestParams);
-  // console.log('editSubscrId', editSubscrId);
+
   const transportTypes: IType[] = useAppSelector(getFilterTypes);
   const brands: IBrand[] = useAppSelector(getFilterBrands);
   const models: ModelListType = useAppSelector(getFilterCarsList);
@@ -220,6 +219,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
 
   useEffect(() => {
     if (!isMounted) {
+      console.log('modalka', selectedCategory);
       setSelectedType(selectedCategory);
       setTransportType(selectedCategory);
       setBrand(carMark);

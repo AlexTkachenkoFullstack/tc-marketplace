@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { paramsSerializer } from 'utils/paramsSerializer';
 
 axios.defaults.baseURL = 'https://api.pawo.space/api/v1/';
 
@@ -239,3 +240,23 @@ export const getFavoritesCars = async () => {
   }
 }; 
 //https://api.pawo.space/api/v1/main/favorite-transports
+
+export const fetchModelSList = async (id: number, brandId: number[]) => {
+  setAuth();
+  const searchParams = {
+    transportBrandsId: brandId,
+  };
+   try {
+     const config = {
+       params: searchParams,
+       paramsSerializer,
+     };
+     const response = await instance(
+       `/catalog/get-param?transportTypeId=${id}`,
+       config,
+     );
+     return response.data.transportModelDTOS || [];
+   } catch (err) {
+    console.error('Помилка в отриманні даних!', err);
+   }
+};

@@ -149,36 +149,15 @@ export const Dropdown: FC<Props> = props => {
     }
   }, [resetValue, setOption, startValue]);
 
-  // useEffect(() => {
-  //   if (selectedOptions) {
-  //     return;
-  //   }
-  //   setOption(startValue);
-  // }, [setOption, startValue, selectedOptions]);
-
   useEffect(() => {
-    if (isFirstRender) {
-      if (!selectedOptions) {
-        setOption(startValue);
-        // return;
-      }
-      if (Array.isArray(selectedOptions)) {
-        setCheckedValue(selectedOptions);
-        setOption(selectedOptions);
-      }
+    if (!selectedOptions) {
+      setOption(startValue);
     }
-    setIsFirstRender(false);
-  }, [selectedOptions, setCheckedValue, isFirstRender, setOption, startValue]);
-
-  // useEffect(() => {
-  //   if (!selectedOptions) {
-  //     return;
-  //   }
-  //   if (Array.isArray(selectedOptions)) {
-  //     setCheckedValue(selectedOptions);
-  //     setOption(selectedOptions);
-  //   }
-  // }, [carMark, selectedOptions, setOption]);
+    if (Array.isArray(selectedOptions)) {
+      setCheckedValue(selectedOptions);
+      setOption(selectedOptions);
+    }
+  }, [selectedOptions, setCheckedValue, setOption, startValue]);
 
   return (
     <div

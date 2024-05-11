@@ -12,6 +12,7 @@ import {
 } from 'redux/filter/selectors';
 import {
   fetchBrands,
+  fetchCars,
   fetchModels,
   fetchRegions,
   fetchTypes,
@@ -25,7 +26,12 @@ import { IModel } from 'types/IModel';
 
 import { useNavigate } from 'react-router-dom';
 import { getArrayModelsOfId, getArrayOfId } from 'utils/getArrayOfId';
-import { changeFiltredParams, cleanFiltredStore } from 'redux/filter/slice';
+import {
+  changeFiltredParams,
+  cleanFiltredStore,
+  saveParamsForSubscr,
+} from 'redux/filter/slice';
+// import { ISearchParams } from 'types/ISearchParam';
 // import {Advancedsearch} from 'pages/AdvancedSearchPage/AdvancedSearch';
 
 export const HomeTop = () => {
@@ -87,8 +93,24 @@ export const HomeTop = () => {
     const regionId = getArrayOfId(regions, selectedRegions);
     const modelId = getArrayModelsOfId(models, carModel);
     dispatch(
-      changeFiltredParams({ transportTypeId, brandId, modelId, regionId, orderBy:"CREATED", sortBy:"ASC" }),
+      changeFiltredParams({
+        transportTypeId,
+        brandId,
+        modelId,
+        regionId,
+        orderBy: 'CREATED',
+        sortBy: 'ASC',
+      }),
     );
+    // const searchParams: Pick<ISearchParams, 'transportBrandsId'> = {
+    //   transportBrandsId: brandId,
+    // };
+    const searchConfig = {
+      searchParams: {
+        transportBrandsId: brandId,
+      },
+    };
+    dispatch(fetchCars({ id: transportTypeId, searchConfig }));
     // const searchParams: Pick<
     //   ISearchParams,
     //   | 'transportTypeId'
@@ -109,9 +131,18 @@ export const HomeTop = () => {
     //   page: 0,
     //   searchParams,
     // };
-    
+
     // dispatch(fetchFiltredCars(searchConfig));
     navigate('/advanced-search');
+  
+    dispatch(
+      saveParamsForSubscr({
+        selectedCategory: selectedCategory,
+        brand: Array.isArray(carMark) ? carMark : [carMark],
+        model: carModel,
+        region: selectedRegions,
+      }),
+    );
   };
 
   const navigate = useNavigate();

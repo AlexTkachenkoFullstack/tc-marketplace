@@ -166,27 +166,6 @@ const SearchingResults: React.FC<IProps> = ({
     setFetchParam(prev => ({ ...prev, page: selected }));
   };
 
-  // useEffect(() => {
-  //   // Формируем базовый URL
-  //   let baseUrl = `/api.pawo.space/api/v1/catalog/search/page/${fetchParam.page}/limit/${memoParam.limit}/`;
-
-  //   // Создаем объект с параметрами
-  //   const queryParams: Record<string, string> = {};
-  //   Object.entries(memoParam.searchParams).forEach(([key, value]) => {
-  //     queryParams[key] = String(value);
-  //   });
-
-  //   // Преобразуем объект с параметрами в строку запроса
-  //   const queryString = new URLSearchParams(queryParams).toString();
-
-  //   // Формируем конечный URL
-  //   const finalUrl =
-  //     baseUrl + (queryString.length > 0 ? `?${queryString}` : '');
-
-  //   // Заменяем URL в истории
-  //   window.history.replaceState(null, '', finalUrl);
-  // }, [memoParam, fetchParam.page]);
-
   const { unseenTransportList, viewedTransportList } =
     useSelector(getSubscrCarList);
   const subsrcCarsArr = [...unseenTransportList, ...viewedTransportList];
