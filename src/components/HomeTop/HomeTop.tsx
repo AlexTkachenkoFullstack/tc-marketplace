@@ -29,6 +29,7 @@ import { getArrayModelsOfId, getArrayOfId } from 'utils/getArrayOfId';
 import {
   changeFiltredParams,
   cleanFiltredStore,
+  cleanParamsForSubscr,
   saveParamsForSubscr,
 } from 'redux/filter/slice';
 // import { ISearchParams } from 'types/ISearchParam';
@@ -49,6 +50,11 @@ export const HomeTop = () => {
   const [selectedRegions, setSelectedRegions] = useState<string | string[]>(
     'Вся Україна',
   );
+
+  useEffect(() => {
+    dispatch(cleanParamsForSubscr());
+    dispatch(cleanFiltredStore({ field: 'all' }));
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchRegions());
@@ -134,7 +140,7 @@ export const HomeTop = () => {
 
     // dispatch(fetchFiltredCars(searchConfig));
     navigate('/advanced-search');
-  
+
     dispatch(
       saveParamsForSubscr({
         selectedCategory: selectedCategory,

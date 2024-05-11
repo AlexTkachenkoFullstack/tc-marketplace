@@ -255,6 +255,9 @@ export const filterSlice = createSlice({
     ) {
       state.paramsForSubscr = { ...state.paramsForSubscr, ...action.payload };
     },
+    cleanParamsForSubscr(state) {
+      state.paramsForSubscr = initialState.paramsForSubscr;
+    },
     cleanFiltredStore(state, action: PayloadAction<{ field: string }>) {
       const { field } = action.payload;
       switch (field) {
@@ -317,5 +320,9 @@ export const filterSlice = createSlice({
   },
 });
 
-export const { changeFiltredParams, cleanFiltredStore, saveParamsForSubscr } =
-  filterSlice.actions;
+export const {
+  changeFiltredParams,
+  cleanFiltredStore,
+  saveParamsForSubscr,
+  cleanParamsForSubscr,
+} = filterSlice.actions;
