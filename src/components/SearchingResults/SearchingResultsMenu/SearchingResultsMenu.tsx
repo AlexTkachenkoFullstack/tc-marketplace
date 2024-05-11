@@ -9,6 +9,7 @@ import { useSearchTitleCreator } from 'hooks/useSearchTitleCreator';
 import SubscriptionModal from 'components/SubscriptionModal';
 import { createPortal } from 'react-dom';
 import { getParamsForSuscr } from 'redux/filter/selectors';
+import { ReactComponent as EyeCloseIcon } from '../../../assets/icons/star.svg';
 
 const portal = document.querySelector('#modal-root') as Element;
 
@@ -93,9 +94,7 @@ const SearchingResultsMenu: React.FC<Iprops> = ({
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>
-        {isOpenAdvancedFilter
-          ? 'Розширений пошук'
-          : `Пошук: "${title}"`}
+        {isOpenAdvancedFilter ? 'Розширений пошук' : `Пошук: "${title}"`}
       </h1>
       <div
         className={styles.menu}
@@ -128,10 +127,11 @@ const SearchingResultsMenu: React.FC<Iprops> = ({
           />
         </div>
         <button
-          className={styles.resultFilterReset}
+          className={styles.filter}
           type="button"
           onClick={toggleModalIsOpen}
         >
+          <EyeCloseIcon />
           Підписатись на пошук
         </button>
       </div>

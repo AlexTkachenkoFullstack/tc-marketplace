@@ -9,6 +9,8 @@ import { CategoryBar } from 'components/CategoryBar/CategoryBar';
 // import PersonalInfo from './PersonalInfo';
 // import Security from './Security';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useAppDispatch } from 'redux/hooks';
+import { cleanFiltredStore, cleanParamsForSubscr } from 'redux/filter/slice';
 
 enum Tab {
   MyAds,
@@ -23,6 +25,12 @@ export const UserPage: React.FC = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch =useAppDispatch()
+
+   useEffect(() => {
+     dispatch(cleanParamsForSubscr());
+     dispatch(cleanFiltredStore({ field: 'all' }));
+   }, [dispatch]);
 
   const categories = [
     'Мої оголошення',
@@ -31,6 +39,8 @@ export const UserPage: React.FC = () => {
     'Персональна інформація',
     'Безпека',
   ];
+
+
 
   let activeCategory: string;
   switch (activeTab) {
