@@ -7,6 +7,7 @@ import {
   getFilterCities,
   getFilterRegions,
   getFilterTypes,
+  getParamsForSuscr,
 } from 'redux/filter/selectors';
 import {
   fetchBrands,
@@ -20,7 +21,11 @@ import { IRegion } from 'types/IRegion';
 import { IBrand } from 'types/IBrand';
 import { ISearchParams } from 'types/ISearchParam';
 import { getCarTypeParam } from 'services/services';
-import { changeFiltredParams, cleanFiltredStore } from 'redux/filter/slice';
+import {
+  changeFiltredParams,
+  cleanFiltredStore,
+  saveParamsForSubscr,
+} from 'redux/filter/slice';
 import {
   getArrayBrandsOfId,
   getArrayCarBodyOfId,
@@ -46,14 +51,8 @@ import { ButtonVisibilityState } from 'types/ButtonVisibilityState';
 import { getInitialBlocksVisibility } from 'utils/getInitialBlocksVisibility';
 import { getWindowWidth } from 'utils/getWindowWidth';
 import { getInitialButtonVisibility } from 'utils/getInitialButtonVisibility';
-import { createPortal } from 'react-dom';
-import SubscriptionModal from 'components/SubscriptionModal';
 import ModelListType from 'types/ModelListType';
 import { useNavigate } from 'react-router-dom';
-
-// import { cleanSubscrCarList } from 'redux/profile/slice';
-
-const portal = document.querySelector('#modal-root') as Element;
 
 interface Props {
   onAdvencedFilter?: () => void;
@@ -129,17 +128,29 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
   // dropdown
   const [selectedCity, setSelectedCity] = useState<string | string[]>('Місто');
-  const [selectedRegions, setSelectedRegions] = useState<string | string[]>(
-    'Регіон',
-  );
+  const [selectedRegions, setSelectedRegions] = useState<string | string[]>('');
   const [countryDeliver, setCountryDeliver] = useState<string | string[]>(
     'Країна',
   );
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const toggleModalIsOpen = () => {
-    setIsModalOpen(prev => !prev);
-  };
+  const [isMounted, setIsMounted] = useState(false);
+
+  const {
+    selectedCategory: transportType,
+    carMark:brand,
+    carModel:model,
+    selectedRegions: region,
+  } = useAppSelector(getParamsForSuscr);
+
+  useEffect(() => {
+    if (!isMounted) {
+      transportType && setSelectedCategory(transportType);
+      brand.length > 0 && setCarMark(brand);
+      model.length > 0 && setCarModel(model);
+      region.length > 0 && setSelectedRegions(region);
+    }
+    setIsMounted(true);
+  }, [brand, isMounted, model, region, transportType]);
 
   const requestParams = {
     selectedCategory,
@@ -197,7 +208,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
   useEffect(() => {
     dispatch(fetchRegions());
     dispatch(fetchTypes());
-  }, [dispatch]);
+  }, [dispatch, region]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -468,7 +479,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
     handlerResetFilter();
     onAdvencedFilter?.();
     navigate('', { state: { id: 0 } });
+
+    dispatch(saveParamsForSubscr(requestParams));
   };
+
   return (
     <div className={styles.AdvSearchFilter}>
       <div className={styles.AdvSearchFilter_container}>
@@ -1207,13 +1221,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
         >
           Показати
         </button>
-        <button
-          className={styles.resultFilterReset}
-          type="button"
-          onClick={toggleModalIsOpen}
-        >
-          Зберегти пошук
-        </button>
+     
         <button
           className={styles.resultFilterReset}
           type="button"
@@ -1222,14 +1230,6 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           Скинути фільтр
         </button>
       </div>
-      {isModalOpen &&
-        createPortal(
-          <SubscriptionModal
-            toggleModalIsOpen={toggleModalIsOpen}
-            requestParams={requestParams}
-          />,
-          portal,
-        )}
     </div>
   );
 };

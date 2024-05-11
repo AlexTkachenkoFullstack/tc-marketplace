@@ -17,6 +17,7 @@ import { ICities } from 'types/ICities';
 import { ICar, IFiltredCarsPayload } from 'types/IСar';
 import { addToFavourites, removeFromFavourites } from 'redux/cars/operations';
 import ModelListType from 'types/ModelListType';
+import { act } from 'react-dom/test-utils';
 
 interface IFilterState {
   regions: IRegion[] | [];
@@ -35,6 +36,34 @@ interface IFilterState {
   };
   filtredCars: ICar[] | [];
   totalAdverts: number | null;
+  paramsForSubscr: {
+    selectedCategory: string;
+    carMark: string | string[];
+    carModel: string | string[];
+    carBody: string | string[];
+    year: { from: number; to: number };
+    carFuel: string | string[];
+    carTransmission: string | string[];
+    mileage: { from: number; to: number };
+    enginePower: { from: number; to: number };
+    carDriveType: string | string[];
+    selectedRegions: string | string[];
+    selectedCity: string | string[];
+    carColor: string | string[];
+    carTransportCondition: string | string[];
+    numberOfDoors: { from: number; to: number };
+    numberOfSeats: { from: number; to: number };
+    carNumberAxles: string | string[];
+    carWheelConfiguration: string | string[];
+    countryDeliver: string | string[];
+    price: { from: number; to: number };
+    engineDisplacement: { from: number; to: number };
+    data: any;
+    selectedOption: boolean | undefined;
+    selectedName?: string;
+    editSubscrId?: number;
+    notificationStatus?: boolean;
+  };
 }
 
 const initialState: IFilterState = {
@@ -55,6 +84,32 @@ const initialState: IFilterState = {
   error: null,
   isLoading: false,
   totalAdverts: null,
+
+  paramsForSubscr: {
+    selectedCategory: '',
+    carMark: [],
+    carModel: [],
+    carBody: [],
+    year: { from: 1970, to: 2024 },
+    carFuel: [],
+    carTransmission: [],
+    mileage: { from: 0, to: 1000000 },
+    engineDisplacement: { from: 0, to: 20 },
+    enginePower: { from: 0, to: 1000 },
+    carDriveType: [],
+    selectedRegions: [],
+    selectedCity: [],
+    carColor: [],
+    carTransportCondition: [],
+    numberOfDoors: { from: 2, to: 5 },
+    numberOfSeats: { from: 2, to: 18 },
+    carNumberAxles: [],
+    carWheelConfiguration: [],
+    countryDeliver: [],
+    price: { from: 100, to: 1000000 },
+    data: undefined,
+    selectedOption: undefined,
+  },
 };
 
 const handlePending = (state: IFilterState) => {
@@ -183,15 +238,23 @@ export const filterSlice = createSlice({
         | { numberOfSeatsFrom: number }
         | { numberOfSeatsTo: number }
         | { bargain: boolean }
-        | { orderBy: 'CREATED' | 'PRICE' | 'MILEAGE' } ////!
-        | { sortBy: 'ASC' | 'DESC' } ////!
+        | { orderBy: 'CREATED' | 'PRICE' | 'MILEAGE' }
+        | { sortBy: 'ASC' | 'DESC' }
       >,
     ) {
       state.select = { ...state.select, ...action.payload };
     },
-    // cleanFiltredStore(state) {
-    //   state.filtredCars = [];
-    // },
+    saveParamsForSubscr(
+      state,
+      action: PayloadAction<
+        | { selectedCategory: string }
+        | { brand: string | string[] }
+        | { model: string | string[] }
+        | { region: string | string[] }
+      >,
+    ) {
+      state.paramsForSubscr = { ...state.paramsForSubscr, ...action.payload };
+    },
     cleanFiltredStore(state, action: PayloadAction<{ field: string }>) {
       const { field } = action.payload;
       switch (field) {
@@ -204,12 +267,11 @@ export const filterSlice = createSlice({
         case 'models':
           return { ...state, models: [] };
         case 'all':
-          return state = initialState ;
+          return (state = initialState);
         default:
           return state;
       }
     },
-  
   },
   extraReducers: builder => {
     builder
@@ -255,8 +317,5 @@ export const filterSlice = createSlice({
   },
 });
 
-export const {
-  changeFiltredParams,
-  cleanFiltredStore,
-
-} = filterSlice.actions;
+export const { changeFiltredParams, cleanFiltredStore, saveParamsForSubscr } =
+  filterSlice.actions;

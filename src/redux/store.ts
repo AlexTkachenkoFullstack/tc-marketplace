@@ -22,10 +22,10 @@ export const persistConfig = {
 };
 
 const persistFilterConfig = {
-  key: "filterParams",
+  key: 'filterParams',
   storage,
-  whitelist: ["select"]
-}
+  whitelist: ['select', 'paramsForSubscr'],
+};
 
 const persistedAuthReducer = persistReducer(persistConfig, authSlice.reducer);
 const persistedFilterReducer = persistReducer(persistFilterConfig, filterSlice.reducer);
