@@ -248,9 +248,9 @@ export const filterSlice = createSlice({
       state,
       action: PayloadAction<
         | { selectedCategory: string }
-        | { brand: string | string[] }
-        | { model: string | string[] }
-        | { region: string | string[] }
+        | { carMark: string | string[] }
+        | { carModel: string | string[] }
+        | { selectedRegions: string | string[] }
       >,
     ) {
       state.paramsForSubscr = { ...state.paramsForSubscr, ...action.payload };
