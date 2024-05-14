@@ -45,6 +45,7 @@ import {
   fetchSubscriptions,
   saveSubscription,
 } from 'redux/profile/operations';
+import { cleanParamsForSubscr } from 'redux/filter/slice';
 
 interface Iprops {
   toggleModalIsOpen: () => void;
@@ -409,7 +410,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
         editSubscription({ ...SubscriptionParams, id: editSubscrId }),
       ).then(() => dispatch(fetchSubscriptions()));
     }
-
+    dispatch(cleanParamsForSubscr());
     toggleModalIsOpen();
   };
 

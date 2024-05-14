@@ -159,6 +159,17 @@ export const Dropdown: FC<Props> = props => {
     }
   }, [selectedOptions, setCheckedValue, setOption, startValue]);
 
+  useEffect(() => {
+     if (!selectedOptions) {
+       setOption(startValue);
+     }
+     if (Array.isArray(selectedOptions)) {
+       setCheckedValue(selectedOptions);
+       setOption(selectedOptions);
+     }
+  }, [optionList, selectedOptions, setOption, startValue]);
+  
+
   return (
     <div
       className={`${styles.container} ${
