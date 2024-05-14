@@ -49,6 +49,7 @@ const SearchingResults: React.FC<IProps> = ({
   const [filteredCarsArr, setFilteredCarsArr] = useState<ICar[]>([]);
   const [isShowMore, setIsShowMore] = useState(false);
   const [isComponentMounted, setIsComponentMounted] = useState(false);
+  
 
   const dispatch = useAppDispatch();
   const location = useLocation();
@@ -171,16 +172,25 @@ const SearchingResults: React.FC<IProps> = ({
   const subsrcCarsArr = [...unseenTransportList, ...viewedTransportList];
 
   const arrForRender = id ? subsrcCarsArr : filteredCarsArr;
+   const [title, setTitle] = useState<{ [key: string]: string[] }>({});
+
+  const handleTitle = (title: { [key: string]: string[] }) => {
+    setTitle(title);
+  };
 
   return (
     <>
       <SearchingResultsMenu
         onAdvancedFilter={handleAdvancedFilter}
         isOpenAdvancedFilter={isOpenAdvancedFilter}
+        title={title}
       />
 
       {isOpenAdvancedFilter && (
-        <AdvancedSearchFilter onAdvencedFilter={handleAdvancedFilter} />
+        <AdvancedSearchFilter
+          onAdvencedFilter={handleAdvancedFilter}
+          handleTitle={handleTitle}
+        />
       )}
 
       {!isOpenAdvancedFilter && (

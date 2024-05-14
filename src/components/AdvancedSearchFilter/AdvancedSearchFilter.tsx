@@ -56,11 +56,13 @@ import { useNavigate } from 'react-router-dom';
 
 interface Props {
   onAdvencedFilter?: () => void;
+  handleTitle?: (title: { [key: string]: string[] }) => void;
 }
 
 const N = 9;
 export const AdvancedSearchFilter: React.FC<Props> = ({
   onAdvencedFilter,
+  handleTitle,
   // clearSubscrId,
 }) => {
   const dispatch = useAppDispatch();
@@ -134,11 +136,61 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
   );
 
   const [isMounted, setIsMounted] = useState(false);
+  const [title, setTitle] = useState<{ [key: string]: string[] }>({});
+
+  useEffect(() => {
+    const handleTitle = (
+      carBrands: string | string[],
+      models: string | string[],
+    ) => {
+      if (Array.isArray(carBrands)) {
+        carBrands.forEach(item => setTitle(prev => ({ ...prev, [item]: [] })));
+      } else return;
+
+      carsList.forEach(item => {
+        if (
+          item.models.some(({ model }) => {
+            return models.includes(model);
+          })
+        ) {
+          const foundBrand = brands?.find(
+            ({ brandId }) => brandId === item.brandId,
+          )?.brand;
+          const modelForPush = item.models
+            .filter(({ model }) => models.includes(model))
+            .map(({ model }) => model);
+
+          if (typeof foundBrand === 'string' && modelForPush.length > 0) {
+            setTitle(prev => ({
+              ...prev,
+              [foundBrand]: [
+                ...(prev[foundBrand] as string[]),
+                ...modelForPush,
+              ],
+            }));
+          }
+        }
+      });
+    };
+
+    handleTitle(carMark, carModel);
+  }, [brands, carMark, carModel, carsList]);
+
+  useEffect(() => {
+    handleTitle && handleTitle(title);
+  }, [handleTitle, title]);
+
+  console.log(
+    'title',title
+    // Object.entries(title)
+    //   .map(item => `${item[0]}: ${item[1].join(', ')}`)
+    //   .join('; '),
+  );
 
   const {
     selectedCategory: transportType,
-    carMark:brand,
-    carModel:model,
+    carMark: brand,
+    carModel: model,
     selectedRegions: region,
   } = useAppSelector(getParamsForSuscr);
 
@@ -482,6 +534,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
     dispatch(saveParamsForSubscr(requestParams));
   };
+  useEffect(() => {
+    console.log('carModel', carModel);
+    setCarModel(carModel);
+  }, [carMark, carModel]);
 
   return (
     <div className={styles.AdvSearchFilter}>
@@ -1221,7 +1277,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
         >
           Показати
         </button>
-     
+
         <button
           className={styles.resultFilterReset}
           type="button"

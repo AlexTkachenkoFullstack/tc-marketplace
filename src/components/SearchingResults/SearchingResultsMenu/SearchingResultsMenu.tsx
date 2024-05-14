@@ -5,22 +5,25 @@ import styles from './SearchingResultsMenu.module.scss';
 
 import { changeFiltredParams } from 'redux/filter/slice';
 import { Dropdown } from 'components/Dropdown/Dropdown';
-import { useSearchTitleCreator } from 'hooks/useSearchTitleCreator';
+
 import SubscriptionModal from 'components/SubscriptionModal';
 import { createPortal } from 'react-dom';
-import { getParamsForSuscr } from 'redux/filter/selectors';
-import { ReactComponent as EyeCloseIcon } from '../../../assets/icons/star.svg';
+import { getParamsForSuscr, getTotalAdverts } from 'redux/filter/selectors';
+import { ReactComponent as StarIcon } from '../../../assets/icons/star.svg';
+import { fullTitle } from 'hooks/titleCreator';
 
 const portal = document.querySelector('#modal-root') as Element;
 
 interface Iprops {
   onAdvancedFilter?: () => void;
   isOpenAdvancedFilter?: boolean;
+  title: { [key: string]: string[] };
 }
 
 const SearchingResultsMenu: React.FC<Iprops> = ({
   onAdvancedFilter,
   isOpenAdvancedFilter,
+  title,
 }) => {
   const [typeOfSort, setTypeOfSort] = useState<string | string[]>('');
   const [orderBy, setOrderBy] = useState<'CREATED' | 'PRICE' | 'MILEAGE'>(
@@ -30,7 +33,6 @@ const SearchingResultsMenu: React.FC<Iprops> = ({
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const title = useSearchTitleCreator();
   const dispatch = useAppDispatch();
   const requestParams = useAppSelector(getParamsForSuscr);
 
@@ -91,10 +93,15 @@ const SearchingResultsMenu: React.FC<Iprops> = ({
     onAdvancedFilter?.();
   };
 
+  const titleCategory = useAppSelector(getParamsForSuscr).selectedCategory;
+  const totalAdverts = useAppSelector(getTotalAdverts);
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>
-        {isOpenAdvancedFilter ? 'Розширений пошук' : `Пошук: "${title}"`}
+        {isOpenAdvancedFilter
+          ? 'Розширений пошук'
+          : fullTitle(titleCategory, totalAdverts, title)}
       </h1>
       <div
         className={styles.menu}
@@ -109,31 +116,36 @@ const SearchingResultsMenu: React.FC<Iprops> = ({
         >
           <span className={styles.advFilter}>Розширений</span> фільтр
         </button>
-        <div className={styles.dropdownMenu}>
-          <Dropdown
-            updateStyle="menuStyle"
-            options={[
-              'Від дешевих до дорогих',
-              'Від дорогих до дешевих',
-              'Пробіг, за зростанням',
-              'Пробіг, за спаданням',
-              'Від нових до старих',
-              'Від старих до нових',
-            ]}
-            label="Сортування"
-            startValue="Сортування"
-            option={typeOfSort}
-            setOption={setTypeOfSort}
-          />
-        </div>
-        <button
-          className={styles.filter}
-          type="button"
-          onClick={toggleModalIsOpen}
-        >
-          <EyeCloseIcon />
-          Підписатись на пошук
-        </button>
+        {!isOpenAdvancedFilter && (
+          <>
+            <div className={styles.dropdownMenu}>
+              <Dropdown
+                updateStyle="menuStyle"
+                options={[
+                  'Від дешевих до дорогих',
+                  'Від дорогих до дешевих',
+                  'Пробіг, за зростанням',
+                  'Пробіг, за спаданням',
+                  'Від нових до старих',
+                  'Від старих до нових',
+                ]}
+                label="Сортування"
+                startValue="Сортування"
+                option={typeOfSort}
+                setOption={setTypeOfSort}
+              />
+            </div>
+
+            <button
+              className={styles.filter}
+              type="button"
+              onClick={toggleModalIsOpen}
+            >
+              <StarIcon />
+              Підписатись на пошук
+            </button>
+          </>
+        )}
       </div>
       {isModalOpen &&
         createPortal(
