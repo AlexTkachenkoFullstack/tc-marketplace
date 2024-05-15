@@ -9,17 +9,15 @@ export const Layout: FC = () => {
   const location = useLocation();
   const path = location.pathname;
 
-    return (
+  return (
     <div className={styles.wrapper}>
       <section className={styles.container}>
-      {!path.startsWith('/login') && <Header />}
+        {!path.startsWith('/login') && <Header />}
       </section>
       <main className={styles.main}>
-          <Outlet />
+        <Outlet />
       </main>
-
       {!path.startsWith('/login') && <Footer />}
-     
     </div>
-    );
+  );
 };

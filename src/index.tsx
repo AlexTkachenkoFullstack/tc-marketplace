@@ -11,14 +11,12 @@ const root = createRoot(container);
 
 root.render(
   <StrictMode>
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <Router>
-        
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Router>
           <App />
-       
-      </Router>
-    </PersistGate>
-  </Provider>,
-   </StrictMode>,
+        </Router>
+      </PersistGate>
+    </Provider>
+  </StrictMode>,
 );
