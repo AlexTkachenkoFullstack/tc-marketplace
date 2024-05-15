@@ -2,13 +2,17 @@
 
 .homeTop {
   background-color: $bg-color-light;
-  height: 485px;
+  padding: 100px 20px 80px;
+  // height: 485px;
   @include onTablet {
-    height: 413px;
+    padding: 148px 40px 80px;
+    // height: 413px;
   }
   @include onDesktop {
+  padding: 148px 0 80px;
+  // background-color:green;
     // height: 415px;
-    height: 330px;
+    // height: 330px;
   }
 }
 // .container {
@@ -25,20 +29,18 @@
   font-family: Roboto;
   margin-bottom: 20px;
   font-style: normal;
-  font-size: 22px;
+  font-size: $mobile-2xl;
   font-weight: 800;
   // line-height: 36px;
   
   color: $color-black;
-  @include onTablet {
-    margin-top: 60px;
+  @include onTablet {   
     margin-bottom: 20px;
-    font-size: 26px;
+    font-size: $tablet-3xl;
   }
-  @include onDesktop {
-    margin-top: 60px;
+  @include onDesktop {  
     margin-bottom: 24px;
-    font-size: 32px;
+    font-size: $desctop-3xl;
     line-height: 100%;
   }
 }
@@ -105,13 +107,13 @@
   width: 320px;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 87px;
+  // padding-top: 87px;
   @include onTablet {
     width: 688px;
   }
   @include onDesktop {
     width: 1248px;
-    padding-top: 27px;
+    // padding-top: 27px;
   }
 }
 .search {
@@ -128,13 +130,9 @@
     border-radius: 100px;
     line-height: 48px;
     background-color: $color-black;
-    color: $background-color-white;
-    font-family: Roboto;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
+    color: $background-color-white;  
     border: 1px solid $color-black;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease;   
     @include onDesktop {
       height: 48px;
       padding: 10px 20px;
@@ -143,12 +141,12 @@
       color: $bg-color-white;
       text-align: center;
       font-family: Roboto;
-      font-size: 16px;
+      font-size: $mobile-xl;
       font-style: normal;
       font-weight: 500;
       line-height: 24px; /* 150% */
       letter-spacing: 0.15px;
-      margin-right: 8px;
+      margin-right: 8px;   
     }
     &:hover {
       border: 1px solid $color-black;

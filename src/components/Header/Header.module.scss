@@ -7,20 +7,20 @@
   justify-content: space-between;
   box-sizing: border-box;
   align-items: center;
-  height: 56px;
+  // height: 56px;
   padding: 8px 20px;
   background-color: $bg-color-light;
   z-index: 3;
-  padding: 12px 20px;
+  padding: 18px 20px;
 
   @include onTablet {
     width: 768px;
-    height: 68px;
-    padding: 12px 40px;
+    // height: 68px;
+    padding: 18px 40px;
   }
   @include onDesktop {
     width: 1440px;
-    padding: 12px 96px;
+    padding: 18px 96px;
   }
   &__nav {
     display: none;
@@ -40,7 +40,7 @@
   }
   &__left {
     display: flex;
-    height: 40px;
+    height: 32px;
     align-items: center;
     gap: 16px;
     @media (max-width: 880px) {
@@ -54,12 +54,12 @@
   }
   &__right {
     display: flex;
-    height: 40px;
+    height: 32px;
     gap: 16px;
     @media (max-width: 880px) {
       gap: 8px;
       display: flex;
-      align-items: center;
+      // align-items: center;
     }
   }
   &__add_button {
@@ -68,22 +68,18 @@
     @include onTablet {
       display: flex;
       align-items: center;
-      border: 1px solid transparent;
+      border: 1px solid $color-black;
       border-radius: 32px;
-      padding: 10px 16px;
-
+      padding: 5px 16px;
+      margin-right: 8px;
+      font-family: Roboto;
+      font-size: $xs;
+      font-style: normal;
+      font-weight: 600;
+      color: $color-black;
       &:hover {
         border: 1px solid $color-black;
       }
-    }
-    &_text {
-      margin-right: 8px;
-      font-family: Roboto;
-      font-size: $font-size-root;
-      font-style: normal;
-      font-weight: 600;
-      line-height: 24px;
-      color: $color-black;
     }
     &_icon {
       width: 20px;
@@ -91,6 +87,16 @@
     }
     &_icon path {
       fill: $color-black;
+    }
+  }
+  &__add_button:active {
+    @include onTablet {
+      background-color: $color-black;
+      color: $bg-color-white;
+      .header__add_button_icon path {
+        transition: $effectDuration;
+        fill: $bg-color-white;
+      }
     }
   }
   &__auth_container {
@@ -115,11 +121,10 @@
   }
   &__favorite_button {
     position: relative;
-
-    &_point {
-      position: absolute;
-      top: 8px;
-      right: 8px;
+    &_active {
+      background: #7796e0;
+      border-radius: 50%;
+      padding: 4px 4px;
     }
   }
   &__login_text {
@@ -140,8 +145,13 @@
     border: 1px solid $color-black;
   }
 }
-.svgIcon path {
+.svg_icon path {
   fill: $color-black;
+  width: 24px;
+  height: 24px;
+}
+.svg_active path {
+  fill: $background-color-white;
   width: 24px;
   height: 24px;
 }

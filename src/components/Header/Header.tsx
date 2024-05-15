@@ -12,7 +12,8 @@ import { ReactComponent as Plus } from '../../assets/icons/add.svg';
 import { ReactComponent as Add } from '../../assets/icons/addCircle.svg';
 import { ReactComponent as Account} from '../../assets/icons/account_circle.svg';
 import { ReactComponent as Favorite} from '../../assets/icons/favorite.svg';
-// import { fetchNewCars, fetchPopularCars } from 'redux/cars/operations';
+import { ReactComponent as FavoriteActive} from '../../assets/icons/heart-active.svg';
+// import { fetchNewCars, fetchPopularCars } from 'redux/cars/operations';heart-active.svg
 
 export const links = [
   {
@@ -42,7 +43,7 @@ export const Header: FC = () => {
   const isAdvencedSearch = location.pathname === '/advanced-search';
   const isFavoritesPage = location.pathname === '/favorites';
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-
+  // const [isActive, setIsActive] = useState(false); 
   useEffect(() => {
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
@@ -59,6 +60,7 @@ export const Header: FC = () => {
 
   const handleFavoritesClick = () => {
     navigate('/favorites');
+    // setIsActive(!isActive);
   };
   const handleNewAnnouncementClick = () => {
     navigate('/advertisements');
@@ -83,18 +85,19 @@ export const Header: FC = () => {
       <div className={styles.header__right}>
         <button
           className={styles.header__add_button}
-          style={{
-            display: isAdvertisementsEdit || isAdvertisements ? 'none' : '',
-          }}
+          // style={{
+          //   display: isAdvertisementsEdit || isAdvertisements ? 'none' : '',
+          // }}
           onClick={handleNewAnnouncementClick}
+          disabled={isAdvertisements}
         >
           {isMobile ? (
             <Add className={styles.svgIcon} />
           ) : (
             <>
-              <span className={styles.header__add_button_text}>
+              {/* <span className={styles.header__add_button_text}> */}
                 Додати оголошення
-              </span>
+              {/* </span> */}
               <Plus
                 className={styles.header__add_button_icon}                
               />
@@ -102,11 +105,13 @@ export const Header: FC = () => {
           )}
         </button>
         <button
-          className={styles.header__favorite_button}
+          className={`${isFavoritesPage?styles.header__favorite_button_active :styles.header__favorite_button}`}
           onClick={handleFavoritesClick}
         >
-          <Favorite className={styles.svgIcon} />
-          <img src={point} className={styles.header__favorite_button_point} />
+         {/* {isActive ? <FavoriteActive className={styles.svgIcon}/>: */}
+          <Favorite className={`${isFavoritesPage?styles.svg_active :styles.svg_icon}  `} />
+          {/* } */}
+          {/* <img src={point} className={styles.header__favorite_button_point} /> */}
         </button>
 
         {auth ? (
