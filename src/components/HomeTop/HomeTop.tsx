@@ -177,7 +177,7 @@ export const HomeTop = () => {
     <div className={styles.homeTop}>
       <div className={styles.container}>
         <div className={styles.centered_container}>
-          <h2 className={styles.title}>Your marketplace</h2>
+          <h2 className={styles.title}>Знайди свої колеса</h2>
 
           <CategoryBar
             categories={categories.map(category => category.type)}
