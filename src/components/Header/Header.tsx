@@ -4,14 +4,14 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { Logo } from '../Logo';
 import styles from './Header.module.scss';
 // import menu from '../../assets/icons/menu.svg';
-import plus from '../../assets/icons/add.svg';
-import favorite from '../../assets/icons/favorite.svg';
 import point from '../../assets/icons/point.svg';
-import account from '../../assets/icons/account_circle.svg';
 import { isAuthUser } from 'redux/auth/selectors';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { logoutThunk } from 'redux/auth/operations';
+import { ReactComponent as Plus } from '../../assets/icons/add.svg';
 import { ReactComponent as Add } from '../../assets/icons/addCircle.svg';
+import { ReactComponent as Account} from '../../assets/icons/account_circle.svg';
+import { ReactComponent as Favorite} from '../../assets/icons/favorite.svg';
 // import { fetchNewCars, fetchPopularCars } from 'redux/cars/operations';
 
 export const links = [
@@ -40,7 +40,7 @@ export const Header: FC = () => {
   const isAdvertisementsEdit = location.pathname === '/advertisements/edit';
   const isAdvertisements = location.pathname === '/advertisements';
   const isAdvencedSearch = location.pathname === '/advanced-search';
-  const isFavoritesPage =location.pathname === '/favorites'
+  const isFavoritesPage = location.pathname === '/favorites';
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -69,8 +69,9 @@ export const Header: FC = () => {
   };
 
   return (
-    <header className={styles.header}
-    // style={{backgroundColor:isFavoritesPage || isAdvencedSearch ? '#E4E4E4':''}}
+    <header
+      className={styles.header}
+      // style={{backgroundColor:isFavoritesPage || isAdvencedSearch ? '#E4E4E4':''}}
     >
       <div className={styles.header__left}>
         {/* <button className={styles.header__burger}>
@@ -88,16 +89,14 @@ export const Header: FC = () => {
           onClick={handleNewAnnouncementClick}
         >
           {isMobile ? (
-            <Add  className={styles.svgIcon} />
+            <Add className={styles.svgIcon} />
           ) : (
-            <>            
+            <>
               <span className={styles.header__add_button_text}>
                 Додати оголошення
               </span>
-              <img
-                className={styles.header__add_button_icon}
-                src={plus}
-                alt="Додати"
+              <Plus
+                className={styles.header__add_button_icon}                
               />
             </>
           )}
@@ -106,17 +105,16 @@ export const Header: FC = () => {
           className={styles.header__favorite_button}
           onClick={handleFavoritesClick}
         >
-          <img src={favorite} alt="Улюблене" />
+          <Favorite className={styles.svgIcon} />
           <img src={point} className={styles.header__favorite_button_point} />
         </button>
 
         {auth ? (
           <div className={styles.header__auth_container}>
             <NavLink to="/user/my-adverts">
-              <img
+              <Account 
                 className={styles.header__login_icon}
-                src={account}
-                alt="Акаунт"
+                
               />
             </NavLink>
             <button

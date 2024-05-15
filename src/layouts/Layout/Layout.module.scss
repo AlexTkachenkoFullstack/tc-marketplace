@@ -1,3 +1,4 @@
+@import '../../styles/main.scss';
 .wrapper {
   display: flex;
   min-height: 100vh;
@@ -10,4 +11,21 @@
   flex-direction: column;
   flex: 1 0 auto;
   transition-duration: 0.3s;
+}
+.container {
+  position: fixed;
+  background: $bg-color-light;
+  display: flex;
+  justify-content: center;
+  // transform: translateX(50%);
+  // width: 360px;
+  // margin: 0 auto;
+  // @include onTablet {
+  //   width: 768px;
+  // }
+  // @include onDesktop {
+  //   width: 1440px;
+  // }
+  width: 100%;
+  z-index: 100;
 }

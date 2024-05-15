@@ -1,8 +1,8 @@
 @import '../../styles/main.scss';
 
 .header {
-  position: fixed;
-  width: 100vw;
+  // position: fixed;
+  width: 360px;
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
@@ -14,109 +14,95 @@
   padding: 12px 20px;
 
   @include onTablet {
+    width: 768px;
     height: 68px;
     padding: 12px 40px;
   }
   @include onDesktop {
+    width: 1440px;
     padding: 12px 96px;
   }
-
-  // &__burger {
-  //   border: none;
-  //   padding: 8px;
-  //   cursor: pointer;
-  // }
-
   &__nav {
     display: none;
     height: 100%;
     align-items: center;
     gap: 16px;
-
     font-family: Roboto;
-    font-size: 16px;
+    font-size: $font-size-root;
     font-style: normal;
     font-weight: 600;
-
     @media (min-width: 880px) {
       display: flex;
     }
-
     &_link {
       padding: 8px;
     }
   }
-
   &__left {
     display: flex;
     height: 40px;
     align-items: center;
     gap: 16px;
-
     @media (max-width: 880px) {
       gap: 8px;
     }
-
     &__link {
       text-decoration: none;
       color: $color-grey;
       font-weight: bold;
     }
   }
-
   &__right {
     display: flex;
     height: 40px;
     gap: 16px;
-
     @media (max-width: 880px) {
       gap: 8px;
       display: flex;
       align-items: center;
     }
   }
-
   &__add_button {
-    width: 24px;
-    height: 24px;
     cursor: pointer;
-
+    transition: $effectDuration;
     @include onTablet {
-      width: 100%;
       display: flex;
       align-items: center;
-      height: 40px;
-      color: $color-grey;
-      padding: 0 8px;
-      border: 1px solid $color-grey;
-      border-radius: 100px;
-    }
+      border: 1px solid transparent;
+      border-radius: 32px;
+      padding: 10px 16px;
 
+      &:hover {
+        border: 1px solid $color-black;
+      }
+    }
     &_text {
       margin-right: 8px;
       font-family: Roboto;
-      font-size: 16px;
+      font-size: $font-size-root;
       font-style: normal;
       font-weight: 600;
       line-height: 24px;
+      color: $color-black;
     }
-
     &_icon {
-      font-size: 16px;
+      width: 20px;
+      height: 20px;
+    }
+    &_icon path {
+      fill: $color-black;
     }
   }
-
   &__auth_container {
     display: flex;
     align-items: center;
   }
-
-  &__login_icon {
+  &__login_icon path {
+    fill: $color-black;
     width: 24px;
     height: 24px;
     cursor: pointer;
   }
-
   &__favorite_button,
   &__login_button {
     background: none;
@@ -127,7 +113,6 @@
     align-items: center;
     padding: 8px;
   }
-
   &__favorite_button {
     position: relative;
 
@@ -137,17 +122,26 @@
       right: 8px;
     }
   }
-
   &__login_text {
     margin-left: 8px;
-    color: $color-grey;
+    color: $color-black;
     font-family: Roboto;
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
+    padding: 10px 16px;
+    border-radius: 32px;
+    border: 1px solid transparent;
+    transition: $effectDuration;
+  }
+  &__login_text:hover {
+    padding: 10px 16px;
+    border-radius: 32px;
+    border: 1px solid $color-black;
   }
 }
-.svgIcon {
+.svgIcon path {
+  fill: $color-black;
   width: 24px;
   height: 24px;
 }

@@ -11,12 +11,15 @@ export const Layout: FC = () => {
 
     return (
     <div className={styles.wrapper}>
+      <section className={styles.container}>
       {!path.startsWith('/login') && <Header />}
+      </section>
       <main className={styles.main}>
           <Outlet />
       </main>
 
       {!path.startsWith('/login') && <Footer />}
+     
     </div>
     );
 };
