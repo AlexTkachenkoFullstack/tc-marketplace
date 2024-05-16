@@ -6,6 +6,7 @@ import { Dropdown } from 'components/Dropdown/Dropdown';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   getFilterBrands,
+  getFilterCarsList,
   getFilterModels,
   getFilterRegions,
   getFilterTypes,
@@ -33,6 +34,8 @@ import {
   saveParamsForSubscr,
 } from 'redux/filter/slice';
 import { getCarTypeParam } from 'services/services';
+import ModelListType from 'types/ModelListType';
+import { ISearchParams } from 'types/ISearchParam';
 // import { ISearchParams } from 'types/ISearchParam';
 // import {Advancedsearch} from 'pages/AdvancedSearchPage/AdvancedSearch';
 
@@ -52,6 +55,63 @@ export const HomeTop = () => {
     'Вся Україна',
   );
   const [data, setData] = useState<any>({});
+  const [title, setTitle] = useState<{ [key: string]: string[] }>({});
+
+  const carsList: ModelListType = useAppSelector(getFilterCarsList);
+
+  useEffect(() => {
+    const id = transportTypeId;
+    const searchParams: Pick<ISearchParams, 'transportBrandsId'> = {
+      transportBrandsId: brandId,
+    };
+    const searchConfig = {
+      searchParams,
+    };
+    dispatch(fetchCars({ id, searchConfig }));
+  }, [brandId, carMark, dispatch, transportTypeId]);
+
+  useEffect(() => {
+    const handleTitle = (
+      carBrands: string | string[],
+      models: string | string[],
+    ) => {
+      if (carBrands === 'Всі марки' || carBrands === 'Марка') return;
+      const carBrandsArr: string | string[] =
+        typeof carBrands === 'string' ? [carBrands] : [...carBrands];
+      if (Array.isArray(carBrandsArr)) {
+        carBrandsArr.forEach(item =>
+          setTitle(prev => ({ ...prev, [item]: [] })),
+        );
+      } else return;
+
+      carsList.forEach(item => {
+        if (
+          item.models.some(({ model }) => {
+            return models.includes(model);
+          })
+        ) {
+          const foundBrand = brands?.find(
+            ({ brandId }) => brandId === item.brandId,
+          )?.brand;
+          const modelForPush = item.models
+            .filter(({ model }) => models.includes(model))
+            .map(({ model }) => model);
+
+          if (typeof foundBrand === 'string' && modelForPush.length > 0) {
+            setTitle(prev => ({
+              ...prev,
+              [foundBrand]: [
+                ...(prev[foundBrand] as string[]),
+                ...modelForPush,
+              ],
+            }));
+          }
+        }
+      });
+    };
+
+    handleTitle(carMark, carModel);
+  }, [brands, carMark, carModel, carsList]);
 
   useEffect(() => {
     if (!transportTypeId) {
@@ -154,7 +214,7 @@ export const HomeTop = () => {
     // };
 
     // dispatch(fetchFiltredCars(searchConfig));
-    navigate('/advanced-search');
+    navigate('/advanced-search', { state: { titleFromHomePage: title } });
 
     dispatch(
       saveParamsForSubscr({

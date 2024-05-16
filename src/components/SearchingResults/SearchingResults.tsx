@@ -114,6 +114,9 @@ const SearchingResults: React.FC<IProps> = ({
   }, [memoParam]);
 
   const id = location.state ? location.state.id : 0;
+  const titleFromHomePage = location.state && location.state.titleFromHomePage;
+  console.log('titleFromHomePage', titleFromHomePage)
+  
   useEffect(() => {
     if (isComponentMounted) {
       !id && dispatch(fetchFiltredCars(fetchParam));
