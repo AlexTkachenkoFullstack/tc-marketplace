@@ -11,3 +11,4 @@ export const getTotalAdverts = (state: RootState) => state.filter.totalAdverts;
 export const getIsloadingFilterInfo = (state: RootState) =>
   state.filter.isLoading;
 export const getParamsForSuscr = (state: RootState) => state.filter.paramsForSubscr;
+export const getTitle = (state: RootState) => state.filter.title;

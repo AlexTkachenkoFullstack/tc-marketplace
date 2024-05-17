@@ -1,26 +1,39 @@
-@import '../../styles/utils/variables';
+@import '/src/styles/main.scss';
 
 .footer {
-  padding-block: 38px;
-  background-color: $background-color-white;
-  
+  background-color: $color-black;
 }
 
 .content {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: $mobile-min-width;
+  height: 120px;
+  padding: 38px 20px;
+  margin: 0 auto;
+
+  @include onTablet {
+    width: $tablet-min-width;
+    padding: 38px 40px;
+  }
+  @include onDesktop {
+    width: $desktop-min-width;
+    padding: 38px 96px;
+  }
 }
 
 .contacts {
   display: flex;
   justify-content: center;
-  gap: 0.81rem;
+  gap: 13px;
 }
 
 .contact {
   padding-block: 6px;
-  color: $color-dark-grey;
+  color: $color-medium-gray;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.15px;
 }

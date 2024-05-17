@@ -1,24 +1,22 @@
-@import '../../styles/utils/variables';
-@import '../../styles/utils/breakpoints';
+// @import '../../styles/utils/variables';
+// @import '../../styles/utils/breakpoints';
 
-.AdvSearch {
-  padding-top: 56px;
-  @include onTablet {
-  padding-top: 68px;
-  }
-  &_container {
-    width: $mobile-min-width;
-    margin: 0 auto;
+// .AdvSearch {
+//   padding-top: 68px;
 
-    @include onTablet {
-      width: $tablet-min-width;
-    }
-    @include onDesktop {
-      width: $desktop-min-width;
-    }
-  }
-  &_title {
-    @include title-styles;
-    padding: 64px 0px 16px;
-  }
-}
+//   &_container {
+//     // width: $mobile-min-width;
+//     // margin: 0 auto;
+
+//     @include onTablet {
+//       width: $tablet-min-width;
+//     }
+//     @include onDesktop {
+//       width: $desktop-min-width;
+//     }
+//   }
+//   &_title {
+//     @include title-styles;
+//     padding: 64px 0px 16px;
+//   }
+// }

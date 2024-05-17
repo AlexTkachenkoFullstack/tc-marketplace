@@ -10,7 +10,7 @@ const container = document.getElementById('root') as HTMLElement;
 const root = createRoot(container);
 
 root.render(
-  <StrictMode>
+  // <StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <Router>
@@ -18,5 +18,5 @@ root.render(
         </Router>
       </PersistGate>
     </Provider>
-  </StrictMode>,
+  // </StrictMode>,
 );

@@ -8,27 +8,25 @@ import { NavLink } from 'react-router-dom';
 export const Footer: React.FC = () => {
   return (
     <footer className={styles.footer}>
-      <div className="container">
-        <div className={styles.content}>
-          <Logo />
+      <div className={styles.content}>
+        <Logo className='footer-logo' />
 
-          <div className={styles.contacts}>
-            <NavLink
-              to={'https://www.facebook.com/'}
-              target='_blank'
-              className={styles.contact}
-            >
-              Facebook
-            </NavLink>
+        <div className={styles.contacts}>
+          <NavLink
+            to={'https://www.facebook.com/'}
+            target="_blank"
+            className={styles.contact}
+          >
+            Facebook
+          </NavLink>
 
-            <NavLink
-              to={'https://www.instagram.com/'}
-              target='_blank'
-              className={styles.contact}
-            >
-              Instagram
-            </NavLink>
-          </div>
+          <NavLink
+            to={'https://www.instagram.com/'}
+            target="_blank"
+            className={styles.contact}
+          >
+            Instagram
+          </NavLink>
         </div>
       </div>
     </footer>

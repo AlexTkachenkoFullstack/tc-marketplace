@@ -24,7 +24,7 @@ export const persistConfig = {
 const persistFilterConfig = {
   key: 'filterParams',
   storage,
-  whitelist: ['select', 'paramsForSubscr'],
+  whitelist: ['select', 'paramsForSubscr', "title"],
 };
 
 const persistedAuthReducer = persistReducer(persistConfig, authSlice.reducer);

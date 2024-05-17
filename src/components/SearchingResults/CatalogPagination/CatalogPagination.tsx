@@ -11,7 +11,8 @@ interface IProps {
   totalPages: number;
   forcePage: number;
   handlePageClick: ({ selected }: { selected: number }) => void;
-  updateStyles?:string;
+  updateStyles?: string;
+  pageRangeDisplayed?: number;
 }
 
 const CatalogPagination: React.FC<IProps> = ({
@@ -20,11 +21,11 @@ const CatalogPagination: React.FC<IProps> = ({
   totalPages,
   handlePageClick,
   forcePage,
-  updateStyles
+  updateStyles,
+  pageRangeDisplayed
 }) => {
   return (
-    <div className={styles.container}   
-    >
+    <div className={styles.container}>
       <button
         type="button"
         className={styles.LoadMoreBtn}
@@ -41,7 +42,8 @@ const CatalogPagination: React.FC<IProps> = ({
           previousLabel={<ArrowPrev />}
           onPageChange={handlePageClick}
           forcePage={forcePage}
-          pageRangeDisplayed={3}
+          pageRangeDisplayed={pageRangeDisplayed}
+          marginPagesDisplayed={1}
           pageCount={totalPages}
           containerClassName={styles.paginationContainer}
           activeClassName={styles.activeClassName}

@@ -25,6 +25,7 @@ import {
   changeFiltredParams,
   cleanFiltredStore,
   saveParamsForSubscr,
+  writeTitle,
 } from 'redux/filter/slice';
 import {
   getArrayBrandsOfId,
@@ -53,16 +54,17 @@ import { getWindowWidth } from 'utils/getWindowWidth';
 import { getInitialButtonVisibility } from 'utils/getInitialButtonVisibility';
 import ModelListType from 'types/ModelListType';
 import { useNavigate } from 'react-router-dom';
+import {ReactComponent as ArrowIcon} from "../../assets/icons/arrow.svg"
 
 interface Props {
   onAdvencedFilter?: () => void;
-  handleTitle?: (title: { [key: string]: string[] }) => void;
+  // handleTitle?: (title: { [key: string]: string[] }) => void;
 }
 
 const N = 9;
 export const AdvancedSearchFilter: React.FC<Props> = ({
   onAdvencedFilter,
-  handleTitle,
+  // handleTitle,
   // clearSubscrId,
 }) => {
   const dispatch = useAppDispatch();
@@ -177,15 +179,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
   }, [brands, carMark, carModel, carsList]);
 
   useEffect(() => {
-    handleTitle && handleTitle(title);
-  }, [handleTitle, title]);
+    dispatch(writeTitle(title));
+  }, [dispatch, title]);
 
-  console.log(
-    'title',title
-    // Object.entries(title)
-    //   .map(item => `${item[0]}: ${item[1].join(', ')}`)
-    //   .join('; '),
-  );
+
 
   const {
     selectedCategory: transportType,
@@ -196,6 +193,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
   useEffect(() => {
     if (!isMounted) {
+      console.log('model', model)
       transportType && setSelectedCategory(transportType);
       brand.length > 0 && setCarMark(brand);
       model.length > 0 && setCarModel(model);
@@ -203,6 +201,8 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
     }
     setIsMounted(true);
   }, [brand, isMounted, model, region, transportType]);
+
+  
 
   const requestParams = {
     selectedCategory,
@@ -534,10 +534,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
     dispatch(saveParamsForSubscr(requestParams));
   };
-  useEffect(() => {
-    console.log('carModel', carModel);
-    setCarModel(carModel);
-  }, [carMark, carModel]);
+  // useEffect(() => {
+  //   console.log('carModel', carModel);
+  //   setCarModel(carModel);
+  // }, [carMark, carModel]);
 
   return (
     <div className={styles.AdvSearchFilter}>
@@ -1231,8 +1231,8 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
               <h2>Можливість торгу</h2>
             </div>
             <div className={styles.listItem}>
-              <div className={styles.listItemSelectTitle}>
-                <label
+              {/* <div className={styles.listItemSelectTitle}> */}
+              {/* <label
                   htmlFor="No"
                   className={`${styles.itemTypeNo} ${
                     selectedOption === false ? styles.selected : ''
@@ -1240,51 +1240,54 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                 >
                   Ні
                   <input
-                    type="radio"
+                    type="checkbox"
                     name="option"
                     id="No"
                     value="Ні"
                     checked={selectedOption === false}
                     onChange={handleOptionChange}
                   />
-                </label>
-                <label
-                  htmlFor="Yes"
-                  className={`${styles.itemTypeYes} ${
-                    selectedOption === true ? styles.selected : ''
-                  }`}
-                >
-                  Так
-                  <input
-                    type="radio"
-                    name="option"
-                    id="Yes"
-                    value="Так"
-                    checked={selectedOption === true}
-                    onChange={handleOptionChange}
-                  />
-                </label>
-              </div>
+                </label> */}
+              <input
+                type="checkbox"
+                name="option"
+                id="Yes"
+                value="Так"
+                // checked={selectedOption === true}
+                // onChange={handleOptionChange}
+              />
+              <label
+                htmlFor="Yes"
+                // className={`${styles.itemTypeYes} ${
+                //   selectedOption === true ? styles.selected : ''
+                // }`}
+              >
+                Можливість торгу
+              </label>
+              {/* </div> */}
             </div>
           </div>
         </div>
       </div>
       <div className={styles.resultFilter}>
-        <button
-          className={styles.resultFilterShow}
-          type="button"
-          onClick={handlerSendRequest}
-        >
-          Показати
-        </button>
+        <div className={styles.resultFilter_container}>
+          <button
+            className={styles.resultFilterShow}
+            type="button"
+            onClick={handlerSendRequest}
+          >
+            Показати
+            <ArrowIcon />
+          </button>
 
-        <button
-          className={styles.resultFilterReset}
-          type="button"
-          onClick={handlerResetFilter}
-        >
-          Скинути фільтр
-        </button>
+          <button
+            className={styles.resultFilterReset}
+            type="button"
+            onClick={handlerResetFilter}
+          >
+            Скинути фільтр
+          </button>
+        </div>
       </div>
     </div>
   );

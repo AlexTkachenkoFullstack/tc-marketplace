@@ -1,15 +1,14 @@
 @import '/src/styles/main.scss';
 
-.container {
-  position: fixed;
-  z-index: 10;
-  left: 0;
+.section {
   width: 100%;
-  // height: 164px;
-  background-color: $background-color-white;
-  padding: 20px 20px 20px;
+  background-color: $bg-color-light;
+  padding: 108px 20px 16px;
+  & .container {
+    width: 360px;
+    margin: 0 auto;
+  }
   @include onTablet {
-    // width: 768px;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
@@ -21,12 +20,33 @@
   }
 }
 
+.titleWraper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  & .filter_arrow_back {
+    display: flex;
+    justify-content: center;
+    padding: 6px;
+    border-radius: 100%;
+    &:hover {
+      background-color: $bg-color-active;
+    }
+    &:active {
+      background-color: $border-active;
+      & path {
+        fill: $bg-color-white;
+      }
+    }
+  }
+}
+
 .title {
   width: 100%;
   font-weight: 800;
-  font-size: 32px;
-  line-height: 37.5px;
-  margin-bottom: 16px;
+  font-size: $mobile-3xl;
+
   @include onTablet {
     font-size: 30px;
     margin-bottom: 0;
@@ -35,35 +55,36 @@
 
 .menu {
   display: flex;
-  justify-content: flex-end;
   column-gap: 8px;
   width: 100%;
   height: 32px;
-}
+  margin-top: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  white-space: nowrap;
 
-.filter {
-  padding: 6px 14px;
-  border-radius: 32px;
-  border: none;
-  background-color: $white-color;
-  font-family: inherit;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.1px;
-  @include onTablet {
+  & button {
+    padding: 6px 14px;
+    border-radius: 32px;
+    border: none;
+    background-color: $bg-color-white;
+    font-family: inherit;
+    font-size: $mobile-sm;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.15px;
+  }
+
+  & .filter {
+    min-width: 142px;
+  }
+
+  & .subscr {
     display: flex;
-  }
-  &::first-letter {
-    text-transform: uppercase;
-    @include onTablet {
-      text-transform: none;
-    }
-  }
-  .advFilter {
-    display: none;
-    @include onTablet {
-      display: block;
-      margin-right: 4px;
-    }
+    padding: 6px 16px;
+    min-width: 190px;
+    gap: 8px;
+    align-items: center;
   }
 }

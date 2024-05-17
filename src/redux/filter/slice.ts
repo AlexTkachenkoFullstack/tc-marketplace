@@ -18,6 +18,7 @@ import { ICar, IFiltredCarsPayload } from 'types/IСar';
 import { addToFavourites, removeFromFavourites } from 'redux/cars/operations';
 import ModelListType from 'types/ModelListType';
 import { act } from 'react-dom/test-utils';
+import { title } from 'process';
 
 interface IFilterState {
   regions: IRegion[] | [];
@@ -64,6 +65,7 @@ interface IFilterState {
     editSubscrId?: number;
     notificationStatus?: boolean;
   };
+  title: { [key: string]: string[] };
 }
 
 const initialState: IFilterState = {
@@ -110,6 +112,7 @@ const initialState: IFilterState = {
     data: undefined,
     selectedOption: undefined,
   },
+  title: {},
 };
 
 const handlePending = (state: IFilterState) => {
@@ -276,6 +279,12 @@ export const filterSlice = createSlice({
           return state;
       }
     },
+    writeTitle(state, { payload }) {
+      state.title = payload;
+    },
+    clearTitle(state) {
+      state.title = {};
+    },
   },
   extraReducers: builder => {
     builder
@@ -326,4 +335,6 @@ export const {
   cleanFiltredStore,
   saveParamsForSubscr,
   cleanParamsForSubscr,
+  writeTitle,
+  clearTitle
 } = filterSlice.actions;

@@ -6,7 +6,7 @@ import React, {
   useState,
 } from 'react';
 import { useSelector } from 'react-redux';
-import { useAppDispatch } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import _ from 'lodash.throttle';
 
 import styles from './SearchingResults.module.scss';
@@ -20,6 +20,7 @@ import {
   getIsloadingFilterInfo,
   getTotalAdverts,
   getSelectedCars,
+  getTitle,
 } from 'redux/filter/selectors';
 import { fetchFiltredCars } from 'redux/filter/operations';
 
@@ -49,10 +50,12 @@ const SearchingResults: React.FC<IProps> = ({
   const [filteredCarsArr, setFilteredCarsArr] = useState<ICar[]>([]);
   const [isShowMore, setIsShowMore] = useState(false);
   const [isComponentMounted, setIsComponentMounted] = useState(false);
-  
+  const [pageRangeDisplayed, setPageRangeDisplayed] = useState<number>(2);
 
   const dispatch = useAppDispatch();
   const location = useLocation();
+
+  const title = useAppSelector(getTitle);
 
   const searchParams: Pick<
     ISearchParams,
@@ -97,6 +100,8 @@ const SearchingResults: React.FC<IProps> = ({
     if (width !== setScreenWidthRef.current) {
       const newAdvertsPerPage = width > 767 ? 4 : 3;
       setFetchParam(prev => ({ ...prev, limit: newAdvertsPerPage }));
+      const range = width > 767 ? 5 : 2;
+      setPageRangeDisplayed(range);
       setScreenWidthRef.current = width;
     }
   }, [setScreenWidthRef]);
@@ -113,10 +118,22 @@ const SearchingResults: React.FC<IProps> = ({
     setFetchParam({ ...memoParam, page: 0 });
   }, [memoParam]);
 
+  useEffect(() => {
+    const width = window.innerWidth;
+    setPageRangeDisplayed(width > 768 ? 5 : 2);
+  }, []);
+
   const id = location.state ? location.state.id : 0;
-  const titleFromHomePage = location.state && location.state.titleFromHomePage;
-  console.log('titleFromHomePage', titleFromHomePage)
-  
+  // const titleFromHomePage = location.state && location.state.titleFromHomePage;
+  // console.log('titleFromHomePage', titleFromHomePage);
+
+  // useEffect(() => {
+  //   if (!isComponentMounted) {
+  //     titleFromHomePage && setTitle(titleFromHomePage);
+  //   }
+  //   setIsComponentMounted(true);
+  // }, [isComponentMounted, titleFromHomePage]);
+
   useEffect(() => {
     if (isComponentMounted) {
       !id && dispatch(fetchFiltredCars(fetchParam));
@@ -175,11 +192,6 @@ const SearchingResults: React.FC<IProps> = ({
   const subsrcCarsArr = [...unseenTransportList, ...viewedTransportList];
 
   const arrForRender = id ? subsrcCarsArr : filteredCarsArr;
-   const [title, setTitle] = useState<{ [key: string]: string[] }>({});
-
-  const handleTitle = (title: { [key: string]: string[] }) => {
-    setTitle(title);
-  };
 
   return (
     <>
@@ -190,10 +202,7 @@ const SearchingResults: React.FC<IProps> = ({
       />
 
       {isOpenAdvancedFilter && (
-        <AdvancedSearchFilter
-          onAdvencedFilter={handleAdvancedFilter}
-          handleTitle={handleTitle}
-        />
+        <AdvancedSearchFilter onAdvencedFilter={handleAdvancedFilter} />
       )}
 
       {!isOpenAdvancedFilter && (
@@ -226,6 +235,7 @@ const SearchingResults: React.FC<IProps> = ({
                 currentPage={fetchParam.page}
                 totalPages={totalPages}
                 handlePageClick={handleChangePage}
+                pageRangeDisplayed={pageRangeDisplayed}
               />
             </>
           )}
