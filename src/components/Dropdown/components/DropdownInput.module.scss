@@ -12,6 +12,10 @@
   color: var(--Black, #434343);
   text-overflow: ellipsis;
 
+  &.searchInputAdvMenu{
+    width: 87px;
+  }
+
   /* H5/Bold */
   font-family: Roboto;
   font-size: 14px;

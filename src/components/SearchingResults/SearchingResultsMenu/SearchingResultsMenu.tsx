@@ -10,6 +10,7 @@ import SubscriptionModal from 'components/SubscriptionModal';
 import { createPortal } from 'react-dom';
 import { getParamsForSuscr, getTotalAdverts } from 'redux/filter/selectors';
 import { ReactComponent as StarIcon } from '../../../assets/icons/star.svg';
+import { ReactComponent as BackIcon } from '../../../assets/icons/arrow_back.svg';
 import { fullTitle } from 'hooks/titleCreator';
 
 const portal = document.querySelector('#modal-root') as Element;
@@ -97,65 +98,81 @@ const SearchingResultsMenu: React.FC<Iprops> = ({
   const totalAdverts = useAppSelector(getTotalAdverts);
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>
-        {isOpenAdvancedFilter
-          ? 'Розширений пошук'
-          : fullTitle(titleCategory, totalAdverts, title)}
-      </h1>
-      <div
-        className={styles.menu}
-        style={{
-          justifyContent: isOpenAdvancedFilter && isMobile ? 'unset' : '',
-        }}
-      >
-        <button
-          type="button"
-          onClick={handleAdvancedFilter}
-          className={styles.filter}
-        >
-          <span className={styles.advFilter}>Розширений</span> фільтр
-        </button>
-        {!isOpenAdvancedFilter && (
-          <>
-            <div className={styles.dropdownMenu}>
-              <Dropdown
-                updateStyle="menuStyle"
-                options={[
-                  'Від дешевих до дорогих',
-                  'Від дорогих до дешевих',
-                  'Пробіг, за зростанням',
-                  'Пробіг, за спаданням',
-                  'Від нових до старих',
-                  'Від старих до нових',
-                ]}
-                label="Сортування"
-                startValue="Сортування"
-                option={typeOfSort}
-                setOption={setTypeOfSort}
-              />
-            </div>
-
+    <section className={styles.section}>
+      <div className={styles.container}>
+        <div className={styles.titleWraper}>
+          {isOpenAdvancedFilter && (
             <button
-              className={styles.filter}
               type="button"
-              onClick={toggleModalIsOpen}
+              onClick={handleAdvancedFilter}
+              className={styles.filter_arrow_back}
             >
-              <StarIcon />
-              Підписатись на пошук
+              <BackIcon />
             </button>
-          </>
+          )}
+          <h1 className={styles.title}>
+            {isOpenAdvancedFilter
+              ? 'Розширений пошук'
+              : fullTitle(titleCategory, totalAdverts, title)}
+          </h1>
+        </div>
+        {!isOpenAdvancedFilter && (
+          <div
+            className={styles.menu}
+            style={{
+              justifyContent: isOpenAdvancedFilter && isMobile ? 'unset' : '',
+            }}
+          >
+            <button
+              type="button"
+              onClick={handleAdvancedFilter}
+              className={styles.filter}
+            >
+              Розширений фільтр
+            </button>
+
+            <>
+              <div className={styles.dropdownMenu}>
+                <Dropdown
+                  updateStyle="menuStyle"
+                  options={[
+                    'Від дешевих до дорогих',
+                    'Від дорогих до дешевих',
+                    'Пробіг, за зростанням',
+                    'Пробіг, за спаданням',
+                    'Від нових до старих',
+                    'Від старих до нових',
+                  ]}
+                  label="Сортування"
+                  startValue="Сортування"
+                  option={typeOfSort}
+                  setOption={setTypeOfSort}
+                  // hideLabel={true}
+                />
+              </div>
+
+              <button
+                className={styles.subscr}
+                type="button"
+                onClick={toggleModalIsOpen}
+              >
+                <StarIcon />
+                Підписатись на пошук
+              </button>
+            </>
+            {/* )} */}
+          </div>
         )}
+        {isModalOpen &&
+          createPortal(
+            <SubscriptionModal
+              toggleModalIsOpen={toggleModalIsOpen}
+              requestParams={requestParams}
+            />,
+            portal,
+          )}
       </div>
-      {isModalOpen &&
-        createPortal(
-          <SubscriptionModal
-            toggleModalIsOpen={toggleModalIsOpen}
-            requestParams={requestParams}
-          />,
-          portal,
-        )}
-    </div>
+    </section>
   );
 };
 

@@ -32,6 +32,7 @@ import {
   cleanFiltredStore,
   cleanParamsForSubscr,
   saveParamsForSubscr,
+  writeTitle,
 } from 'redux/filter/slice';
 import { getCarTypeParam } from 'services/services';
 import ModelListType from 'types/ModelListType';
@@ -214,7 +215,9 @@ export const HomeTop = () => {
     // };
 
     // dispatch(fetchFiltredCars(searchConfig));
-    navigate('/advanced-search', { state: { titleFromHomePage: title } });
+    dispatch(writeTitle(title));
+    navigate('/advanced-search');
+    
 
     dispatch(
       saveParamsForSubscr({

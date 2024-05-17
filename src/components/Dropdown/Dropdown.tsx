@@ -64,7 +64,7 @@ export const Dropdown: FC<Props> = props => {
   const [isActive, setIsActive] = useState(false);
   const [filterValue, setfilterValue] = useState('');
   const [checkedValue, setCheckedValue] = useState<string[]>([]);
-  const [isFirstRender, setIsFirstRender] = useState(true);
+  // const [isFirstRender, setIsFirstRender] = useState(true);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -160,21 +160,20 @@ export const Dropdown: FC<Props> = props => {
   }, [selectedOptions, setCheckedValue, setOption, startValue]);
 
   useEffect(() => {
-     if (!selectedOptions) {
-       setOption(startValue);
-     }
-     if (Array.isArray(selectedOptions)) {
-       setCheckedValue(selectedOptions);
-       setOption(selectedOptions);
-     }
+    if (!selectedOptions) {
+      setOption(startValue);
+    }
+    if (Array.isArray(selectedOptions)) {
+      setCheckedValue(selectedOptions);
+      setOption(selectedOptions);
+    }
   }, [optionList, selectedOptions, setOption, startValue]);
-  
 
   return (
     <div
       className={`${styles.container} ${
         updateStyle === 'advSearch' ? styles._advSearch : ''
-      }`}
+      } `}
       ref={dropdownRef}
       style={{ marginBottom: updateStyle === 'favoritPage' ? 0 : '' }}
     >
@@ -226,6 +225,7 @@ export const Dropdown: FC<Props> = props => {
               filterValue={filterValue}
               filterValueHandler={filterValueHandler}
               placeholder={renderPlaceholder()}
+              updateStyle={updateStyle}
             />
           ) : (
             <div

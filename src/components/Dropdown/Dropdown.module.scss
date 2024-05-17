@@ -69,6 +69,7 @@
     line-height: 20px;
     letter-spacing: 0.1px;
     height: 32px;
+    padding: 0 5px;
   }
 }
 
@@ -112,10 +113,11 @@
   line-height: 20px;
   letter-spacing: 0.1px;
   &.textAdvMenu {
-    font-weight: 400;
+    font-size: $mobile-sm;
+    font-weight: 500;
     margin-right: 8px;
+    letter-spacing: 0.15px;
     @include onTablet {
-      // max-width: 140px;
       height: 20px;
     }
   }
@@ -154,7 +156,7 @@
     }
   }
 }
-.trigger_content_favoritPage{
+.trigger_content_favoritPage {
   display: flex;
   box-sizing: border-box;
   width: calc(100%);
