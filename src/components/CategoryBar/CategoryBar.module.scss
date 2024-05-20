@@ -85,6 +85,12 @@
   font-weight: 500;
   line-height: 20px;
   letter-spacing: 0.15px;
+  transition: $effectDuration;
+
+  &.selected {
+  background-color: $bg-color-light;
+  border: 1px solid $bg-color-active;
+}
 
   @include onTablet {
     padding: 6px 12px;
@@ -107,9 +113,8 @@
   text-align: left;
 }
 .selected {
-  background-color: $bg-color-light;
-  border: 1px solid $bg-color-active;
-  // color: $color-black;
+border: 1px solid $border-active;
+background-color: $bg-color-active;
 }
 .btn {
   display: none;

@@ -1,6 +1,6 @@
 import { FC, useState, useRef, useCallback, useEffect } from 'react';
 import styles from './Dropdown.module.scss';
-import arrowDown from '../../assets/icons/arrow-down.svg';
+import arrowDown from '../../assets/icons/arrowDown.svg';
 import close from '../../assets/icons/close.svg';
 
 import useClickOutside from 'helpers/hooks/useClickOutside';

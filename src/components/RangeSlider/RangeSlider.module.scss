@@ -23,8 +23,15 @@
   border-radius: 32px;
   border: none;
   outline: none;
+
+  font-family: Roboto;
+  font-size: $mobile-sm;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.15px;
   @include onTablet {
     width: 188px;
+    font-size: $tablet-sm;
   }
 }
 .inputBlokRange {
@@ -45,4 +52,3 @@
     width: 12px;
   }
 }
-
