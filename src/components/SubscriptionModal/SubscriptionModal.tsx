@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './SubscriptionModal.module.scss';
 import { ReactComponent as CloseIcon } from '../../assets/icons/close.svg';
-import { ReactComponent as ArrowDownIcon } from '../../assets/icons/arrow-down.svg';
+import { ReactComponent as ArrowDownIcon } from '../../assets/icons/arrowDown.svg';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   getFilterBrands,
@@ -462,14 +462,16 @@ console.log('bargain', bargain)
             : styles.modalCard
         }
       >
-        <h2 className={styles.title}>Створити підписку</h2>
-        <button
-          type="button"
-          onClick={toggleModalIsOpen}
-          className={styles.closeButton}
-        >
-          <CloseIcon />
-        </button>
+        <div className={styles.title_container}>
+          <h2 className={styles.title}>Створити підписку</h2>
+          <button
+            type="button"
+            onClick={toggleModalIsOpen}
+            className={styles.closeButton}
+          >
+            <CloseIcon />
+          </button>
+        </div>
         <input
           type="text"
           placeholder="Назва підписки"
