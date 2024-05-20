@@ -206,7 +206,7 @@ const SearchingResults: React.FC<IProps> = ({
       )}
 
       {!isOpenAdvancedFilter && (
-        <div className={styles.container}>
+        <section className={styles.section}>
           {(isLoadingFilteredCars || isLoadingSubscrCars) && !isShowMore ? (
             <Loader />
           ) : !isLoadingFilteredCars &&
@@ -216,7 +216,7 @@ const SearchingResults: React.FC<IProps> = ({
           ) : (
             <>
               {isLoadingFilteredCars && isShowMore && <Loader />}
-              <div className={styles.catalogContainer}>
+              <div className={styles.container}>
                 {arrForRender.map(advert => (
                   <SearchingCard
                     key={advert.id}
@@ -239,7 +239,7 @@ const SearchingResults: React.FC<IProps> = ({
               />
             </>
           )}
-        </div>
+        </section>
       )}
     </>
   );

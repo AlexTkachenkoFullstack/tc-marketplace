@@ -128,7 +128,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
   const [isNotificationEnabled, setIsNotificationEnabled] = useState(false);
 
   const dispatch = useAppDispatch();
-
+console.log('bargain', bargain)
   const {
     selectedCategory,
     carMark,
@@ -444,6 +444,10 @@ const SubscriptionModal: React.FC<Iprops> = ({
     setShowEmail(event.target.checked ? userEmail : 'E-mail');
     setIsNotificationEnabled(prev => !prev);
   };
+
+   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+     setBargain(event.target.checked ? true : undefined);
+   };
 
   return (
     <div
@@ -821,39 +825,21 @@ const SubscriptionModal: React.FC<Iprops> = ({
             <div>
               <h4 className={styles.charactTitles}>Можливість торгу</h4>
               <div className={`${styles.listItem} ${styles.bragainThumb}`}>
-                <label
-                  htmlFor="no"
-                  className={`${styles.bargain} 
-                  ${!bargain ? styles.active : null}`}
-                >
-                  Ні
-                </label>
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="bargain"
-                  id="no"
-                  value="no"
-                  checked={!bargain}
-                  onChange={() => setBargain(false)}
-                  className={styles.bargainInput}
+                  id="bargain"
+                  checked={bargain === true}
+                  onChange={handleOptionChange}
+                  // className={styles.bargainInput}
                 />
                 <label
-                  htmlFor="yes"
-                  className={`${styles.bargain} ${
-                    bargain ? styles.active : null
-                  }`}
+                  htmlFor="bargain"
+                  // className={`${styles.bargain}
+                  // ${!bargain ? styles.active : null}`}
                 >
-                  Так
+                  Можливість торгу
                 </label>
-                <input
-                  type="radio"
-                  name="bargain"
-                  id="yes"
-                  value="yes"
-                  checked={bargain}
-                  onChange={() => setBargain(true)}
-                  className={styles.bargainInput}
-                />
               </div>
             </div>
           </div>

@@ -54,7 +54,7 @@ import { getWindowWidth } from 'utils/getWindowWidth';
 import { getInitialButtonVisibility } from 'utils/getInitialButtonVisibility';
 import ModelListType from 'types/ModelListType';
 import { useNavigate } from 'react-router-dom';
-import {ReactComponent as ArrowIcon} from "../../assets/icons/arrow.svg"
+import { ReactComponent as ArrowIcon } from '../../assets/icons/arrow.svg';
 
 interface Props {
   onAdvencedFilter?: () => void;
@@ -182,8 +182,6 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
     dispatch(writeTitle(title));
   }, [dispatch, title]);
 
-
-
   const {
     selectedCategory: transportType,
     carMark: brand,
@@ -193,7 +191,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
   useEffect(() => {
     if (!isMounted) {
-      console.log('model', model)
+      console.log('model', model);
       transportType && setSelectedCategory(transportType);
       brand.length > 0 && setCarMark(brand);
       model.length > 0 && setCarModel(model);
@@ -201,8 +199,6 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
     }
     setIsMounted(true);
   }, [brand, isMounted, model, region, transportType]);
-
-  
 
   const requestParams = {
     selectedCategory,
@@ -397,9 +393,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
     setCarNumberAxles(valueType);
   };
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value === 'Так';
-
-    setSelectedOption(value);
+    setSelectedOption(event.target.checked ? true : undefined);
   };
   // mobile btnShow
   const handleMobileBtnIsOpen = (blockName: keyof BlocksVisibilityState) => {
@@ -1251,13 +1245,12 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
               <input
                 type="checkbox"
                 name="option"
-                id="Yes"
-                value="Так"
-                // checked={selectedOption === true}
-                // onChange={handleOptionChange}
+                id="bargain"
+                checked={selectedOption === true}
+                onChange={handleOptionChange}
               />
               <label
-                htmlFor="Yes"
+                htmlFor="bargain"
                 // className={`${styles.itemTypeYes} ${
                 //   selectedOption === true ? styles.selected : ''
                 // }`}
