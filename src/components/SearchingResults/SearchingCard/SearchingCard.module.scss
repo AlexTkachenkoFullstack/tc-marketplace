@@ -171,10 +171,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  // height: 32px;
-  // width: 32px;
-  height: 24px;
-  width: 24px;
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
 }
 .likeBtn {
   width: 40px;
@@ -236,5 +235,20 @@
     text-align: left;
     border: none;
     padding: 0;
+  }
+}
+.favorite path{
+  fill: $color-black;
+}
+.iconIsFavouriteContainer:hover{  
+  height: 32px;
+  width: 32px;
+  border-radius: 50%; 
+  background: $bg-color-active;
+}
+.iconIsFavouriteContainer:active{
+  background: $border-active;
+  .favorite path{
+    fill: $bg-color-white;
   }
 }

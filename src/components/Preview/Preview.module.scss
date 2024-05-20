@@ -3,17 +3,19 @@
   position: relative;
   border-radius: 8px;
   background: #e4e4e4;
-  width: 150px;
-  height: 90px;
+  width: 154px;
+  height: 116px;
   box-sizing: border-box;
   overflow: hidden;
   @include onTablet {
-    width: 224px;
-    height: 126px;
+    min-width: 212px;
+    max-width: 212px;
+    min-height: 159px;
   }
   @include onDesktop {
-    width: 234px;
-    height: 146px;
+    min-width: 294px;
+    max-width: 294px;
+    min-height: 221px;
   }
 }
 .imgCard_user {

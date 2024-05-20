@@ -10,9 +10,9 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { logoutThunk } from 'redux/auth/operations';
 import { ReactComponent as Plus } from '../../assets/icons/add.svg';
 import { ReactComponent as Add } from '../../assets/icons/addCircle.svg';
-import { ReactComponent as Account} from '../../assets/icons/account_circle.svg';
-import { ReactComponent as Favorite} from '../../assets/icons/favorite.svg';
-import { ReactComponent as FavoriteActive} from '../../assets/icons/heart-active.svg';
+import { ReactComponent as Account } from '../../assets/icons/account_circle.svg';
+import { ReactComponent as Favorite } from '../../assets/icons/favorite.svg';
+import { ReactComponent as FavoriteActive } from '../../assets/icons/heart-active.svg';
 // import { fetchNewCars, fetchPopularCars } from 'redux/cars/operations';heart-active.svg
 
 export const links = [
@@ -42,8 +42,9 @@ export const Header: FC = () => {
   const isAdvertisements = location.pathname === '/advertisements';
   const isAdvencedSearch = location.pathname === '/advanced-search';
   const isFavoritesPage = location.pathname === '/favorites';
+  const isMyAdverts = location.pathname === '/user/my-adverts';
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  // const [isActive, setIsActive] = useState(false); 
+  // const [isActive, setIsActive] = useState(false);
   useEffect(() => {
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
@@ -85,9 +86,9 @@ export const Header: FC = () => {
       <div className={styles.header__right}>
         <button
           className={styles.header__add_button}
-          // style={{
-          //   display: isAdvertisementsEdit || isAdvertisements ? 'none' : '',
-          // }}
+          style={{
+            display: isAdvertisementsEdit || isAdvertisements ? 'none' : '',
+          }}
           onClick={handleNewAnnouncementClick}
           disabled={isAdvertisements}
         >
@@ -95,32 +96,25 @@ export const Header: FC = () => {
             <Add className={styles.svgIcon} />
           ) : (
             <>
-              {/* <span className={styles.header__add_button_text}> */}
-                Додати оголошення
-              {/* </span> */}
-              <Plus
-                className={styles.header__add_button_icon}                
-              />
+              Додати оголошення
+              <Plus className={styles.header__add_button_icon} />
             </>
           )}
         </button>
         <button
-          className={`${isFavoritesPage?styles.header__favorite_button_active :styles.header__favorite_button}`}
+          className={`${styles.header__favorite_button}`}
           onClick={handleFavoritesClick}
         >
-         {/* {isActive ? <FavoriteActive className={styles.svgIcon}/>: */}
-          <Favorite className={`${isFavoritesPage?styles.svg_active :styles.svg_icon}  `} />
-          {/* } */}
-          {/* <img src={point} className={styles.header__favorite_button_point} /> */}
+          <Favorite className={`${styles.svg_icon}  `} />
         </button>
 
         {auth ? (
           <div className={styles.header__auth_container}>
-            <NavLink to="/user/my-adverts">
-              <Account 
-                className={styles.header__login_icon}
-                
-              />
+            <NavLink
+              to="/user/my-adverts"
+              className={`${styles.header__favorite_button}`}
+            >
+              <Account className={`${styles.header__login_icon}`} />
             </NavLink>
             <button
               className={styles.header__login_button}

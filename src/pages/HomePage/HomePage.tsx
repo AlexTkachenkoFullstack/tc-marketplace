@@ -18,6 +18,7 @@ import {
 } from 'redux/cars/selectors';
 import { ICar } from 'types/IСar';
 import { isAuthUser } from 'redux/auth/selectors';
+import { ReactComponent as UpdBtn } from '../../assets/icons/update_btn.svg';
 const POPULARLIMIT = 9;
 export const HomePage: React.FC = () => {
   const newCars = useAppSelector(getNewCars);
@@ -94,7 +95,7 @@ export const HomePage: React.FC = () => {
           <CardSlider title={'Нові автомобілі на сайті'} cars={newCars} />
         </div>
         <div className={styles.popularGoods}>
-          <PopularGoods cars={popularCarsToShow} />
+          <PopularGoods cars={popularCarsToShow}/>
         </div>
         <div>
           {showButtonLoadMore && (
@@ -103,6 +104,7 @@ export const HomePage: React.FC = () => {
               onClick={() => loadNextOnClick()}
             >
               Завантажити більше
+              <UpdBtn className={styles.upd_btn}/>
             </CommonBtn>
           )}
         </div>

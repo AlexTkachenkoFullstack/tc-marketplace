@@ -180,6 +180,7 @@ export const HomeTop = () => {
           <h2 className={styles.title}>Знайди свої колеса</h2>
 
           <CategoryBar
+            chips="chips"
             categories={categories.map(category => category.type)}
             handleSelect={handleSelectCategory}
             selectedCategory={selectedCategory}

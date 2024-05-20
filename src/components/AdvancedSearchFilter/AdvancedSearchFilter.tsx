@@ -561,6 +561,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
               <div className={styles.listItem}>
                 {typeCars && (
                   <CategoryBar
+                    chips="chips"
                     categories={typeCars.map(typeCar => typeCar.type)}
                     handleSelect={handlerType}
                     selectedCategory={selectedCategory}

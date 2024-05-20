@@ -63,6 +63,7 @@ import { extractPhotoName } from 'utils/extractPhotoName';
 import { ReactComponent as Trash } from '../../assets/icons/delete.svg';
 import { cleanFiltredStore } from 'redux/filter/slice';
 import { useSelector } from 'react-redux';
+import { ReactComponent as Back } from '../../assets/icons/arrow_back.svg';
 interface RequestData {
   [key: string]: any;
 }
@@ -722,21 +723,8 @@ export const NewAnnouncement: React.FC = () => {
       }, 500);
     }
   };
-console.log('selectedImages.length > 0 :>> ', selectedImages.length > 0);
-console.log('textValue.length >= 100 :>> ', textValue.length >= 100);
-console.log('isValid :>> ', isValid);
-console.log(' mainPhoto !== "" :>> ',  mainPhoto !== '');
-console.log('price :>> ', price);
-console.log('selectedCity !== Місто :>> ', selectedCity !== 'Місто');
-console.log(' carModel !==  :>> ',  carModel !== '');
-console.log('yearCar !== Ріk:>> ', yearCar !== 'Рік');
-console.log('selectedBodyType !== Тип кузову :>> ', selectedBodyType !== 'Тип кузову');
-console.log('selectedFuelType !== tип палива :>> ', selectedFuelType !== 'Тип палива');
-console.log('fuelConsumption !== Літри :>> ',  fuelConsumption !== 'Літри');
-console.log('selectedTransmission !== Коробка передач :>> ', selectedTransmission !== 'Коробка передач');
-console.log('mileage  :>> ', mileage);
-console.log('engineVolumes !== Літри', engineVolumes !== 'Літри');
-console.log('selectedDriveType !== Привід :>> ', selectedDriveType !== 'Привід');
+  console.log('selectedImages:>> ', selectedImages);
+
   const handleAddOrUpdateAdvers = () => {
     if (isAdvertisements) {
       if (
@@ -754,7 +742,10 @@ console.log('selectedDriveType !== Привід :>> ', selectedDriveType !== 'П
         (typeCategory === 'Водний транспорт'
           ? true
           : selectedTransmission !== 'Коробка передач') &&
-        (typeCategory === 'Водний транспорт' || typeCategory === 'Сільгосптехніка' ? true : mileage) &&
+        (typeCategory === 'Водний транспорт' ||
+        typeCategory === 'Сільгосптехніка'
+          ? true
+          : mileage) &&
         (typeCategory === 'Сільгосптехніка' ||
         typeCategory === 'Водний транспорт'
           ? true
@@ -1053,13 +1044,20 @@ console.log('selectedDriveType !== Привід :>> ', selectedDriveType !== 'П
   return (
     <section className={styles.section}>
       {isLoading && <Loader />}
-      <div className={styles.container}>
-        <h1 className={styles.mainTitle}>
+      <div className={styles.titleHeader}>
+        <div className={styles.title_container}>
+
+        <button className={styles.btn_back}><Back className={styles.svg_btn}/></button>
+        <h1
+         className={styles.mainTitle}
+        >
           {isAdvertisementsEdit
             ? 'Редагування оголошення'
-            : 'Додавання оголошення'}
+            : 'Створення оголошення'}
         </h1>
-
+        </div>
+      </div>
+      <div className={styles.container}>
         <div className={styles.blocTitleFoto}>
           <div className={styles.boxTitleFoto}>
             <h2 className={styles.titleAddFoto}>Додайте фото</h2>

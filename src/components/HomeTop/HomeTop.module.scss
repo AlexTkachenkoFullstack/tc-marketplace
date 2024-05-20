@@ -9,8 +9,8 @@
     // height: 413px;
   }
   @include onDesktop {
-  padding: 148px 0 80px;
-  // background-color:green;
+    padding: 148px 0 80px;
+    // background-color:green;
     // height: 415px;
     // height: 330px;
   }
@@ -32,13 +32,13 @@
   font-size: $mobile-2xl;
   font-weight: 800;
   // line-height: 36px;
-  
+
   color: $color-black;
-  @include onTablet {   
+  @include onTablet {
     margin-bottom: 20px;
     font-size: $tablet-3xl;
   }
-  @include onDesktop {  
+  @include onDesktop {
     margin-bottom: 24px;
     font-size: $desctop-3xl;
     line-height: 100%;
@@ -46,7 +46,7 @@
 }
 .container_bottom {
   @include onTablet {
-    display: flex;   
+    display: flex;
     flex-direction: column;
   }
   @include onDesktop {
@@ -130,9 +130,9 @@
     border-radius: 100px;
     line-height: 48px;
     background-color: $color-black;
-    color: $background-color-white;  
+    color: $background-color-white;
     border: 1px solid $color-black;
-    transition: all 0.3s ease;   
+    transition: all 0.3s ease;
     @include onDesktop {
       height: 48px;
       padding: 10px 20px;
@@ -146,15 +146,23 @@
       font-weight: 500;
       line-height: 24px; /* 150% */
       letter-spacing: 0.15px;
-      margin-right: 8px;   
+      margin-right: 8px;
     }
     &:hover {
-      border: 1px solid $color-black;
-      background-color: $bg-color-light;
-      color: $background-color-white;
+      border: 1px solid $border-active;
+      background-color: $bg-color-active;
+
+      // .search_button_text {
+      //   color: $color-black;
+      // }
     }
     &:active {
-      background-color: $color-black;
+      background-color: $color-dark-blue;
+      border: 1px solid $bg-color-white;
+
+      .search_button_text {
+        color: $bg-color-white;
+      }
     }
   }
 
@@ -165,7 +173,7 @@
   }
 
   &_more {
-    color: $color-black;
+    color:$color-dark-blue;
     text-align: center;
     height: 40px;
     font-family: Roboto;
@@ -173,13 +181,10 @@
     font-style: normal;
     font-weight: 400;
     line-height: 16px;
-    letter-spacing: 0.5px;
-    border-radius: 24px;
-    border: 1px solid $bg-color-light;
-    padding: 10px 16px;
-    transition: all 0.3s ease;
+    letter-spacing: 0.5px; 
+    transition: $effectDuration;
     &:hover {
-      color: black;
+      color: $color-black;
       display: inline-flex;
       height: 40px;
       flex-direction: column;
@@ -188,17 +193,12 @@
       gap: 8px;
       flex-shrink: 0;
       line-height: 16px;
-      border-radius: 24px;
-      border: 1px solid $color-black;
-      background: $bg-color-light;    
+      text-decoration: underline;  
     }
     &:active {
-      border-radius: 24px;
-      border: 1px solid $color-black;
-      background: $color-black; 
-      color: $bg-color-white;
+      color:  $color-black;
       text-align: center;
-      font-family: Roboto;     
+      font-family: Roboto;
       font-style: normal;
       font-weight: 400;
       line-height: 16px;
