@@ -78,10 +78,11 @@
       font-weight: 600;
       color: $color-black;
       &:hover {
-        border: 1px solid $color-black;
+        border: 1px solid $border-active;
       }
     }
     &_icon {
+      margin-left: 8px;
       width: 20px;
       height: 20px;
     }
@@ -91,7 +92,7 @@
   }
   &__add_button:active {
     @include onTablet {
-      background-color: $color-black;
+      background-color: $color-dark-blue;
       color: $bg-color-white;
       .header__add_button_icon path {
         transition: $effectDuration;
@@ -101,7 +102,7 @@
   }
   &__auth_container {
     display: flex;
-    align-items: center;
+    // align-items: center;
   }
   &__login_icon path {
     fill: $color-black;
@@ -109,26 +110,30 @@
     height: 24px;
     cursor: pointer;
   }
+  &__login_icon_active path {
+    // background: #7796e0;
+    // border-radius: 50%;
+    // padding: 4px 4px;
+    fill: $bg-color-white;
+    cursor: pointer;
+  }
   &__favorite_button,
   &__login_button {
     background: none;
     border: none;
     cursor: pointer;
-
     display: flex;
     align-items: center;
     padding: 8px;
+    transition: $effectDuration;
   }
   &__favorite_button {
     position: relative;
-    &_active {
-      background: #7796e0;
-      border-radius: 50%;
-      padding: 4px 4px;
-    }
+    border-radius: 50%;
+    padding: 4px 4px;
   }
   &__login_text {
-    margin-left: 8px;
+    // margin-left: 8px;
     color: $color-black;
     font-family: Roboto;
     font-size: 16px;
@@ -142,7 +147,13 @@
   &__login_text:hover {
     padding: 10px 16px;
     border-radius: 32px;
-    border: 1px solid $color-black;
+    border: 1px solid$border-active;
+    background: $bg-color-active;
+  }
+  &__login_text:active {
+    border: 1px solid var(--White, #fff);
+    background: var(--Main-color, #403e87);
+    color: $bg-color-white;
   }
 }
 .svg_icon path {
@@ -150,8 +161,23 @@
   width: 24px;
   height: 24px;
 }
-.svg_active path {
-  fill: $background-color-white;
+.svg_icon:active path {
+  fill: $bg-color-white;
   width: 24px;
   height: 24px;
+}
+.header__favorite_button:hover {
+  background: $bg-color-active;
+}
+.header__favorite_button:active {
+  background: $border-active;
+  .svg_icon path {
+    fill: $bg-color-white;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.header__login_icon:active path {
+  fill: $bg-color-white;
 }

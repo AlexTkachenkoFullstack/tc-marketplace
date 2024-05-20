@@ -4,23 +4,25 @@
   border-radius: 8px;
   background: var(--light-gray, #e4e4e4);
   display: flex;
-  min-width: 150px;
-  max-width: 150px;
-  min-height: 90px;
+  min-width: 154px;
+  max-width: 154px;
+  min-height: 116px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 
   @include onTablet {
-    min-width: 224px;
-    max-width: 224px;
-    min-height: 126px;
+    min-width: 212px;
+    max-width: 212px;
+    min-height: 159px;
+    gap: 16px;
   }
   @include onDesktop {
-    min-width: 234px;
-    max-width: 234px;
-    min-height: 146px;
+    min-width: 294px;
+    max-width: 294px;
+    min-height: 221px;
+    gap: 24px;
   }
   &_errorMessage {
     border: 1px solid red;
@@ -28,7 +30,7 @@
 }
 .imgCard_user {
   position: relative;
-  display: flex; 
+  display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 8px;

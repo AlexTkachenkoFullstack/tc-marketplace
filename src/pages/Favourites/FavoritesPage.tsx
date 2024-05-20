@@ -111,7 +111,7 @@ export const FavoritesPage: FC = () => {
       {isLoading && <Loader />}
       <div className={styles.title_container}>
         <button className={styles.backBtn} onClick={handleBackClick}>
-          <Back />
+          <Back className={styles.svg_btn} />
         </button>
         <h1 className={styles.emptyFavorite}>Обрані</h1>
         {/* <div className={styles.dropdownMenu}>

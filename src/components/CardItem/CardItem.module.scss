@@ -134,18 +134,20 @@
   justify-content: center;
   height: 32px;
   width: 32px;
+  border-radius: 50%;
+  transition: $effectDuration;
 }
 
 .likeBtn {
   width: 32px;
   aspect-ratio: 1/1;
   border-radius: 50%;
-  box-shadow: $shadow-btn;
+  // box-shadow: $shadow-btn;
   border: none;
 
-  &:hover {
-    background-color: $bg-hover-btn;
-  }
+  // &:hover {
+  //   background-color: $bg-hover-btn;
+  // }
 
   img {
     display: block;
@@ -154,3 +156,16 @@
     object-fit: cover;
   }
 }
+.favorite_active path {
+  fill: $bg-color-white;
+}
+.favorite path {
+  fill: $color-black;
+}
+.iconIsFavouriteContainer:hover{
+  background: $bg-color-active;
+}
+.iconIsFavouriteContainer:active{
+  background: $border-active;
+}
+

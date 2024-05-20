@@ -23,15 +23,16 @@
 
 .loadBtn {
   display: block;
-  width: 10.8rem;
-  height: 2.5rem;
+  // width: 10.8rem;
+  // height: 2.5rem;
   margin-inline: auto;
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
   letter-spacing: 0.1px;
-  background-color: $bg-color-light;
-  border: 1px solid transparent!important;
+  padding: 12px 20px;
+  background-color: $bg-color-white;
+  border: 1px solid $color-black!important;
   border-radius: 2rem;
   transition: border-color $effectDuration,
     background-color $effectDuration;
@@ -42,9 +43,15 @@
     background-color:$bg-color-light!important;
   }
   &:active{
-    // border: 1px solid $color-black!important;
+    border: 1px solid $bg-color-white!important;
     // border-color: $color-black!important;
     color: $bg-color-white;
-    background-color: $color-black!important;
+    background-color: $color-dark-blue!important;
+    .upd_btn path {
+      fill: $bg-color-white;
+    }
+  }
+  .upd_btn{
+    margin-left: 8px;
   }
 }

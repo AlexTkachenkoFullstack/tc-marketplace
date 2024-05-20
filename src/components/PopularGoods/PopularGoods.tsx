@@ -17,9 +17,9 @@ export const PopularGoods: React.FC<Props> = ({ cars }) => {
                     <div className={styles.header}>
                         <h2 className={styles.title}>Популярні товари</h2>
 
-                        <NavLink to="goods" className={styles.moreBtn}>
+                        {/* <NavLink to="goods" className={styles.moreBtn}>
                             Переглянути більше
-                        </NavLink>
+                        </NavLink> */}
                     </div>
 
                     <div className={styles.catalog}>

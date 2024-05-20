@@ -10,8 +10,7 @@ import { hideAllTransport, hideTransport } from 'redux/filter/operations';
 
 import { ICar } from 'types/IСar';
 
-import LikeImg from '../../../assets/icons/favorite.svg';
-import ActiveLikeImg from '../../../assets/icons/favorite-active.svg';
+// import ActiveLikeImg from '../../../assets/icons/favorite-active.svg';
 // import { ReactComponent as EmptyIcon } from '../../../assets/icons/empty_icon.svg';
 import { ReactComponent as OptionDots } from '../../../assets/icons/option_dots.svg';
 // import { ReactComponent as ClockIcon } from '../../../assets/icons/clock.svg';
@@ -21,7 +20,8 @@ import { ReactComponent as Transmission } from '../../../assets/icons/transmissi
 import { ReactComponent as Fuel } from '../../../assets/icons/fuel.svg';
 import { ReactComponent as CalendarMonth } from '../../../assets/icons/calendar_month.svg';
 import { ReactComponent as Location } from '../../../assets/icons/location.svg';
-
+import { ReactComponent as FavoriteActive } from '../../../assets/icons/favorite-active.svg';
+import { ReactComponent as Favorite } from '../../../assets/icons/favorite.svg';
 import { CommonBtn } from 'components/Buttons/CommonBtn';
 
 import { convertDate } from 'utils/convertDate';
@@ -125,15 +125,13 @@ const SearchingCard: React.FC<IProps> = ({
           <h3 className={styles.title}>
             {car?.brand} {car?.model} {car?.year}
           </h3>
-          <div
+          <button
             className={styles.iconIsFavouriteContainer}
             onClick={addFavorite}
           >
-            <CommonBtn
-              iconPath={car?.isFavorite && isAuth ? ActiveLikeImg : LikeImg}
-              className={cn(styles.likeBtn)}
-            />
-          </div>
+           {car?.isFavorite && isAuth ? <FavoriteActive className={styles.favorite}/>:
+            <Favorite/>}
+          </button>
         </div>
         <p className={styles.price}>{car?.price} $</p>
         <ul className={styles.techSpecs}>

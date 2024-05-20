@@ -17,10 +17,12 @@ interface Props {
   handleSelect: (category: string) => void;
   selectedCategory?: string;
   selectedStyle?: string;
+  chips?:string,
 }
 
 export const CategoryBar: React.FC<Props> = ({
   isShow,
+  chips,
   color,
   transportColor,
   categories,
@@ -105,7 +107,7 @@ export const CategoryBar: React.FC<Props> = ({
                      : null
                  }               
                 ${
-                  selectedCategory === category.transportColor
+                  selectedCategory === category.transportColor && chips === 'chips'
                     ? styles.selected
                     : ''
                 } `}
@@ -137,7 +139,7 @@ export const CategoryBar: React.FC<Props> = ({
                    selectedStyle === 'userPageStyle'
                      ? styles.userPageCategory
                      : null
-                 } ${selectedCategory === category ? styles.selected : ''}`}
+                 } ${ chips === 'chips'? selectedCategory === category ? styles.selected: '': selectedCategory === category ? styles.selected_category : ''}`}
                 key={category}
                 onClick={() => handleSelect(category)}
               >
