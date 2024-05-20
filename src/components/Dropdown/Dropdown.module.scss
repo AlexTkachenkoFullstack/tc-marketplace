@@ -84,6 +84,9 @@
   border-radius: 1000px;
   background-color: none;
   background-color: $white-color;
+  &.menuStyle{
+     padding: 0px 8px 0px 14px;
+  }
   &_errorMessage {
     border: 1px solid red;
   }
@@ -119,6 +122,7 @@
     letter-spacing: 0.15px;
     @include onTablet {
       height: 20px;
+      font-size: $tablet-sm;
     }
   }
 }

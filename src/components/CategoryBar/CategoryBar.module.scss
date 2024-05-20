@@ -73,22 +73,32 @@
   scroll-behavior: unset;
 }
 .advanced_search_category {
-  padding: 10px 16px;
+  padding: 6px 10px;
   box-sizing: border-box;
-  background-color: #f0f0f0;
+  background-color: $border-gray;
   border: none;
   border-radius: 20px;
-  color: #434343;
+  color: $color-black;
   cursor: pointer;
   white-space: nowrap;
-  font-family: Roboto;
-  font-size: 16px;
-  font-style: normal;
+  font-size: $mobile-sm;
   font-weight: 500;
   line-height: 20px;
+  letter-spacing: 0.15px;
+
+  @include onTablet {
+    padding: 6px 12px;
+    font-size: $tablet-sm;
+  }
+  @include onDesktop {
+    padding: 6px 16px;
+    font-size: $desctop-sm;
+  }
 }
 .advanced_search_category:hover {
-  background-color: #e4e4e4;
+  background-color: $bg-color-light;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
+
 }
 .advanced_search_category:not(:last-child) {
   margin-right: 8px;
@@ -97,8 +107,8 @@
   text-align: left;
 }
 .selected {
-  background-color: $bg-color-active;
-  border: 1px solid $border-active;
+  background-color: $bg-color-light;
+  border: 1px solid $bg-color-active;
   // color: $color-black;
 }
 .btn {

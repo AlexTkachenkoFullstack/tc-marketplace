@@ -32,9 +32,9 @@
       padding-bottom: 40px;
     }
   }
-  &_title {
-    @include title-styles;
-  }
+  // &_title {
+  //   @include title-styles;
+  // }
 }
 .itemdropdownbox {
   width: 320px;
@@ -66,6 +66,18 @@
 }
 .title {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & h2 {
+    font-size: $mobile-xl;
+    font-weight: 700;
+    line-height: 120%;
+    @include onDesktop {
+      font-size: $tablet-xl;
+    }
+  }
 }
 
 .listSelectTitle .title {
@@ -76,11 +88,9 @@
 }
 
 .mobileButton {
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 20px;
-  height: 20px;
+  width: 32px;
+  height: 32px;
+  border-radius: 100%;
   background-image: url('../../assets/icons/arrow-down.svg');
   background-repeat: no-repeat;
   background-position: center;
@@ -94,17 +104,7 @@
 .dropdownContainer {
   width: 320px;
 }
-h2 {
-  color: #434343;
-  font-family: Roboto;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 120%; /* 19.2px */
-  @include onDesktop {
-    font-size: 20px;
-  }
-}
+
 .listItem {
   width: 320px;
   gap: 8px;

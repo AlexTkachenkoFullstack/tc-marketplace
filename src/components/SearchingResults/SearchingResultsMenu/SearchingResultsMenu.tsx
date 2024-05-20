@@ -128,7 +128,7 @@ const SearchingResultsMenu: React.FC<Iprops> = ({
               onClick={handleAdvancedFilter}
               className={styles.filter}
             >
-              Розширений фільтр
+              <span className={styles.hiddenText}>Розширений&nbsp;</span> фільтр
             </button>
 
             <>
@@ -157,7 +157,7 @@ const SearchingResultsMenu: React.FC<Iprops> = ({
                 onClick={toggleModalIsOpen}
               >
                 <StarIcon />
-                Підписатись на пошук
+                <span className={styles.hiddenText}>Підписатись на пошук</span>
               </button>
             </>
             {/* )} */}

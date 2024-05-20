@@ -1,20 +1,27 @@
 @import '/src/styles/main.scss';
 
-.container { 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 32px 20px ;
-  @include onTablet {
-    padding: 144px 40px 40px 40px;
-  }
-  .catalogContainer {
+.section {
+  .container {
+    width: $mobile-min-width;
     display: flex;
     flex-direction: column;
     row-gap: 24px;
+    margin: 0 auto;
+    padding: 32px 20px 10px;
+    @include onTablet {
+      flex-flow: row wrap;
+      row-gap: 28px;
+      column-gap: 20px;
+      width: $tablet-min-width;
+      padding: 32px 40px 12px;
+    }
+    @include onDesktop {
+      width: $desktop-min-width;
+      padding: 40px 96px 16px;
+    }
   }
 }
-.containerIsOpen { 
+.containerIsOpen {
   display: flex;
   flex-direction: column;
   align-items: center;
