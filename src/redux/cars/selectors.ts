@@ -5,3 +5,4 @@ export const getPopularCars = (state: RootState) => state.cars.popularCars;
 export const getIsLoading =(state: RootState)=> state.cars.isLoading;
 export const getError =(state: RootState)=> state.cars.error;
 export const carDetail =(state: RootState)=> state.cars.carDetail;
+export const getFavoriteCars =(state: RootState)=> state.cars.favoriteCars;

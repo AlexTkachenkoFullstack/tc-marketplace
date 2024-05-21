@@ -1,53 +1,60 @@
 @import '/src/styles/main.scss';
+.favorite {
+  padding-top: 68px;
+}
+
 .Container {
-  width: 360px; 
+  width: 360px;
   margin: 0 auto;
   box-sizing: border-box;
   flex-grow: 1;
-  padding: 168px 20px 32px 20px;
+  padding: 32px 20px 32px 20px;
   @include onTablet {
     width: 768px;
-    padding: 192px 40px 32px 40px;   
+    padding: 32px 40px 32px 40px;
   }
-  @include onDesktop{
+  @include onDesktop {
     width: 1440px;
-    padding: 195px 96px 40px 96px;
+    padding: 40px 96px 40px 96px;
   }
- 
 }
 .title_container {
-  position: fixed;
-  display: flex; 
-  width: 100%;
-  top: 56px;
-  left: 0;
-  gap: 8px;
-  padding-top: 40px;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-bottom: 16px;
+  // position: fixed;
+  // display: flex;
+  // width: 100%;
+  // top: 56px;
+  // left: 0;
+  // gap: 8px;
+  // padding-top: 40px;
+  // padding-left: 20px;
+  // padding-right: 20px;
+  // padding-bottom: 16px;
   background: $bg-color-light;
-  z-index: 20;
-  align-items: center;
-  @include onTablet {
-    flex-direction: unset;
-    padding-top: 56px;
-    padding-left: 40px;
-    padding-right: 40px;
-
-  }
+  // z-index: 20;
+  // align-items: center;
+  // @include onTablet {
+  //   flex-direction: unset;
+  //   padding-top: 52px;
+  //   padding-left: 40px;
+  //   padding-right: 40px;
+  // }
+  // @include onDesktop {
+  //   padding-top: 64px;
+  //   padding-left: 96px;
+  //   padding-right: 96px;
+  //   padding-bottom: 20px;
+  // }
 }
 .emptyFavorite {
-  display: flex;  
+  display: flex;
   color: $color-black;
   font-family: Roboto;
   font-size: $mobile-3xl;
   font-style: normal;
   font-weight: 800;
-  // line-height: 100%; 
+  // line-height: 100%;
   @include onTablet {
-    font-size:$tablet-3xl;
-    
+    font-size: $tablet-3xl;
   }
 }
 .list_cars {
@@ -55,23 +62,62 @@
   flex-direction: column;
   gap: 24px;
   margin-bottom: 20px;
-  @include onTablet {    
+  @include onTablet {
     row-gap: 28px;
-    column-gap:20px;
-    flex-direction: unset; 
+    column-gap: 20px;
+    flex-direction: unset;
     flex-wrap: wrap;
     margin-bottom: 24px;
   }
-  @include onDesktop{
+  @include onDesktop {
     row-gap: 32px;
-    column-gap:24px;
+    column-gap: 24px;
     margin-bottom: 32px;
   }
 }
 .backBtn {
-  width: 20px;
-  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: $effectDuration;
+  padding: 6px;
 }
-.svg_btn path{
+.backBtn:hover {
+ background-color:$bg-color-active;
+}
+.backBtn:active {
+  background-color:$border-active;
+  .svg_btn path{
+    fill: $bg-color-white;
+  }
+ }
+.svg_btn path {
   fill: $color-black;
+}
+.wrapper {
+  gap: 8px;
+  display: flex;
+  align-items: center;
+  width: 360px;
+  margin: 0 auto;
+  padding-top: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 16px;
+  @include onTablet {
+    width: 768px;
+    padding-top: 52px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  @include onDesktop {
+    width: 1440px;
+    padding-top: 64px;
+    padding-left: 96px;
+    padding-right: 96px;
+    padding-bottom: 20px;
+  }
 }

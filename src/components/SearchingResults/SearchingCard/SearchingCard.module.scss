@@ -38,7 +38,7 @@
     @include onTablet {
       display: flex;
       flex-direction: column;
-      width: 100%;    
+      width: 100%;
     }
     @include onDesktop {
     }
@@ -62,21 +62,24 @@
     }
   }
   .title {
-    width: 244px;
-    height: 35px;
+    line-height: 40px;
+    width: 224px;
+    height: 40px;
     font-family: Roboto;
-    font-size: $mobile-lg;
+    font-size: $mobile-xl;
     font-style: normal;
     font-weight: 500;
-    // line-height: 24px; /* 150% */
     letter-spacing: 0.15px;
-    color: $color-medium-dark-gray;
+    color: $color-black;
+    white-space: nowrap; /* Запрещает перенос текста на новую строку */
+    overflow: hidden; /* Скрывает переполняющий текст */
+    text-overflow: ellipsis; /* Добавляет многоточие в конце обрезанного текста */
     @include onTablet {
-      width: 258px;
-      font-size: $mobile-lg;
+      width: 238px;
+      font-size: $tablet-xl;
     }
     @include onDesktop {
-      width: 372px;
+      width: 304px;
     }
   }
   .price {
@@ -113,7 +116,7 @@
   }
   .techSpec {
     width: 154px;
-    display: flex;   
+    display: flex;
     color: $color-dark-grey;
     font-size: $mobile-sm;
     font-weight: 500;
@@ -165,14 +168,13 @@
   }
 }
 .iconIsFavouriteContainer {
-   // position: absolute;
-  top: 12px;
-  right: 12px;
+  // position: absolute;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 32px;
-  width: 32px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
 }
 .likeBtn {
@@ -197,16 +199,22 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  top: 0;
-  right: 0;
+  // position: absolute;
+  // top: 0;
+  // right: 0;
   width: 40px;
   height: 40px;
   border: none;
   border-radius: 50%;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
   &:hover {
-    background-color: $bg-hover-btn;
+    background-color: $bg-color-active;
+  }
+  &:active {
+    background-color: $border-active;
+    .option_dots path {
+      fill: $bg-color-white;
+    }
   }
 }
 
@@ -237,18 +245,21 @@
     padding: 0;
   }
 }
-.favorite path{
+.favorite path {
   fill: $color-black;
 }
-.iconIsFavouriteContainer:hover{  
-  height: 32px;
-  width: 32px;
-  border-radius: 50%; 
+.iconIsFavouriteContainer:hover {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   background: $bg-color-active;
 }
-.iconIsFavouriteContainer:active{
+.iconIsFavouriteContainer:active {
   background: $border-active;
-  .favorite path{
+  .favorite path {
     fill: $bg-color-white;
   }
+}
+.option_dots path {
+  fill: $color-black;
 }

@@ -29,8 +29,11 @@
   font-style: normal;
   font-weight: 500;
   line-height: 20px;
+  transition: $effectDuration;
 }
-
+.category:hover {
+  background-color: $bg-color-active;
+}
 .category:not(:last-child) {
   margin-right: 8px;
 }
@@ -96,9 +99,8 @@
   }
 }
 .advanced_search_category:hover {
-  background-color: $bg-color-light;
+  background-color: $bg-color-active;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
-
 }
 .advanced_search_category:not(:last-child) {
   margin-right: 8px;
@@ -107,8 +109,8 @@
   text-align: left;
 }
 .selected {
-  background-color: $bg-color-light;
-  border: 1px solid $bg-color-active;
+  background-color: $bg-color-active;
+  border: 1px solid $border-active;
   // color: $color-black;
 }
 .btn {

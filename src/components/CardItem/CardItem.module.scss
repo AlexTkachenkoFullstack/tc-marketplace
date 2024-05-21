@@ -54,15 +54,13 @@
 
   .title {
     font-family: Roboto;
-    font-size: $mobile-2xl;
+    font-size: $tablet-xl;
     font-weight: 700;
     line-height: 1.65rem;
-    @include onTablet {
-      font-size: $tablet-2xl;
-    }
+    color: $color-black;   
     @include onDesktop {
       width: 324px;
-      //  height: 35px;
+      
     }
   }
 
@@ -71,6 +69,7 @@
     font-weight: 700;
     line-height: 1.75rem;
     margin-bottom: 5px;
+    color: $color-black;   
     // @include onDesktop {
     // }
   }

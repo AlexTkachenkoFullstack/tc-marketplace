@@ -7,6 +7,7 @@ import { PopularGoods } from 'components/PopularGoods';
 import { CommonBtn } from 'components/Buttons/CommonBtn';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
+  fetchFavoriteCars,
   fetchNewCars,
   fetchPopularCars,
   fetchViewedCars,
@@ -37,6 +38,8 @@ export const HomePage: React.FC = () => {
     dispatch(fetchViewedCars());
     dispatch(fetchNewCars());
     dispatch(fetchPopularCars());
+    dispatch(fetchFavoriteCars());
+
   }, [dispatch]);
 
   useEffect(() => {

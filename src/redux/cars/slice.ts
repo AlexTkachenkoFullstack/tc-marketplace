@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction, isAnyOf } from '@reduxjs/toolkit';
 import {
   addToFavourites,
+  fetchFavoriteCars,
   fetchNewCars,
   fetchPopularCars,
   fetchViewedCars,
@@ -15,6 +16,7 @@ interface CarsState {
   popularCars: ICar[] | [];
   newCars: ICar[] | [];
   filtredCars: ICar[] | [];
+  favoriteCars: ICar[] | [];
   error: unknown;
   isLoading: boolean;
   carDetail: ITransportDetails | null;
@@ -25,6 +27,7 @@ const initialState: CarsState = {
   popularCars: [],
   newCars: [],
   filtredCars: [],
+  favoriteCars: [],
   error: null,
   isLoading: false,
   carDetail: null,
@@ -131,14 +134,21 @@ const handleFulfildRemoveFromFavorite = (
     newCar.isFavorite = false;
   }
 };
-
+const handleFulfildfetchFavoriteCars = (
+  state: CarsState,
+  action: PayloadAction<ICar[]>,
+) => {
+  state.favoriteCars = action.payload;
+};
 export const carsSlice = createSlice({
   name: 'cars',
   initialState,
   reducers: {
-    // clearFavourites(state) {
-    //   const newCars=state.newCars.map(item=>);
-    // },
+    deleteFavoriteCar(state, { payload }) {
+      state.favoriteCars = state.favoriteCars.filter(
+        ({ id }) => id !== payload,
+      );
+    },
   },
   extraReducers: builder => {
     builder
@@ -148,12 +158,14 @@ export const carsSlice = createSlice({
       .addCase(getCarDetails.fulfilled, handleFulfildGetCarDetails)
       .addCase(addToFavourites.fulfilled, handleFulfildAddToFavorite)
       .addCase(removeFromFavourites.fulfilled, handleFulfildRemoveFromFavorite)
+      .addCase(fetchFavoriteCars.fulfilled, handleFulfildfetchFavoriteCars)
       .addMatcher(
         isAnyOf(
           fetchNewCars.pending,
           fetchPopularCars.pending,
           fetchViewedCars.pending,
           getCarDetails.pending,
+          fetchFavoriteCars.pending,
         ),
         handlePending,
       )
@@ -163,8 +175,10 @@ export const carsSlice = createSlice({
           fetchPopularCars.rejected,
           fetchViewedCars.rejected,
           getCarDetails.rejected,
+          fetchFavoriteCars.rejected,
         ),
         handleRejected,
       );
   },
 });
+export const { deleteFavoriteCar } = carsSlice.actions;

@@ -13,6 +13,7 @@ import { ReactComponent as Add } from '../../assets/icons/addCircle.svg';
 import { ReactComponent as Account } from '../../assets/icons/account_circle.svg';
 import { ReactComponent as Favorite } from '../../assets/icons/favorite.svg';
 import { ReactComponent as FavoriteActive } from '../../assets/icons/heart-active.svg';
+import { getFavoriteCars } from 'redux/cars/selectors';
 // import { fetchNewCars, fetchPopularCars } from 'redux/cars/operations';heart-active.svg
 
 export const links = [
@@ -40,11 +41,10 @@ export const Header: FC = () => {
   const navigate = useNavigate();
   const isAdvertisementsEdit = location.pathname === '/advertisements/edit';
   const isAdvertisements = location.pathname === '/advertisements';
-  const isAdvencedSearch = location.pathname === '/advanced-search';
-  const isFavoritesPage = location.pathname === '/favorites';
-  const isMyAdverts = location.pathname === '/user/my-adverts';
+  const favoriteCars = useAppSelector(getFavoriteCars);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   // const [isActive, setIsActive] = useState(false);
+
   useEffect(() => {
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
@@ -93,7 +93,7 @@ export const Header: FC = () => {
           disabled={isAdvertisements}
         >
           {isMobile ? (
-            <Add className={styles.svgIcon} />
+            <Add className={styles.add_icon} />
           ) : (
             <>
               Додати оголошення
@@ -101,13 +101,14 @@ export const Header: FC = () => {
             </>
           )}
         </button>
-        <button
-          className={`${styles.header__favorite_button}`}
-          onClick={handleFavoritesClick}
-        >
-          <Favorite className={`${styles.svg_icon}  `} />
-        </button>
-
+        {favoriteCars.length > 0 && (
+          <button
+            className={`${styles.header__favorite_button}`}
+            onClick={handleFavoritesClick}
+          >
+            <Favorite className={`${styles.svg_icon}  `} />
+          </button>
+        )}
         {auth ? (
           <div className={styles.header__auth_container}>
             <NavLink

@@ -723,7 +723,9 @@ export const NewAnnouncement: React.FC = () => {
       }, 500);
     }
   };
-  console.log('selectedImages:>> ', selectedImages);
+const handleBackClick=()=>{
+  navigate(-1)
+}
 
   const handleAddOrUpdateAdvers = () => {
     if (isAdvertisements) {
@@ -1047,7 +1049,7 @@ export const NewAnnouncement: React.FC = () => {
       <div className={styles.titleHeader}>
         <div className={styles.title_container}>
 
-        <button className={styles.btn_back}><Back className={styles.svg_btn}/></button>
+        <button className={styles.btn_back} onClick={handleBackClick}><Back className={styles.svg_btn}/></button>
         <h1
          className={styles.mainTitle}
         >

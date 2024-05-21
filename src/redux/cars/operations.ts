@@ -134,3 +134,22 @@ export const removeFromFavourites = createAsyncThunk(
     }
   },
 );
+export const fetchFavoriteCars = createAsyncThunk(
+  'cars/fetchFavoriteCars',
+  async (_, thunkAPI) => {
+    const {
+      auth: { token },
+    } = thunkAPI.getState() as RootState;
+    token && setAuthHeader(token);
+    try {
+      const response = await instance.get('main/favorite-transports');
+      return response.data;
+    } catch (err) {
+      const error: AxiosError<KnownError> = err as any;
+      if (!error.response) {
+        throw err;
+      }
+      return thunkAPI.rejectWithValue({ errorMessage: error.response.data });
+    }
+  },
+);

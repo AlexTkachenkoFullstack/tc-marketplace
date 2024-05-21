@@ -139,7 +139,7 @@ export const CategoryBar: React.FC<Props> = ({
                    selectedStyle === 'userPageStyle'
                      ? styles.userPageCategory
                      : null
-                 } ${ chips === 'chips'? selectedCategory === category ? styles.selected: '': selectedCategory === category ? styles.selected_category : ''}`}
+                 } ${ chips === 'chips'? (selectedCategory === category ? styles.selected: ''): (selectedCategory === category ? styles.selected_category : '')}`}
                 key={category}
                 onClick={() => handleSelect(category)}
               >
