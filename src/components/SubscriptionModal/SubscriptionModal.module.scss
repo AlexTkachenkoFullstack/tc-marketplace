@@ -14,19 +14,26 @@
 
 .modalCard {
   position: absolute;
-  top: 50%;
+  // top: 50%;
+  bottom: 0;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%);
   display: flex;
   flex-direction: column;
   row-gap: 24px;
   width: 360px;
   border-radius: 32px;
-  padding: 32px 24px;
+  padding: 24px;
   background-color: $white-color;
 
   @include onTablet {
-    width: 692px;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 420px;
+    padding: 28px;
+  }
+  @include onDesktop {
+    width: 640px;
     padding: 32px;
   }
 
@@ -35,28 +42,31 @@
     border: none;
   }
 
-  & .title {
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 110%;
+  & .title_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-    @include onTablet {
-      font-size: 32px;
+    & .title {
+      font-size: $mobile-xl;
       font-weight: 700;
-      line-height: 100%;
-    }
-  }
+      line-height: 120%;
 
-  & .closeButton {
-    position: absolute;
-    top: 32px;
-    right: 24px;
-    @include onTablet {
-      right: 32px;
+      @include onTablet {
+        font-size: $tablet-xl;
+        font-weight: 700;
+        line-height: 100%;
+      }
     }
-    & svg {
-      width: 24px;
-      height: 24px;
+
+    & .closeButton {
+      @include onTablet {
+        right: 32px;
+      }
+      & svg {
+        width: 32px;
+        height: 32px;
+      }
     }
   }
 

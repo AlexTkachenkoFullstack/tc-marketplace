@@ -55,6 +55,7 @@ import { getInitialButtonVisibility } from 'utils/getInitialButtonVisibility';
 import ModelListType from 'types/ModelListType';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as ArrowIcon } from '../../assets/icons/arrow.svg';
+import { ReactComponent as ArrowDownIcon } from '../../assets/icons/arrowDown.svg';
 
 interface Props {
   onAdvencedFilter?: () => void;
@@ -191,7 +192,6 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
   useEffect(() => {
     if (!isMounted) {
-      console.log('model', model);
       transportType && setSelectedCategory(transportType);
       brand.length > 0 && setCarMark(brand);
       model.length > 0 && setCarModel(model);
@@ -431,7 +431,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
     setCarMark('Бренд');
     setCarModel('Модель');
     setSelectedCity('Місто');
-    setSelectedRegions('Регіон');
+    setSelectedRegions('Область');
     setCountryDeliver('Країна');
     dispatch(cleanFiltredStore({ field: 'carsList' }));
     setTimeout(() => {
@@ -532,7 +532,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
   //   console.log('carModel', carModel);
   //   setCarModel(carModel);
   // }, [carMark, carModel]);
-
+  console.log(selectedOption);
   return (
     <div className={styles.AdvSearchFilter}>
       <div className={styles.AdvSearchFilter_container}>
@@ -540,8 +540,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {/*RadioButton type car */}
           <div className={styles.list}>
             <div
-              className={styles.title}
-              style={{ marginBottom: isOpen.block1 ? 16 : '' }}
+              className={`${styles.title} ${
+                isOpen.block1 ? styles.openBlock : ''
+              }`}
+              // style={{ marginBottom: isOpen.block1 ? 8 : '' }}
             >
               <h2>Тип</h2>
               <div
@@ -549,7 +551,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                   isOpen.block1 ? styles.active : ''
                 }`}
                 onClick={() => handleMobileBtnIsOpen('block1')}
-              />
+              >
+                <ArrowDownIcon />
+              </div>
             </div>
             {isOpen.block1 && (
               <div className={styles.listItem}>
@@ -568,16 +572,20 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           <div className={styles.list}>
             <div
-              className={styles.title}
-              style={{ marginBottom: isOpen.block2 ? 16 : '' }}
+              className={`${styles.title} ${
+                isOpen.block2 ? styles.openBlock : ''
+              }`}
+              // style={{ marginBottom: isOpen.block2 ? 8 : '' }}
             >
-              <h2>Регіон</h2>
+              <h2>Область</h2>
               <div
                 className={`${styles.mobileButton} ${
                   isOpen.block2 ? styles.active : ''
                 }`}
                 onClick={() => handleMobileBtnIsOpen('block2')}
-              />
+              >
+                <ArrowDownIcon />
+              </div>
             </div>
             <div className={styles.listItem}>
               {isOpen.block2 && (
@@ -586,8 +594,8 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                     resetValue={resetValue[0]}
                     updateStyle="advSearch"
                     options={regions.map(region => region.region)}
-                    label="Регіон"
-                    startValue="Регіон"
+                    label="Область"
+                    startValue="Область"
                     checkboxAllowed
                     allOptionsLabel="Вся Україна"
                     option={selectedRegions}
@@ -604,8 +612,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {cities && cities.length > 0 && (
             <div className={styles.list}>
               <div
-                className={styles.title}
-                style={{ marginBottom: isOpen.block3 ? 16 : '' }}
+                className={`${styles.title} ${
+                  isOpen.block3 ? styles.openBlock : ''
+                }`}
+                // style={{ marginBottom: isOpen.block3 ? 8 : '' }}
               >
                 <h2>Місто</h2>
                 <div
@@ -613,7 +623,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                     isOpen.block3 ? styles.active : ''
                   }`}
                   onClick={() => handleMobileBtnIsOpen('block3')}
-                />
+                >
+                  <ArrowDownIcon />
+                </div>
               </div>
               <div className={styles.listItem}>
                 {isOpen.block3 && (
@@ -643,8 +655,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           <div className={styles.list}>
             <div
-              className={styles.title}
-              style={{ marginBottom: isOpen.block4 ? 16 : '' }}
+              className={`${styles.title} ${
+                isOpen.block4 ? styles.openBlock : ''
+              }`}
+              // style={{ marginBottom: isOpen.block4 ? 8 : '' }}
             >
               <h2>Ціна</h2>
               <div
@@ -652,7 +666,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                   isOpen.block4 ? styles.active : ''
                 }`}
                 onClick={() => handleMobileBtnIsOpen('block4')}
-              />
+              >
+                <ArrowDownIcon />
+              </div>
             </div>
             {isOpen.block4 && (
               <div className={styles.listItem}>
@@ -670,8 +686,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {bodyTypes && (
             <div className={styles.typeCarBody}>
               <div
-                className={styles.title}
-                style={{ marginBottom: isOpen.block5 ? 16 : '' }}
+                className={`${styles.title} ${
+                  isOpen.block5 ? styles.openBlock : ''
+                }`}
+                // style={{ marginBottom: isOpen.block5 ? 8 : '' }}
               >
                 <h2>Тип кузову</h2>
                 <div
@@ -679,7 +697,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                     isOpen.block5 ? styles.active : ''
                   }`}
                   onClick={() => handleMobileBtnIsOpen('block5')}
-                />
+                >
+                  <ArrowDownIcon />
+                </div>
               </div>
               {isOpen.block5 && (
                 <div className={styles.listItem}>
@@ -709,8 +729,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           <div className={styles.selectBrand}>
             <div
-              className={styles.title}
-              style={{ marginBottom: isOpen.block20 ? 16 : '' }}
+              className={`${styles.title} ${
+                isOpen.block20 ? styles.openBlock : ''
+              }`}
+              // style={{ marginBottom: isOpen.block20 ? 8 : '' }}
             >
               <h2>Бренд</h2>
               <div
@@ -718,7 +740,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                   isOpen.block20 ? styles.active : ''
                 }`}
                 onClick={() => handleMobileBtnIsOpen('block20')}
-              />
+              >
+                <ArrowDownIcon />
+              </div>
             </div>
             {isOpen.block20 && (
               <div className={styles.listItemBrand}>
@@ -746,8 +770,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {carsList && carsList.length > 0 && (
             <div className={styles.selectBrand}>
               <div
-                className={styles.title}
-                style={{ marginBottom: isOpen.block21 ? 16 : '' }}
+                className={`${styles.title} ${
+                  isOpen.block21 ? styles.openBlock : ''
+                }`}
+                // style={{ marginBottom: isOpen.block21 ? 8 : '' }}
               >
                 <h2>Модель</h2>
                 <div
@@ -755,7 +781,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                     isOpen.block21 ? styles.active : ''
                   }`}
                   onClick={() => handleMobileBtnIsOpen('block21')}
-                />
+                >
+                  <ArrowDownIcon />
+                </div>
               </div>
               {isOpen.block21 && (
                 <div className={styles.listItemBrand}>
@@ -785,8 +813,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           <div className={styles.list}>
             <div
-              className={styles.title}
-              style={{ marginBottom: isOpen.block6 ? 16 : '' }}
+              className={`${styles.title} ${
+                isOpen.block6 ? styles.openBlock : ''
+              }`}
+              // style={{ marginBottom: isOpen.block6 ? 8 : '' }}
             >
               <h2>Рік</h2>
               <div
@@ -794,7 +824,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                   isOpen.block6 ? styles.active : ''
                 }`}
                 onClick={() => handleMobileBtnIsOpen('block6')}
-              />
+              >
+                <ArrowDownIcon />
+              </div>
             </div>
             {isOpen.block6 && (
               <div className={styles.listItem}>
@@ -812,8 +844,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {fuel && (
             <div className={styles.listTypeFuil}>
               <div
-                className={styles.title}
-                style={{ marginBottom: isOpen.block7 ? 16 : '' }}
+                className={`${styles.title} ${
+                  isOpen.block7 ? styles.openBlock : ''
+                }`}
+                // style={{ marginBottom: isOpen.block7 ? 8 : '' }}
               >
                 <h2>Тип палива</h2>
                 <div
@@ -821,7 +855,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                     isOpen.block7 ? styles.active : ''
                   }`}
                   onClick={() => handleMobileBtnIsOpen('block7')}
-                />
+                >
+                  <ArrowDownIcon />
+                </div>
               </div>
               {isOpen.block7 && (
                 <div className={styles.listItem}>
@@ -852,8 +888,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {transmission && (
             <div className={styles.list}>
               <div
-                className={styles.title}
-                style={{ marginBottom: isOpen.block8 ? 16 : '' }}
+                className={`${styles.title} ${
+                  isOpen.block8 ? styles.openBlock : ''
+                }`}
+                // style={{ marginBottom: isOpen.block8 ? 8 : '' }}
               >
                 <h2>Коробка передач</h2>
                 <div
@@ -861,7 +899,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                     isOpen.block8 ? styles.active : ''
                   }`}
                   onClick={() => handleMobileBtnIsOpen('block8')}
-                />
+                >
+                  <ArrowDownIcon />
+                </div>
               </div>
               {isOpen.block8 && (
                 <div className={styles.listItem}>
@@ -882,8 +922,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {transportColor && (
             <div className={styles.listColor}>
               <div
-                className={styles.title}
-                style={{ marginBottom: isOpen.block9 ? 16 : '' }}
+                className={`${styles.title} ${
+                  isOpen.block9 ? styles.openBlock : ''
+                }`}
+                // style={{ marginBottom: isOpen.block9 ? 8 : '' }}
               >
                 <h2>Колір</h2>
                 <div
@@ -891,7 +933,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                     isOpen.block9 ? styles.active : ''
                   }`}
                   onClick={() => handleMobileBtnIsOpen('block9')}
-                />
+                >
+                  <ArrowDownIcon />
+                </div>
               </div>
               {isOpen.block9 && (
                 <div className={styles.listItem}>
@@ -922,8 +966,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {transportCondition && (
             <div className={styles.listTechCondition}>
               <div
-                className={styles.title}
-                style={{ marginBottom: isOpen.block10 ? 16 : '' }}
+                className={`${styles.title} ${
+                  isOpen.block10 ? styles.openBlock : ''
+                }`}
+                // style={{ marginBottom: isOpen.block10 ? 8 : '' }}
               >
                 <h2>Технічний стан</h2>
                 <div
@@ -931,7 +977,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                     isOpen.block10 ? styles.active : ''
                   }`}
                   onClick={() => handleMobileBtnIsOpen('block10')}
-                />
+                >
+                  <ArrowDownIcon />
+                </div>
               </div>
               {isOpen.block10 && (
                 <div className={styles.listItem}>
@@ -960,10 +1008,12 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {/* Пробіг */}
 
           {mileages && (
-            <div className={styles.lisCarMileage}>
+            <div className={styles.listCarMileage}>
               <div
-                className={styles.title}
-                style={{ marginBottom: isOpen.block11 ? 16 : '' }}
+                className={`${styles.title} ${
+                  isOpen.block11 ? styles.openBlock : ''
+                }`}
+                // style={{ marginBottom: isOpen.block11 ? 8 : '' }}
               >
                 <h2>Пробіг</h2>
                 <div
@@ -971,7 +1021,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                     isOpen.block11 ? styles.active : ''
                   }`}
                   onClick={() => handleMobileBtnIsOpen('block11')}
-                />
+                >
+                  <ArrowDownIcon />
+                </div>
               </div>
               {isOpen.block11 && (
                 <div className={styles.listItem}>
@@ -988,8 +1040,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {/* Об`єм двигуна */}
           <div className={styles.listMotorPower}>
             <div
-              className={styles.title}
-              style={{ marginBottom: isOpen.block12 ? 16 : '' }}
+              className={`${styles.title} ${
+                isOpen.block12 ? styles.openBlock : ''
+              }`}
+              // style={{ marginBottom: isOpen.block12 ? 8 : '' }}
             >
               <h2>Об`єм двигуна</h2>
               <div
@@ -997,7 +1051,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                   isOpen.block12 ? styles.active : ''
                 }`}
                 onClick={() => handleMobileBtnIsOpen('block12')}
-              />
+              >
+                <ArrowDownIcon />
+              </div>
             </div>
             {isOpen.block12 && (
               <div className={styles.listItem}>
@@ -1015,8 +1071,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
 
           <div className={styles.listMotorPower}>
             <div
-              className={styles.title}
-              style={{ marginBottom: isOpen.block13 ? 16 : '' }}
+              className={`${styles.title} ${
+                isOpen.block13 ? styles.openBlock : ''
+              }`}
+              // style={{ marginBottom: isOpen.block13 ? 8 : '' }}
             >
               <h2>Потужність двигуна</h2>
               <div
@@ -1024,7 +1082,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                   isOpen.block13 ? styles.active : ''
                 }`}
                 onClick={() => handleMobileBtnIsOpen('block13')}
-              />
+              >
+                <ArrowDownIcon />
+              </div>
             </div>
             {isOpen.block13 && (
               <div className={styles.listItem}>
@@ -1042,8 +1102,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {driveType && (
             <div className={styles.listMachineDrive}>
               <div
-                className={styles.title}
-                style={{ marginBottom: isOpen.block14 ? 16 : '' }}
+                className={`${styles.title} ${
+                  isOpen.block14 ? styles.openBlock : ''
+                }`}
+                // style={{ marginBottom: isOpen.block14 ? 8 : '' }}
               >
                 <h2>Привід</h2>
                 <div
@@ -1051,7 +1113,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                     isOpen.block14 ? styles.active : ''
                   }`}
                   onClick={() => handleMobileBtnIsOpen('block14')}
-                />
+                >
+                  <ArrowDownIcon />
+                </div>
               </div>
               {isOpen.block14 && (
                 <div className={styles.listItem}>
@@ -1070,8 +1134,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {door && (
             <div className={styles.howManyDoors}>
               <div
-                className={styles.title}
-                style={{ marginBottom: isOpen.block15 ? 16 : '' }}
+                className={`${styles.title} ${
+                  isOpen.block15 ? styles.openBlock : ''
+                }`}
+                // style={{ marginBottom: isOpen.block15 ? 8 : '' }}
               >
                 <h2>Кількість дверей</h2>
                 <div
@@ -1079,7 +1145,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                     isOpen.block15 ? styles.active : ''
                   }`}
                   onClick={() => handleMobileBtnIsOpen('block15')}
-                />
+                >
+                  <ArrowDownIcon />
+                </div>
               </div>
               {isOpen.block15 && (
                 <div className={styles.listItem}>
@@ -1098,8 +1166,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {seats && (
             <div className={styles.listNumberSeats}>
               <div
-                className={styles.title}
-                style={{ marginBottom: isOpen.block16 ? 16 : '' }}
+                className={`${styles.title} ${
+                  isOpen.block16 ? styles.openBlock : ''
+                }`}
+                // style={{ marginBottom: isOpen.block16 ? 8 : '' }}
               >
                 <h2>Кількість місць</h2>
                 <div
@@ -1107,7 +1177,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                     isOpen.block16 ? styles.active : ''
                   }`}
                   onClick={() => handleMobileBtnIsOpen('block16')}
-                />
+                >
+                  <ArrowDownIcon />
+                </div>
               </div>
               {isOpen.block16 && (
                 <div className={styles.listItem}>
@@ -1125,8 +1197,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {numberAxles && (
             <div className={styles.listNumberAxles}>
               <div
-                className={styles.title}
-                style={{ marginBottom: isOpen.block17 ? 16 : '' }}
+                className={`${styles.title} ${
+                  isOpen.block17 ? styles.openBlock : ''
+                }`}
+                // style={{ marginBottom: isOpen.block17 ? 8 : '' }}
               >
                 <h2>Кількість осей</h2>
                 <div
@@ -1134,7 +1208,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                     isOpen.block17 ? styles.active : ''
                   }`}
                   onClick={() => handleMobileBtnIsOpen('block17')}
-                />
+                >
+                  <ArrowDownIcon />
+                </div>
               </div>
               {isOpen.block17 && (
                 <div className={styles.listItem}>
@@ -1154,8 +1230,10 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {wheelConfiguration && (
             <div className={styles.listWheelConfiguration}>
               <div
-                className={styles.title}
-                style={{ marginBottom: isOpen.block18 ? 16 : '' }}
+                className={`${styles.title} ${
+                  isOpen.block18 ? styles.openBlock : ''
+                }`}
+                // style={{ marginBottom: isOpen.block18 ? 8 : '' }}
               >
                 <h2>Конфігурація коліс</h2>
                 <div
@@ -1163,7 +1241,9 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
                     isOpen.block18 ? styles.active : ''
                   }`}
                   onClick={() => handleMobileBtnIsOpen('block18')}
-                />
+                >
+                  <ArrowDownIcon />
+                </div>
               </div>
               {isOpen.block18 && (
                 <div className={styles.listItem}>
@@ -1182,19 +1262,19 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
           {/* Країна з якої доставили    Select   */}
           <div className={styles.listCountryDelivery}>
             <div
-              className={styles.title}
-              style={{ marginBottom: isOpen.block19 ? 16 : '' }}
+              className={`${styles.title} ${
+                isOpen.block19 ? styles.openBlock : ''
+              }`}
             >
-              <h2>
-                Країна з якої <br />
-                доставили:
-              </h2>
+              <h2>Країна з якої доставили:</h2>
               <div
                 className={`${styles.mobileButton} ${
                   isOpen.block19 ? styles.active : ''
                 }`}
                 onClick={() => handleMobileBtnIsOpen('block19')}
-              />
+              >
+                <ArrowDownIcon />
+              </div>
             </div>
             <div className={styles.itemdropdowncontainer}>
               {isOpen.block19 && (
@@ -1220,46 +1300,38 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
               )}
             </div>
           </div>
-          {/* RadioButton type */}
-          <div className={styles.listSelectTitle}>
-            <div className={styles.title}>
-              <h2>Можливість торгу</h2>
-            </div>
-            <div className={styles.listItem}>
-              {/* <div className={styles.listItemSelectTitle}> */}
-              {/* <label
-                  htmlFor="No"
-                  className={`${styles.itemTypeNo} ${
-                    selectedOption === false ? styles.selected : ''
-                  }`}
-                >
-                  Ні
-                  <input
-                    type="checkbox"
-                    name="option"
-                    id="No"
-                    value="Ні"
-                    checked={selectedOption === false}
-                    onChange={handleOptionChange}
-                  />
-                </label> */}
-              <input
-                type="checkbox"
-                name="option"
-                id="bargain"
-                checked={selectedOption === true}
-                onChange={handleOptionChange}
-              />
-              <label
-                htmlFor="bargain"
-                // className={`${styles.itemTypeYes} ${
-                //   selectedOption === true ? styles.selected : ''
-                // }`}
+          {/* Checkbox type */}
+          <div className={styles.listSelect}>
+            <div
+              className={`${styles.title} ${
+                isOpen.block22 ? styles.openBlock : ''
+              }`}
+            >
+              <h2>Торг</h2>
+              <div
+                className={`${styles.mobileButton} ${
+                  isOpen.block22 ? styles.active : ''
+                }`}
+                onClick={() => handleMobileBtnIsOpen('block22')}
               >
-                Можливість торгу
-              </label>
-              {/* </div> */}
+                <ArrowDownIcon />
+              </div>
             </div>
+            {isOpen.block22 && (
+              <div className={styles.listItem}>
+                <input
+                  type="checkbox"
+                  name="option"
+                  id="bargain"
+                  checked={selectedOption === true}
+                  onChange={handleOptionChange}
+                  className={styles.bargainInput}
+                />
+                <label htmlFor="bargain" className={styles.bargainLabel}>
+                  Можливість торгу
+                </label>
+              </div>
+            )}
           </div>
         </div>
       </div>
