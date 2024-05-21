@@ -42,13 +42,16 @@
   }
 
   .title {
-    font-size: 1.375rem;
+    font-size: $mobile-2xl;
     font-weight: 700;
     line-height: 120%;
-
+    color: $color-black;
     @include onTablet {
-      font-size: 2rem;
+      font-size: $tablet-2xl;
       line-height: 100%;
+    }
+    @include onDesktop {
+      font-size: $desctop-2xl;
     }
   }
 

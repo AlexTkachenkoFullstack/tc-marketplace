@@ -5,7 +5,7 @@ import cn from 'classnames';
 import styles from './SearchingCard.module.scss';
 
 import { isAuthUser } from 'redux/auth/selectors';
-import { addToFavourites, removeFromFavourites } from 'redux/cars/operations';
+import { addToFavourites, fetchFavoriteCars, removeFromFavourites } from 'redux/cars/operations';
 import { hideAllTransport, hideTransport } from 'redux/filter/operations';
 
 import { ICar } from 'types/IСar';
@@ -62,9 +62,10 @@ const SearchingCard: React.FC<IProps> = ({
       if (typeof cancelFavorite === 'function') {
         cancelFavorite(car.id);
       }
-      dispatch(removeFromFavourites(car?.id));
+      dispatch(removeFromFavourites(car?.id)).then(()=>dispatch(fetchFavoriteCars()));
+ 
     } else {
-      car && dispatch(addToFavourites(car?.id));
+      car && dispatch(addToFavourites(car?.id)).then(()=>dispatch(fetchFavoriteCars()));      
     }
   };
 
@@ -100,13 +101,25 @@ const SearchingCard: React.FC<IProps> = ({
         </NavLink>
       </div>
       <div className={styles.infoContainer} onClick={onInfoContainerClick}>
+
+        <div className={styles.col}>
+          <h3 className={styles.title}>
+            {car?.brand} {car?.model} {car?.year}
+          </h3>
+          <button
+            className={styles.iconIsFavouriteContainer}
+            onClick={addFavorite}
+          >
+           {car?.isFavorite && isAuth ? <FavoriteActive className={styles.favorite}/>:
+            <Favorite className={styles.favorite}/>}
+          </button>
         <button
           style={{ display: isDisabled ? 'none' : '' }}
           type="button"
           className={styles.optionBtn}
           onClick={event => car?.id !== undefined && onShowMenu(event, car.id)}
         >
-          <OptionDots />
+          <OptionDots  className={styles.option_dots}/>
         </button>
         <div
           className={styles.optionMenu}
@@ -120,18 +133,6 @@ const SearchingCard: React.FC<IProps> = ({
             Приховати всі оголошення автора
           </button>
         </div>
-
-        <div className={styles.col}>
-          <h3 className={styles.title}>
-            {car?.brand} {car?.model} {car?.year}
-          </h3>
-          <button
-            className={styles.iconIsFavouriteContainer}
-            onClick={addFavorite}
-          >
-           {car?.isFavorite && isAuth ? <FavoriteActive className={styles.favorite}/>:
-            <Favorite/>}
-          </button>
         </div>
         <p className={styles.price}>{car?.price} $</p>
         <ul className={styles.techSpecs}>

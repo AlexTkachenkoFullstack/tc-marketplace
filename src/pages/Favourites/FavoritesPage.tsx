@@ -7,32 +7,39 @@ import Loader from 'components/Loader/Loader';
 // import { Dropdown } from 'components/Dropdown/Dropdown';
 import { ReactComponent as Back } from '../../assets/icons/arrow_back.svg';
 import { useNavigate } from 'react-router-dom';
+import { fetchFavoriteCars } from 'redux/cars/operations';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { getFavoriteCars } from 'redux/cars/selectors';
+import { deleteFavoriteCar } from 'redux/cars/slice';
 export const FavoritesPage: FC = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [typeOfSort, setTypeOfSort] = useState<string | string[]>('');
   const [optionMenuId, setOptionMenuId] = useState<number | null>(null);
-  const [responseData, setResponseData] = useState<any[]>([]);
+  // const [favoriteCars, setResponseData] = useState<any[]>([]);
+  const favoriteCars = useAppSelector(getFavoriteCars);
   const [start, setStart] = useState(0);
   const [end, setEnd] = useState(15);
-  const totalAdverts = responseData.length;
+  const totalAdverts = favoriteCars.length;
   const advertsPerPage = 15;
   const totalPages =
     totalAdverts !== null ? Math.ceil(totalAdverts / advertsPerPage) : 1;
   const [paginations, setPaginations] = useState({ page: 0 });
 
   useEffect(() => {
-    async function fetchFavoritesCars() {
-      setIsLoading(true);
-      try {
-        const response = await getFavoritesCars();
-        setResponseData(response);
-        setIsLoading(false);
-      } catch (error) {
-        console.log('error :>> ', error);
-      }
-    }
-    fetchFavoritesCars();
+    dispatch(fetchFavoriteCars());
+    // async function fetchFavoritesCars() {
+    //   setIsLoading(true);
+    //   try {
+    //     const response = await getFavoritesCars();
+    //     setResponseData(response);
+    //     setIsLoading(false);
+    //   } catch (error) {
+    //     console.log('error :>> ', error);
+    //   }
+    // }
+    // fetchFavoritesCars();
   }, []);
 
   const handleOptionMenu = (
@@ -56,8 +63,7 @@ export const FavoritesPage: FC = () => {
   };
 
   const handleCancelFavorite = (id: number) => {
-    const newVal = responseData.filter((item: any) => id !== item.id);
-    setResponseData(newVal);
+    dispatch(deleteFavoriteCar(id));
   };
 
   const handleShowMore = () => {
@@ -79,7 +85,7 @@ export const FavoritesPage: FC = () => {
   const handleBackClick = () => {
     navigate(-1);
   };
-  let sortedArray = [...responseData]; // Copy the responseData array
+  let sortedArray = [...favoriteCars]; // Copy the favoriteCars array
 
   switch (typeOfSort) {
     case 'Від дешевих до дорогих':
@@ -103,58 +109,43 @@ export const FavoritesPage: FC = () => {
     default:
       break;
   }
-
   const arrayForRender = sortedArray.slice(start, end);
-  console.log('arrayForRender :>> ', arrayForRender);
   return (
-    <div className={`${styles.Container}`}>
-      {isLoading && <Loader />}
+    <section className={styles.favorite}>
       <div className={styles.title_container}>
-        <button className={styles.backBtn} onClick={handleBackClick}>
-          <Back className={styles.svg_btn} />
-        </button>
-        <h1 className={styles.emptyFavorite}>Обрані</h1>
-        {/* <div className={styles.dropdownMenu}>
-          <Dropdown
-            updateStyle="favoritPage"
-            options={[
-              'Від дешевих до дорогих',
-              'Від дорогих до дешевих',
-              'Пробіг, за зростанням',
-              'Пробіг, за спаданням',
-              'Від нових до старих',
-              'Від старих до нових',
-            ]}
-            label="Сортування"
-            startValue="Сортування"
-            option={typeOfSort}
-            setOption={setTypeOfSort}
-          />
-        </div> */}
+        <div className={styles.wrapper}>
+          <button className={styles.backBtn} onClick={handleBackClick}>
+            <Back className={styles.svg_btn} />
+          </button>
+          <h1 className={styles.emptyFavorite}>Обрані</h1>
+        </div>
       </div>
-      <ul className={styles.list_cars}>
-        {arrayForRender.map((car: any) => (
-          <SearchingCard
-            key={car.id}
-            car={car}
-            onShowMenu={handleOptionMenu}
-            onInfoContainerClick={handleInfoContainerClick}
-            onUpdateAfterHide={updateAfterHide}
-            isShowMenu={optionMenuId === car.id}
-            updateAfterAllHide={updateAfterAllHide}
-            cancelFavorite={handleCancelFavorite}
-            isDisabled = {true}
-          />
-        ))}
-      </ul>
-      <CatalogPagination
-        forcePage={paginations.page}
-        onSetPage={handleShowMore}
-        currentPage={paginations.page}
-        totalPages={totalPages}
-        handlePageClick={handleChangePage}
-        updateStyles="isFavoritesPage"
-      />
-    </div>
+      <div className={`${styles.Container}`}>
+        {isLoading && <Loader />}
+        <ul className={styles.list_cars}>
+          {arrayForRender.map((car: any) => (
+            <SearchingCard
+              key={car.id}
+              car={car}
+              onShowMenu={handleOptionMenu}
+              onInfoContainerClick={handleInfoContainerClick}
+              onUpdateAfterHide={updateAfterHide}
+              isShowMenu={optionMenuId === car.id}
+              updateAfterAllHide={updateAfterAllHide}
+              cancelFavorite={handleCancelFavorite}
+              isDisabled={true}
+            />
+          ))}
+        </ul>
+        <CatalogPagination
+          forcePage={paginations.page}
+          onSetPage={handleShowMore}
+          currentPage={paginations.page}
+          totalPages={totalPages}
+          handlePageClick={handleChangePage}
+          updateStyles="isFavoritesPage"
+        />
+      </div>
+    </section >
   );
 };

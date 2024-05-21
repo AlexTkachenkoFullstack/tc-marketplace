@@ -10,7 +10,7 @@ import { CommonBtn } from 'components/Buttons/CommonBtn';
 import { ICar } from 'types/IСar';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { isAuthUser } from 'redux/auth/selectors';
-import { addToFavourites, removeFromFavourites } from 'redux/cars/operations';
+import { addToFavourites, fetchFavoriteCars, removeFromFavourites } from 'redux/cars/operations';
 import { ReactComponent as Millage } from '../../assets/icons/millage.svg';
 import { ReactComponent as Transmission } from '../../assets/icons/transmission.svg';
 import { ReactComponent as Fuel } from '../../assets/icons/fuel.svg';
@@ -31,9 +31,9 @@ export const CardItem: React.FC<Props> = ({ car }) => {
       navigate('/login/log-in', { replace: true });
     }
     if (car?.isFavorite) {
-      car && dispatch(removeFromFavourites(car?.id));
+      car && dispatch(removeFromFavourites(car?.id)).then(()=>dispatch(fetchFavoriteCars()));   
     } else {
-      car && dispatch(addToFavourites(car?.id));
+      car && dispatch(addToFavourites(car?.id)).then(()=>dispatch(fetchFavoriteCars()));   
     }
   };
 
