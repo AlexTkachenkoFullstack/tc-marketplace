@@ -1,12 +1,17 @@
 @import '/src/styles/main.scss';
 
 .inputBlokResult {
-  width: 100%;
+  width: 320px;
 
   margin-bottom: 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  &.modalStyle {
+    width: 270px;
+  }
+
   @include onTablet {
     width: 400px;
   }
@@ -29,6 +34,10 @@
   font-weight: 500;
   line-height: 20px;
   letter-spacing: 0.15px;
+
+  &.modalStyle {
+    width: 124px;
+  }
   @include onTablet {
     width: 188px;
     font-size: $tablet-sm;
@@ -36,10 +45,15 @@
 }
 .inputBlokRange {
   display: flex;
-  width: 100%;
+  width: 320px;
   align-items: center;
   justify-content: center;
   height: 24px;
+
+  &.modalStyle {
+    padding-left: 12px;
+    width: 260px;
+  }
   @include onTablet {
     width: 400px;
   }

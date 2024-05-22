@@ -153,9 +153,9 @@
     & .charactTitles {
       font-size: $xs;
       font-weight: 500;
-      line-height: 16px; 
+      line-height: 16px;
       letter-spacing: 0.5px;
-      
+
       margin-bottom: 16px;
     }
   }
@@ -167,6 +167,11 @@
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
+
+    &:last-child {
+      position: relative;
+    }
+
     @include onTablet {
       width: 528px;
     }
@@ -178,16 +183,15 @@
   .bargainInput {
     width: 0;
     height: 0;
-    overflow: hidden;
     border: none;
     padding: 0;
-    margin: 0;
-    border: 0;
+    margin: -1px;
     clip: rect(0, 0, 0, 0);
     overflow: hidden;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+    position: absolute;
 
     &:checked ~ label::before {
       background: url(../../assets/icons/checked_box.svg) center;
@@ -279,11 +283,12 @@
       appearance: none;
     }
     & label {
-      width: 32px;
-      height: 20px;
-      border-radius: 10px;
-      background-color: $color-checkbox;
-      padding: 1px;
+      width: 40px;
+      height: 24px;
+      border-radius: 12px;
+      background: $border-gray;
+      border: 1px solid #00000033;
+      padding: 2px;
     }
     & label::after {
       content: '';
@@ -291,11 +296,16 @@
       width: 18px;
       height: 18px;
       border-radius: 50%;
-      background-color: white;
+      background-color: #646464;
       transition: transform 250ms ease;
     }
+    & input:checked ~ label {
+      background: $border-active;
+      border: 1px solid $border-active;
+    }
     & input:checked ~ label::after {
-      transform: translate(12px);
+      transform: translate(16px);
+      background-color: $bg-color-white;
     }
   }
 
