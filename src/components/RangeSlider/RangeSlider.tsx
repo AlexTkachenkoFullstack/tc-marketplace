@@ -15,6 +15,7 @@ interface RangeSliderProps {
   typeRange: string;
   resetValue?: boolean;
   selectedValue?: { from: number; to: number };
+  newStyle?: string;
 }
 
 const RangeSlider: React.FC<RangeSliderProps> = ({
@@ -22,6 +23,7 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
   typeRange,
   resetValue,
   selectedValue,
+  newStyle,
 }) => {
   const [value, setValue] = useState<SliderValue>({ from: 0, to: 0 });
   const [isMounted, setisMounted] = useState(false);
@@ -114,12 +116,14 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
 
   return (
     <div>
-      <div className={styles.inputBlokResult}>
+      <div
+        className={`${styles.inputBlokResult} ${newStyle && styles[newStyle]}`}
+      >
         <input
           type="text"
           id="from"
           name="from"
-          className={styles.priceLeft}
+          className={`${styles.priceLeft} ${newStyle && styles[newStyle]}`}
           value={
             typeRange === 'engineDisplacement'
               ? value.from.toFixed(1)
@@ -132,14 +136,18 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
           type="text"
           id="to"
           name="to"
-          className={styles.priceRight}
+          className={`${styles.priceRight} ${newStyle && styles[newStyle]}`}
           value={
             typeRange === 'engineDisplacement' ? value.to.toFixed(1) : value.to
           } // Виводимо значення з однією десятковою цифрою
           onChange={handleInputChange}
         />
       </div>
-      <div className={styles.inputBlokRange}>
+      <div
+        className={`${styles.inputBlokRange} ${
+          newStyle && styles[newStyle]
+        }`}
+      >
         <Slider
           range
           className="newStyles"

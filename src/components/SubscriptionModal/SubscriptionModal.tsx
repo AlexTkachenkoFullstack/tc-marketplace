@@ -91,7 +91,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
   const [data, setData] = useState<any>({});
   const [isMounted, setIsMounted] = useState(false);
   const [isTypeChanged, setIsTypeChanged] = useState(false);
-  const [showEmail, setShowEmail] = useState('E-mail');
+  // const [showEmail, setShowEmail] = useState('Сповіщення');
   const [subscrName, setSubscrName] = useState<string>('');
 
   const [selectedType, setSelectedType] = useState<string | string[]>('');
@@ -246,7 +246,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
       setBargain(selectedOption);
       selectedName && setSubscrName(selectedName);
       notificationStatus && setIsNotificationEnabled(notificationStatus);
-      notificationStatus && setShowEmail(userEmail);
+      // notificationStatus && setShowEmail(userEmail);
     }
     setIsMounted(true);
   }, [
@@ -440,7 +440,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
   const handleIsActivateSubscription = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    setShowEmail(event.target.checked ? userEmail : 'E-mail');
+    // setShowEmail(event.target.checked ? userEmail : 'E-mail');
     setIsNotificationEnabled(prev => !prev);
   };
 
@@ -563,6 +563,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                     typeRange={'year'}
                     selectedValue={year}
                     resetValue={isTypeChanged}
+                    newStyle={'modalStyle'}
                   />
                 </div>
               </div>
@@ -628,6 +629,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                       typeRange={'mileage'}
                       selectedValue={mileage}
                       resetValue={isTypeChanged}
+                      newStyle={'modalStyle'}
                     />
                   </div>
                 </div>
@@ -640,6 +642,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                     typeRange={'engineDisplacement'}
                     selectedValue={engineDisplacement}
                     resetValue={isTypeChanged}
+                    newStyle={'modalStyle'}
                   />
                 </div>
               </div>
@@ -651,6 +654,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                     typeRange={'enginePower'}
                     selectedValue={enginePower}
                     resetValue={isTypeChanged}
+                    newStyle={'modalStyle'}
                   />
                 </div>
               </div>
@@ -751,6 +755,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                       typeRange={'numberOfDoors'}
                       selectedValue={numberOfDoors}
                       resetValue={isTypeChanged}
+                      newStyle={'modalStyle'}
                     />
                   </div>
                 </div>
@@ -764,6 +769,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                       typeRange={'numberOfSeats'}
                       selectedValue={numberOfSeats}
                       resetValue={isTypeChanged}
+                      newStyle={'modalStyle'}
                     />
                   </div>
                 </div>
@@ -831,6 +837,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                     typeRange={'price'}
                     selectedValue={price}
                     resetValue={isTypeChanged}
+                    newStyle={'modalStyle'}
                   />
                 </div>
               </div>
@@ -853,7 +860,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
             </div>
           )}
           <div className={styles.emailWrapper}>
-            <p>{showEmail}</p>
+            <p>Сповіщення</p>
             <input
               type="checkbox"
               id="email"
