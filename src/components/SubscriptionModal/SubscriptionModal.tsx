@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './SubscriptionModal.module.scss';
 import { ReactComponent as CloseIcon } from '../../assets/icons/close.svg';
-import { ReactComponent as ArrowDownIcon } from '../../assets/icons/arrowDown.svg';
+import { ReactComponent as ArrowDownIcon } from '../../assets/icons/arrowDownBig.svg';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   getFilterBrands,
@@ -128,7 +128,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
   const [isNotificationEnabled, setIsNotificationEnabled] = useState(false);
 
   const dispatch = useAppDispatch();
-console.log('bargain', bargain)
+
   const {
     selectedCategory,
     carMark,
@@ -220,7 +220,6 @@ console.log('bargain', bargain)
 
   useEffect(() => {
     if (!isMounted) {
-      console.log('modalka', selectedCategory);
       setSelectedType(selectedCategory);
       setTransportType(selectedCategory);
       setBrand(carMark);
@@ -445,9 +444,9 @@ console.log('bargain', bargain)
     setIsNotificationEnabled(prev => !prev);
   };
 
-   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-     setBargain(event.target.checked ? true : undefined);
-   };
+  const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setBargain(event.target.checked ? true : undefined);
+  };
 
   return (
     <div
@@ -479,377 +478,382 @@ console.log('bargain', bargain)
           className={styles.input}
           onChange={e => setSubscrName(e.target.value)}
         />
-        <div className={styles.titleWrapper}>
-          <h3>Характеристики</h3>
-          <button
-            type="button"
-            onClick={() => setIsShowCharacteristics(prev => !prev)}
-            className={isShowCharacteristics ? `${styles.arrowUp}` : ''}
-          >
-            <ArrowDownIcon />
-          </button>
+
+        <div
+          className={`${styles.charactsTitleThumb} ${
+            isShowCharacteristics ? styles.showCharacts : ''
+          }`}
+        >
+          <div className={styles.titleWrapper}>
+            <h3>Характеристики</h3>
+            <button
+              type="button"
+              onClick={() => setIsShowCharacteristics(prev => !prev)}
+              className={isShowCharacteristics ? `${styles.arrowUp}` : ''}
+            >
+              <ArrowDownIcon />
+            </button>
+          </div>
         </div>
-
-        {isShowCharacteristics && (
-          <div className={styles.characteristics}>
-            <div>
-              <h4 className={styles.charactTitles}>Тип</h4>
-              <Dropdown
-                updateStyle="advSearch"
-                options={transportTypes.map(({ type }) => type)}
-                label="Тип"
-                startValue="Тип"
-                option={transportType}
-                setOption={setTransportType}
-                selectedOptions={transportType}
-                hideLabel={true}
-              />
-            </div>
-
-            <div>
-              <h4 className={styles.charactTitles}>Бренд</h4>
-              <Dropdown
-                updateStyle="advSearch"
-                options={brands
-                  .map(({ brand }) => brand)
-                  .sort((a, b) => a.localeCompare(b))}
-                label="Бренд"
-                startValue="Бренд"
-                option={brand}
-                setOption={setBrand}
-                allOptionsLabel="Всі бренди"
-                checkboxAllowed
-                selectedOptions={brand}
-                resetValue={isTypeChanged}
-                hideLabel={true}
-              />
-            </div>
-            {Array.isArray(brand) && (
+        <div
+          className={`${styles.scrollThumb} ${
+            isShowCharacteristics ? styles.showCharacts : ''
+          }`}
+        >
+          {isShowCharacteristics && (
+            <div className={styles.characteristics}>
               <div>
-                <h4 className={styles.charactTitles}>Модель</h4>
+                <h4 className={styles.charactTitles}>Тип</h4>
                 <Dropdown
                   updateStyle="advSearch"
-                  optionList={models}
-                  label="Модель"
-                  startValue="Модель"
-                  allOptionsLabel="Всі моделі"
+                  options={transportTypes.map(({ type }) => type)}
+                  label="Тип"
+                  startValue="Тип"
+                  option={transportType}
+                  setOption={setTransportType}
+                  selectedOptions={transportType}
+                  hideLabel={true}
+                />
+              </div>
+
+              <div>
+                <h4 className={styles.charactTitles}>Бренд</h4>
+                <Dropdown
+                  updateStyle="advSearch"
+                  options={brands
+                    .map(({ brand }) => brand)
+                    .sort((a, b) => a.localeCompare(b))}
+                  label="Бренд"
+                  startValue="Бренд"
+                  option={brand}
+                  setOption={setBrand}
+                  allOptionsLabel="Всі бренди"
                   checkboxAllowed
-                  option={model}
-                  title={brand}
-                  setOption={setModel}
-                  carMark={brand}
-                  pickedBrands={pickedBrands}
-                  selectedOptions={model}
+                  selectedOptions={brand}
                   resetValue={isTypeChanged}
                   hideLabel={true}
                 />
               </div>
-            )}
-            <div>
-              <h4 className={styles.charactTitles}>Рік</h4>
-              <div className={styles.listItem}>
-                <RangeSlider
-                  setObjectValue={setYear}
-                  typeRange={'year'}
-                  selectedValue={year}
-                  resetValue={isTypeChanged}
-                />
-              </div>
-            </div>
-            <div>
-              <h4 className={styles.charactTitles}>Тип кузову</h4>
-              <Dropdown
-                updateStyle="advSearch"
-                options={bodyTypeList}
-                label="Тип кузову"
-                startValue="Тип кузову"
-                allOptionsLabel="Всі типи"
-                checkboxAllowed
-                option={bodyType}
-                setOption={setBodyType}
-                selectedOptions={bodyType}
-                resetValue={isTypeChanged}
-                hideLabel={true}
-              />
-              <div className={styles.listItem}></div>
-            </div>
-            <div>
-              <h4 className={styles.charactTitles}>Тип палива</h4>
-              <Dropdown
-                updateStyle="advSearch"
-                options={fuelTypeList}
-                label="Тип палива"
-                startValue="Тип палива"
-                allOptionsLabel="Всі типи"
-                checkboxAllowed
-                option={fuelType}
-                setOption={setFuelType}
-                selectedOptions={fuelType}
-                resetValue={isTypeChanged}
-                hideLabel={true}
-              />
-              <div className={styles.listItem}></div>
-            </div>
-            {transmissionTypeArr && (
+              {Array.isArray(brand) && (
+                <div>
+                  <h4 className={styles.charactTitles}>Модель</h4>
+                  <Dropdown
+                    updateStyle="advSearch"
+                    optionList={models}
+                    label="Модель"
+                    startValue="Модель"
+                    allOptionsLabel="Всі моделі"
+                    checkboxAllowed
+                    option={model}
+                    title={brand}
+                    setOption={setModel}
+                    carMark={brand}
+                    pickedBrands={pickedBrands}
+                    selectedOptions={model}
+                    resetValue={isTypeChanged}
+                    hideLabel={true}
+                  />
+                </div>
+              )}
               <div>
-                <h4 className={styles.charactTitles}>Коробка передач</h4>
+                <h4 className={styles.charactTitles}>Рік</h4>
+                <div className={styles.listItem}>
+                  <RangeSlider
+                    setObjectValue={setYear}
+                    typeRange={'year'}
+                    selectedValue={year}
+                    resetValue={isTypeChanged}
+                  />
+                </div>
+              </div>
+              <div>
+                <h4 className={styles.charactTitles}>Тип кузову</h4>
                 <Dropdown
                   updateStyle="advSearch"
-                  options={transmissionTypeList}
-                  label="Коробка передач"
-                  startValue="Коробка передач"
+                  options={bodyTypeList}
+                  label="Тип кузову"
+                  startValue="Тип кузову"
                   allOptionsLabel="Всі типи"
                   checkboxAllowed
-                  option={transmission}
-                  setOption={setTransmission}
-                  selectedOptions={transmission}
+                  option={bodyType}
+                  setOption={setBodyType}
+                  selectedOptions={bodyType}
                   resetValue={isTypeChanged}
                   hideLabel={true}
                 />
                 <div className={styles.listItem}></div>
               </div>
-            )}
-            {data.mileageFrom && (
               <div>
-                <h4 className={styles.charactTitles}>Пробіг</h4>
-                <div className={styles.listItem}>
-                  <RangeSlider
-                    setObjectValue={setMileage}
-                    typeRange={'mileage'}
-                    selectedValue={mileage}
-                    resetValue={isTypeChanged}
-                  />
-                </div>
-              </div>
-            )}
-            <div>
-              <h4 className={styles.charactTitles}>Об`єм двигуна</h4>
-              <div className={styles.listItem}>
-                <RangeSlider
-                  setObjectValue={setEngineDisplacement}
-                  typeRange={'engineDisplacement'}
-                  selectedValue={engineDisplacement}
-                  resetValue={isTypeChanged}
-                />
-              </div>
-            </div>
-            <div>
-              <h4 className={styles.charactTitles}>Потужність двигуна</h4>
-              <div className={styles.listItem}>
-                <RangeSlider
-                  setObjectValue={setEnginePower}
-                  typeRange={'enginePower'}
-                  selectedValue={enginePower}
-                  resetValue={isTypeChanged}
-                />
-              </div>
-            </div>
-            {driverTypeArr && (
-              <div>
-                <h4 className={styles.charactTitles}>Привід</h4>
+                <h4 className={styles.charactTitles}>Тип палива</h4>
                 <Dropdown
                   updateStyle="advSearch"
-                  options={driverTypeList}
-                  label="Привід"
-                  startValue="Привід"
-                  allOptionsLabel="Всі типи приводу"
+                  options={fuelTypeList}
+                  label="Тип палива"
+                  startValue="Тип палива"
+                  allOptionsLabel="Всі типи"
                   checkboxAllowed
-                  option={driveType}
-                  setOption={setDriveType}
-                  selectedOptions={driveType}
+                  option={fuelType}
+                  setOption={setFuelType}
+                  selectedOptions={fuelType}
                   resetValue={isTypeChanged}
                   hideLabel={true}
                 />
                 <div className={styles.listItem}></div>
               </div>
-            )}
-            <div>
-              <h4 className={styles.charactTitles}>Регіон</h4>
-              <Dropdown
-                updateStyle="advSearch"
-                options={regions.map(({ region }) => region)}
-                label="Регіон"
-                startValue="Регіон"
-                allOptionsLabel="Вся Україна"
-                checkboxAllowed
-                option={region}
-                setOption={setRegion}
-                selectedOptions={region}
-                resetValue={isTypeChanged}
-                hideLabel={true}
-              />
-            </div>
-            {Array.isArray(region) && (
+              {transmissionTypeArr && (
+                <div>
+                  <h4 className={styles.charactTitles}>Коробка передач</h4>
+                  <Dropdown
+                    updateStyle="advSearch"
+                    options={transmissionTypeList}
+                    label="Коробка передач"
+                    startValue="Коробка передач"
+                    allOptionsLabel="Всі типи"
+                    checkboxAllowed
+                    option={transmission}
+                    setOption={setTransmission}
+                    selectedOptions={transmission}
+                    resetValue={isTypeChanged}
+                    hideLabel={true}
+                  />
+                  <div className={styles.listItem}></div>
+                </div>
+              )}
+              {data.mileageFrom && (
+                <div>
+                  <h4 className={styles.charactTitles}>Пробіг</h4>
+                  <div className={styles.listItem}>
+                    <RangeSlider
+                      setObjectValue={setMileage}
+                      typeRange={'mileage'}
+                      selectedValue={mileage}
+                      resetValue={isTypeChanged}
+                    />
+                  </div>
+                </div>
+              )}
               <div>
-                <h4 className={styles.charactTitles}>Місто</h4>
-                <Dropdown
-                  updateStyle="advSearch"
-                  optionList={cities}
-                  label="Місто"
-                  startValue="Місто"
-                  allOptionsLabel="Місто"
-                  checkboxAllowed
-                  option={city}
-                  title={region}
-                  setOption={setCity}
-                  pickedRegions={pickedRegions}
-                  selectedOptions={city}
-                  resetValue={isTypeChanged}
-                  hideLabel={true}
-                />
-              </div>
-            )}
-            <div>
-              <h4 className={styles.charactTitles}>Колір</h4>
-              <Dropdown
-                updateStyle="advSearch"
-                options={colorsList}
-                label="Колір"
-                startValue="Колір"
-                allOptionsLabel="Всі кольори"
-                checkboxAllowed
-                option={color}
-                setOption={setColor}
-                selectedOptions={color}
-                resetValue={isTypeChanged}
-                hideLabel={true}
-              />
-              <div className={styles.listItem}></div>
-            </div>
-            <div>
-              <h4 className={styles.charactTitles}>Технічний стан</h4>
-              <Dropdown
-                updateStyle="advSearch"
-                options={conditionList}
-                label="Технічний стан"
-                startValue="Технічний стан"
-                allOptionsLabel="Будь-який стан"
-                checkboxAllowed
-                option={condition}
-                setOption={setCondition}
-                selectedOptions={condition}
-                resetValue={isTypeChanged}
-                hideLabel={true}
-              />
-            </div>
-            {data.numberOfDoorsFrom && (
-              <div>
-                <h4 className={styles.charactTitles}>Кількість дверей</h4>
+                <h4 className={styles.charactTitles}>Об`єм двигуна</h4>
                 <div className={styles.listItem}>
                   <RangeSlider
-                    setObjectValue={setNumberOfDoors}
-                    typeRange={'numberOfDoors'}
-                    selectedValue={numberOfDoors}
+                    setObjectValue={setEngineDisplacement}
+                    typeRange={'engineDisplacement'}
+                    selectedValue={engineDisplacement}
                     resetValue={isTypeChanged}
                   />
                 </div>
               </div>
-            )}
-            {data.numberOfSeatsFrom && (
               <div>
-                <h4 className={styles.charactTitles}>Кількість місць</h4>
+                <h4 className={styles.charactTitles}>Потужність двигуна</h4>
                 <div className={styles.listItem}>
                   <RangeSlider
-                    setObjectValue={setNumberOfSeats}
-                    typeRange={'numberOfSeats'}
-                    selectedValue={numberOfSeats}
+                    setObjectValue={setEnginePower}
+                    typeRange={'enginePower'}
+                    selectedValue={enginePower}
                     resetValue={isTypeChanged}
                   />
                 </div>
               </div>
-            )}
-            {numberAxlesArr && (
+              {driverTypeArr && (
+                <div>
+                  <h4 className={styles.charactTitles}>Привід</h4>
+                  <Dropdown
+                    updateStyle="advSearch"
+                    options={driverTypeList}
+                    label="Привід"
+                    startValue="Привід"
+                    allOptionsLabel="Всі типи приводу"
+                    checkboxAllowed
+                    option={driveType}
+                    setOption={setDriveType}
+                    selectedOptions={driveType}
+                    resetValue={isTypeChanged}
+                    hideLabel={true}
+                  />
+                  <div className={styles.listItem}></div>
+                </div>
+              )}
               <div>
-                <h4 className={styles.charactTitles}>Кількість осей</h4>
+                <h4 className={styles.charactTitles}>Регіон</h4>
                 <Dropdown
                   updateStyle="advSearch"
-                  options={numberAxlesList}
-                  label="Кількість осей"
-                  startValue="Кількість осей"
-                  allOptionsLabel="Будь-яка"
+                  options={regions.map(({ region }) => region)}
+                  label="Регіон"
+                  startValue="Регіон"
+                  allOptionsLabel="Вся Україна"
                   checkboxAllowed
-                  option={numberAxles}
-                  setOption={setNumberAxles}
-                  selectedOptions={numberAxles}
+                  option={region}
+                  setOption={setRegion}
+                  selectedOptions={region}
                   resetValue={isTypeChanged}
                   hideLabel={true}
                 />
               </div>
-            )}
-            {wheelConfigurationArr && (
+              {Array.isArray(region) && (
+                <div>
+                  <h4 className={styles.charactTitles}>Місто</h4>
+                  <Dropdown
+                    updateStyle="advSearch"
+                    optionList={cities}
+                    label="Місто"
+                    startValue="Місто"
+                    allOptionsLabel="Місто"
+                    checkboxAllowed
+                    option={city}
+                    title={region}
+                    setOption={setCity}
+                    pickedRegions={pickedRegions}
+                    selectedOptions={city}
+                    resetValue={isTypeChanged}
+                    hideLabel={true}
+                  />
+                </div>
+              )}
               <div>
-                <h4 className={styles.charactTitles}>Конфігурація коліс</h4>
+                <h4 className={styles.charactTitles}>Колір</h4>
                 <Dropdown
                   updateStyle="advSearch"
-                  options={wheelConfigurationList}
-                  label="Конфігурація коліс"
-                  startValue="Конфігурація коліс"
-                  allOptionsLabel="Будь-яка"
+                  options={colorsList}
+                  label="Колір"
+                  startValue="Колір"
+                  allOptionsLabel="Всі кольори"
                   checkboxAllowed
-                  option={wheelConfiguration}
-                  setOption={setWheelConfiguration}
-                  selectedOptions={wheelConfiguration}
+                  option={color}
+                  setOption={setColor}
+                  selectedOptions={color}
+                  resetValue={isTypeChanged}
+                  hideLabel={true}
+                />
+                <div className={styles.listItem}></div>
+              </div>
+              <div>
+                <h4 className={styles.charactTitles}>Технічний стан</h4>
+                <Dropdown
+                  updateStyle="advSearch"
+                  options={conditionList}
+                  label="Технічний стан"
+                  startValue="Технічний стан"
+                  allOptionsLabel="Будь-який стан"
+                  checkboxAllowed
+                  option={condition}
+                  setOption={setCondition}
+                  selectedOptions={condition}
                   resetValue={isTypeChanged}
                   hideLabel={true}
                 />
               </div>
-            )}
-            <div>
-              <h4 className={styles.charactTitles}>
-                Країна з якої <br />
-                доставили:
-              </h4>
-              <Dropdown
-                updateStyle="advSearch"
-                options={producingCountryList}
-                label="Країна"
-                startValue="Країна"
-                allOptionsLabel="Будь-яка"
-                checkboxAllowed
-                option={producingCountry}
-                setOption={setProducingCountry}
-                selectedOptions={producingCountry}
-                resetValue={isTypeChanged}
-                hideLabel={true}
-              />
-            </div>
-            <div>
-              <h4 className={styles.charactTitles}>Ціна</h4>
-              <div className={styles.listItem}>
-                <RangeSlider
-                  setObjectValue={setPrice}
-                  typeRange={'price'}
-                  selectedValue={price}
+              {data.numberOfDoorsFrom && (
+                <div>
+                  <h4 className={styles.charactTitles}>Кількість дверей</h4>
+                  <div className={styles.listItem}>
+                    <RangeSlider
+                      setObjectValue={setNumberOfDoors}
+                      typeRange={'numberOfDoors'}
+                      selectedValue={numberOfDoors}
+                      resetValue={isTypeChanged}
+                    />
+                  </div>
+                </div>
+              )}
+              {data.numberOfSeatsFrom && (
+                <div>
+                  <h4 className={styles.charactTitles}>Кількість місць</h4>
+                  <div className={styles.listItem}>
+                    <RangeSlider
+                      setObjectValue={setNumberOfSeats}
+                      typeRange={'numberOfSeats'}
+                      selectedValue={numberOfSeats}
+                      resetValue={isTypeChanged}
+                    />
+                  </div>
+                </div>
+              )}
+              {numberAxlesArr && (
+                <div>
+                  <h4 className={styles.charactTitles}>Кількість осей</h4>
+                  <Dropdown
+                    updateStyle="advSearch"
+                    options={numberAxlesList}
+                    label="Кількість осей"
+                    startValue="Кількість осей"
+                    allOptionsLabel="Будь-яка"
+                    checkboxAllowed
+                    option={numberAxles}
+                    setOption={setNumberAxles}
+                    selectedOptions={numberAxles}
+                    resetValue={isTypeChanged}
+                    hideLabel={true}
+                  />
+                </div>
+              )}
+              {wheelConfigurationArr && (
+                <div>
+                  <h4 className={styles.charactTitles}>Конфігурація коліс</h4>
+                  <Dropdown
+                    updateStyle="advSearch"
+                    options={wheelConfigurationList}
+                    label="Конфігурація коліс"
+                    startValue="Конфігурація коліс"
+                    allOptionsLabel="Будь-яка"
+                    checkboxAllowed
+                    option={wheelConfiguration}
+                    setOption={setWheelConfiguration}
+                    selectedOptions={wheelConfiguration}
+                    resetValue={isTypeChanged}
+                    hideLabel={true}
+                  />
+                </div>
+              )}
+              <div>
+                <h4 className={styles.charactTitles}>
+                  Країна з якої <br />
+                  доставили:
+                </h4>
+                <Dropdown
+                  updateStyle="advSearch"
+                  options={producingCountryList}
+                  label="Країна"
+                  startValue="Країна"
+                  allOptionsLabel="Будь-яка"
+                  checkboxAllowed
+                  option={producingCountry}
+                  setOption={setProducingCountry}
+                  selectedOptions={producingCountry}
                   resetValue={isTypeChanged}
+                  hideLabel={true}
                 />
               </div>
-            </div>
-            <div>
-              <h4 className={styles.charactTitles}>Можливість торгу</h4>
-              <div className={`${styles.listItem} ${styles.bragainThumb}`}>
-                <input
-                  type="checkbox"
-                  name="bargain"
-                  id="bargain"
-                  checked={bargain === true}
-                  onChange={handleOptionChange}
-                  // className={styles.bargainInput}
-                />
-                <label
-                  htmlFor="bargain"
-                  // className={`${styles.bargain}
-                  // ${!bargain ? styles.active : null}`}
-                >
-                  Можливість торгу
-                </label>
+              <div>
+                <h4 className={styles.charactTitles}>Ціна</h4>
+                <div className={styles.listItem}>
+                  <RangeSlider
+                    setObjectValue={setPrice}
+                    typeRange={'price'}
+                    selectedValue={price}
+                    resetValue={isTypeChanged}
+                  />
+                </div>
+              </div>
+              <div>
+                <h4 className={styles.charactTitles}>Торг</h4>
+                <div className={`${styles.listItem} `}>
+                  <input
+                    type="checkbox"
+                    name="bargain"
+                    id="bargain"
+                    checked={bargain === true}
+                    onChange={handleOptionChange}
+                    className={styles.bargainInput}
+                  />
+                  <label htmlFor="bargain" className={styles.bargainLabel}>
+                    Можливість торгу
+                  </label>
+                </div>
               </div>
             </div>
-          </div>
-        )}
-
-        <div className={styles.emailWrapper}>
-          <div>
-            <p>Активувати підписку</p>
+          )}
+          <div className={styles.emailWrapper}>
+            <p>{showEmail}</p>
             <input
               type="checkbox"
               id="email"
@@ -858,16 +862,15 @@ console.log('bargain', bargain)
             />
             <label htmlFor="email" />
           </div>
-          <p>{showEmail}</p>
         </div>
-        <div className={styles.buttonsWrapper}>
-          <button type="button" onClick={handleSaveSubscription}>
-            Зберегти
-          </button>
-          <button type="button" onClick={toggleModalIsOpen}>
-            Скасувати
-          </button>
-        </div>
+
+        <button
+          type="button"
+          onClick={handleSaveSubscription}
+          className={styles.saveBtn}
+        >
+          Зберегти
+        </button>
       </div>
     </div>
   );

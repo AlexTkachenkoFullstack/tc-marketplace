@@ -150,20 +150,20 @@ export const Dropdown: FC<Props> = props => {
   }, [resetValue, setOption, startValue]);
 
   useEffect(() => {
-    if (!selectedOptions) {
+    if (!selectedOptions || selectedOptions.length === 0) {
       setOption(startValue);
     }
-    if (Array.isArray(selectedOptions)) {
+    if (Array.isArray(selectedOptions) && selectedOptions.length !== 0) {
       setCheckedValue(selectedOptions);
       setOption(selectedOptions);
     }
   }, [selectedOptions, setCheckedValue, setOption, startValue]);
 
   useEffect(() => {
-    if (!selectedOptions) {
+    if (!selectedOptions || selectedOptions.length === 0) {
       setOption(startValue);
     }
-    if (Array.isArray(selectedOptions)) {
+    if (Array.isArray(selectedOptions) && selectedOptions.length !== 0) {
       setCheckedValue(selectedOptions);
       setOption(selectedOptions);
     }
