@@ -11,6 +11,7 @@ import { CategoryBar } from 'components/CategoryBar/CategoryBar';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'redux/hooks';
 import { cleanFiltredStore, cleanParamsForSubscr } from 'redux/filter/slice';
+import {ReactComponent as ArrowLeftIcon} from "../../assets/icons/arrow_left.svg"
 
 enum Tab {
   MyAds,
@@ -137,20 +138,31 @@ export const UserPage: React.FC = () => {
 
   return (
     <>
-      <div className={styles.userPage}>
-        <GoToTop />
+      {/* <div className={styles.userPage}> */}
+      <GoToTop />
+      {/* <div className={styles.container}> */}
+      <section className={styles.headSection}>
         <div className={styles.container}>
-          <h2 className={styles.userPage_title}>Ваш профіль</h2>
-          <CategoryBar
-            categories={categories}
-            handleSelect={handleSelectCategory}
-            selectedCategory={activeCategory}
-            selectedStyle="userPageStyle"
-          />
-          <Outlet />
-          {/* {renderTabContent()} */}
+          <div className={styles.titleThumb}>
+            <button type="button">
+              <ArrowLeftIcon />
+            </button>
+            <h2 className={styles.title}>Ваш профіль</h2>
+          </div>
         </div>
-      </div>
+      </section>
+      <section className={styles.categorySection}>
+        <CategoryBar
+          categories={categories}
+          handleSelect={handleSelectCategory}
+          selectedCategory={activeCategory}
+          selectedStyle="userPageStyle"
+        />
+      </section>
+      <Outlet />
+      {/* {renderTabContent()} */}
+      {/* </div> */}
+      {/* </div> */}
     </>
   );
 };

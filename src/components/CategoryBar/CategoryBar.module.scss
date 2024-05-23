@@ -91,9 +91,9 @@
   transition: $effectDuration;
 
   &.selected {
-  background-color: $bg-color-light;
-  border: 1px solid $bg-color-active;
-}
+    background-color: $bg-color-light;
+    border: 1px solid $bg-color-active;
+  }
 
   @include onTablet {
     padding: 6px 12px;
@@ -124,27 +124,61 @@
 
 // userPage styles
 .userPageContainer {
-  margin-bottom: 32px;
+  margin-left: calc((100vw - 360px) / 2);
+  margin-bottom: 0;
+  @include onTablet {
+    width: $tablet-min-width;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  @include onDesktop {
+    width: $desktop-min-width;
+    margin: 0 auto;
+    padding: 0 96px;
+  }
 }
 
 .userPageCategory {
-  padding: 10px 0;
-  font-size: 22px;
-  font-weight: 700;
-  line-height: 120%;
+  padding: 3px 0;
+  font-size: $mobile-md;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.15px;
   border-radius: 0;
-  color: $color-dark-grey;
-  transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  color: $dark-grey;
+  transition: color $effectDuration;
+
+  @include onTablet {
+    font-size: $tablet-md;
+  }
+
+  &:first-child {
+    margin-left: 20px;
+    @include onTablet {
+      margin-left: 0;
+    }
+  }
+  &:last-child {
+    margin-right: 20px;
+    @include onTablet {
+      margin-right: 0;
+    }
+  }
 
   &.selected_category {
     background-color: transparent;
-    color: inherit;
-    border-bottom: 1px solid $color-grey;
+    color: $color-black;
+    border-bottom: 1px solid $color-black;
+
+    &:hover {
+      color: $color-black;
+    }
   }
 }
 
 .userPageCategory:hover {
   color: $color-grey;
+  background-color: transparent;
 }
 
 .userPageCategory:not(:last-child) {
