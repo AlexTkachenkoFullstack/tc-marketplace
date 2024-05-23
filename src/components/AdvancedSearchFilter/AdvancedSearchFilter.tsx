@@ -532,7 +532,7 @@ export const AdvancedSearchFilter: React.FC<Props> = ({
   //   console.log('carModel', carModel);
   //   setCarModel(carModel);
   // }, [carMark, carModel]);
-  console.log(selectedOption);
+ 
   return (
     <div className={styles.AdvSearchFilter}>
       <div className={styles.AdvSearchFilter_container}>

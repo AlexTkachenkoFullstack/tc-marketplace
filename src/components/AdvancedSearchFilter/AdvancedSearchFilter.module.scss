@@ -157,13 +157,17 @@
   width: 32px;
   height: 32px;
   border-radius: 100%;
-  transition: $effectDuration;
+  transition: background-color $effectDuration;
+
+  &.active {
+    transform: rotate(180deg);
+  }
 
   &:hover {
-    background: $bg-color-active;
+    background-color: $bg-color-active;
   }
   &:active {
-    background: $border-active;
+    background-color: $border-active;
     & path {
       fill: $bg-color-white;
     }
@@ -605,11 +609,11 @@
 .hide {
   display: none;
 }
-.active {
-  background-image: url('../../assets/icons/vector-arrow-up.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-}
+// .active {
+//   background-image: url('../../assets/icons/vector-arrow-up.svg');
+//   background-repeat: no-repeat;
+//   background-position: center;
+// }
 
 .type:checked + label {
   background: #797979;

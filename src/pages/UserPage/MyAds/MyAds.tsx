@@ -55,7 +55,7 @@ const MyAds: React.FC = () => {
   };
   
   return (
-    <div className={styles.container}>
+    <section className={styles.section}>
       {isAdsLoading && <Loader />}
       <div className={styles.tabs}>
         <button
@@ -131,8 +131,10 @@ const MyAds: React.FC = () => {
           )}
         </button>
       </div>
-      <ul className={styles.tabContent}>{renderTabContent()}</ul>
-    </div>
+      <div className={styles.contentContainer}>
+        <ul className={styles.tabContent}>{renderTabContent()}</ul>
+      </div>
+    </section>
   );
 };
 
