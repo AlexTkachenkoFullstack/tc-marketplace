@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { nanoid } from 'nanoid';
 import styles from './UploadPhoto.module.scss';
-import { ReactComponent as Add } from '../../assets/icons/add.svg';
+import { ReactComponent as Add } from '../../assets/icons/add_photo_new.svg';
 import { Preview } from 'components/Preview/Preview';
 import { UploadedImage } from 'types/UploadedImage';
 import { useLocation } from 'react-router-dom';

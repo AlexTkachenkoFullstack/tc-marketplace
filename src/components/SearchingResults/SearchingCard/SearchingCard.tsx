@@ -166,13 +166,13 @@ const SearchingCard: React.FC<IProps> = ({
           </li> */}
         </ul>
 
-        <p
+        {/* <p
           id="discr"
           className={styles.description}
           style={{ display: isDisabled ? 'none' : '' }}
         >
           {car?.description}
-        </p>
+        </p> */}
 
         <p className={styles.created}>
           <CalendarMonth

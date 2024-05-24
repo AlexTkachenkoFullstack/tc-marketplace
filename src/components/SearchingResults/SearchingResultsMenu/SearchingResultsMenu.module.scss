@@ -45,7 +45,7 @@
 .title {
   font-weight: 800;
   font-size: $mobile-3xl;
-
+  color: $color-black;
   @include onTablet {
     font-size: $tablet-3xl;
   }
@@ -67,7 +67,7 @@
   & .hiddenText {
     display: none;
     @include onTablet {
-     display: inline;
+      display: inline;
     }
   }
 
