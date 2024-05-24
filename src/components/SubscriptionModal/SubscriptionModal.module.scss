@@ -14,29 +14,32 @@
 
 .modalCard {
   position: absolute;
-  // top: 50%;
   bottom: 0;
   left: 50%;
-  transform: translate(-50%);
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   width: 360px;
-  height: 304px;
   border-radius: 32px;
-  padding: 21px 24px;
+  padding: 24px 20px;
   background-color: $white-color;
 
   &.showCharacts {
     bottom: 0;
     transform: translate(-50%, 0);
     height: calc(100vh - 20%);
+
+    @include onTablet {
+      bottom: 50%;
+      transform: translate(-50%, 50%);
+    }
   }
 
   @include onTablet {
-    top: 50%;
-    transform: translate(-50%, -50%);
     width: 488px;
-    padding: 28px;
+    padding: 28px 24px;
+    bottom: 50%;
+    transform: translate(-50%, 50%);
   }
   @include onDesktop {
     width: 488px;
@@ -98,7 +101,7 @@
 
   & .charactsTitleThumb {
     width: 100%;
-    padding: 10px 20px;
+    padding: 4px 20px;
     border-radius: 20px;
     border: 1px solid $border-gray;
     background: $color-light-grey;
@@ -128,7 +131,19 @@
       align-items: center;
       width: 32px;
       height: 32px;
+      border-radius: 100%;
       transition: all 250ms ease-in-out;
+
+      &:hover {
+        background-color: $bg-color-active;
+        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
+      }
+      &:active {
+        background-color: $border-active;
+        & path {
+          fill: $bg-color-white;
+        }
+      }
     }
     & button.arrowUp {
       transform: rotate(180deg);
@@ -150,13 +165,24 @@
     padding: 6px 20px 16px;
     margin-bottom: 10px;
 
+    & .charactThumb {
+      @include onTablet {
+        display: flex;
+      }
+    }
+
     & .charactTitles {
       font-size: $xs;
       font-weight: 500;
       line-height: 16px;
       letter-spacing: 0.5px;
+      margin-bottom: 8px;
 
-      margin-bottom: 16px;
+      @include onTablet {
+        width: 140px;
+        margin-bottom: 0;
+        margin-right: 20px;
+      }
     }
   }
 
@@ -265,7 +291,7 @@
     align-items: center;
 
     width: 100%;
-    padding: 10px 20px;
+    padding: 8px 20px;
     border-radius: 32px;
     border: 1px solid $border-gray;
     background: $color-light-grey;

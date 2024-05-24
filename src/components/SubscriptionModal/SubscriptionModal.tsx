@@ -502,7 +502,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
         >
           {isShowCharacteristics && (
             <div className={styles.characteristics}>
-              <div>
+              <div className={styles.charactThumb}>
                 <h4 className={styles.charactTitles}>Тип</h4>
                 <Dropdown
                   updateStyle="advSearch"
@@ -516,7 +516,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                 />
               </div>
 
-              <div>
+              <div className={styles.charactThumb}>
                 <h4 className={styles.charactTitles}>Бренд</h4>
                 <Dropdown
                   updateStyle="advSearch"
@@ -535,7 +535,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                 />
               </div>
               {Array.isArray(brand) && (
-                <div>
+                <div className={styles.charactThumb}>
                   <h4 className={styles.charactTitles}>Модель</h4>
                   <Dropdown
                     updateStyle="advSearch"
@@ -555,7 +555,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                   />
                 </div>
               )}
-              <div>
+              <div className={styles.charactThumb}>
                 <h4 className={styles.charactTitles}>Рік</h4>
                 <div className={styles.listItem}>
                   <RangeSlider
@@ -567,7 +567,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                   />
                 </div>
               </div>
-              <div>
+              <div className={styles.charactThumb}>
                 <h4 className={styles.charactTitles}>Тип кузову</h4>
                 <Dropdown
                   updateStyle="advSearch"
@@ -582,9 +582,9 @@ const SubscriptionModal: React.FC<Iprops> = ({
                   resetValue={isTypeChanged}
                   hideLabel={true}
                 />
-                <div className={styles.listItem}></div>
+                {/* <div className={styles.listItem}></div> */}
               </div>
-              <div>
+              <div className={styles.charactThumb}>
                 <h4 className={styles.charactTitles}>Тип палива</h4>
                 <Dropdown
                   updateStyle="advSearch"
@@ -599,10 +599,10 @@ const SubscriptionModal: React.FC<Iprops> = ({
                   resetValue={isTypeChanged}
                   hideLabel={true}
                 />
-                <div className={styles.listItem}></div>
+                {/* <div className={styles.listItem}></div> */}
               </div>
               {transmissionTypeArr && (
-                <div>
+                <div className={styles.charactThumb}>
                   <h4 className={styles.charactTitles}>Коробка передач</h4>
                   <Dropdown
                     updateStyle="advSearch"
@@ -617,11 +617,11 @@ const SubscriptionModal: React.FC<Iprops> = ({
                     resetValue={isTypeChanged}
                     hideLabel={true}
                   />
-                  <div className={styles.listItem}></div>
+                  {/* <div className={styles.listItem}></div> */}
                 </div>
               )}
               {data.mileageFrom && (
-                <div>
+                <div className={styles.charactThumb}>
                   <h4 className={styles.charactTitles}>Пробіг</h4>
                   <div className={styles.listItem}>
                     <RangeSlider
@@ -634,7 +634,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                   </div>
                 </div>
               )}
-              <div>
+              <div className={styles.charactThumb}>
                 <h4 className={styles.charactTitles}>Об`єм двигуна</h4>
                 <div className={styles.listItem}>
                   <RangeSlider
@@ -646,7 +646,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                   />
                 </div>
               </div>
-              <div>
+              <div className={styles.charactThumb}>
                 <h4 className={styles.charactTitles}>Потужність двигуна</h4>
                 <div className={styles.listItem}>
                   <RangeSlider
@@ -659,7 +659,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                 </div>
               </div>
               {driverTypeArr && (
-                <div>
+                <div className={styles.charactThumb}>
                   <h4 className={styles.charactTitles}>Привід</h4>
                   <Dropdown
                     updateStyle="advSearch"
@@ -674,10 +674,10 @@ const SubscriptionModal: React.FC<Iprops> = ({
                     resetValue={isTypeChanged}
                     hideLabel={true}
                   />
-                  <div className={styles.listItem}></div>
+                  {/* <div className={styles.listItem}></div> */}
                 </div>
               )}
-              <div>
+              <div className={styles.charactThumb}>
                 <h4 className={styles.charactTitles}>Регіон</h4>
                 <Dropdown
                   updateStyle="advSearch"
@@ -694,7 +694,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                 />
               </div>
               {Array.isArray(region) && (
-                <div>
+                <div className={styles.charactThumb}>
                   <h4 className={styles.charactTitles}>Місто</h4>
                   <Dropdown
                     updateStyle="advSearch"
@@ -713,7 +713,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                   />
                 </div>
               )}
-              <div>
+              <div className={styles.charactThumb}>
                 <h4 className={styles.charactTitles}>Колір</h4>
                 <Dropdown
                   updateStyle="advSearch"
@@ -728,9 +728,9 @@ const SubscriptionModal: React.FC<Iprops> = ({
                   resetValue={isTypeChanged}
                   hideLabel={true}
                 />
-                <div className={styles.listItem}></div>
+                {/* <div className={styles.listItem}></div> */}
               </div>
-              <div>
+              <div className={styles.charactThumb}>
                 <h4 className={styles.charactTitles}>Технічний стан</h4>
                 <Dropdown
                   updateStyle="advSearch"
@@ -747,7 +747,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                 />
               </div>
               {data.numberOfDoorsFrom && (
-                <div>
+                <div className={styles.charactThumb}>
                   <h4 className={styles.charactTitles}>Кількість дверей</h4>
                   <div className={styles.listItem}>
                     <RangeSlider
@@ -761,7 +761,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                 </div>
               )}
               {data.numberOfSeatsFrom && (
-                <div>
+                <div className={styles.charactThumb}>
                   <h4 className={styles.charactTitles}>Кількість місць</h4>
                   <div className={styles.listItem}>
                     <RangeSlider
@@ -775,7 +775,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                 </div>
               )}
               {numberAxlesArr && (
-                <div>
+                <div className={styles.charactThumb}>
                   <h4 className={styles.charactTitles}>Кількість осей</h4>
                   <Dropdown
                     updateStyle="advSearch"
@@ -793,7 +793,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                 </div>
               )}
               {wheelConfigurationArr && (
-                <div>
+                <div className={styles.charactThumb}>
                   <h4 className={styles.charactTitles}>Конфігурація коліс</h4>
                   <Dropdown
                     updateStyle="advSearch"
@@ -810,7 +810,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                   />
                 </div>
               )}
-              <div>
+              <div className={styles.charactThumb}>
                 <h4 className={styles.charactTitles}>
                   Країна з якої <br />
                   доставили:
@@ -829,7 +829,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                   hideLabel={true}
                 />
               </div>
-              <div>
+              <div className={styles.charactThumb}>
                 <h4 className={styles.charactTitles}>Ціна</h4>
                 <div className={styles.listItem}>
                   <RangeSlider
@@ -841,7 +841,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                   />
                 </div>
               </div>
-              <div>
+              <div className={styles.charactThumb}>
                 <h4 className={styles.charactTitles}>Торг</h4>
                 <div className={`${styles.listItem} `}>
                   <input
