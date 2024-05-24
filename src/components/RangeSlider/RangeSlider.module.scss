@@ -2,23 +2,29 @@
 
 .inputBlokResult {
   width: 320px;
-
   margin-bottom: 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  &.modalStyle {
-    width: 270px;
-  }
-
   @include onTablet {
+    width: 280px;
+  }
+  @include onDesktop {
     width: 400px;
   }
+
+  &.modalStyle {
+    width: 270px;
+    @include onTablet {
+      width: 240px;
+    }
+  }
 }
+
 .priceLeft,
 .priceRight {
-  width: 154px;
+  width: 144px;
   height: 40px;
   padding-left: 28px;
   padding-right: 16px;
@@ -35,28 +41,42 @@
   line-height: 20px;
   letter-spacing: 0.15px;
 
-  &.modalStyle {
+   @include onTablet {
     width: 124px;
-  }
-  @include onTablet {
-    width: 188px;
     font-size: $tablet-sm;
   }
+ @include onDesktop {
+    width: 184px;
+  }
+  &.modalStyle {
+    width: 124px;
+    @include onTablet {
+      width: 104px;
+    }
+  }
+ 
 }
 .inputBlokRange {
   display: flex;
-  width: 320px;
   align-items: center;
   justify-content: center;
   height: 24px;
 
+  @include onTablet {
+    width: 280px;
+  }
+  @include onDesktop {
+    width: 400px;
+  }
+
   &.modalStyle {
     padding-left: 12px;
     width: 260px;
+    @include onTablet {
+      width: 230px;
+    }
   }
-  @include onTablet {
-    width: 400px;
-  }
+  
 }
 .centralDivider {
   width: 8px;

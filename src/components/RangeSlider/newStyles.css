@@ -1,6 +1,6 @@
 .rc-slider {
   position: relative;
-  width: 100%;
+  width: 296px;
   height: 12px;
   padding: 5px 0;
   border-radius: 6px;
@@ -279,6 +279,11 @@
 }
 @media (min-width: 768px) {
   .rc-slider {
-    width: 374px;    
+    width: 256px;    
+  }
+}
+@media (min-width: 1440px) {
+  .rc-slider {
+    width: 376px;    
   }
 }
