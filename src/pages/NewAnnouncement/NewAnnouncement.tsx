@@ -1063,9 +1063,9 @@ const handleBackClick=()=>{
         <div className={styles.blocTitleFoto}>
           <div className={styles.boxTitleFoto}>
             <h2 className={styles.titleAddFoto}>Додайте фото</h2>
-            <button className={styles.addMore} onClick={handleAddMorePhoto}>
+            {/* <button className={styles.addMore} onClick={handleAddMorePhoto}>
               Додати більше
-            </button>
+            </button> */}
           </div>
           <p className={styles.titleHelpText}>
             Обов’язково додайте мінімум одне фото
