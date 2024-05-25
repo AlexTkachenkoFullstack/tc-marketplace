@@ -168,12 +168,12 @@ export const Dropdown: FC<Props> = props => {
       setOption(selectedOptions);
     }
   }, [optionList, selectedOptions, setOption, startValue]);
-
+ 
   return (
     <div
       className={`${styles.container} ${
         updateStyle === 'advSearch' ? styles._advSearch : ''
-      } `}
+      } ${updateStyle && styles[updateStyle]}`}
       ref={dropdownRef}
       style={{ marginBottom: updateStyle === 'favoritPage' ? 0 : '' }}
     >
@@ -193,7 +193,8 @@ export const Dropdown: FC<Props> = props => {
           isActive ? styles.trigger_active : ''
         } ${updateStyle === 'menuStyle' ? styles.triggerAdvMenu : ''} ${
           updateStyle === 'favoritPage' ? styles.triggerAdvMenu : ''
-        } ${updateStyle === 'advSearch' ? styles.advSearch_trigger : ''}`}
+        } ${updateStyle === 'advSearch' ? styles.advSearch_trigger : ''} 
+        ${updateStyle && styles[updateStyle]}`}
         style={{
           padding: stylepaddingZero ? '0px' : undefined,
           cursor: isDissabled ? 'not-allowed' : 'pointer',
@@ -231,7 +232,7 @@ export const Dropdown: FC<Props> = props => {
             <div
               className={`${styles.text} ${
                 updateStyle === 'menuStyle' ? styles.textAdvMenu : null
-              }`}
+              } ${updateStyle && styles[updateStyle]}`}
               style={{ maxWidth: updateStyle === 'favoritPage' ? 164 : '' }}
             >
               {Array.isArray(option) ? renderPlaceholder() : option}

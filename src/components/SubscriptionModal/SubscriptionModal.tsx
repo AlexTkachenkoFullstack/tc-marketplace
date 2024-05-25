@@ -505,7 +505,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
               <div className={styles.charactThumb}>
                 <h4 className={styles.charactTitles}>Тип</h4>
                 <Dropdown
-                  updateStyle="advSearch"
+                  updateStyle="modalStyle"
                   options={transportTypes.map(({ type }) => type)}
                   label="Тип"
                   startValue="Тип"
@@ -519,7 +519,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
               <div className={styles.charactThumb}>
                 <h4 className={styles.charactTitles}>Бренд</h4>
                 <Dropdown
-                  updateStyle="advSearch"
+                  updateStyle="modalStyle"
                   options={brands
                     .map(({ brand }) => brand)
                     .sort((a, b) => a.localeCompare(b))}
@@ -538,7 +538,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                 <div className={styles.charactThumb}>
                   <h4 className={styles.charactTitles}>Модель</h4>
                   <Dropdown
-                    updateStyle="advSearch"
+                    updateStyle="modalStyle"
                     optionList={models}
                     label="Модель"
                     startValue="Модель"
@@ -570,7 +570,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
               <div className={styles.charactThumb}>
                 <h4 className={styles.charactTitles}>Тип кузову</h4>
                 <Dropdown
-                  updateStyle="advSearch"
+                  updateStyle="modalStyle"
                   options={bodyTypeList}
                   label="Тип кузову"
                   startValue="Тип кузову"
@@ -587,7 +587,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
               <div className={styles.charactThumb}>
                 <h4 className={styles.charactTitles}>Тип палива</h4>
                 <Dropdown
-                  updateStyle="advSearch"
+                  updateStyle="modalStyle"
                   options={fuelTypeList}
                   label="Тип палива"
                   startValue="Тип палива"
@@ -605,7 +605,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                 <div className={styles.charactThumb}>
                   <h4 className={styles.charactTitles}>Коробка передач</h4>
                   <Dropdown
-                    updateStyle="advSearch"
+                    updateStyle="modalStyle"
                     options={transmissionTypeList}
                     label="Коробка передач"
                     startValue="Коробка передач"
@@ -662,7 +662,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                 <div className={styles.charactThumb}>
                   <h4 className={styles.charactTitles}>Привід</h4>
                   <Dropdown
-                    updateStyle="advSearch"
+                    updateStyle="modalStyle"
                     options={driverTypeList}
                     label="Привід"
                     startValue="Привід"
@@ -680,7 +680,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
               <div className={styles.charactThumb}>
                 <h4 className={styles.charactTitles}>Регіон</h4>
                 <Dropdown
-                  updateStyle="advSearch"
+                  updateStyle="modalStyle"
                   options={regions.map(({ region }) => region)}
                   label="Регіон"
                   startValue="Регіон"
@@ -697,7 +697,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                 <div className={styles.charactThumb}>
                   <h4 className={styles.charactTitles}>Місто</h4>
                   <Dropdown
-                    updateStyle="advSearch"
+                    updateStyle="modalStyle"
                     optionList={cities}
                     label="Місто"
                     startValue="Місто"
@@ -716,7 +716,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
               <div className={styles.charactThumb}>
                 <h4 className={styles.charactTitles}>Колір</h4>
                 <Dropdown
-                  updateStyle="advSearch"
+                  updateStyle="modalStyle"
                   options={colorsList}
                   label="Колір"
                   startValue="Колір"
@@ -733,7 +733,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
               <div className={styles.charactThumb}>
                 <h4 className={styles.charactTitles}>Технічний стан</h4>
                 <Dropdown
-                  updateStyle="advSearch"
+                  updateStyle="modalStyle"
                   options={conditionList}
                   label="Технічний стан"
                   startValue="Технічний стан"
@@ -778,7 +778,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                 <div className={styles.charactThumb}>
                   <h4 className={styles.charactTitles}>Кількість осей</h4>
                   <Dropdown
-                    updateStyle="advSearch"
+                    updateStyle="modalStyle"
                     options={numberAxlesList}
                     label="Кількість осей"
                     startValue="Кількість осей"
@@ -796,7 +796,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
                 <div className={styles.charactThumb}>
                   <h4 className={styles.charactTitles}>Конфігурація коліс</h4>
                   <Dropdown
-                    updateStyle="advSearch"
+                    updateStyle="modalStyle"
                     options={wheelConfigurationList}
                     label="Конфігурація коліс"
                     startValue="Конфігурація коліс"
@@ -812,11 +812,10 @@ const SubscriptionModal: React.FC<Iprops> = ({
               )}
               <div className={styles.charactThumb}>
                 <h4 className={styles.charactTitles}>
-                  Країна з якої <br />
-                  доставили:
+                  Країна з якої доставили:
                 </h4>
                 <Dropdown
-                  updateStyle="advSearch"
+                  updateStyle="modalStyle"
                   options={producingCountryList}
                   label="Країна"
                   startValue="Країна"
