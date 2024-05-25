@@ -77,6 +77,7 @@
   @include onDesktop {
     border-top: none;
     background-color: $bg-color-white;
+    padding-bottom: 24px;
   }
 }
 
@@ -88,6 +89,8 @@
     width: $tablet-min-width;
   }
   @include onDesktop {
+    display: flex;
+    min-height: 100vh;
     width: $desktop-min-width;
     padding: 0 96px;
   }
@@ -108,5 +111,6 @@
     border-radius: 16px;
     padding: 24px;
     background-color: $color-light-grey;
+    flex: 1;
   }
 }
