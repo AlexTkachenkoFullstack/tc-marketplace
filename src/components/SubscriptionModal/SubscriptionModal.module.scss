@@ -24,6 +24,17 @@
   padding: 24px 20px;
   background-color: $white-color;
 
+  @include onTablet {
+    width: 488px;
+    padding: 28px 24px;
+    bottom: 50%;
+    transform: translate(-50%, 50%);
+  }
+  @include onDesktop {
+    width: 640px;
+    padding: 32px 24px;
+  }
+
   &.showCharacts {
     bottom: 0;
     transform: translate(-50%, 0);
@@ -33,17 +44,6 @@
       bottom: 50%;
       transform: translate(-50%, 50%);
     }
-  }
-
-  @include onTablet {
-    width: 488px;
-    padding: 28px 24px;
-    bottom: 50%;
-    transform: translate(-50%, 50%);
-  }
-  @include onDesktop {
-    width: 488px;
-    padding: 32px;
   }
 
   & button {
@@ -57,6 +57,10 @@
     align-items: center;
     margin-bottom: 20px;
 
+    @include onDesktop {
+      margin-bottom: 24px;
+    }
+
     & .title {
       font-size: $mobile-xl;
       font-weight: 700;
@@ -65,18 +69,36 @@
       @include onTablet {
         font-size: $tablet-xl;
         font-weight: 700;
-        line-height: 100%;
       }
     }
 
     & .closeButton {
       display: flex;
-      @include onTablet {
-        right: 32px;
+      justify-content: center;
+      align-items: center;
+      border-radius: 100%;
+      width: 32px;
+      height: 32px;
+      padding: 6px;
+      transition: $effectDuration;
+      &:hover {
+        background: $bg-color-active;
+        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
+      }
+      &:active {
+        background: $border-active;
+        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
+        & path {
+          fill: $bg-color-white;
+        }
       }
       & svg {
-        width: 32px;
-        height: 32px;
+        width: 20px;
+        height: 20px;
+      }
+
+      @include onTablet {
+        right: 32px;
       }
     }
   }
@@ -97,6 +119,14 @@
     &::placeholder {
       color: inherit;
     }
+
+    @include onTablet {
+      font-size: $tablet-sm;
+      margin-bottom: 12px;
+    }
+    @include onDesktop {
+      margin-bottom: 16px;
+    }
   }
 
   & .charactsTitleThumb {
@@ -112,6 +142,13 @@
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
     }
+
+    @include onTablet {
+      margin-bottom: 12px;
+    }
+    @include onDesktop {
+      margin-bottom: 16px;
+    }
   }
 
   & .titleWrapper {
@@ -124,6 +161,9 @@
       font-weight: 500;
       line-height: 20px;
       letter-spacing: 0.1px;
+      @include onTablet {
+        font-size: $tablet-sm;
+      }
     }
     & button {
       display: flex;
@@ -162,7 +202,7 @@
     border-top: none;
 
     background: $color-light-grey;
-    padding: 6px 20px 16px;
+    padding: 16px 20px;
     margin-bottom: 10px;
 
     & .charactThumb {
@@ -182,6 +222,11 @@
         width: 140px;
         margin-bottom: 0;
         margin-right: 20px;
+        font-size: $tablet-sm;
+      }
+      @include onDesktop {
+        width: 184px;
+        margin-right: 24px;
       }
     }
   }
@@ -194,15 +239,15 @@
     flex-wrap: wrap;
     align-items: flex-start;
 
-    &:last-child {
-      position: relative;
-    }
-
     @include onTablet {
-      width: 528px;
+      width: 238px;
     }
     @include onDesktop {
-      width: 1036px;
+      width: 340px;
+    }
+
+    &:last-child {
+      position: relative;
     }
   }
 
@@ -234,10 +279,13 @@
     background-color: $border-gray;
     border-radius: 24px;
     cursor: pointer;
-
     font-size: $mobile-sm;
+
     @include onTablet {
       font-size: $tablet-sm;
+    }
+    @include onDesktop {
+      width: 340px;
     }
 
     &::before {
@@ -301,6 +349,9 @@
       font-weight: 500;
       line-height: 20px;
       letter-spacing: 0.1px;
+      @include onTablet {
+        font-size: $tablet-sm;
+      }
     }
 
     & input {
@@ -348,6 +399,10 @@
     letter-spacing: 0.5px;
     color: $bg-color-white;
     transition: $effectDuration;
+
+    @include onDesktop {
+      width: 80px;
+    }
   }
 
   & .saveBtn:hover {
