@@ -1,27 +1,27 @@
 @import '/src/styles/main.scss';
 
-.container {
-  display: flex;
-  flex-direction: column;
-  padding: 24px 20px;
-  margin-bottom: 32px;
+// .container {
+//   display: flex;
+//   flex-direction: column;
+//   padding: 24px 20px;
+//   margin-bottom: 32px;
 
-  @include onTablet {
-    border-radius: 16px;
-    border: 1px solid $ads-border-color;
-  }
-  &::before {
-    content: '';
-    position: absolute;
-    top: 226px;
-    left: 0;
-    width: 100vw;
-    height: 1px;
-    background-color: $background-color-white;
-    @include onTablet {
-      display: none;
-    }
-  }
+//   @include onTablet {
+//     border-radius: 16px;
+//     border: 1px solid $ads-border-color;
+//   }
+//   &::before {
+//     content: '';
+//     position: absolute;
+//     top: 226px;
+//     left: 0;
+//     width: 100vw;
+//     height: 1px;
+//     background-color: $background-color-white;
+//     @include onTablet {
+//       display: none;
+//     }
+//   }
 
   .title {
     margin-bottom: 24px;
@@ -73,4 +73,4 @@
       align-self: flex-start;
     }
   }
-}
+// }
