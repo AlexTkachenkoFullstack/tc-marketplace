@@ -1,26 +1,26 @@
 @import '/src/styles/main.scss';
-.container {
-  padding: 20px;
-  width: 100%;
+// .container {
+//   padding: 20px;
+//   width: 100%;
 
-  @include onTablet {
-    border: 1px solid #e4e4e4;
-    border-radius: 16px;
-    margin-bottom: 32px
-  }
-}
-.container::before {
-  content: '';
-  position: absolute;
-  top: 226px;
-  left: 0;
-  width: 100vw;
-  height: 1px;
-  background-color: $background-color-white;
-  @include onTablet {
-    display: none;
-  }
-}
+//   @include onTablet {
+//     border: 1px solid #e4e4e4;
+//     border-radius: 16px;
+//     margin-bottom: 32px
+//   }
+// }
+// .container::before {
+//   content: '';
+//   position: absolute;
+//   top: 226px;
+//   left: 0;
+//   width: 100vw;
+//   height: 1px;
+//   background-color: $background-color-white;
+//   @include onTablet {
+//     display: none;
+//   }
+// }
 
 .title_category {
   color: #434343;

@@ -1,25 +1,25 @@
 @import '../../../styles/main.scss';
-.container {
-  padding: 20px;
-  width: 100%;
-  margin-bottom: 32px;
-  @include onTablet {
-    border: 1px solid #e4e4e4;
-    border-radius: 16px;
-  }
-}
-.container::before {
-  content: '';
-  position: absolute;
-  top: 226px;
-  left: 0;
-  width: 100vw;
-  height: 1px;
-  background-color: $background-color-white;
-  @include onTablet {
-    display: none;
-  }
-}
+// .container {
+//   padding: 20px;
+//   width: 100%;
+//   margin-bottom: 32px;
+//   @include onTablet {
+//     border: 1px solid #e4e4e4;
+//     border-radius: 16px;
+//   }
+// }
+// .container::before {
+//   content: '';
+//   position: absolute;
+//   top: 226px;
+//   left: 0;
+//   width: 100vw;
+//   height: 1px;
+//   background-color: $background-color-white;
+//   @include onTablet {
+//     display: none;
+//   }
+// }
 .title_container {
   position: relative;
   width: 100%;

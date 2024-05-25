@@ -11,7 +11,7 @@ import { CategoryBar } from 'components/CategoryBar/CategoryBar';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'redux/hooks';
 import { cleanFiltredStore, cleanParamsForSubscr } from 'redux/filter/slice';
-import {ReactComponent as ArrowLeftIcon} from "../../assets/icons/arrow_left.svg"
+import { ReactComponent as ArrowLeftIcon } from '../../assets/icons/arrow_left.svg';
 
 enum Tab {
   MyAds,
@@ -26,12 +26,12 @@ export const UserPage: React.FC = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const dispatch =useAppDispatch()
+  const dispatch = useAppDispatch();
 
-   useEffect(() => {
-     dispatch(cleanParamsForSubscr());
-     dispatch(cleanFiltredStore({ field: 'all' }));
-   }, [dispatch]);
+  useEffect(() => {
+    dispatch(cleanParamsForSubscr());
+    dispatch(cleanFiltredStore({ field: 'all' }));
+  }, [dispatch]);
 
   const categories = [
     'Мої оголошення',
@@ -40,8 +40,6 @@ export const UserPage: React.FC = () => {
     'Персональна інформація',
     'Безпека',
   ];
-
-
 
   let activeCategory: string;
   switch (activeTab) {
@@ -138,9 +136,7 @@ export const UserPage: React.FC = () => {
 
   return (
     <>
-      {/* <div className={styles.userPage}> */}
       <GoToTop />
-      {/* <div className={styles.container}> */}
       <section className={styles.headSection}>
         <div className={styles.container}>
           <div className={styles.titleThumb}>
@@ -159,10 +155,13 @@ export const UserPage: React.FC = () => {
           selectedStyle="userPageStyle"
         />
       </section>
-      <Outlet />
-      {/* {renderTabContent()} */}
-      {/* </div> */}
-      {/* </div> */}
+      <section className={styles.contentSection}>
+        <div className={styles.contentContainer}>
+          <div className={styles.contentThumb}>
+            <Outlet />
+          </div>
+        </div>
+      </section>
     </>
   );
 };

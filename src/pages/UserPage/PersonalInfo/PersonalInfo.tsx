@@ -474,7 +474,7 @@ const PersonalInfo: React.FC = () => {
     }
   };
   return (
-    <div className={styles.container}>
+    <>
       <h2 className={styles.title_category}>Особисті дані</h2>
       <div className={styles.box_item}>
         <div className={styles.box_title_foto}>
@@ -769,7 +769,7 @@ const PersonalInfo: React.FC = () => {
             borderColor: '#7CCD7C',
           })}
       </> */}
-    </div>
+    </>
   );
 };
 
