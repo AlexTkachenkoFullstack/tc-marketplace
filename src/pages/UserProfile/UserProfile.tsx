@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getUserProfile } from 'services/services';
 import styles from './UserProfile.module.scss';
 import { ReactComponent as Arrowback } from '../../assets/icons/arrow_back.svg';
-import Card from 'pages/UserPage/MyAds/Card/Card';
+// import Card from 'pages/UserPage/MyAds/Card/Card';
 import SearchingCard from 'components/SearchingResults/SearchingCard';
 import { deleteFavoriteCar } from 'redux/cars/slice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';

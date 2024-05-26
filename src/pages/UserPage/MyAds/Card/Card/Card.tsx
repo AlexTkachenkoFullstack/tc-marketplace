@@ -8,7 +8,7 @@ import { ReactComponent as Eye } from '../../../../../assets/icons/eye-open.svg'
 import { ReactComponent as Phone } from '../../../../../assets/icons/phone.svg';
 import { ReactComponent as Favorite } from '../../../../../assets/icons/favorite.svg';
 import { ReactComponent as Calendar } from '../../../../../assets/icons/calendar_month.svg';
-import { ReactComponent as Clock} from '../../../../../assets/icons/clock.svg';
+import { ReactComponent as Clock } from '../../../../../assets/icons/clock.svg';
 import imagePlug from '../../../../../assets/images/imagePlug.webp';
 
 import { convertDate } from 'utils/convertDate';
@@ -33,6 +33,9 @@ export interface CardProps {
   isDisabled?: boolean;
   onClickDelete?: (id: number) => void;
   isShowPlug?: React.Dispatch<React.SetStateAction<boolean>>;
+  offBlockInfo?: boolean;
+  offBlockText?: boolean;
+  updateStyle?:string;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -41,6 +44,9 @@ const Card: React.FC<CardProps> = ({
   advType,
   onClickDelete,
   isShowPlug,
+  offBlockInfo,
+  offBlockText,
+  updateStyle
 }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -149,7 +155,7 @@ const Card: React.FC<CardProps> = ({
 
   return (
     <li>
-      <div className={styles.card} onClick={handleCardClick}>
+      <div className={`${styles.card } ${updateStyle && styles[updateStyle]}`} onClick={handleCardClick}>
         <div className={styles.imgThumb}>
           <img
             src={car.fileUrl}
@@ -164,7 +170,10 @@ const Card: React.FC<CardProps> = ({
             {car.brand} {car.model} {car.year}
           </h3>
           <p className={styles.card_info_price}>{car.price} $</p>
-          <div className={styles.card_info_meta}>
+          <div
+            className={styles.card_info_meta}
+            style={{ display: offBlockInfo ? 'none' : '' }}
+          >
             <div className={styles.card_info_meta_first_line}>
               {car.viewCount ? (
                 <div className={styles.card_info_views}>
@@ -182,7 +191,7 @@ const Card: React.FC<CardProps> = ({
                   } ${countShows(car.openedPhoneCount)} телефону`}</p>
                 </div>
               ) : null}
-               <div className={styles.card_info_likes}>
+              <div className={styles.card_info_likes}>
                 <Favorite className={styles.icon} />
                 <p className={styles.card_info_data}>
                   {car.addedFavoriteCount}
@@ -190,7 +199,6 @@ const Card: React.FC<CardProps> = ({
               </div>
             </div>
             <div className={styles.card_info_meta_second_line}>
-             
               <div className={styles.card_info_createdAt}>
                 <Calendar className={styles.icon} />
                 <p className={styles.card_info_data}>
@@ -207,7 +215,7 @@ const Card: React.FC<CardProps> = ({
               )}
             </div>
           </div>
-          <p className={styles.card_info_description}>{car.description}</p>
+          <p className={styles.card_info_description} style={{display:offBlockText? 'none':''}}>{car.description}</p>
 
           <div className={styles.card_buttons}>
             <button

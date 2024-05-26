@@ -1,5 +1,5 @@
 import Loader from 'components/Loader/Loader';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   getHiddenTransportsData,
   getHiddenUsersData,
@@ -13,15 +13,13 @@ import { useNavigate } from 'react-router-dom';
 
 const StopList: React.FC = () => {
   const navigate = useNavigate();
-  const [active, setActive] = useState<string>('Продавці');
+  const [active, setActive] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
-  const [userData, setUserData] = useState<any>();
-  const [transportData, setTransportData] = useState<any>();
-  const [selectedCategory, setSelectedCategory] = useState<string>('Продавці');
-  const categories = ['Продавці', 'Транспорт'];
-  transportData &&
-    transportData.map((item: any) => console.log('item :>> ', item.transport));
-  const fetchData = async () => {
+  const [userData, setUserData] = useState<any>([]);
+  const [transportData, setTransportData] = useState<any>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const categories = useMemo(() => ['Продавці', 'Транспорт'], []);
+   const fetchData = async () => {
     setIsLoading(true);
     try {
       const response = await getHiddenUsersData();
@@ -42,13 +40,18 @@ const StopList: React.FC = () => {
     }
   };
   useEffect(() => {
-    if (selectedCategory === 'Продавці') {
-      fetchData();
+    fetchData();
+    fetchTransportsData();
+  }, []);
+  useEffect(() => {
+    if (userData.length > 0 ) {
+      setActive(categories[0])
+      setSelectedCategory(categories[0])
+    }else if(transportData.length > 0){
+      setActive(categories[1])
+      setSelectedCategory(categories[1])
     }
-    if (selectedCategory === 'Транспорт') {
-      fetchTransportsData();
-    }
-  }, [selectedCategory]);
+  }, [categories,transportData.length,userData.length]);
 
   const handleSelectCategory = (category: string) => {
     setActive(category);
@@ -86,29 +89,33 @@ const StopList: React.FC = () => {
     <>
       {isLoading && <Loader />}
       <div className={styles.title_container}>
-        <button
-          className={`${styles.tab} ${
-            categories[0] === active ? styles.active : ''
-          }`}
-          onClick={() => handleSelectCategory(categories[0])}
-        >
-          {categories[0]}
-          {counterUser !== 0 && (
-            <span className={styles.count}>{counterUser}</span>
-          )}
-        </button>
-        <button
-          className={`${styles.tab} ${
-            categories[1] === active ? styles.active : ''
-          }`}
-          onClick={() => handleSelectCategory(categories[1])}
-        >
-          {categories[1]}
+        {userData.length > 0 && (
+          <button
+            className={`${styles.tab} ${
+              categories[0] === active ? styles.active : ''
+            }`}
+            onClick={() => handleSelectCategory(categories[0])}
+          >
+            {categories[0]}
+            {counterUser !== 0 && (
+              <span className={styles.count}>{counterUser}</span>
+            )}
+          </button>
+        )}
+        {transportData.length > 0 && (
+          <button
+            className={`${styles.tab} ${
+              categories[1] === active ? styles.active : ''
+            }`}
+            onClick={() => handleSelectCategory(categories[1])}
+          >
+            {categories[1]}
 
-          {counterCar !== 0 && (
-            <span className={styles.count}>{counterCar}</span>
-          )}
-        </button>
+            {counterCar !== 0 && (
+              <span className={styles.count}>{counterCar}</span>
+            )}
+          </button>
+        )}
       </div>
       {selectedCategory === 'Продавці' && (
         <ul>
@@ -134,6 +141,9 @@ const StopList: React.FC = () => {
                 car={car.transport}
                 advType={4}
                 onClickDelete={handleUnHideTransport}
+                offBlockInfo={true}
+                offBlockText={true}
+                updateStyle='stop_list'
               />
             ))}
         </ul>

@@ -259,3 +259,18 @@
 .icon path {
   fill: $color-black;
 }
+.stop_list {
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+  @include onTablet {
+    width: 334px;
+    height: 300px;
+    border: 1px solid black;
+    color: black;
+    border-radius: 8px;
+  }
+  @include onDesktop {
+    width: 1440px;
+  }
+}
