@@ -115,7 +115,7 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
   }, [isMounted, selectedValue, setObjectValue]);
 
   return (
-    <div>
+    <div className={styles.rangeThumb}>
       <div
         className={`${styles.inputBlokResult} ${newStyle && styles[newStyle]}`}
       >

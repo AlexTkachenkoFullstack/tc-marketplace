@@ -2,6 +2,7 @@
 
 .category_bar {
   display: flex;
+  gap: 8px;
   overflow-x: auto;
   scroll-behavior: smooth;
   @media (max-width: 992px) {
@@ -34,9 +35,9 @@
 .category:hover {
   background-color: $bg-color-light;
 }
-.category:not(:last-child) {
-  margin-right: 8px;
-}
+// .category:not(:last-child) {
+//   margin-right: 8px;
+// }
 
 .container {
   position: relative;
@@ -71,7 +72,9 @@
   margin-bottom: 0;
 }
 .advanced_search_category_bar {
-  display: block;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   overflow-x: unset;
   scroll-behavior: unset;
 }
@@ -79,7 +82,7 @@
   padding: 6px 10px;
   box-sizing: border-box;
   background-color: $border-gray;
-  border: none;
+  border: 1px solid $border-gray;
   border-radius: 20px;
   color: $color-black;
   cursor: pointer;
@@ -109,8 +112,8 @@
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
 }
 .advanced_search_category:not(:last-child) {
-  margin-right: 8px;
-  margin-bottom: 8px;
+  // margin-right: 8px;
+  // margin-bottom: 8px;
   white-space: normal;
   text-align: left;
 }

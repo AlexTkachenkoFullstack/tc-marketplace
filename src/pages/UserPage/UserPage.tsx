@@ -146,9 +146,7 @@ export const UserPage: React.FC = () => {
   };
   return (
     <>
-      {/* <div className={styles.userPage}> */}
       <GoToTop />
-      {/* <div className={styles.container}> */}
       <section className={styles.headSection}>
         <div className={styles.container}>
           <div className={styles.titleThumb}>
@@ -167,10 +165,13 @@ export const UserPage: React.FC = () => {
           selectedStyle="userPageStyle"
         />
       </section>
-      <Outlet />
-      {/* {renderTabContent()} */}
-      {/* </div> */}
-      {/* </div> */}
+      <section className={styles.contentSection}>
+        <div className={styles.contentContainer}>
+          <div className={styles.contentThumb}>
+            <Outlet />
+          </div>
+        </div>
+      </section>
     </>
   );
 };

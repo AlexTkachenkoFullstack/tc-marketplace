@@ -83,7 +83,7 @@ const StopList: React.FC = () => {
   const counterCar =
     transportData && transportData.length ? transportData.length : 0;
   return (
-    <div className={styles.container}>
+    <>
       {isLoading && <Loader />}
       <div className={styles.title_container}>
         <button
@@ -138,7 +138,7 @@ const StopList: React.FC = () => {
             ))}
         </ul>
       )}
-    </div>
+    </>
   );
 };
 

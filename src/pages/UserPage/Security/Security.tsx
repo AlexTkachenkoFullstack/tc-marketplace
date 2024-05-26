@@ -94,7 +94,7 @@ const Security: React.FC = () => {
   }, []);
   
   return (
-    <div className={styles.container}>
+    <>
       <div className={styles.titleThumb}>
         <h3>Зміна паролю</h3>
         <button
@@ -239,7 +239,7 @@ const Security: React.FC = () => {
           borderColor: '#ff3838',
         })}
       </> */}
-    </div>
+    </>
   );
 };
 
