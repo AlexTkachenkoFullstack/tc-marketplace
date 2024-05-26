@@ -50,10 +50,19 @@ const SubscriptionCard: React.FC<IProps> = ({
     };
 
     document.addEventListener('mousedown', handleClickOutside);
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    if (isShowMenu) {
+      document.body.classList.add('noScroll');
+    } else {
+      document.body.classList.remove('noScroll');
+    }
+  }, [isShowMenu]);
 
   useEffect(() => {
     setIsNotify(notificationStatus);

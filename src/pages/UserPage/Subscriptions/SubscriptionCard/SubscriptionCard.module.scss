@@ -109,8 +109,14 @@
         line-height: 20px;
         letter-spacing: 0.15px;
 
+        transition: $effectDuration;
+
         @include onTablet {
           font-size: $tablet-sm;
+        }
+
+        &:hover {
+          background: $bg-color-light;
         }
       }
 
@@ -176,3 +182,7 @@
     }
   }
 }
+
+
+
+
