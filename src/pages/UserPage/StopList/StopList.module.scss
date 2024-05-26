@@ -51,6 +51,14 @@
   flex-direction: column;
   row-gap: 24px;
   width: 100%;
+  @include onTablet{
+    flex-direction: unset;
+    flex-wrap: wrap;
+    column-gap: 20px;
+  }
+  @include onDesktop {
+
+  }
 }
 .tab {
   display: flex;
