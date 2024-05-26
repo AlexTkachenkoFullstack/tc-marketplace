@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ISubscription } from 'types/ISubscription';
 import styles from './SubscriptionCard.module.scss';
 import { ReactComponent as BucketIcon } from '../../../../assets/icons/delete.svg';
 import { ReactComponent as PencilIcon } from '../../../../assets/icons/pencil.svg';
-import { ReactComponent as UpdateBtnIcon } from '../../../../assets/icons/update_button.svg';
+import { ReactComponent as ShowSubscrIcon } from '../../../../assets/icons/north_east_black.svg';
 import { ReactComponent as MenuDotsIcon } from '../../../../assets/icons/option_dots.svg';
 
 // import { subscriptionContent } from 'utils/descriptionContent';
@@ -34,6 +34,27 @@ const SubscriptionCard: React.FC<IProps> = ({
     notificationStatus,
   } = subscription;
 
+  const menuRef = useRef<HTMLDivElement>(null);
+  const menuThumbRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node) &&
+        menuThumbRef.current &&
+        !menuThumbRef.current.contains(event.target as Node)
+      ) {
+        setIsShowMenu(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   useEffect(() => {
     setIsNotify(notificationStatus);
   }, [notificationStatus]);
@@ -52,15 +73,19 @@ const SubscriptionCard: React.FC<IProps> = ({
     handleEditParams(subscription);
   };
 
+  const handleShowMenu = () => {
+    setIsShowMenu(prev => !prev);
+  };
+
   const handleNotify = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsNotify(prev => !prev);
-        dispatch(
-          editSubscription({
-            id,
-            // modifiedRequestSearch: {},
-            subscriptionRequest: { name, notificationEnabled: true },
-          }),
-        );
+    dispatch(
+      editSubscription({
+        id,
+        // modifiedRequestSearch: {},
+        subscriptionRequest: { name, notificationEnabled: true },
+      }),
+    );
   };
 
   // useEffect(() => {
@@ -83,22 +108,31 @@ const SubscriptionCard: React.FC<IProps> = ({
           <h4>{name}</h4>
           <p>{`(${countNewTransports})`}</p>
         </div>
-        <button type="button" className={styles.menuButton}>
-          <MenuDotsIcon />
-        </button>
-        {isShowMenu && (
-          <div className={styles.menuWrap}>
-            <button type="button" onClick={handleShowUpdate}>
-              <UpdateBtnIcon />
-            </button>
-            <button type="button" onClick={handleEditSubscription}>
-              <PencilIcon />
-            </button>
-            <button type="button" onClick={handleDelete}>
-              <BucketIcon />
-            </button>
+        <div className={styles.menuWrapper}>
+          <div
+            className={styles.menuButton}
+            onClick={handleShowMenu}
+            ref={menuRef}
+          >
+            <MenuDotsIcon />
           </div>
-        )}
+          {isShowMenu && (
+            <div className={styles.menuThumb} ref={menuThumbRef}>
+              <button type="button" onClick={handleShowUpdate}>
+                <ShowSubscrIcon />
+                Показати оголошення
+              </button>
+              <button type="button" onClick={handleEditSubscription}>
+                <PencilIcon />
+                Редагувати
+              </button>
+              <button type="button" onClick={handleDelete}>
+                <BucketIcon />
+                Видалити
+              </button>
+            </div>
+          )}
+        </div>
       </div>
       <div className={styles.notification}>
         <p>Сповіщення</p>
