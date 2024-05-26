@@ -5,6 +5,10 @@ import { getUserProfile } from 'services/services';
 import styles from './UserProfile.module.scss';
 import { ReactComponent as Arrowback } from '../../assets/icons/arrow_back.svg';
 import Card from 'pages/UserPage/MyAds/Card/Card';
+import SearchingCard from 'components/SearchingResults/SearchingCard';
+import { deleteFavoriteCar } from 'redux/cars/slice';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { isAuthUser } from 'redux/auth/selectors';
 interface IUserProfileAddsCar {
   id: number;
   type: string;
@@ -40,10 +44,12 @@ const UserProfile: FC = () => {
   const { id } = useParams();
   const [responseData, setResponseData] = useState<IUserProfile | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  
+  const isAuth = useAppSelector(isAuthUser);
+  const dispatch = useAppDispatch();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(
     'Вся техніка',
   );
+  const [optionMenuId, setOptionMenuId] = useState<number | null>(null);
   const [active, setActive] = useState<string | null>('Вся техніка');
   const categories = [
     'Вся техніка',
@@ -64,7 +70,7 @@ const UserProfile: FC = () => {
           setResponseData(response);
           setIsLoading(false);
         }
-      } catch (error) {        
+      } catch (error) {
         console.error(
           'Під час отримання даних користувача сталася помилка:',
           error,
@@ -74,6 +80,16 @@ const UserProfile: FC = () => {
 
     fetchData();
   }, [id]);
+  // const addFavorite = () => {
+  //   if (!isAuth) {
+  //     navigate('/login/log-in', { replace: true });
+  //   }
+  //   if (car?.isFavorite) {
+  //     car && dispatch(removeFromFavourites(car?.id)).then(()=>dispatch(fetchFavoriteCars()));   
+  //   } else {
+  //     car && dispatch(addToFavourites(car?.id)).then(()=>dispatch(fetchFavoriteCars()));   
+  //   }
+  // };
   const handleSelectCategory = (category: string) => {
     setActive(category);
     setSelectedCategory(category);
@@ -102,7 +118,29 @@ const UserProfile: FC = () => {
       arrayForRendering.push(el);
     }
   });
+  const handleOptionMenu = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    cardId: number,
+  ) => {
+    event.stopPropagation();
+    // Your logic for handling option menu
+  };
 
+  const handleInfoContainerClick = () => {
+    // Your logic for handling info container click
+  };
+
+  const updateAfterHide = () => {
+    // Your logic for updating after hiding
+  };
+
+  const updateAfterAllHide = () => {
+    // Your logic for updating after hiding all
+  };
+
+  const handleCancelFavorite = (id: number) => {
+    dispatch(deleteFavoriteCar(id));
+  };
   const counterAllTranspots =
     addsTranspots && addsTranspots.length ? addsTranspots.length : 0;
 
@@ -110,153 +148,168 @@ const UserProfile: FC = () => {
     return <Loader />;
   }
 
-
-
   if (!responseData) {
     return <div>Дані користувача не знайдено</div>;
   }
- 
+
   return (
-    <div className={styles.container}>
-      <div className={styles.title_container}>        
-        <button className={styles.btn_back} onClick={handleBack}>
-          <Arrowback />
-        </button>       
-        <h1 className={styles.title}>Профіль користувача</h1>
-      </div>
-      <div className={styles.user_info_container}>
-        <div className={styles.wrapper}>
-          <div
-            className={`${
-              responseData.photoUrl !== null
-                ? styles.img_container
-                : styles.no_img
-            }`}
-          >
-            {responseData.photoUrl && (
-              <img
-                src={responseData.photoUrl}
-                alt=""
-                className={styles.user_photo}
-              />
-            )}
+    <>
+      <div className={styles.header_container}>
+        <div className={styles.title_container}>
+          <div className={styles.wrapper}>
+            <div className={styles.wrapper_title}>
+              <button className={styles.btn_back} onClick={handleBack}>
+                <Arrowback className={styles.svg_back} />
+              </button>
+              <h1 className={styles.title}>{responseData.name}</h1>
+            </div>
+            <div
+              className={`${
+                responseData.photoUrl !== null
+                  ? styles.img_container
+                  : styles.no_img
+              }`}
+            >
+              {responseData.photoUrl && (
+                <img
+                  src={responseData.photoUrl}
+                  alt=""
+                  className={styles.user_photo}
+                />
+              )}
+            </div>
           </div>
-          <div>
-            <h2 className={styles.user_title}>{responseData.name}</h2>
-            <p className={styles.text}>
-              {responseData.city}, {responseData.region}
-            </p>
-          </div>
+          <p className={styles.text}>
+            {responseData.city}, {responseData.region}
+          </p>
         </div>
-        {/* <button
-          className={styles.btn_subscription}
-          onClick={() => handleSubscripion(1)}
-        >
-          Підписатись на автора
-        </button> */}
       </div>
-      <div className={styles.category_container}>
-        <button
-          className={`${styles.tab} ${
-            categories[0] === active ? styles.active : ''
-          }`}
-          onClick={() => handleSelectCategory(categories[0])}
-        >
-          {categories[0]}
-          {counterAllTranspots !== 0 && (
-            <span className={styles.count}>{counterAllTranspots}</span>
+      <div className={styles.container}>
+        <div className={styles.category_container}>
+          <button
+            className={`${styles.tab} ${
+              categories[0] === active ? styles.active : ''
+            }`}
+            onClick={() => handleSelectCategory(categories[0])}
+          >
+            {categories[0]}
+            {counterAllTranspots !== 0 && (
+              <span className={styles.count}>{counterAllTranspots}</span>
+            )}
+          </button>
+          {counterCars.hasOwnProperty(categories[1]) && (
+            <button
+              className={`${styles.tab} ${
+                categories[1] === active ? styles.active : ''
+              }`}
+              onClick={() => handleSelectCategory(categories[1])}
+            >
+              {categories[1]}
+
+              {counterCars.hasOwnProperty(categories[1]) && (
+                <span className={styles.count}>
+                  {counterCars[categories[1]]}
+                </span>
+              )}
+            </button>
           )}
-        </button>
-        {counterCars.hasOwnProperty(categories[1]) && (
-          <button
-            className={`${styles.tab} ${
-              categories[1] === active ? styles.active : ''
-            }`}
-            onClick={() => handleSelectCategory(categories[1])}
-          >
-            {categories[1]}
+          {counterCars.hasOwnProperty(categories[2]) && (
+            <button
+              className={`${styles.tab} ${
+                categories[2] === active ? styles.active : ''
+              }`}
+              onClick={() => handleSelectCategory(categories[2])}
+            >
+              {categories[2]}
+              {counterCars.hasOwnProperty(categories[2]) && (
+                <span className={styles.count}>
+                  {counterCars[categories[2]]}
+                </span>
+              )}
+            </button>
+          )}
+          {counterCars.hasOwnProperty(categories[3]) && (
+            <button
+              className={`${styles.tab} ${
+                categories[3] === active ? styles.active : ''
+              }`}
+              onClick={() => handleSelectCategory(categories[3])}
+            >
+              {categories[3]}
 
-            {counterCars.hasOwnProperty(categories[1]) && (
-              <span className={styles.count}>{counterCars[categories[1]]}</span>
-            )}
-          </button>
-        )}
-        {counterCars.hasOwnProperty(categories[2]) && (
-          <button
-            className={`${styles.tab} ${
-              categories[2] === active ? styles.active : ''
-            }`}
-            onClick={() => handleSelectCategory(categories[2])}
-          >
-            {categories[2]}
-            {counterCars.hasOwnProperty(categories[2]) && (
-              <span className={styles.count}>{counterCars[categories[2]]}</span>
-            )}
-          </button>
-        )}
-        {counterCars.hasOwnProperty(categories[3]) && (
-          <button
-            className={`${styles.tab} ${
-              categories[3] === active ? styles.active : ''
-            }`}
-            onClick={() => handleSelectCategory(categories[3])}
-          >
-            {categories[3]}
+              {counterCars.hasOwnProperty(categories[3]) && (
+                <span className={styles.count}>
+                  {counterCars[categories[3]]}
+                </span>
+              )}
+            </button>
+          )}
+          {counterCars.hasOwnProperty(categories[4]) && (
+            <button
+              className={`${styles.tab} ${
+                categories[4] === active ? styles.active : ''
+              }`}
+              onClick={() => handleSelectCategory(categories[4])}
+            >
+              {categories[4]}
+              {counterCars.hasOwnProperty(categories[4]) && (
+                <span className={styles.count}>
+                  {counterCars[categories[4]]}
+                </span>
+              )}
+            </button>
+          )}
+          {counterCars.hasOwnProperty(categories[5]) && (
+            <button
+              className={`${styles.tab} ${
+                categories[5] === active ? styles.active : ''
+              }`}
+              onClick={() => handleSelectCategory(categories[5])}
+            >
+              {categories[5]}
 
-            {counterCars.hasOwnProperty(categories[3]) && (
-              <span className={styles.count}>{counterCars[categories[3]]}</span>
-            )}
-          </button>
-        )}
-        {counterCars.hasOwnProperty(categories[4]) && (
-          <button
-            className={`${styles.tab} ${
-              categories[4] === active ? styles.active : ''
-            }`}
-            onClick={() => handleSelectCategory(categories[4])}
-          >
-            {categories[4]}
-            {counterCars.hasOwnProperty(categories[4]) && (
-              <span className={styles.count}>{counterCars[categories[4]]}</span>
-            )}
-          </button>
-        )}
-        {counterCars.hasOwnProperty(categories[5]) && (
-          <button
-            className={`${styles.tab} ${
-              categories[5] === active ? styles.active : ''
-            }`}
-            onClick={() => handleSelectCategory(categories[5])}
-          >
-            {categories[5]}
+              {counterCars.hasOwnProperty(categories[5]) && (
+                <span className={styles.count}>
+                  {counterCars[categories[5]]}
+                </span>
+              )}
+            </button>
+          )}
+          {counterCars.hasOwnProperty(categories[6]) && (
+            <button
+              className={`${styles.tab} ${
+                categories[6] === active ? styles.active : ''
+              }`}
+              onClick={() => handleSelectCategory(categories[6])}
+            >
+              {categories[6]}
 
-            {counterCars.hasOwnProperty(categories[5]) && (
-              <span className={styles.count}>{counterCars[categories[5]]}</span>
-            )}
-          </button>
-        )}
-        {counterCars.hasOwnProperty(categories[6]) && (
-          <button
-            className={`${styles.tab} ${
-              categories[6] === active ? styles.active : ''
-            }`}
-            onClick={() => handleSelectCategory(categories[6])}
-          >
-            {categories[6]}
-
-            {counterCars.hasOwnProperty(categories[6]) && (
-              <span className={styles.count}>{counterCars[categories[6]]}</span>
-            )}
-          </button>
-        )}
+              {counterCars.hasOwnProperty(categories[6]) && (
+                <span className={styles.count}>
+                  {counterCars[categories[6]]}
+                </span>
+              )}
+            </button>
+          )}
+        </div>
+        <ul className={styles.item}>
+          {arrayForRendering &&
+            arrayForRendering.map((car: any) => (
+              <SearchingCard
+              key={car.id}
+              car={car}
+              onShowMenu={handleOptionMenu}
+              onInfoContainerClick={handleInfoContainerClick}
+              onUpdateAfterHide={updateAfterHide}
+              isShowMenu={optionMenuId === car.id}
+              updateAfterAllHide={updateAfterAllHide}
+              cancelFavorite={handleCancelFavorite}
+              isDisabled={true}
+            />
+            ))}
+        </ul>
       </div>
-      <ul className={styles.item}>
-        {arrayForRendering &&
-          arrayForRendering.map((car: any) => (
-            <Card key={car.id} car={car} isDisabled={true} onClickDelete={() => {}} />
-          ))}
-      </ul>
-    </div>
+    </>
   );
 };
 

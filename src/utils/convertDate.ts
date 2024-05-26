@@ -9,17 +9,17 @@ export const convertDate = (date: string) => {
   const minutes = Math.floor((dateUnix % (1000 * 60 * 60)) / (1000 * 60));
   switch (days) {
     case 0:
-      return `Сьогодні о ${hours}:${String(minutes).padStart(2, '0')}`;
+      return `Створено сьогодні о ${hours}:${String(minutes).padStart(2, '0')}`;
     case 1:
-      return `Вчора о ${hours}:${String(minutes).padStart(2, '0')}`;
+      return `Створено вчора о ${hours}:${String(minutes).padStart(2, '0')}`;
     case 2:
       //   return `Позавчора о ${hours}:${String(minutes).padStart(2, '0')}`;
-      return `${days} дні тому`;
+      return `Створено ${days} дні тому`;
     case 3:
-      return `${days} дні тому`;
+      return `Створено ${days} дні тому`;
     case 4:
-      return `${days} дні тому`;
+      return `Створено ${days} дні тому`;
     default:
-      return `${days} днів тому`;
+      return `Створено ${days} днів тому`;
   }
 };

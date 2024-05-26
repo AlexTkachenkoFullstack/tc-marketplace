@@ -40,7 +40,7 @@
   }
 }
 .title {
-  color: var(--Black, #434343);
+  color: $color-black;
   /* Title 3/Bold */
   font-family: Roboto;
   font-size: 22px;
@@ -53,12 +53,22 @@
   margin-bottom: 32px;
   @include onTablet {
     display: flex;
-    justify-content: space-between;
+    gap: 20px;
+  }
+  @include onDesktop {
+    gap: 30px;
   }
 }
 .boxtitle {
   display: flex;
   justify-content: space-between;
+  @include onTablet {
+    width: 134px;
+    justify-content: unset;
+  }
+  @include onDesktop {
+    width: 182px;
+  }
 }
 .titlePhone {
   color: var(--Black, #434343);
@@ -92,7 +102,10 @@
   position: relative;
   width: 100%;
   @include onTablet {
-    width: 384px;
+    width: 280px;
+  }
+  @include onDesktop {
+    width: 400px;
   }
 }
 .inputPhone {
@@ -354,9 +367,12 @@
   }
 }
 .box_description {
-  width: 100%;
+  // width: 100%;
   display: flex;
   justify-content: space-between;
+  @include onTablet {
+    justify-content: unset;
+  }
 }
 .description_car_title {
   color: $color-black;
@@ -368,37 +384,50 @@
   line-height: 110%; /* 22px */
   margin-bottom: 16px;
   @include onTablet {
+    width: 134px;
     font-size: $tablet-xl;
+  }
+  @include onDesktop {
+    width: 182px;
   }
 }
 .box_item {
   margin-bottom: 24px;
   @include onTablet {
     display: flex;
-    justify-content: space-between;
+    gap: 20px;
+  }
+  @include onDesktop {
+    gap: 30px;
   }
 }
 .listItem {
   width: 100%;
   @include onTablet {
-    width: 448px;
+    width: 280px;
   }
   @include onDesktop {
-    width: 704px;
+    width: 400px;
   }
 }
 .item_dropdown_box {
   position: relative;
   width: 100%;
   @include onTablet {
-    width: 384px;
+    width: 280px;
+  }
+  @include onDesktop {
+    width: 400px;
   }
 }
 .box_item_price {
   margin-bottom: 32px;
   @include onTablet {
     display: flex;
-    justify-content: space-between;
+    gap: 20px;
+  }
+  @include onDesktop {
+    gap: 30px;
   }
 }
 .listItemSelectTitle {
@@ -472,7 +501,7 @@
 }
 .btn_advers {
   display: flex;
-  padding: 14px var(--Number, 24px);
+  padding: 10px 16px;
   justify-content: center;
   align-items: center;
   gap: 8px;
@@ -483,7 +512,7 @@
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
-  line-height: 24px; /* 150% */
+  // line-height: 24px; /* 150% */
   letter-spacing: 0.15px;
   border-radius: 32px;
   margin-bottom: 32px;
@@ -518,9 +547,9 @@
   line-height: 20px;
   letter-spacing: 0.1px;
   outline: none;
-  @include onTablet {
-    width: 384px;
-  }
+  // @include onTablet {
+  //   width: 384px;
+  // }
   // @include onDesktop{
   //   width: 384px;
 
@@ -547,9 +576,9 @@
   line-height: 20px;
   letter-spacing: 0.1px;
   outline: non;
-  @include onTablet {
-    width: 384px;
-  }
+  // @include onTablet {
+  //   width: 384px;
+  // }
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -586,23 +615,34 @@ input::-webkit-inner-spin-button {
   }
 }
 .btn_advers_delete:hover {
-  border-radius: var(--Spacing-32-spacing, 32px);
-  border: 1px solid $color-black;
-  background: var(--light-gray, #e4e4e4);
+  border-radius: 32px;
+border: 1px solid $border-active;
+background: $bg-color-active;
+
+box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
 }
 .btn_advers:hover {
-  background: var(--light-gray, #e4e4e4);
-  color: $color-black;
+  border-radius: 32px;
+border: 1px solid $border-active;
+background: $bg-color-active;
+color: $color-black;
+box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
 }
 .btn_advers:active {
-  background: var(--Dark-Gray, #606060);
-  color: $white-color;
+  border-radius: 32px;
+  border: 1px solid $bg-color-white;
+  background: $color-dark-blue;
+  color: $bg-color-white;
+  /* 2 */
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
 }
 .btn_advers_delete:active {
-  background: var(--Dark-Gray, #606060);
+  border-radius: 32px;
+  border: 1px solid $bg-color-white;
+  background: $color-dark-blue;
+  color: $bg-color-white;
+  /* 2 */
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
-  color: var(--White, #feffff);
 }
 .trashIcon {
   width: 20px;
@@ -679,4 +719,46 @@ input::-webkit-inner-spin-button {
 }
 .svg_btn path {
   fill: $color-black;
+}
+.bargainInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  overflow: hidden;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  &:checked ~ label::before {
+    background: url(../../assets/icons/checked_box.svg) center;
+  }
+}
+.bargainLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 280px;
+  height: 44px;
+  padding: 6px 12px;
+  background-color: $border-gray;
+  border-radius: 24px;
+  cursor: pointer;
+
+  font-size: $mobile-sm;
+  @include onTablet {
+    font-size: $tablet-sm;
+  }
+
+  &::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 32px;
+    padding: 8px;
+    background: url(../../assets/icons/check_box.svg) center;
+  }
 }

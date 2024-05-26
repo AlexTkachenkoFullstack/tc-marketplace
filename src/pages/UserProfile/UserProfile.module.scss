@@ -2,26 +2,32 @@
 .container {
   width: 360px;
   padding: 20px;
-  margin-top: 66px;
+  // margin-top: 66px;
   margin-left: auto;
   margin-right: auto;
   background-color: #ffffff;
   @include onTablet {
     padding: 40px;
-    margin: 66px auto 0px;
+    // margin: 66px auto 0px;
     width: 768px;
   }
   @include onDesktop {
-    width: 1024px;
+    width: 1440px;
+    padding: 32px 96px;
   }
 }
 .title_container {
-  display: flex;
+  width: 360px;
   gap: 16px;
-  margin-bottom: 32px;
-  align-items: center;
+  margin: 0 auto;
+  padding: 40px 20px 16px 20px;
   @include onTablet {
-    align-items: center;
+    width: 768px;
+    padding: 52px 40px 16px 40px;
+  }
+  @include onDesktop {
+    width: 1440px;
+    padding: 64px 96px 20px 96px;
   }
 }
 .btn_back {
@@ -47,15 +53,18 @@
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06), 0px 0px 0px 4px #f0f0f0;
 }
 .title {
-  color: #434343;
+  color: $color-black;
   font-family: Roboto;
-  font-size: 22px;
+  font-size: $mobile-3xl;
   font-style: normal;
   font-weight: 700;
   line-height: 120%;
-  margin-right: 20px;
+  // margin-right: 20px;
   @include onTablet {
-    font-size: 32px;
+    font-size: $tablet-3xl;
+  }
+  @include onDesktop {
+    font-size: $desctop-3xl;
   }
 }
 .user_info_container {
@@ -77,8 +86,10 @@
 .wrapper {
   width: 100%;
   display: flex;
-  gap: 20px;
+  // gap: 20px;
   align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
 }
 .user_title {
   color: #434343;
@@ -92,17 +103,20 @@
     margin-bottom: 12px;
     font-size: 32px;
   }
-
 }
 .img_container {
   box-sizing: border-box;
-  width: 40px;
-  height: 40px;
+  width: 64px;
+  height: 64px;
   background: #434343;
   border-radius: 50%;
   @include onTablet {
-    width: 95px;
-    height: 95px;
+    width: 80px;
+    height: 80px;
+  }
+  @include onDesktop {
+    width: 96px;
+    height: 96px;
   }
 }
 .no_img {
@@ -134,12 +148,15 @@
   background: #434343;
 }
 .text {
-  color: var(--Black, #434343);
+  color: $color-black;
   font-family: Roboto;
-  font-size: 14px;
+  font-size: $mobile-sm;
   font-style: normal;
   font-weight: 400;
   line-height: 100%;
+  @include onTablet {
+    font-size: $tablet-sm;
+  }
 }
 .category_container {
   display: flex;
@@ -181,4 +198,26 @@
   flex-direction: column;
   row-gap: 24px;
   width: 100%;
+  @include onTablet {
+    flex-direction: unset;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  @include onDesktop {
+    gap: 24px;
+  }
+}
+.header_container {
+  padding-top: 66px;
+  width: 100%;
+  background-color: $bg-color-light;
+  margin: 0 auto;
+}
+.wrapper_title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.svg_back path {
+  fill: $color-black;
 }

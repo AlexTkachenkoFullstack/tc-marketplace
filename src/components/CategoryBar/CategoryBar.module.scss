@@ -32,7 +32,7 @@
   transition: $effectDuration;
 }
 .category:hover {
-  background-color: $bg-color-active;
+  background-color: $bg-color-light;
 }
 .category:not(:last-child) {
   margin-right: 8px;

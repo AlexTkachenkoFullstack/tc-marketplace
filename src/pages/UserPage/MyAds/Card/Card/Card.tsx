@@ -4,10 +4,11 @@ import { useAppDispatch } from 'redux/hooks';
 
 import styles from './Card.module.scss';
 
-import eye from '../../../../../assets/icons/eye-open.svg';
-import phone from '../../../../../assets/icons/phone.svg';
-import favorite from '../../../../../assets/icons/favorite.svg';
-import clock from '../../../../../assets/icons/clock.svg';
+import { ReactComponent as Eye } from '../../../../../assets/icons/eye-open.svg';
+import { ReactComponent as Phone } from '../../../../../assets/icons/phone.svg';
+import { ReactComponent as Favorite } from '../../../../../assets/icons/favorite.svg';
+import { ReactComponent as Calendar } from '../../../../../assets/icons/calendar_month.svg';
+import { ReactComponent as Clock} from '../../../../../assets/icons/clock.svg';
 import imagePlug from '../../../../../assets/images/imagePlug.webp';
 
 import { convertDate } from 'utils/convertDate';
@@ -24,6 +25,7 @@ import {
   fetchMyInactiveAds,
   fetchMyPendingAds,
 } from 'redux/profile/operations';
+import { convertUpdate } from 'utils/convertUpdate';
 
 export interface CardProps {
   car: IAd;
@@ -166,7 +168,7 @@ const Card: React.FC<CardProps> = ({
             <div className={styles.card_info_meta_first_line}>
               {car.viewCount ? (
                 <div className={styles.card_info_views}>
-                  <img className={styles.icon} src={eye} alt="Eye icon" />
+                  <Eye className={styles.icon} />
                   <p className={styles.card_info_data}>{`${
                     car.viewCount
                   } ${countViews(car.viewCount)}`}</p>
@@ -174,35 +176,32 @@ const Card: React.FC<CardProps> = ({
               ) : null}
               {car.openedPhoneCount ? (
                 <div className={styles.card_info_phoneViews}>
-                  <img className={styles.icon} src={phone} alt="Phone icon" />
+                  <Phone className={styles.icon} />
                   <p className={styles.card_info_data}>{`${
                     car.openedPhoneCount || 0
                   } ${countShows(car.openedPhoneCount)} телефону`}</p>
                 </div>
               ) : null}
-            </div>
-            <div className={styles.card_info_meta_second_line}>
-              <div className={styles.card_info_likes}>
-                <img
-                  className={styles.icon}
-                  src={favorite}
-                  alt="Favorite icon"
-                />
+               <div className={styles.card_info_likes}>
+                <Favorite className={styles.icon} />
                 <p className={styles.card_info_data}>
                   {car.addedFavoriteCount}
                 </p>
               </div>
+            </div>
+            <div className={styles.card_info_meta_second_line}>
+             
               <div className={styles.card_info_createdAt}>
-                <img className={styles.icon} src={clock} alt="Clock icon" />
+                <Calendar className={styles.icon} />
                 <p className={styles.card_info_data}>
                   {convertDate(car.created)}
                 </p>
               </div>
               {car.created !== car.lastUpdated && (
                 <div className={styles.card_info_updatedAt}>
-                  <img className={styles.icon} src={clock} alt="Clock icon" />
+                  <Clock className={styles.icon} />
                   <p className={styles.card_info_data}>
-                    {convertDate(car.lastUpdated)}
+                    {convertUpdate(car.lastUpdated)}
                   </p>
                 </div>
               )}

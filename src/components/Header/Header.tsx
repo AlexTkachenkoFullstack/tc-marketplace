@@ -92,16 +92,20 @@ export const Header: FC = () => {
           onClick={handleNewAnnouncementClick}
           disabled={isAdvertisements}
         >
-          {isMobile ? (
-            <Add className={styles.add_icon} />
+          {auth ? (
+            isMobile ? (
+              <Add className={styles.add_icon} />
+            ) : (
+              <>
+                Додати оголошення
+                <Plus className={styles.header__add_button_icon} />
+              </>
+            )
           ) : (
-            <>
-              Додати оголошення
-              <Plus className={styles.header__add_button_icon} />
-            </>
+            ''
           )}
         </button>
-        {favoriteCars.length > 0 && (
+        {favoriteCars.length > 0 && auth && (
           <button
             className={`${styles.header__favorite_button}`}
             onClick={handleFavoritesClick}

@@ -11,7 +11,7 @@ import { CategoryBar } from 'components/CategoryBar/CategoryBar';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'redux/hooks';
 import { cleanFiltredStore, cleanParamsForSubscr } from 'redux/filter/slice';
-import {ReactComponent as ArrowLeftIcon} from "../../assets/icons/arrow_left.svg"
+import { ReactComponent as ArrowLeftIcon } from '../../assets/icons/arrow_left.svg';
 
 enum Tab {
   MyAds,
@@ -26,12 +26,12 @@ export const UserPage: React.FC = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const dispatch =useAppDispatch()
+  const dispatch = useAppDispatch();
 
-   useEffect(() => {
-     dispatch(cleanParamsForSubscr());
-     dispatch(cleanFiltredStore({ field: 'all' }));
-   }, [dispatch]);
+  useEffect(() => {
+    dispatch(cleanParamsForSubscr());
+    dispatch(cleanFiltredStore({ field: 'all' }));
+  }, [dispatch]);
 
   const categories = [
     'Мої оголошення',
@@ -40,8 +40,6 @@ export const UserPage: React.FC = () => {
     'Персональна інформація',
     'Безпека',
   ];
-
-
 
   let activeCategory: string;
   switch (activeTab) {
@@ -136,6 +134,16 @@ export const UserPage: React.FC = () => {
     }
   }, [location.pathname]);
 
+  const handleBackClick = () => {
+    navigate('/')
+    // if (window.history.length > 1) {
+    //   // Если история браузера содержит более одной страницы, возвращаемся на предыдущую страницу
+    //   navigate(-1);
+    // } else {
+    //   // В противном случае перенаправляем на главную страницу
+    //   navigate('/');
+    // }
+  };
   return (
     <>
       {/* <div className={styles.userPage}> */}
@@ -144,7 +152,7 @@ export const UserPage: React.FC = () => {
       <section className={styles.headSection}>
         <div className={styles.container}>
           <div className={styles.titleThumb}>
-            <button type="button">
+            <button type="button" onClick={handleBackClick}>
               <ArrowLeftIcon />
             </button>
             <h2 className={styles.title}>Ваш профіль</h2>

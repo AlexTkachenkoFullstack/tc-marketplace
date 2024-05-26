@@ -14,8 +14,8 @@ import { IType } from 'types/IType';
 import { Dropdown } from 'components/Dropdown/Dropdown';
 import { IBrand } from 'types/IBrand';
 import { IModel } from 'types/IModel';
-import { ReactComponent as Arrowdown } from '../../assets/icons/more-down.svg';
-import { ReactComponent as Arrowup } from '../../assets/icons/more-up.svg';
+import { ReactComponent as Arrowdown } from '../../assets/icons/arrowDownBig.svg';
+import { ReactComponent as Arrowup } from '../../assets/icons/arrowUpBig.svg';
 import {
   postNewAdvertisement,
   getCarTypeParam,
@@ -187,7 +187,7 @@ export const NewAnnouncement: React.FC = () => {
   const [numberOfDoors, setNumberOfDoors] = useState<number | null>(null);
   const [enginePower, setEnginePower] = useState<number | null>(null);
   const [mileage, setMileage] = useState<number | null>(null);
-  const [selectedOption, setSelectedOption] = useState<boolean>();
+  const [selectedOption, setSelectedOption] = useState<boolean | undefined>(undefined);
   const [transportTypeId, setTransportTypeId] = useState<number | null>(null);
   const [typeCategory, setTypeCategory] = useState<string | string[]>(
     'Легкові',
@@ -462,8 +462,7 @@ export const NewAnnouncement: React.FC = () => {
   }, [windowWidth]);
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value === 'Так';
-    setSelectedOption(value);
+    setSelectedOption(event.target.checked ? true : undefined);
   };
   const handleMobileBtnIsOpen = (blockName: keyof BlocksVisibilityState) => {
     setIsOpen(prevState => ({
@@ -547,12 +546,12 @@ export const NewAnnouncement: React.FC = () => {
     }
   };
 
-  const handleAddMorePhoto = () => {
-    inputRef.current && (inputRef.current.value = '');
-    if (inputRef.current) {
-      inputRef.current.click();
-    }
-  };
+  // const handleAddMorePhoto = () => {
+  //   inputRef.current && (inputRef.current.value = '');
+  //   if (inputRef.current) {
+  //     inputRef.current.click();
+  //   }
+  // };
   const handleAddPhoto = (newImages: UploadedImage[]) => {
     closeMessage(0);
     setSelectedImages(prevImages => [...prevImages, ...newImages]);
@@ -723,14 +722,14 @@ export const NewAnnouncement: React.FC = () => {
       }, 500);
     }
   };
-const handleBackClick=()=>{
-  navigate(-1)
-}
+  const handleBackClick = () => {
+    navigate(-1);
+  };
 
   const handleAddOrUpdateAdvers = () => {
     if (isAdvertisements) {
       if (
-        textValue.length >= 100 &&
+        textValue.length >= 50 &&
         isValid &&
         selectedImages.length > 0 &&
         mainPhoto !== '' &&
@@ -859,10 +858,10 @@ const handleBackClick=()=>{
         if (typeCategory === 'Тип' || typeCategory === '') {
           openNotification(1, 'Виберіть тип автомобіля!');
         }
-        if (textValue.length < 100) {
+        if (textValue.length < 50) {
           openNotification(
             17,
-            'Опис автомобіля має становити 100 і більше символів!',
+            'Опис автомобіля має становити 50 і більше символів!',
           );
         }
         if (carBrand === 'Бренд' || carBrand === '') {
@@ -1048,15 +1047,14 @@ const handleBackClick=()=>{
       {isLoading && <Loader />}
       <div className={styles.titleHeader}>
         <div className={styles.title_container}>
-
-        <button className={styles.btn_back} onClick={handleBackClick}><Back className={styles.svg_btn}/></button>
-        <h1
-         className={styles.mainTitle}
-        >
-          {isAdvertisementsEdit
-            ? 'Редагування оголошення'
-            : 'Створення оголошення'}
-        </h1>
+          <button className={styles.btn_back} onClick={handleBackClick}>
+            <Back className={styles.svg_btn} />
+          </button>
+          <h1 className={styles.mainTitle}>
+            {isAdvertisementsEdit
+              ? 'Редагування оголошення'
+              : 'Створення оголошення'}
+          </h1>
         </div>
       </div>
       <div className={styles.container}>
@@ -1128,6 +1126,7 @@ const handleBackClick=()=>{
                   option={typeCategory}
                   selectedOptions={typeCategory}
                   setOption={setTypeCategory}
+                  hideLabel={true}
                 />
                 {isShow[1] && (
                   <span className={styles.photo_errorMessage}>
@@ -1288,6 +1287,7 @@ const handleBackClick=()=>{
                       selectedOptions={carBrand}
                       setOption={setCarBrand}
                       allOptionsLabel="Всі бренди"
+                      hideLabel={true}
                     />
                     {isShow[3] && (
                       <span className={styles.photo_errorMessage}>
@@ -1339,6 +1339,7 @@ const handleBackClick=()=>{
                       selectedOptions={carModel}
                       setOption={setCarModel}
                       carMark={carBrand}
+                      hideLabel={true}
                     />
                     {isShow[4] && (
                       <span className={styles.photo_errorMessage}>
@@ -1383,6 +1384,7 @@ const handleBackClick=()=>{
                     option={yearCar}
                     selectedOptions={yearCar}
                     setOption={setYearCar}
+                    hideLabel={true}
                   />
                   {isShow[5] && (
                     <span className={styles.photo_errorMessage}>
@@ -1432,6 +1434,7 @@ const handleBackClick=()=>{
                       option={selectedBodyType}
                       selectedOptions={selectedBodyType}
                       setOption={setSelectedBodyType}
+                      hideLabel={true}
                     />
                     {isShow[6] && (
                       <span className={styles.photo_errorMessage}>
@@ -1482,6 +1485,7 @@ const handleBackClick=()=>{
                       option={selectedFuelType}
                       selectedOptions={selectedFuelType}
                       setOption={setSelectedFuelType}
+                      hideLabel={true}
                     />
                     {isShow[7] && (
                       <span className={styles.photo_errorMessage}>
@@ -1528,6 +1532,7 @@ const handleBackClick=()=>{
                       option={fuelConsumption}
                       selectedOptions={fuelConsumption}
                       setOption={setFuelConsumption}
+                      hideLabel={true}
                     />
                     {isShow[8] && (
                       <span className={styles.photo_errorMessage}>
@@ -1573,6 +1578,7 @@ const handleBackClick=()=>{
                       option={engineVolumes}
                       selectedOptions={engineVolumes}
                       setOption={setEngineVolumes}
+                      hideLabel={true}
                     />
                     {isShow[9] && (
                       <span className={styles.photo_errorMessage}>
@@ -1625,6 +1631,7 @@ const handleBackClick=()=>{
                       option={selectedTransmission}
                       selectedOptions={selectedTransmission}
                       setOption={setSelectedTransmission}
+                      hideLabel={true}
                     />
                     {isShow[10] && (
                       <span className={styles.photo_errorMessage}>
@@ -1751,6 +1758,7 @@ const handleBackClick=()=>{
                       option={selectedDriveType}
                       selectedOptions={selectedDriveType}
                       setOption={setSelectedDriveType}
+                      hideLabel={true}
                     />
                     {isShow[12] && (
                       <span className={styles.photo_errorMessage}>
@@ -1799,6 +1807,7 @@ const handleBackClick=()=>{
                     option={selectedRegions}
                     selectedOptions={selectedRegions}
                     setOption={setSelectedRegions}
+                    hideLabel={true}
                   />
                   {isShow[13] && (
                     <span className={styles.photo_errorMessage}>
@@ -1847,6 +1856,7 @@ const handleBackClick=()=>{
                       option={selectedCity}
                       selectedOptions={selectedCity}
                       setOption={setSelectedCity}
+                      hideLabel={true}
                     />
                     {isShow[14] && (
                       <span className={styles.photo_errorMessage}>
@@ -1894,6 +1904,7 @@ const handleBackClick=()=>{
                       option={selectedColor}
                       selectedOptions={selectedColor}
                       setOption={setSelectedColor}
+                      hideLabel={true}
                     />
                   </div>
                 )}
@@ -1937,6 +1948,7 @@ const handleBackClick=()=>{
                       option={selectedCondition}
                       selectedOptions={selectedCondition}
                       setOption={setSelectedCondition}
+                      hideLabel={true}
                     />
                   </div>
                 )}
@@ -2052,6 +2064,7 @@ const handleBackClick=()=>{
                       option={selectedAxle}
                       selectedOptions={selectedAxle}
                       setOption={setSelectedAxle}
+                      hideLabel={true}
                     />
                   </div>
                 )}
@@ -2097,6 +2110,7 @@ const handleBackClick=()=>{
                       option={selectedWheelConfiguration}
                       selectedOptions={selectedWheelConfiguration}
                       setOption={setSelectedWheelConfiguration}
+                      hideLabel={true}
                     />
                   </div>
                 )}
@@ -2148,6 +2162,7 @@ const handleBackClick=()=>{
                       option={selectedProducingCountry}
                       selectedOptions={selectedProducingCountry}
                       setOption={setSelectedProducingCountry}
+                      hideLabel={true}
                     />
                   </div>
                 )}
@@ -2212,7 +2227,7 @@ const handleBackClick=()=>{
             <div className={styles.listItem}>
               {isOpen.block24 && (
                 <div className={styles.listItemSelectTitle}>
-                  <label
+                  {/* <label
                     htmlFor="No"
                     className={`${styles.itemTypeNo} ${
                       selectedOption === false ? styles.selected : ''
@@ -2227,8 +2242,8 @@ const handleBackClick=()=>{
                       checked={selectedOption === false}
                       onChange={handleOptionChange}
                     />
-                  </label>
-                  <label
+                  </label> */}
+                  {/* <label
                     htmlFor="Yes"
                     className={`${styles.itemTypeYes}
                       ${selectedOption === true ? styles.selected : ''}
@@ -2243,6 +2258,17 @@ const handleBackClick=()=>{
                       checked={selectedOption === true}
                       onChange={handleOptionChange}
                     />
+                  </label> */}
+                  <input
+                    type="checkbox"
+                    name="option"
+                    id="bargain"
+                    checked={selectedOption === true}
+                    onChange={handleOptionChange}
+                    className={styles.bargainInput}
+                  />
+                  <label htmlFor="bargain" className={styles.bargainLabel}>
+                    Можливість торгу
                   </label>
                 </div>
               )}

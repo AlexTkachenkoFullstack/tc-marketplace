@@ -9,9 +9,12 @@
     flex-direction: row;
     column-gap: 16px;
     width: 100%;
-    height: 240px;
+    height: 180px;
   }
-
+  @include onDesktop {
+    width: 1200px;
+    height: 300px;
+  }
   & .imgThumb {
     height: 200px;
     width: 100%;
@@ -20,8 +23,13 @@
     overflow: hidden;
 
     @include onTablet {
-      height: 240px;
-      width: 384px;
+      width: 240px;
+      height: 180px;
+      margin-bottom: 0;
+    }
+    @include onDesktop {
+      width: 400px;
+      height: 300px;
       margin-bottom: 0;
     }
 
@@ -36,61 +44,96 @@
   &_info {
     display: flex;
     flex-direction: column;
-    row-gap: 11px;
+    row-gap: 12px;
 
-    color: var(--Black, #434343);
-    font-family: Roboto;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 110%;
+    // color: $color-medium-dark-gray;
+    // font-family: Roboto;
+    // font-size: 20px;
+    // font-style: normal;
+    // font-weight: 600;
+    // line-height: 110%;
 
     @include onTablet {
-      width: 288px;
+      width: 432px;
+      row-gap: 10px;
     }
 
     @include onDesktop {
-      width: 496px;
+      width: 784px;
     }
 
     &_title {
-      width: 288px;
-      height: 26.4px;
-      overflow: hidden;
+      width: 100%;
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: 700;
+      // overflow: hidden;
       word-wrap: break-word;
       text-overflow: ellipsis;
       white-space: nowrap;
+      color: $color-black;
+      font-size: $mobile-xl;
       &:hover {
         text-decoration: underline;
         cursor: default;
       }
+      @include onTablet {
+        // width: 288px;
+        font-size: $tablet-xl;
+      }
+
+      // @include onDesktop {
+      //   width: 496px;
+      // }
     }
 
-    &_title,
+    // &_title,
     &_price {
+      font-size: $mobile-xl;
+      color: $color-medium-dark-gray;
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 120%;
       @include onTablet {
-        font-size: 22px;
-        font-weight: 700;
-        line-height: 120%;
+        font-size: $tablet-xl;
+        // font-size: 22px;
+        // font-weight: 700;
+        // line-height: 120%;
       }
     }
 
     &_meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      // gap: 8px;
+      row-gap: 16px;
       color: $color-dark-grey;
 
       /* text */
-      font-size: 14px;
-      font-weight: 500;
-      line-height: 20px;
+      // font-size: 14px;
+      // font-weight: 500;
+      // line-height: 20px;
       letter-spacing: 0.15px;
 
-      &_first_line,
+      &_first_line {
+        display: flex;
+        gap: 16px;
+      }
       &_second_line {
         display: flex;
-        gap: 8px;
+        flex-direction: column;
+        gap: 16px;
+        @include onTablet {
+          flex-direction: unset;
+        }
+      }
+      @include onTablet {
+        gap: 10px;
+      }
+      @include onDesktop {
+        flex-wrap: unset;
+        gap: 16px;
       }
     }
 
@@ -102,19 +145,31 @@
       display: flex;
       align-items: center;
       flex-wrap: nowrap;
-      gap: 8px;
+      gap: 6px;
     }
+    &_data {
+      color: $color-black;
 
-    &_description {
-      color: var(--Black, #434343);
+      /* Body/Body Medium */
       font-family: Roboto;
-      font-size: 16px;
+      font-size: $mobile-sm;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      @include onTablet {
+        font-size: $tablet-sm;
+      }
+    }
+    &_description {
+      color: $color-medium-dark-gray;
+      font-family: Roboto;
+      font-size: $mobile-md;
       font-style: normal;
       font-weight: 400;
       line-height: 24px;
       letter-spacing: 0.5px;
 
-      max-height: 128px;
+      // max-height: 128px;
       overflow: hidden;
       text-overflow: ellipsis;
 
@@ -126,10 +181,30 @@
       word-wrap: break-word;
 
       @include onTablet {
-        height: 50px;
-        line-clamp: 2;
-        -ms-line-clamp: 2;
-        -webkit-line-clamp: 2;
+        font-size: $tablet-md;
+        line-height: 16px;
+        // height: 50px;
+        line-clamp: 1;
+        -ms-line-clamp: 1;
+        -webkit-line-clamp: 1;
+      }
+      @include onDesktop {
+        line-height: 24px; /* 150% */
+        letter-spacing: 0.5px;
+        line-clamp: 7;
+        -ms-line-clamp: 7;
+        -webkit-line-clamp: 7;
+        height: 100%;
+        // overflow: hidden;
+        // color: var(--Black, #171717);
+        // text-overflow: ellipsis;
+        // white-space: nowrap;
+        // font-family: Roboto;
+        // font-size: var(--Typography-md, 16px);
+        // font-style: normal;
+        // font-weight: 400;
+        // line-height: 24px; /* 150% */
+        // letter-spacing: 0.5px;
       }
     }
   }
@@ -141,32 +216,46 @@
 }
 
 .button {
-  color: var(--Color, #797979);
+  color: $color-black;
   text-align: center;
   font-family: Roboto;
-  font-size: 14px;
+  font-size: $tablet-md;
   font-style: normal;
-  font-weight: 600;
-  line-height: 20px;
+  font-weight: 500;
+  line-height: 100%; /* 16px */
   letter-spacing: 0.1px;
-  padding: 6px 12px;
+  padding: 10px 16px;
   border: 1px solid transparent;
   border-radius: 24px;
   transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
   &:first-child {
-    background: #e4e4e4;
-    color: #434343;
+    background: $color-black;
+    color: $bg-color-white;
     margin-right: 12px;
   }
 
   &:hover {
-    border: 1px solid var(--Black, #434343);
-    background: #e4e4e4;
-    color: #434343;
+    border-radius: 32px;
+    border: 1px solid $border-active;
+    background: $bg-color-active;
+    color: $color-black;
+    /* 2 */
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
+  }
+  &:active {
+    border-radius: 32px;
+    border: 1px solid var(--White, #fff);
+    background: var(--Main-color, #403e87);
+    color: $bg-color-white;
+    /* 2 */
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
   }
 }
 
 .icon {
   width: 16px;
   height: 16px;
+}
+.icon path {
+  fill: $color-black;
 }
