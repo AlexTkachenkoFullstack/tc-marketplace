@@ -134,13 +134,23 @@ export const UserPage: React.FC = () => {
     }
   }, [location.pathname]);
 
+  const handleBackClick = () => {
+    navigate('/')
+    // if (window.history.length > 1) {
+    //   // Если история браузера содержит более одной страницы, возвращаемся на предыдущую страницу
+    //   navigate(-1);
+    // } else {
+    //   // В противном случае перенаправляем на главную страницу
+    //   navigate('/');
+    // }
+  };
   return (
     <>
       <GoToTop />
       <section className={styles.headSection}>
         <div className={styles.container}>
           <div className={styles.titleThumb}>
-            <button type="button">
+            <button type="button" onClick={handleBackClick}>
               <ArrowLeftIcon />
             </button>
             <h2 className={styles.title}>Ваш профіль</h2>
