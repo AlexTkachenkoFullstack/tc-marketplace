@@ -79,7 +79,7 @@ interface Iprops {
   };
 }
 
-let userEmail = '';
+// let userEmail = '';
 let requestSearch: ISearchParams = {};
 
 const SubscriptionModal: React.FC<Iprops> = ({
@@ -326,12 +326,12 @@ const SubscriptionModal: React.FC<Iprops> = ({
     }
   }, [dispatch, region, regions]);
 
-  useEffect(() => {
-    (async () => {
-      const { email } = await fetchUserInfo();
-      userEmail = email;
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     const { email } = await fetchUserInfo();
+  //     userEmail = email;
+  //   })();
+  // }, []);
 
   const handleSaveSubscription = () => {
     const bodyTypeId = getArrayCarBodyOfId(bodyTypesArr, bodyType);
@@ -438,7 +438,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
   }, [dispatch, selectedCategory, transportTypes]);
 
   const handleIsActivateSubscription = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    // event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     // setShowEmail(event.target.checked ? userEmail : 'E-mail');
     setIsNotificationEnabled(prev => !prev);

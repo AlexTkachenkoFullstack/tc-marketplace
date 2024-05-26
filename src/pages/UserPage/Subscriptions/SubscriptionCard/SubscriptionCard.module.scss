@@ -3,38 +3,44 @@
 .subscriptionCard {
   display: flex;
   flex-direction: column;
-  row-gap: 16px;
+  row-gap: 8px;
   width: 100%;
+  padding: 20px;
 
-  border: 1px solid $ads-border-color;
+  border: 1px solid $light-grey-border;
   border-radius: 16px;
-  background-color: $color-light;
-  padding: 16px;
+  background-color: $bg-color-white;
+
+  @include onTablet {
+    flex-direction: row;
+    justify-content: space-between;
+    border-radius: 20px;
+    padding-right: 72px;
+  }
+  @include onDesktop {
+    padding: 24px;
+    border-radius: 24px;
+    padding-right: 80px;
+  }
 
   .subscrHeader {
+    position: relative;
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
-
-    @include onTablet {
-        flex-direction: row;
-      align-items: center;
-    }
+    align-items: center;
+    height: 40px;
 
     .nameThumb {
       display: flex;
-      flex-wrap: wrap;
+      column-gap: 8px;
 
-      font-size: 20px;
-      font-weight: 600;
-      line-height: 110%;
+      font-size: $mobile-xl;
+      font-weight: 700;
+      line-height: 120%;
+      color: $color-black;
 
       @include onTablet {
-        flex-direction: row;
-      }
-
-      h4 {
-        margin-right: 8px;
+        font-size: $tablet-xl;
       }
 
       p {
@@ -42,8 +48,32 @@
       }
     }
 
-    svg {
-      display: block;
+    .menuButton {
+      position: absolute;
+      left: 238px;
+      width: 40px;
+      height: 40px;
+      padding: 8px;
+      border-radius: 100%;
+      transition: $effectDuration;
+      &:hover {
+        background-color: $bg-color-active;
+        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
+      }
+      &:active {
+        background-color: $border-active;
+        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
+        & path {
+          fill: $bg-color-white;
+        }
+      }
+
+      @include onTablet {
+        left: 606px;
+      }
+      @include onDesktop {
+        left: 1105px;
+      }
     }
 
     .menuWrap {
@@ -51,56 +81,60 @@
       column-gap: 8px;
       align-items: center;
     }
-
-    button:first-of-type {
-      border: 1px solid $color-grey;
-      border-radius: 24px;
-      background-color: $color-grey;
-      transition: all 250ms ease-in-out;
-      path,
-      rect {
-        transition: all 250ms ease-in-out;
-      }
-
-      &:hover {
-        border: 1px solid $color-grey;
-        color: $color-grey;
-        background-color: $background-color-white;
-      }
-      &:hover path {
-        fill: $color-grey;
-      }
-      &:hover rect {
-        fill: $background-color-white;
-      }
-
-      @include onTablet {
-        padding: 0;
-      }
-    }
-
-    button:nth-child(2),
-    button:nth-child(3) {
-      padding: 10px 0;
-      transition: all 250ms ease-in-out;
-      @include onTablet {
-        padding: 4px;
-      }
-      &:hover {
-        border-radius: 32px;
-        background-color: $color-light;
-        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
-      }
-    }
-    button:last-of-type svg {
-      width: 24px;
-      height: 24px;
-    }
   }
 
-  .content {
-    font-weight: 600;
-    line-height: 24px;
-    letter-spacing: 0.15px;
+  .notification {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    @include onTablet {
+      width: 134px;
+    }
+
+    & p {
+      font-size: $mobile-sm;
+      font-weight: 500;
+      line-height: 20px;
+      letter-spacing: 0.15px;
+      @include onTablet {
+        font-size: $tablet-sm;
+      }
+    }
+
+    & input {
+      position: absolute;
+      margin: -1px;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      visibility: hidden;
+    }
+    & label {
+      width: 40px;
+      height: 24px;
+      border-radius: 12px;
+      background: $border-gray;
+      border: 1px solid #00000033;
+      padding: 2px;
+    }
+    & label::after {
+      content: '';
+      display: block;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background-color: #646464;
+      transition: transform 250ms ease;
+    }
+    & input:checked ~ label {
+      background: $border-active;
+      border: 1px solid $border-active;
+    }
+    & input:checked ~ label::after {
+      transform: translate(16px);
+      background-color: $bg-color-white;
+    }
   }
 }

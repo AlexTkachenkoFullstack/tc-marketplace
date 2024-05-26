@@ -5,6 +5,10 @@
   gap: 8px;
   overflow-x: auto;
   scroll-behavior: smooth;
+  &.userPageStyle {
+    gap: 0;
+  }
+
   @media (max-width: 992px) {
     width: 100%;
   }
