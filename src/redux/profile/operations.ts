@@ -221,8 +221,8 @@ export const editSubscription = createAsyncThunk(
       subscriptionRequest,
     }: {
       id: number;
-      modifiedRequestSearch: ISearchParams;
-      subscriptionRequest: subscriptionRequestType;
+      modifiedRequestSearch?: ISearchParams;
+      subscriptionRequest?: subscriptionRequestType;
     },
     thunkAPI,
   ) => {

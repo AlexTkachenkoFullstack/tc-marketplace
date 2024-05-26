@@ -154,47 +154,43 @@ const Subscriptions: React.FC = () => {
 
   return (
     <>
-      {/* <div className={styles.container}> */}
-        {isSubscrLoading ? (
-          <Loader />
-        ) : (
-          <>
-            <h3 className={styles.title}>Твої підписки</h3>
-
-            {!isSubscrLoading && mySubscriptions.length === 0 && (
-              <EmprtyPlug title="На даний момент відсутні ваши підписки" />
-            )}
-
-            <ul className={styles.subscriptionsList}>
-              {[...mySubscriptions]
-                .sort((a, b) => a.name.localeCompare(b.name))
-                .map((item: ISubscription) => (
-                  <SubscriptionCard
-                    key={item.id}
-                    subscription={item}
-                    handleEditParams={handleEditParams}
-                  />
-                ))}
-            </ul>
-            <button
-              type="button"
-              className={styles.addButton}
-              onClick={toggleModalIsOpen}
-            >
-              <AddIcon />
-              Створити підписку
-            </button>
-          </>
-        )}
-        {isModalOpen &&
-          createPortal(
-            <SubscriptionModal
-              toggleModalIsOpen={toggleModalIsOpen}
-              requestParams={{ ...selectedParams, data }}
-            />,
-            portal,
+      {isSubscrLoading ? (
+        <Loader />
+      ) : (
+        <>
+          {!isSubscrLoading && mySubscriptions.length === 0 && (
+            <EmprtyPlug title="На даний момент відсутні ваши підписки" />
           )}
-      {/* </div> */}
+
+          <ul className={styles.subscriptionsList}>
+            {[...mySubscriptions]
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((item: ISubscription) => (
+                <SubscriptionCard
+                  key={item.id}
+                  subscription={item}
+                  handleEditParams={handleEditParams}
+                />
+              ))}
+          </ul>
+          <button
+            type="button"
+            className={styles.addButton}
+            onClick={toggleModalIsOpen}
+          >
+            <AddIcon />
+            Створити підписку
+          </button>
+        </>
+      )}
+      {isModalOpen &&
+        createPortal(
+          <SubscriptionModal
+            toggleModalIsOpen={toggleModalIsOpen}
+            requestParams={{ ...selectedParams, data }}
+          />,
+          portal,
+        )}
     </>
   );
 };

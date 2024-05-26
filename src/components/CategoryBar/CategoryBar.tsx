@@ -93,7 +93,7 @@ export const CategoryBar: React.FC<Props> = ({
       <div
         className={`${styles.category_bar} ${
           isAdvancedSearchPage ? styles.advanced_search_category_bar : ''
-        }`}
+        } ${selectedStyle && styles[selectedStyle]}`}
         ref={containerRef}
       >
         {color && transportColor
@@ -107,7 +107,8 @@ export const CategoryBar: React.FC<Props> = ({
                      : null
                  }               
                 ${
-                  selectedCategory === category.transportColor && chips === 'chips'
+                  selectedCategory === category.transportColor &&
+                  chips === 'chips'
                     ? styles.selected
                     : ''
                 } `}
@@ -139,7 +140,15 @@ export const CategoryBar: React.FC<Props> = ({
                    selectedStyle === 'userPageStyle'
                      ? styles.userPageCategory
                      : null
-                 } ${ chips === 'chips'? (selectedCategory === category ? styles.selected: ''): (selectedCategory === category ? styles.selected_category : '')}`}
+                 } ${
+                  chips === 'chips'
+                    ? selectedCategory === category
+                      ? styles.selected
+                      : ''
+                    : selectedCategory === category
+                    ? styles.selected_category
+                    : ''
+                }`}
                 key={category}
                 onClick={() => handleSelect(category)}
               >

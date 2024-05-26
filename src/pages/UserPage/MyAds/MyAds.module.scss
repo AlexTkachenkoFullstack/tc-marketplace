@@ -7,6 +7,7 @@
   scroll-behavior: smooth;
   margin-left: -20px;
   margin-right: -20px;
+  margin-bottom: 20px;
 
   &::-webkit-scrollbar {
     width: 0px;
@@ -17,9 +18,11 @@
   @include onTablet {
     width: $tablet-min-width;
     margin: 0;
+    margin-bottom: 20px;
   }
   @include onDesktop {
     column-gap: 20px;
+    margin-bottom: 24px;
   }
 
   .tab {
