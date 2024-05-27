@@ -8,14 +8,12 @@
   box-sizing: border-box;
   overflow: hidden;
   @include onTablet {
-    min-width: 212px;
-    max-width: 212px;
-    min-height: 159px;
+    width: 212px;
+    height: 159px;
   }
   @include onDesktop {
-    min-width: 294px;
-    max-width: 294px;
-    min-height: 221px;
+    width: 294px;
+    height: 221px;
   }
 }
 .imgCard_user {
@@ -30,9 +28,13 @@
   // max-width: 312px;
   // min-height: 176px;
   @include onTablet {
-    width: 192px;
-    height: 108px;
-  }  
+    width: 280px;
+    height: 210px;
+  }
+  @include onDesktop{
+    width: 400px;
+    height: 300px; 
+  }
 }
 .imgCard > img {
   display: block;

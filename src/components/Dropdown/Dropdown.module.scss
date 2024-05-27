@@ -169,7 +169,7 @@
   height: 44px;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 18px 0px 22px;
+  // padding: 0px 18px 0px 22px;
   border-radius: 1000px;
   // background-color: none;
   background-color: #f0f0f0;
@@ -195,6 +195,24 @@
       width: 100%;
     }
   }
+}
+.personal_info{
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;
+  height: 44px;
+  justify-content: space-between;
+  align-items: center;
+  // padding: 0px 18px 0px 22px;
+  border-radius: 1000px;
+  background-color: #f0f0f0;
+  @include onTablet {
+    width: 280px;
+  }
+  @include onDesktop {
+    width: 400px;
+  }
+  // background-color: none;
 }
 .trigger_content_favoritPage {
   display: flex;

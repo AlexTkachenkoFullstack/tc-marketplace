@@ -143,7 +143,7 @@ const StopList: React.FC = () => {
                 onClickDelete={handleUnHideTransport}
                 offBlockInfo={true}
                 offBlockText={true}
-                updateStyle='stop_list'
+                updateStyle={['stop_list','stop_list_img']}
               />
             ))}
         </ul>

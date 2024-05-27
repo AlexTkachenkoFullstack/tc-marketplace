@@ -35,7 +35,7 @@ export interface CardProps {
   isShowPlug?: React.Dispatch<React.SetStateAction<boolean>>;
   offBlockInfo?: boolean;
   offBlockText?: boolean;
-  updateStyle?:string;
+  updateStyle?:string[];
 }
 
 const Card: React.FC<CardProps> = ({
@@ -155,8 +155,10 @@ const Card: React.FC<CardProps> = ({
 
   return (
     <li>
-      <div className={`${styles.card } ${updateStyle && styles[updateStyle]}`} onClick={handleCardClick}>
-        <div className={styles.imgThumb}>
+      <div className={`${styles.card } ${updateStyle && styles[updateStyle[0]]}`} onClick={handleCardClick}>
+        <div className={`${
+          updateStyle ? styles[updateStyle[1]]:
+          styles.imgThumb}` }>
           <img
             src={car.fileUrl}
             alt={car.brand}

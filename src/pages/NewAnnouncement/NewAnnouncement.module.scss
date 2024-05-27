@@ -28,7 +28,7 @@
   color: $color-black;
   /* H1 */
   font-family: Roboto;
-  font-size: $mobile-3xl;
+  font-size: $mobile-3xl - 1;
   font-style: normal;
   font-weight: 800;
   line-height: 100%; /* 32px */
@@ -124,7 +124,7 @@
 .inputPhone_withStaticValue {
   width: 100%;
   display: flex;
-  padding: 9px 51px;
+  padding: 9px 52px;
   justify-content: center;
   align-items: center;
   gap: 8px;
@@ -660,7 +660,7 @@ box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
 .inputVincodeInValid_staticValue {
   width: 100%;
   display: flex;
-  padding: 9px 51px;
+  padding: 9px 52px;
   justify-content: center;
   align-items: center;
   gap: 8px;

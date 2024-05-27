@@ -475,10 +475,10 @@ const PersonalInfo: React.FC = () => {
   };
   return (
     <>
-      <h2 className={styles.title_category}>Особисті дані</h2>
+      {/* <h2 className={styles.title_category}>Особисті дані</h2> */}
       <div className={styles.box_item}>
         <div className={styles.box_title_foto}>
-          <h2 className={styles.title}>Фотографія</h2>
+          <h2 className={styles.title}>Фото</h2>
         </div>
 
         <div className={styles.imgContainer}>
@@ -680,7 +680,7 @@ const PersonalInfo: React.FC = () => {
               isShow={isShow[6]}
               index={6}
               closeMessage={closeMessage}
-              updateStyle="advSearch"
+              updateStyle="personal_info"
               options={
                 regions
                   ? regions.map(region => region.region)
@@ -731,7 +731,7 @@ const PersonalInfo: React.FC = () => {
               <Dropdown
                 stylepaddingZero={true}
                 resetValue={resetValue}
-                updateStyle="advSearch"
+                updateStyle="personal_info"
                 optionList={optionList}
                 label="Місто"
                 startValue="Місто"
