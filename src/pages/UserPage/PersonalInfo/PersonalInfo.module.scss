@@ -135,7 +135,10 @@
   position: relative;
   width: 100%;
   @include onTablet {
-    width: 384px;
+    width: 280px;
+  }
+  @include onDesktop {
+    width: 400px;
   }
 }
 .VinCode {
@@ -202,7 +205,10 @@
   position: relative;
   width: 100%;
   @include onTablet {
-    width: 384px;
+    width: 280px;
+  }
+  @include onDesktop {
+    width: 400px;
   }
 }
 .boxPhone {
@@ -221,7 +227,7 @@
 .inputPhone_withStaticValue {
   width: 100%;
   display: flex;
-  padding: 9px 51px;
+  padding: 9px 52px;
   justify-content: center;
   align-items: center;
   gap: 8px;
@@ -258,14 +264,14 @@
 }
 .btn {
   display: flex;
-  padding: 14px 24px;
+  padding: 10px 16px;
   justify-content: center;
   align-items: center;
   gap: 8px;
   width: 207px;
   border-radius: 32px;
-  background: #434343;
-  color: #feffff;
+  background: $color-black;
+  color: $bg-color-white;
   text-align: center;
   font-family: Roboto;
   font-size: 16px;
@@ -273,14 +279,17 @@
   font-weight: 600;
   line-height: 24px; /* 150% */
   letter-spacing: 0.15px;
-  border: 1px solid #434343;
+  transition: $effectDuration;
+  border: 1px solid transparent;
 }
 .btn:hover {
-  background: #e4e4e4;
+  background: $bg-color-active;
   color: $color-black;
+  border: 1px solid $border-active;
 }
 .btn:active {
-  background: #606060;
-  color: $white-color;
+  border: 1px solid $bg-color-white;
+  background: $color-dark-blue;
+  color: $bg-color-white;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
 }
