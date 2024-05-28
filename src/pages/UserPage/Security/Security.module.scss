@@ -1,143 +1,170 @@
 @import '/src/styles/main.scss';
 
-// .container {
-//   display: flex;
-//   flex-direction: column;
-//   padding: 24px 20px;
-//   margin-bottom: 32px;
+.titleThumb {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-//   @include onTablet {
-//     border-radius: 16px;
-//     border: 1px solid $ads-border-color;
-//   }
-//   &::before {
-//     content: '';
-//     position: absolute;
-//     top: 226px;
-//     left: 0;
-//     width: 100vw;
-//     height: 1px;
-//     background-color: $background-color-white;
-//     @include onTablet {
-//       display: none;
-//     }
-//   }
-  .titleThumb {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    & h3 {
-      font-size: 22px;
-      font-weight: 700;
-      line-height: 120%;
-    }
-    & button {
-      display: block;
-      padding: 6px 8px;
-      font-family: Roboto;
-      font-size: 14px;
-      font-weight: 600;
-      line-height: 20px;
-      letter-spacing: 0.1px;
-      color: $button-active;
-      border: 1px solid transparent;
-    }
-    & button:hover {
-      border-radius: 24px;
-      border: var(--Adding-new, 1px) solid var(--Black, #434343);
-      background: var(--light-gray, #e4e4e4);
-      box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
-
+  & h3 {
+    font-size: $mobile-xl;
+    font-weight: 700;
+    line-height: 120%;
+    @include onTablet {
+      font-size: $tablet-xl;
     }
   }
+  & button {
+    display: block;
+    font-family: Roboto;
+    font-size: $xs;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: $color-dark-blue;
+    border: 1px solid transparent;
+    transition: all $effectDuration;
 
-  .form {
-    display: flex;
-    flex-direction: column;
+    &:hover {
+      text-decoration-line: underline;
+      color: $color-black;
+    }
+  }
+}
 
-    & label {
-      margin-top: 24px;
-      font-size: 20px;
-      font-weight: 600;
-      line-height: 110%;
+.form {
+  display: flex;
+  flex-direction: column;
 
+  @include onTablet {
+    width: 440px;
+  }
+  @include onDesktop {
+    width: 612px;
+  }
+
+  & label {
+    font-size: $mobile-md;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+
+    margin-top: 24px;
+
+    @include onTablet {
+      display: flex;
+      column-gap: 20px;
+      align-items: center;
+      font-size: $tablet-md;
+    }
+    @include onTablet {
+      column-gap: 24px;
+    }
+    & span {
+      width: 224px;
       @include onTablet {
-        display: flex;
-        column-gap: 16px;
-        align-items: center;
+        align-self: flex-start;
+        width: 140px;
+        padding-right: 6px;
       }
-      & span {
-        width: 224px;
-        @include onTablet {
-          align-self: flex-start;
-        }
+      @include onDesktop {
+        width: 188px;
       }
-      & .eyeThumb {
-        position: absolute;
+    }
+    & .eyeThumb {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+
+      & svg {
+        width: 20px;
+        height: 20px;
+      }
+      @include onTablet {
         top: 10px;
-        right: 20px;
-        @include onTablet {
-          top: 10px;
-        }
-      }
-    }
-
-    & .inputField {
-      width: 100%;
-      height: 40px;
-      padding: 10px 44px 10px 20px;
-      border-radius: 32px;
-      border: 1px solid $ads-border-color;
-      background-color: $color-light;
-    }
-
-    & .fieldThumb {
-      position: relative;
-      margin-top: 16px;
-      @include onTablet {
-        width: 384px;
-        margin-top: 0;
-      }
-    }
-
-    & .errorMessage {
-      font-size: 11px;
-      font-weight: 500;
-      line-height: 16px;
-      letter-spacing: 0.5px;
-      color: $color-text-grey;
-      @include onTablet {
-      }
-    }
-
-    & .eyeIconStyle path {
-      fill: red;
-    }
-
-    & .submitBtn {
-      width: 207px;
-      height: 52px;
-      margin-top: 32px;
-      border-radius: 32px;
-      border: 1px solid $color-grey;
-      background-color: $color-grey;
-      font-family: Roboto;
-      font-size: 16px;
-      font-weight: 600;
-      line-height: 24px;
-      letter-spacing: 0.15px;
-      color: $white-color;
-      transition: all 250ms ease-in-out;
-      &:hover {
-        background-color: $background-color-white;
-        color: $color-grey;
-      }
-      &:active {
-        background-color: $color-dark-grey;
-        border: 1px solid $color-dark-grey;
-        color: $white-color;
       }
     }
   }
-// }
+
+  & .inputField {
+    width: 100%;
+    height: 40px;
+    padding: 10px 48px 10px 20px;
+    border-radius: 16px;
+    border: 1px solid $dark-grey;
+    background-color: $border-gray;
+
+    font-family: Roboto;
+    font-size: $mobile-sm;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    color: $color-black;
+
+    @include onTablet {
+      font-size: $tablet-sm;
+    }
+
+    &::placeholder {
+      color: $color-black;
+    }
+  }
+
+  & .fieldThumb {
+    position: relative;
+
+    @include onTablet {
+      width: 280px;
+      margin-top: 0;
+    }
+    @include onDesktop {
+      width: 400px;
+    }
+  }
+
+  & .errorMessage {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 0.5px;
+    color: $color-text-grey;
+    @include onTablet {
+    }
+  }
+
+  & .eyeIconStyle path {
+    fill: red;
+  }
+
+  & .submitBtn {
+    width: 207px;
+    height: 40px;
+    margin-top: 32px;
+    border-radius: 32px;
+    border: 1px solid $color-black;
+    background-color: $color-black;
+    font-family: Roboto;
+    font-size: $mobile-md;
+    font-weight: 500;
+    color: $white-color;
+    transition: $effectDuration;
+
+    @include onTablet {
+      font-size: $tablet-md;
+    }
+
+    &:hover {
+      border: 1px solid $border-active;
+      background: $bg-color-active;
+      box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
+      color: $color-black;
+    }
+    &:active {
+      border: 1px solid $bg-color-white;
+      background: $color-dark-blue;
+      box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
+      color: $bg-color-white;
+    }
+  }
+}
