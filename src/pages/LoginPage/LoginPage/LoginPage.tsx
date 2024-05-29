@@ -9,6 +9,7 @@ import { formReducer, initialState } from 'helpers/formReducer';
 import { useAppDispatch } from 'redux/hooks';
 import { loginThunk } from 'redux/auth/operations';
 import ShowToast from '../../../components/Notification/Toast';
+// import googleIcon from '../../../assets/icons/google.svg';
 
 export const LoginPage: FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -98,84 +99,76 @@ export const LoginPage: FC = () => {
       </span>
 
       <div className={styles.input_container}>
-      {emailHasValue ? (
-            <label
-              htmlFor="email"
-              className={
-
-
-                  styles.Login_label
-              }
-            >
-              E-mail
-            </label>
-          ) : null}
+        {emailHasValue ? (
+          <label htmlFor="email" className={styles.Login_label}>
+            E-mail
+          </label>
+        ) : null}
 
         <input
           type="email"
           placeholder="E-mail"
           id="name"
           className={styles.Login_field}
-
           value={formData.email}
-          onChange={(e) => handleFieldChange('email', e.target.value)}
-
+          onChange={e => handleFieldChange('email', e.target.value)}
           required
         />
-        </div>
-
-
-        <div className={styles.input_container}>
-        {passwordHasValue ? (
-            <label
-              htmlFor="password"
-              className={
-
-                styles.Login_label
-              }
-            >
-              Введіть пароль
-            </label>
-          ) : null}
-
-          <input
-            type={showPassword ? 'text' : 'password'}
-            placeholder="Введіть пароль"
-            className={styles.Login_field}
-            value={formData.password}
-            onChange={(e) => handleFieldChange('password', e.target.value)}
-            required
-          />
-          <img
-            src={showPassword ? eye : eyeClose}
-            alt={showPassword ? 'hide password' : 'show password'}
-            className={styles.password_container_icon}
-            onClick={togglePasswordVisibility}
-          />
       </div>
 
-        <button type="submit" className={styles.Login_btn}>
-          Увійти
-        </button>
+      <div className={styles.input_container}>
+        {passwordHasValue ? (
+          <label htmlFor="password" className={styles.Login_label}>
+            Введіть пароль
+          </label>
+        ) : null}
 
-        <>
-          {messageError.length > 0 &&
-            ShowToast({
-              label: messageError,
-              timer: 4500,
-              backgroundColor: '#f1a9a9b7',
-              color: '#ff3838',
-              borderColor: '#ff3838',
-            })}
-        </>
+        <input
+          type={showPassword ? 'text' : 'password'}
+          placeholder="Введіть пароль"
+          className={styles.Login_field}
+          value={formData.password}
+          onChange={e => handleFieldChange('password', e.target.value)}
+          required
+        />
+        <img
+          src={showPassword ? eye : eyeClose}
+          alt={showPassword ? 'hide password' : 'show password'}
+          className={styles.password_container_icon}
+          onClick={togglePasswordVisibility}
+        />
+      </div>
 
-        <NavLink to="/login/recover" className={styles.Login__reset_password}>
-          Забули пароль?
-        </NavLink>
+      <button type="submit" className={styles.Login_btn}>
+        Увійти
+      </button>
 
-        <img src={line} alt="" className={styles.Login_line} />
+      <>
+        {messageError.length > 0 &&
+          ShowToast({
+            label: messageError,
+            timer: 4500,
+            backgroundColor: '#f1a9a9b7',
+            color: '#ff3838',
+            borderColor: '#ff3838',
+          })}
+      </>
+
+      <NavLink to="/login/recover" className={styles.Login__reset_password}>
+        Забули пароль?
+      </NavLink>
+
+      <img src={line} alt="" className={styles.Login_line} />
+
+      {/* <button className={styles.Login_googleBtn} id="google_button">
+        Зареєструватися через Google
+        <img
+          src={googleIcon}
+          alt="Google Icon"
+          className={styles.Login_googleBtn_icon}
+        />
+      </button> */}
     </form>
-    
   );
 };
 

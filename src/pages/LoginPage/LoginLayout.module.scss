@@ -1,37 +1,32 @@
-@import '../../styles/utils/variables';
+@import '/src/styles/main.scss';
+
+.authSection {
+  background-color: $bg-color-light;
+  height: 100vh;
+}
 
 .Container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  box-sizing: border-box;
-  justify-content: flex-start;
-  height: 100vh;
+  justify-content: space-between;
+  width: $mobile-min-width;
+  margin: 0 auto;
+  height: 100%;
 }
 
 .nav {
   display: flex;
-  width: 100vw;
+  padding: 20px 40px 120px;
   justify-content: space-between;
-  margin: 20px;
-
-  &_logo {
-    margin-left: 20px;
-  }
+  align-items: center;
 
   &_text {
-    margin-right: 20px;
-    align-items: center;
-    display: flex;
-
-    font-family: Roboto;
-    font-size: 11px;
-    font-style: normal;
-    font-weight: 400;
-    color: #797979;
+    font-size: $xs;
+    font-weight: 500;
+    letter-spacing: 0.5px;
   }
 }
 
-.Login_googleBtn{
+.Login_googleBtn {
   border: none;
 }
