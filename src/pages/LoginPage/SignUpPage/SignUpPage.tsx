@@ -1,4 +1,4 @@
-import React, { FC, useRef, useReducer, useState } from 'react';
+import React, { FC, useRef, useReducer, useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -7,12 +7,14 @@ import { formReducer, initialState } from 'helpers/formReducer';
 import ShowToast from '../../../components/Notification/Toast';
 
 import styles from './SignUpPage.module.scss';
-import line from '../../../assets/images/horizontal-line.png';
 import eye from '../../../assets/icons/eye-open.svg';
 import eyeClose from '../../../assets/icons/eye-close.svg';
 import redEye from '../../../assets/icons/eye-open-red.svg';
 import redEyeClose from '../../../assets/icons/eye-close-red.svg';
-//import googleIcon from '../../../assets/icons/google.svg';
+import googleIcon from '../../../assets/icons/google.svg';
+import { useAppDispatch } from 'redux/hooks';
+import { fetchGoogleUser } from 'helpers/fetchGoogleUser';
+import { Dispatch } from 'redux';
 
 export const SignUpPage: FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -32,6 +34,11 @@ export const SignUpPage: FC = () => {
   const [messageError, setMessageError] = useState('');
 
   const [activeField, setActiveField] = useState<FieldKey | null>(null);
+
+  const dispatch1: Dispatch = useAppDispatch();
+  useEffect(() => {
+    fetchGoogleUser(dispatch1);
+  }, [dispatch1]);
 
   type FieldKey = 'name' | 'email' | 'password' | 'confirmPassword';
 
@@ -63,7 +70,7 @@ export const SignUpPage: FC = () => {
         value.trim().length > 50 ||
         !pattern.test(value)
           ? setNameError(
-              "Ім'я має бути від 2 до 50 символів та містити лише літери!"
+              "Ім'я має бути від 2 до 50 символів та містити лише літери!",
             )
           : setNameError('');
 
@@ -88,7 +95,7 @@ export const SignUpPage: FC = () => {
         !/\d/.test(value) ||
         !/[a-zA-Z]/.test(value)
           ? setPasswordError(
-              'Пароль має містити від 8 до 50 символів, хоча б одну букву і цифру'
+              'Пароль має містити від 8 до 50 символів, хоча б одну букву і цифру',
             )
           : setPasswordError('');
 
@@ -125,17 +132,16 @@ export const SignUpPage: FC = () => {
     setMessageError('');
 
     try {
-      const URL =
-      'https://api.pawo.space/api/v1/authorization/register';
+      const URL = 'https://api.pawo.space/api/v1/authorization/register';
 
-       await axios.post(URL, formData);
+      await axios.post(URL, formData);
 
       navigate(`/login/finish-registration?email=${formData.email}`);
       dispatch({ type: 'RESET' });
     } catch (error: any) {
       if (error.response && error.response.status === 409) {
         setMessageError(
-          'Акаунт з такими даними вже зареєстровано. Перевірте пошту для завершення реєстрації'
+          'Акаунт з такими даними вже зареєстровано. Перевірте пошту для завершення реєстрації',
         );
       } else {
         setMessageError('Упс, сталася помилка. Спробуйте пізніше.');
@@ -159,7 +165,12 @@ export const SignUpPage: FC = () => {
           {nameHasValue ? (
             <label
               htmlFor="name"
-              className={activeField !== 'name' && nameError ? `${styles.Login_label_red}`: `${styles.Login_label}`}>
+              className={
+                activeField !== 'name' && nameError
+                  ? `${styles.Login_label_red}`
+                  : `${styles.Login_label}`
+              }
+            >
               Введіть повне ім'я
             </label>
           ) : null}
@@ -177,7 +188,7 @@ export const SignUpPage: FC = () => {
                 : `${styles.Login_field}`
             }
             value={formData.name}
-            onChange={(e) => handleFieldChange('name', e.target.value)}
+            onChange={e => handleFieldChange('name', e.target.value)}
             required
           />
 
@@ -211,7 +222,7 @@ export const SignUpPage: FC = () => {
                 : styles.Login_field
             }
             value={formData.email}
-            onChange={(e) => handleFieldChange('email', e.target.value)}
+            onChange={e => handleFieldChange('email', e.target.value)}
             onBlur={() => handleBlur('email')}
             onFocus={() => handleFocus('email')}
             required
@@ -237,7 +248,7 @@ export const SignUpPage: FC = () => {
               Введіть пароль
             </label>
           ) : null}
-          <div>
+          <div className={styles.passwordThumb}>
             <input
               type={showPassword ? 'text' : 'password'}
               id="password"
@@ -248,7 +259,7 @@ export const SignUpPage: FC = () => {
                   : `${styles.Login_field}`
               }
               value={formData.password}
-              onChange={(e) => handleFieldChange('password', e.target.value)}
+              onChange={e => handleFieldChange('password', e.target.value)}
               onBlur={() => handleBlur('password')}
               onFocus={() => handleFocus('password')}
               required
@@ -290,7 +301,7 @@ export const SignUpPage: FC = () => {
             </label>
           ) : null}
 
-          <div>
+          <div className={styles.passwordThumb}>
             <input
               type={showConfirmPassword ? 'text' : 'password'}
               id="confirmPassword"
@@ -301,7 +312,7 @@ export const SignUpPage: FC = () => {
                   : styles.Login_field
               }
               value={formData.confirmPassword}
-              onChange={(e) =>
+              onChange={e =>
                 handleFieldChange('confirmPassword', e.target.value)
               }
               onBlur={() => handleBlur('confirmPassword')}
@@ -347,15 +358,14 @@ export const SignUpPage: FC = () => {
             })}
         </>
 
-        <img src={line} alt="" className={styles.Login_line} />
-        {/* <button className={styles.Login_googleBtn}>
+        <button className={styles.Login_googleBtn} id="google_button">
           Зареєструватися через Google
           <img
             src={googleIcon}
             alt="Google Icon"
             className={styles.Login_googleBtn_icon}
           />
-        </button> */}
+        </button>
       </div>
     </form>
   );
