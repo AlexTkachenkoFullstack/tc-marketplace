@@ -168,7 +168,7 @@ export const Dropdown: FC<Props> = props => {
       setOption(selectedOptions);
     }
   }, [optionList, selectedOptions, setOption, startValue]);
- 
+
   return (
     <div
       className={`${styles.container} ${
@@ -230,10 +230,12 @@ export const Dropdown: FC<Props> = props => {
             />
           ) : (
             <div
-              className={`${styles.text} ${
-                updateStyle === 'menuStyle' ? styles.textAdvMenu : null
-              } ${updateStyle && styles[updateStyle]}`}
-              style={{ maxWidth: updateStyle === 'favoritPage' ? 164 : '' }}
+           
+              className={`${styles.text}              
+               ${updateStyle === 'menuStyle' ? styles.textAdvMenu : ''}    
+              ${updateStyle === 'modalStyle' ? styles[updateStyle] : ''}  `}
+              // ${updateStyle && styles[updateStyle]}
+              // style={{ maxWidth: updateStyle === 'favoritPage' ? 164 : '' }}
             >
               {Array.isArray(option) ? renderPlaceholder() : option}
             </div>

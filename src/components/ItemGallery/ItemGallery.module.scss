@@ -1,19 +1,18 @@
-@import '../../styles/utils/breakpoints';
-@import '../../styles/utils/variables';
 
+@import '../../styles/main.scss';
 
 .galleryContainer{
   margin-right: auto;
   margin-left: auto;
-  width: 312px;
+  width: 320px;
   border-radius: 8px;
 
-  @media (min-width: 768px) {
+  @include onTablet {
     width: 688px;
   }
 
-  @media (min-width: 1024px) {
-    width: 624px;
+  @include onDesktop {
+    width: 824px;
   }
 }
 
@@ -22,25 +21,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width:312px;
-  height: 190px;
+  width:320px;
+  height: 200px;
   border-radius: 8px;
   overflow: hidden;
   font-size: 12px;
 
-  @media (min-width: 768px) {
+  @include onTablet {
     width: 688px;
-    height: 430px;
+    height: 418px;
   }
 
-  @media (min-width: 1024px) {
-    width: 624px;
-    height: 390px;
+  @include onDesktop {
+    width: 824px;
+    height: 515px;
   }
 }
 
 .image{
   width: 100%;
+  height: 100%;
 object-fit: cover;
 }
 

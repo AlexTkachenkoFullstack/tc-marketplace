@@ -14,10 +14,10 @@
 
   &.modalStyle {
     margin-bottom: 0;
-    @include onTablet{
+    @include onTablet {
       width: 238px;
     }
-    @include onDesktop{
+    @include onDesktop {
       width: 340px;
     }
   }
@@ -106,6 +106,7 @@
     background-color: $border-gray;
   }
   &_errorMessage {
+    padding: 0px 18px 0px 22px;
     border: 1px solid red;
   }
   &_active {
@@ -147,8 +148,8 @@
     font-size: $mobile-sm;
     font-weight: 400;
     line-height: normal;
-    @include onTablet{
-       font-size: $tablet-sm;
+    @include onTablet {
+      font-size: $tablet-sm;
     }
   }
 }
@@ -196,7 +197,7 @@
     }
   }
 }
-.personal_info{
+.personal_info {
   display: flex;
   box-sizing: border-box;
   width: 100%;
