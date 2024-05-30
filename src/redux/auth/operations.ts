@@ -40,7 +40,7 @@ export const loginThunk = createAsyncThunk(
 
 export const authGoogle = createAsyncThunk(
   'auth/google',
-  async (credentials:{email: string, name:string, password: string, picture:string}, thunkAPI) => {
+  async (credentials:{email: string, name:string, password: string, picture:string}) => {
     try {
       const response = await instance.post('authorization/login/oauth2', credentials);
       setAuthHeader(response.data.token);

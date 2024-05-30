@@ -9,14 +9,24 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
   width: $mobile-min-width;
   margin: 0 auto;
   height: 100%;
+
+  @include onTablet {
+    justify-content: flex-start;
+    width: $tablet-min-width;
+  }
+  @include onDesktop {
+    width: $desktop-min-width;
+  }
 }
 
 .nav {
   display: flex;
-  padding: 20px 40px 120px;
+  width: 100%;
+  padding: 20px 42px 68px;
   justify-content: space-between;
   align-items: center;
 
