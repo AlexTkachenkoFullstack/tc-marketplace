@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import GoToTop from 'components/GoToTop/GoToTop';
+// import GoToTop from 'components/GoToTop/GoToTop';
 import { HomeTop } from 'components/HomeTop/HomeTop';
 import styles from './HomePage.module.scss';
 import { CardSlider } from 'components/CardSlider';

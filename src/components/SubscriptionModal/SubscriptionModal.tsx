@@ -21,7 +21,7 @@ import {
   fetchRegions,
 } from 'redux/filter/operations';
 import { ISearchParams } from 'types/ISearchParam';
-import { fetchUserInfo, getCarTypeParam } from 'services/services';
+import { getCarTypeParam } from 'services/services';
 import {
   getArrayBrandsOfId,
   getArrayCarBodyOfId,
