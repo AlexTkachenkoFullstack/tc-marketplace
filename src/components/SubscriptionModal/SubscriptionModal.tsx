@@ -126,6 +126,7 @@ const SubscriptionModal: React.FC<Iprops> = ({
   const [price, setPrice] = useState({ from: 0, to: 0 });
   const [bargain, setBargain] = useState<boolean | undefined>(undefined);
   const [isNotificationEnabled, setIsNotificationEnabled] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -334,6 +335,10 @@ const SubscriptionModal: React.FC<Iprops> = ({
   // }, []);
 
   const handleSaveSubscription = () => {
+    if (subscrName.length === 0) {
+      setIsError(true);
+      return;
+    }
     const bodyTypeId = getArrayCarBodyOfId(bodyTypesArr, bodyType);
     const modelId = getArrayModelsOfIdForSearch(models, model);
     const fuelTypeId = getArrayFuelOfId(fuelTypeArr, fuelType);
@@ -437,12 +442,12 @@ const SubscriptionModal: React.FC<Iprops> = ({
     };
   }, [dispatch, selectedCategory, transportTypes]);
 
-  const handleIsActivateSubscription = (
+  const handleIsActivateSubscription = () =>
     // event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    // setShowEmail(event.target.checked ? userEmail : 'E-mail');
-    setIsNotificationEnabled(prev => !prev);
-  };
+    {
+      // setShowEmail(event.target.checked ? userEmail : 'E-mail');
+      setIsNotificationEnabled(prev => !prev);
+    };
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setBargain(event.target.checked ? true : undefined);
@@ -471,13 +476,19 @@ const SubscriptionModal: React.FC<Iprops> = ({
             <CloseIcon />
           </button>
         </div>
-        <input
-          type="text"
-          placeholder="Назва підписки"
-          value={subscrName}
-          className={styles.input}
-          onChange={e => setSubscrName(e.target.value)}
-        />
+        <div className={styles.nameThumb}>
+          <input
+            type="text"
+            placeholder="Назва підписки"
+            value={subscrName}
+            className={styles.input}
+            onChange={e => setSubscrName(e.target.value)}
+            onFocus={() => setIsError(false)}
+          />
+          {isError && (
+            <div className={styles._errorMessage}>Введіть ім'я підписки</div>
+          )}
+        </div>
 
         <div
           className={`${styles.charactsTitleThumb} ${

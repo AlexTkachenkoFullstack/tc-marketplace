@@ -216,8 +216,6 @@ export const HomeTop = () => {
 
     // dispatch(fetchFiltredCars(searchConfig));
     dispatch(writeTitle(title));
-    navigate('/advanced-search');
-    
 
     dispatch(
       saveParamsForSubscr({
@@ -228,11 +226,23 @@ export const HomeTop = () => {
         data,
       }),
     );
+    navigate('/advanced-search');
   };
 
   const navigate = useNavigate();
 
   const handleAdvancedSearchClick = () => {
+    console.log('selectedCategory', selectedCategory);
+    console.log('data', data);
+    dispatch(
+      saveParamsForSubscr({
+        selectedCategory: selectedCategory,
+        carMark: Array.isArray(carMark) ? carMark : [carMark],
+        carModel: carModel,
+        selectedRegions: selectedRegions,
+        data,
+      }),
+    );
     navigate('/advanced-search?isOpenAdvancedFilter=true');
   };
 

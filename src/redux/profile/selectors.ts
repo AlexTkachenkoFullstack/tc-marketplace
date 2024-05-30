@@ -9,3 +9,4 @@ export const isLoadingProfileInfo = (state: RootState) => state.profile.isLoadin
 export const getAdsCount = (state: RootState) => state.profile.count
 export const getSubscriptions = (state: RootState) => state.profile.mySubscriptions;
 export const getSubscrCarList = (state: RootState) => state.profile.carListBySubscription;
+export const getMessage = (state: RootState) => state.profile.message;

@@ -31,6 +31,7 @@ interface IProfileState {
   count: ICount[] | [];
   error: unknown;
   isLoading: boolean;
+  message: string | null;
 }
 
 const initialState: IProfileState = {
@@ -43,6 +44,7 @@ const initialState: IProfileState = {
   count: [],
   error: null,
   isLoading: false,
+  message: null,
 };
 
 const handleFulfilledGetMyAdsAndSubscriptions = (
@@ -85,7 +87,8 @@ const handleFulfilledGetMyAdsAndSubscriptions = (
       type === 'editSubscription' ||
       type === 'changeUserPassword'
     ) {
-      return;
+      state.message = "Succesfull!!!!!!!!!!!!!!!!!!"
+      // return;
     } else if (type === 'mySubscriptions') {
       state[type] = action.payload as ISubscription[];
     } else if (type === 'carListBySubscription') {

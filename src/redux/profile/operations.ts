@@ -201,6 +201,7 @@ export const saveSubscription = createAsyncThunk(
         subscriptionRequest,
         config,
       );
+      
       return data;
     } catch (err) {
       const error: AxiosError<KnownError> = err as any;
