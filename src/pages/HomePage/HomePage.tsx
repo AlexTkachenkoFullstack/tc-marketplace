@@ -83,7 +83,7 @@ export const HomePage: React.FC = () => {
 
   return (
     <div className={styles.homePage}>
-      <GoToTop />
+      {/* <GoToTop /> */}
       <HomeTop />
       <div className={styles.main}>
         {isAuth && viewedCars.length > 0 && (

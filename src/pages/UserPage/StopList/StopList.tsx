@@ -19,7 +19,8 @@ const StopList: React.FC = () => {
   const [transportData, setTransportData] = useState<any>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const categories = useMemo(() => ['Продавці', 'Транспорт'], []);
-   const fetchData = async () => {
+  
+  const fetchData = async () => {
     setIsLoading(true);
     try {
       const response = await getHiddenUsersData();
