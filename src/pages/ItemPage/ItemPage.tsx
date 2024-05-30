@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styles from './ItemPage.module.scss';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getCarInfo, getUserContacts, getUserDetails } from 'services/services';
+import {
+  getCarInfo,
+  // getHiddenTransportsData,
+  // getHiddenUsersData,
+  getUserContacts,
+  getUserDetails,
+} from 'services/services';
 import { ITransport } from 'types/ITransport';
 import { ItemGallery } from 'components/ItemGallery';
 import millageIcon from 'assets/icons/millage.svg';
@@ -22,36 +28,115 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { Characteristics } from './Characteristics/Characteristics';
 import { carDetail, getNewCars } from 'redux/cars/selectors';
 import { CardSlider } from 'components/CardSlider';
-import { fetchNewCars, getCarDetails } from 'redux/cars/operations';
+import {
+  addToFavourites,
+  fetchNewCars,
+  getCarDetails,
+  removeFromFavourites,
+} from 'redux/cars/operations';
 import Loader from 'components/Loader/Loader';
 import { ItemRightGalleryBigScreen } from './ItemRightGalleryBigScreen';
 import { ReactComponent as Back } from '../../assets/icons/arrow_back.svg';
+import { isAuthUser } from 'redux/auth/selectors';
+import { ReactComponent as FavoriteIcon } from 'assets/icons/favorite.svg';
+import { ReactComponent as FavoriteActiveIcon } from 'assets/icons/favorite-active.svg';
+// import { ReactComponent as OptionDots } from 'assets/icons/option_dots.svg';
+// import { hideAllTransport, hideTransport } from 'redux/filter/operations';
 
 export const ItemPage: React.FC = () => {
-  // const jsonString = localStorage.getItem('persist:userRoot');
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  //  const [authToken, setAuthToken] = useState<string>('');
   const newCars = useAppSelector(getNewCars);
   const [carInfo, setCarInfo] = useState<null | ITransport>(null);
   const [userDetailsInfo, setUserDetailsInfo] = useState<null | IUserDetails>(
     null,
   );
+  // const [userInfo, setUserInfo] = useState<any>([]);
+  // const [transportInfo, setTransportInfo] = useState<any>([]);
   const [userContacts, setUserContacts] = useState<null | IUserContacts>(null);
   const [error, setError] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { id } = useParams();
-
+  const [isShow, setIsShow] = useState<boolean>(false);
   const carDetails = useAppSelector(carDetail);
+  const isAuth = useAppSelector(isAuthUser);
+  // const [isShowMenu, setIsShowMenu] = useState<boolean>(false);
+  // const [hideTransportAdvert, setHideTransportAdvert] =
+  //   useState<boolean>(false);
+  // const [hideAllTransportAdvert, setHideAllTransportAdvert] =
+  //   useState<boolean>(false);
+
+//     // if (userInfo.length > 0 && userDetailsInfo) {
+//     const ishideAuthor = userInfo.length > 0 && userDetailsInfo ? userInfo[0].userName === userDetailsInfo.name:null;
+// console.log('ishideAuthor :>> ', ishideAuthor);
+//     // }
+//     // if (carInfo && transportInfo.length > 0 ) {
+//       const ishideTransport = carInfo && transportInfo.length > 0 ? carInfo?.id === transportInfo[0].transport.id:null;
+//   console.log('ishideTransport :>> ', ishideTransport);
+//       // }
+// console.log('userInfo :>> ', userInfo);
+//       console.log('transportInfo :>> ', transportInfo);
+//   const fetchData = async () => {
+//     setIsLoading(true);
+//     try {
+//       const response = await getHiddenUsersData();
+//       setUserInfo(response);
+//       setIsLoading(false);
+//     } catch (error) {
+//       console.log('error :>> ', error);
+//     }
+//   };
+//   const fetchTransportsData = async () => {
+//     setIsLoading(true);
+//     try {
+//       const response = await getHiddenTransportsData();
+//       setTransportInfo(response);
+//       setIsLoading(false);
+//     } catch (error) {
+//       console.log('error :>> ', error);
+//     }
+//   };
   // useEffect(() => {
-  //   if (jsonString) {
-  //     const data = JSON.parse(jsonString);
-  //     const token = data.token.replace(/^"(.*)"$/, '$1');
-  //     // setAuthToken(token);
+  //   fetchData();
+  //   fetchTransportsData();
+  // }, []);
+  // useEffect(() => {
+  //   fetchData();
+  //   fetchTransportsData();
+  // }, [hideAllTransportAdvert, hideTransportAdvert]);
+  const addFavorite = () => {
+    if (!isAuth) {
+      navigate('/login/log-in', { replace: true });
+    }
+    const carId = carInfo?.id ?? 0;
+    if (carDetails?.isFavorite && carInfo) {
+      dispatch(removeFromFavourites(carId));
+    } else {
+      dispatch(addToFavourites(carId));
+    }
+  };
+  // useEffect(() => {
+  //   if () {
 
   //   }
-  // }, [jsonString]);
-
+  // }, []);
+  // const handleOptionMenu = () => {
+  //   if (!isAuth) {
+  //     navigate('/login/log-in', { replace: true });
+  //   }
+  //   setIsShowMenu(prev => !prev);
+  // };
+  // const handleHideAdvert = (e: React.MouseEvent<HTMLDivElement>) => {
+  //   e.stopPropagation();
+  //   const buttonId = (e.target as HTMLElement).closest('button')?.id;
+  //   if (buttonId === 'hideAdvert') {
+  //     setHideTransportAdvert(true);
+  //     carInfo && dispatch(hideTransport(carInfo.id));
+  //   } else if (buttonId === 'hideAllAdverts') {
+  //     setHideAllTransportAdvert(true);
+  //     carInfo && dispatch(hideAllTransport(carInfo.id));
+  //   }
+  // };
   useEffect(() => {
     const fetchCarDetails = async () => {
       try {
@@ -98,7 +183,9 @@ export const ItemPage: React.FC = () => {
   const handleBackClick = () => {
     navigate(-1);
   };
-
+  const handleBtnClick = () => {
+    setIsShow(true);
+  };
   return (
     <div className={styles.pageContainer}>
       <section className={styles.title_wrapper}>
@@ -106,18 +193,65 @@ export const ItemPage: React.FC = () => {
           <button className={styles.btn_back} onClick={handleBackClick}>
             <Back className={styles.svg_btn} />
           </button>
-          <h1 className={styles.main_title}>
-            {' '}
-            {carInfo && carDetails && userDetailsInfo ? (
-              <span>
-                {`${carInfo.brand} ${carInfo.model} ${carInfo.year}`}
-                <span className={styles.delimiter}></span>
-                {`${carInfo.price} $`}
-              </span>
-            ) : (
-              <div>{error}</div>
-            )}{' '}
-          </h1>
+          <div className={styles.info_container}>
+            <h1 className={styles.main_title}>
+              {' '}
+              {carInfo && carDetails && userDetailsInfo ? (
+                <span>
+                  {`${carInfo.brand} ${carInfo.model} ${carInfo.year}`}
+                  <span className={styles.delimiter}></span>
+                  {`${carInfo.price} $`}
+                </span>
+              ) : (
+                <div>{error}</div>
+              )}{' '}
+            </h1>
+
+            <div className={styles.info_wrapper}>
+              <button
+                className={styles.favouriteIconContainer}
+                onClick={addFavorite}
+              >
+                {carDetails && carDetails.isFavorite ? (
+                  <FavoriteActiveIcon
+                    className={styles.favoriteActiveIcon}
+                    width="24px"
+                  />
+                ) : (
+                  <FavoriteIcon className={styles.favoriteIcon} width="24px" />
+                )}
+              </button>
+              {/* <button
+                // style={{ display: isDisabled ? 'none' : '' }}
+                type="button"
+                className={styles.optionBtn}
+                onClick={handleOptionMenu}
+              >
+                <OptionDots className={styles.option_dots} />
+              </button>
+              <div
+                className={styles.optionMenu}
+                style={{ display: isShowMenu ? 'flex' : 'none' }}
+                onClick={handleHideAdvert}
+              >
+                <button type="button" id="hideAdvert">
+                  Приховати оголошення
+                </button>
+                <button type="button" id="hideAllAdverts">
+                  Приховати всі оголошення автора
+                </button>
+              </div>
+              </div> */}
+
+              <button
+                className={styles.show_btn}
+                onClick={handleBtnClick}
+                style={{ display: isShow ? 'none' : '' }}
+              >
+                Звʼязатись з продавцем
+              </button>
+            </div>
+          </div>
         </div>
       </section>
       <div className={styles.container}>
@@ -142,12 +276,12 @@ export const ItemPage: React.FC = () => {
             </div>
             <div className={styles.itemInfoTop}>
               <div className={styles.itemInfoTopLeft}>
-                <div className={styles.titleSection}>
+                {/* <div className={styles.titleSection}>
                   <p className={styles.titleName}>
                     {carInfo.brand} {carInfo.model} {carInfo.year}
                   </p>
                   <p className={styles.titlePrice}>{carInfo.price} $</p>
-                </div>
+                </div> */}
                 <div className={styles.mainCharacteristicsSection}>
                   <div className={styles.mainCharacteristicsItem}>
                     <img
@@ -239,10 +373,14 @@ export const ItemPage: React.FC = () => {
 
                 <ProductDescription description={carInfo.description} />
               </div>
-              <SellerInfo
-                userInfo={userDetailsInfo}
-                userContacts={userContacts}
-              />
+              {isAuth && (
+                <SellerInfo
+                  isShow={isShow}
+                  handleShow={handleBtnClick}
+                  userInfo={userDetailsInfo}
+                  userContacts={userContacts}
+                />
+              )}
             </div>
             <Characteristics carInfo={carInfo} />
           </>
