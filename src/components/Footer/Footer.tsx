@@ -4,7 +4,7 @@ import styles from './Footer.module.scss';
 
 import { Logo } from 'components/Logo';
 import { NavLink } from 'react-router-dom';
-import MessageModal from 'components/messageModal/messageModal';
+// import MessageModal from 'components/messageModal/messageModal';
 
 export const Footer: React.FC = () => {
   return (

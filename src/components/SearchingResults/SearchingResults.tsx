@@ -5,7 +5,7 @@ import React, {
   // useRef,
   useState,
 } from 'react';
-import { useSelector } from 'react-redux';
+
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 // import _ from 'lodash.throttle';
 

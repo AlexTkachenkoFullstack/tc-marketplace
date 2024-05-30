@@ -4,7 +4,7 @@ import { App } from './App';
 import { persistor, store } from './redux/store';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { StrictMode } from 'react';
+// import { StrictMode } from 'react';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const container = document.getElementById('root') as HTMLElement;

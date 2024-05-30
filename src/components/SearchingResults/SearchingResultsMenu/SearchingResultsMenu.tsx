@@ -3,20 +3,20 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
 import styles from './SearchingResultsMenu.module.scss';
 
-import { changeFiltredParams, saveParamsForSubscr } from 'redux/filter/slice';
+import { changeFiltredParams } from 'redux/filter/slice';
 import { Dropdown } from 'components/Dropdown/Dropdown';
 
 import SubscriptionModal from 'components/SubscriptionModal';
 import { createPortal } from 'react-dom';
 import {
   getParamsForSuscr,
-  getSelectedCars,
+  // getSelectedCars,
   getTotalAdverts,
 } from 'redux/filter/selectors';
 import { ReactComponent as StarIcon } from '../../../assets/icons/star.svg';
 import { ReactComponent as BackIcon } from '../../../assets/icons/arrow_back.svg';
 import { fullTitle } from 'hooks/titleCreator';
-import { getCarTypeParam } from 'services/services';
+// import { getCarTypeParam } from 'services/services';
 
 const portal = document.querySelector('#modal-root') as Element;
 
@@ -38,7 +38,7 @@ const SearchingResultsMenu: React.FC<Iprops> = ({
   const [sortBy, setSortBy] = useState<'ASC' | 'DESC'>('ASC');
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [data, setData] = useState<any>({});
+  // const [data, setData] = useState<any>({});
 
   const dispatch = useAppDispatch();
   const requestParams = useAppSelector(getParamsForSuscr);
