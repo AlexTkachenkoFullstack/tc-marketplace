@@ -43,6 +43,8 @@ const SearchingResultsMenu: React.FC<Iprops> = ({
   const dispatch = useAppDispatch();
   const requestParams = useAppSelector(getParamsForSuscr);
 
+  const selectedCategory = requestParams.selectedCategory;
+  // const selectedCategory = useAppSelector(getParamsForSuscr);
   // const { transportTypeId } = useAppSelector(getSelectedCars);
 
   // useEffect(() => {
@@ -61,6 +63,7 @@ const SearchingResultsMenu: React.FC<Iprops> = ({
   // useEffect(() => {
   //   dispatch(
   //     saveParamsForSubscr({
+  //       selectedCategory: "Легкові",
   //       data,
   //     }),
   //   );
@@ -181,9 +184,12 @@ const SearchingResultsMenu: React.FC<Iprops> = ({
               </div>
 
               <button
-                className={styles.subscr}
+                className={`${styles.subscr} ${
+                  selectedCategory ? '' : styles.hideSubscrBtn
+                }`}
                 type="button"
                 onClick={toggleModalIsOpen}
+                // disabled={selectedCategory ? false : true}
               >
                 <StarIcon />
                 <span className={styles.hiddenText}>Підписатись на пошук</span>

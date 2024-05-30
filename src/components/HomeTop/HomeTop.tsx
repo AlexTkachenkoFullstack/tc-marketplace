@@ -187,12 +187,12 @@ export const HomeTop = () => {
     // const searchParams: Pick<ISearchParams, 'transportBrandsId'> = {
     //   transportBrandsId: brandId,
     // };
-    const searchConfig = {
-      searchParams: {
-        transportBrandsId: brandId,
-      },
-    };
-    dispatch(fetchCars({ id: transportTypeId, searchConfig }));
+    // const searchConfig = {
+    //   searchParams: {
+    //     transportBrandsId: brandId,
+    //   },
+    // };
+    // dispatch(fetchCars({ id: transportTypeId, searchConfig }));
     // const searchParams: Pick<
     //   ISearchParams,
     //   | 'transportTypeId'
@@ -232,8 +232,7 @@ export const HomeTop = () => {
   const navigate = useNavigate();
 
   const handleAdvancedSearchClick = () => {
-    console.log('selectedCategory', selectedCategory);
-    console.log('data', data);
+
     dispatch(
       saveParamsForSubscr({
         selectedCategory: selectedCategory,

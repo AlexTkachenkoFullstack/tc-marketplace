@@ -142,6 +142,9 @@ export const profileSlice = createSlice({
         viewedTransportList: [],
       };
     },
+    cleanMessage(state) {
+      state.message = null
+    },
   },
   extraReducers: builder => {
     builder
@@ -229,4 +232,5 @@ export const profileSlice = createSlice({
   },
 });
 
-export const { deleteSubscrInState, cleanSubscrCarList } = profileSlice.actions;
+export const { deleteSubscrInState, cleanSubscrCarList, cleanMessage } =
+  profileSlice.actions;
