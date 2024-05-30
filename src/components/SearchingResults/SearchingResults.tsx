@@ -60,11 +60,11 @@ const SearchingResults: React.FC<IProps> = ({
   const searchParams: Pick<
     ISearchParams,
     'transportTypeId' | 'brandId' | 'modelId' | 'regionId' | 'orderBy'
-  > = useSelector(getSelectedCars);
-  const adverts = useSelector(getFiltredCars);
-  const isLoadingFilteredCars = useSelector(getIsloadingFilterInfo);
-  const isLoadingSubscrCars = useSelector(isLoadingProfileInfo);
-  const totalAdverts: number | null = useSelector(getTotalAdverts);
+  > = useAppSelector(getSelectedCars);
+  const adverts = useAppSelector(getFiltredCars);
+  const isLoadingFilteredCars = useAppSelector(getIsloadingFilterInfo);
+  const isLoadingSubscrCars = useAppSelector(isLoadingProfileInfo);
+  const totalAdverts: number | null = useAppSelector(getTotalAdverts);
   let advertsPerPage = 4;
   let totalPages: number;
   if (totalAdverts !== null) {
@@ -188,7 +188,7 @@ const SearchingResults: React.FC<IProps> = ({
   };
 
   const { unseenTransportList, viewedTransportList } =
-    useSelector(getSubscrCarList);
+    useAppSelector(getSubscrCarList);
   const subsrcCarsArr = [...unseenTransportList, ...viewedTransportList];
 
   const arrForRender = id ? subsrcCarsArr : filteredCarsArr;

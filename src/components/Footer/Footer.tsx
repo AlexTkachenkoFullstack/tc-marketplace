@@ -4,12 +4,13 @@ import styles from './Footer.module.scss';
 
 import { Logo } from 'components/Logo';
 import { NavLink } from 'react-router-dom';
+import MessageModal from 'components/messageModal/messageModal';
 
 export const Footer: React.FC = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.content}>
-        <Logo className='footer-logo' />
+        <Logo className="footer-logo" />
 
         <div className={styles.contacts}>
           <NavLink
@@ -28,6 +29,7 @@ export const Footer: React.FC = () => {
             Instagram
           </NavLink>
         </div>
+        {/* <MessageModal/> */}
       </div>
     </footer>
   );
