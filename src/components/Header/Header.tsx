@@ -41,7 +41,7 @@ export const Header: FC = () => {
   const navigate = useNavigate();
   const isAdvertisementsEdit = location.pathname === '/advertisements/edit';
   const isAdvertisements = location.pathname === '/advertisements';
-  const favoriteCars = useAppSelector(getFavoriteCars);
+  // const favoriteCars = useAppSelector(getFavoriteCars);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   // const [isActive, setIsActive] = useState(false);
 
@@ -60,10 +60,17 @@ export const Header: FC = () => {
   const isMobile = screenWidth < 768;
 
   const handleFavoritesClick = () => {
+    if (!auth) {
+      navigate('/login/log-in', { replace: true });
+      return
+    }
     navigate('/favorites');
-    // setIsActive(!isActive);
   };
   const handleNewAnnouncementClick = () => {
+    if (!auth) {
+      navigate('/login/log-in', { replace: true });
+      return
+    }
     navigate('/advertisements');
   };
   const handleLogout = async () => {
@@ -72,14 +79,8 @@ export const Header: FC = () => {
   };
 
   return (
-    <header
-      className={styles.header}
-      // style={{backgroundColor:isFavoritesPage || isAdvencedSearch ? '#E4E4E4':''}}
-    >
+    <header className={styles.header}>
       <div className={styles.header__left}>
-        {/* <button className={styles.header__burger}>
-          <img src={menu} alt="Меню" />
-        </button> */}
         <Logo className={styles.header__logo} />
       </div>
 
@@ -92,27 +93,23 @@ export const Header: FC = () => {
           onClick={handleNewAnnouncementClick}
           disabled={isAdvertisements}
         >
-          {auth ? (
-            isMobile ? (
-              <Add className={styles.add_icon} />
-            ) : (
-              <>
-                Додати оголошення
-                <Plus className={styles.header__add_button_icon} />
-              </>
-            )
+          {isMobile ? (
+            <Add className={styles.add_icon} />
           ) : (
-            ''
+            <>
+              Додати оголошення
+              <Plus className={styles.header__add_button_icon} />
+            </>
           )}
         </button>
-        {favoriteCars.length > 0 && auth && (
-          <button
-            className={`${styles.header__favorite_button}`}
-            onClick={handleFavoritesClick}
-          >
-            <Favorite className={`${styles.svg_icon}  `} />
-          </button>
-        )}
+
+        <button
+          className={`${styles.header__favorite_button}`}
+          onClick={handleFavoritesClick}
+        >
+          <Favorite className={`${styles.svg_icon}  `} />
+        </button>
+
         {auth ? (
           <div className={styles.header__auth_container}>
             <NavLink
