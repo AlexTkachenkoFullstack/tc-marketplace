@@ -6,9 +6,12 @@ import { ReactComponent as PencilIcon } from '../../../../assets/icons/pencil.sv
 import { ReactComponent as ShowSubscrIcon } from '../../../../assets/icons/north_east_black.svg';
 import { ReactComponent as MenuDotsIcon } from '../../../../assets/icons/option_dots.svg';
 
-// import { subscriptionContent } from 'utils/descriptionContent';
 import { useAppDispatch } from 'redux/hooks';
-import { deleteSubscription, editSubscription } from 'redux/profile/operations';
+import {
+  deleteSubscription,
+  editSubscription,
+  fetchSubscriptions,
+} from 'redux/profile/operations';
 import { cleanSubscrCarList, deleteSubscrInState } from 'redux/profile/slice';
 import { useNavigate } from 'react-router-dom';
 
@@ -74,8 +77,10 @@ const SubscriptionCard: React.FC<IProps> = ({
   };
 
   const handleDelete = () => {
-    dispatch(deleteSubscription(id));
-    dispatch(deleteSubscrInState(id));
+    dispatch(deleteSubscription(id)).then(() =>
+      dispatch(deleteSubscrInState(id)),
+    );
+    ;
   };
 
   const handleEditSubscription = () => {
@@ -91,25 +96,11 @@ const SubscriptionCard: React.FC<IProps> = ({
     dispatch(
       editSubscription({
         id,
-        // modifiedRequestSearch: {},
-        subscriptionRequest: { name, notificationEnabled: true },
+        subscriptionRequest: { name, notificationEnabled: !isNotify },
       }),
-    );
+    ).then(() => dispatch(fetchSubscriptions()));
   };
 
-  // useEffect(() => {
-  //   if (notificationStatus !== isNotify) {
-  //     dispatch(
-  //       editSubscription({
-  //         id,
-  //         // modifiedRequestSearch: {},
-  //         subscriptionRequest: { name, notificationEnabled: isNotify },
-  //       }),
-  //     );
-  //   }
-  // }, [dispatch, id, isNotify, name, notificationStatus]);
-
-  console.log('subscription', subscription);
   return (
     <li className={styles.subscriptionCard}>
       <div className={styles.subscrHeader}>
@@ -147,11 +138,11 @@ const SubscriptionCard: React.FC<IProps> = ({
         <p>Сповіщення</p>
         <input
           type="checkbox"
-          id="notify"
+          id={`notify${id}`}
           checked={isNotify}
           onChange={handleNotify}
         />
-        <label htmlFor="notify" />
+        <label htmlFor={`notify${id}`} />
       </div>
       {/* <div>
         <p className={styles.content}>

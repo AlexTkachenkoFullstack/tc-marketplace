@@ -147,7 +147,7 @@ export const RecoverPasswordPage: FC = () => {
           onClick={!sent ? handleRecover : redirectToMailService}
           className={styles.Login_btn}
         >
-          {!sent ? 'Відновити пароль' : 'Перевірити пошту'}
+          {!sent ? 'Перейти' : 'Перевірити пошту'}
         </button>
 
         <>

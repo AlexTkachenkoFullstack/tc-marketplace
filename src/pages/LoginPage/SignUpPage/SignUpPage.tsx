@@ -1,4 +1,4 @@
-import React, { FC, useRef, useReducer, useState, useEffect } from 'react';
+import React, { FC, useRef, useReducer, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -11,10 +11,9 @@ import eye from '../../../assets/icons/eye-open.svg';
 import eyeClose from '../../../assets/icons/eye-close.svg';
 import redEye from '../../../assets/icons/eye-open-red.svg';
 import redEyeClose from '../../../assets/icons/eye-close-red.svg';
-import googleIcon from '../../../assets/icons/google.svg';
-import { useAppDispatch } from 'redux/hooks';
-import { fetchGoogleUser } from 'helpers/fetchGoogleUser';
-import { Dispatch } from 'redux';
+import { ReactComponent as GoogleIcon } from '../../../assets/icons/google.svg';
+import {  useLogin } from 'helpers/fetchGoogleUser';
+
 
 export const SignUpPage: FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -35,10 +34,7 @@ export const SignUpPage: FC = () => {
 
   const [activeField, setActiveField] = useState<FieldKey | null>(null);
 
-  const dispatch1: Dispatch = useAppDispatch();
-  useEffect(() => {
-    fetchGoogleUser(dispatch1);
-  }, [dispatch1]);
+  const login = useLogin();
 
   type FieldKey = 'name' | 'email' | 'password' | 'confirmPassword';
 
@@ -196,7 +192,6 @@ export const SignUpPage: FC = () => {
             <span className={styles.Login_label_errorMessage}>{nameError}</span>
           )}
         </div>
-
         <div className={styles.input_container}>
           {emailHasValue ? (
             <label
@@ -234,7 +229,6 @@ export const SignUpPage: FC = () => {
             </span>
           )}
         </div>
-
         <div className={styles.input_container}>
           {passwordHasValue ? (
             <label
@@ -286,7 +280,6 @@ export const SignUpPage: FC = () => {
             </span>
           )}
         </div>
-
         <div className={styles.input_container}>
           {confirmPasswordHasValue ? (
             <label
@@ -342,11 +335,9 @@ export const SignUpPage: FC = () => {
               </span>
             )}
         </div>
-
         <button type="submit" className={styles.Login_btn}>
-          Зареєструватися
+          Реєстрацуватись
         </button>
-
         <>
           {messageError.length > 0 &&
             ShowToast({
@@ -357,15 +348,10 @@ export const SignUpPage: FC = () => {
               borderColor: '#ff3838',
             })}
         </>
-
-        <button className={styles.Login_googleBtn} id="google_button">
-          Зареєструватися через Google
-          <img
-            src={googleIcon}
-            alt="Google Icon"
-            className={styles.Login_googleBtn_icon}
-          />
-        </button>
+        <div className={styles.Login_googleBtn} onClick={() => login()}>
+          <span>Реєстрацувати через</span> Google
+          <GoogleIcon />
+        </div>
       </div>
     </form>
   );
