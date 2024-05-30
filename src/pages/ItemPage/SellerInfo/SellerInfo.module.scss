@@ -1,32 +1,44 @@
-@import '../../../styles/utils/variables';
+@import '../../../styles/main.scss';
 
-.userInfoSection{
- background-color: $color-light;
- padding: 16px;
- border-radius: 16px;
-
- @media (min-width: 768px) {
-  width:304px;
-  height: fit-content;
+.userInfoSection {
+  background-color: $bg-color-light;
+  padding: 16px;
+  border-radius: 16px;
+  width: 320px;
+  height: 100%;
+  @include onTablet {
+    width: 280px;
+  }
+  @include onDesktop {
+    width: 400px;
+  }
 }
-}
 
-.userInfoTitle{
+.userInfoTitle {
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
-  font-size: 14px;
-  line-height: 1.43;
+  font-size: $mobile-sm;
+  font-style: normal;
+  line-height: 20px;
+  letter-spacing: 0.1px;
   margin-bottom: 12px;
+  color: $color-black;
+  @include onTablet {
+    font-size: $tablet-sm;
+  }
+  @include onDesktop {
+    font-size: $desctop-sm;
+  }
 }
 
-.userProfileContainer{
+.userProfileContainer {
   display: flex;
   flex-direction: row;
   gap: 8px;
   margin-bottom: 12px;
 }
 
-.userAvatarContainer{
+.userAvatarContainer {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -36,39 +48,58 @@
   border-radius: 50%;
 }
 
-.userAvatar{
+.userAvatar {
   object-fit: contain;
 }
 
-.userNameContainer{
- display: flex;
- flex-direction: column;
- align-items: flex-start;
- justify-content: center;
+.userNameContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
 }
 
-.userName{
+.userName {
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
-  font-size: 14px;
-  line-height: 1.43;
+  font-size: $mobile-sm;
+  font-style: normal;
+  line-height: 20px; /* 166.667% */
+  letter-spacing: 0.15px;
+  color: $color-black;
+  @include onTablet {
+    font-size: $tablet-sm;
+  }
+  @include onDesktop {
+    font-size: $desctop-sm;
+  }
 }
 
-.userRegistrationDate{
+.userRegistrationDate {
   font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.43;
+  font-weight: 500;
+  font-size: $mobile-sm;
+  font-style: normal;
+  line-height: 20px; /* 166.667% */
+  letter-spacing: 0.15px;
+  color: $color-black;
+  @include onTablet {
+    font-size: $tablet-sm;
+  }
+  @include onDesktop {
+    font-size: $desctop-sm;
+  }
 }
 
-.userContactsContainer{
+.userContactsContainer {
   display: flex;
   flex-direction: row;
-  gap:8px;
+  gap: 8px;
   margin-bottom: 8px;
+  justify-content: space-between;
 }
 
-.messagerLink{
+.messagerLink {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -78,49 +109,104 @@
   border-radius: 50%;
 }
 
-.messagerIcon{
+.messagerIcon {
   width: 24px;
   height: 24px;
 }
 
-.phoneLink{
-  width:184px;
+.phoneLink {
+  width: 204px;
   height: 40px;
   border-radius: 32px;
   background-color: $white-color;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap:8px;
+  gap: 8px;
+  @include onDesktop {
+    width: 404px;
+  }
 }
-
-.phoneIcon{
+.phoneLink p {
+  color: $color-black;
+  text-align: center;
+  font-family: Roboto;
+  font-size: $mobile-md;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 16px */
+  @include onTablet {
+    font-size: $tablet-md;
+  }
+  @include onDesktop {
+    font-size: $desctop-md;
+  }
+}
+.phoneIcon {
   width: 20px;
   height: 20px;
 }
 
-.chatButton{
-  display:flex;
+.chatButton {
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap:8px;
-  width:100%;
+  gap: 8px;
+  width: 100%;
   height: 44px;
   border-radius: 32px;
   border: none;
-  background-color: $background-color-white;
+  background-color: $color-black;
 }
 
-.buttonChatText{
+.buttonChatText {
   font-family: 'Roboto', sans-serif;
-  color:$color-grey;
+  color: $color-grey;
   font-weight: 600;
   font-size: 16px;
   line-height: 1.5;
+  color: $bg-color-white;
 }
 
-.chatIcon{
+.chatIcon {
   width: 20px;
   height: 20px;
+}
+.messagerIcon path {
+  fill: $color-black;
+}
+.phoneIcon path {
+  fill: $color-black;
+}
+.emailIcon path {
+  fill: $bg-color-white;
+  width: 20px;
+  height: 20px;
+}
+.wrapper_contacts {
+  display: flex;
+  gap: 4px;
+}
+.show_btn {
+  width: 100%;
+  height: 40px;
+  color: $bg-color-white;
+  background-color: $color-black;
+  border-radius: 32px;
+  border: 1px solid $color-black;
+
+  text-align: center;
+  font-family: Roboto;
+  font-size: $mobile-md;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 16px */
+  transition: $effectDuration;
+  @include onTablet {
+    font-size: $tablet-md;
+  }
+  @include onDesktop {
+    font-size: $desctop-md;
+  }
 }

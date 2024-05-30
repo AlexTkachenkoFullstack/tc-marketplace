@@ -1,13 +1,13 @@
 import React, {
-  useCallback,
+  // useCallback,
   useEffect,
   useMemo,
-  useRef,
+  // useRef,
   useState,
 } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import _ from 'lodash.throttle';
+// import _ from 'lodash.throttle';
 
 import styles from './SearchingResults.module.scss';
 
@@ -65,7 +65,7 @@ const SearchingResults: React.FC<IProps> = ({
   const isLoadingFilteredCars = useSelector(getIsloadingFilterInfo);
   const isLoadingSubscrCars = useSelector(isLoadingProfileInfo);
   const totalAdverts: number | null = useSelector(getTotalAdverts);
-  let advertsPerPage = 4;
+  let advertsPerPage = 12;
   let totalPages: number;
   if (totalAdverts !== null) {
     totalPages = Math.ceil(totalAdverts / advertsPerPage);
@@ -93,25 +93,25 @@ const SearchingResults: React.FC<IProps> = ({
 
   const [fetchParam, setFetchParam] = useState({ ...memoParam });
 
-  const setScreenWidthRef = useRef(window.innerWidth);
+  // const setScreenWidthRef = useRef(window.innerWidth);
 
-  const handleResize = useCallback(() => {
-    const width = window.innerWidth;
-    if (width !== setScreenWidthRef.current) {
-      const newAdvertsPerPage = width > 767 ? 4 : 3;
-      setFetchParam(prev => ({ ...prev, limit: newAdvertsPerPage }));
-      const range = width > 767 ? 5 : 2;
-      setPageRangeDisplayed(range);
-      setScreenWidthRef.current = width;
-    }
-  }, [setScreenWidthRef]);
+  // const handleResize = useCallback(() => {
+  //   const width = window.innerWidth;
+  //   if (width !== setScreenWidthRef.current) {
+  //     const newAdvertsPerPage = width > 767 ? 4 : 3;
+  //     setFetchParam(prev => ({ ...prev, limit: newAdvertsPerPage }));
+  //     const range = width > 767 ? 5 : 2;
+  //     setPageRangeDisplayed(range);
+  //     setScreenWidthRef.current = width;
+  //   }
+  // }, [setScreenWidthRef]);
 
-  useEffect(() => {
-    window.addEventListener('resize', _(handleResize, 100));
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [handleResize]);
+  // useEffect(() => {
+  //   window.addEventListener('resize', _(handleResize, 100));
+  //   return () => {
+  //     window.removeEventListener('resize', handleResize);
+  //   };
+  // }, [handleResize]);
 
   useEffect(() => {
     setIsShowMore(false);
