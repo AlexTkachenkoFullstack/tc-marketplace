@@ -102,3 +102,36 @@
   line-height: 20px;
   letter-spacing: 0.1px;
 }
+.plug_img {
+  width: 280px;
+  // height: 50%;
+}
+.img_container {
+  // padding-top: 22px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  @include onTablet {
+    // padding-top: 33px;
+  }
+  @include onDesktop {
+    padding-top: 101px;
+  }
+}
+.text {
+  margin-top: 20px;
+  color: $color-black;
+  font-size: $mobile-sm;
+  font-weight: 500;
+  line-height: 20px; /* 142.857% */
+  letter-spacing: 0.1px;
+  @include onTablet {
+    margin-top: 24px;
+    font-size: $tablet-sm;
+  }
+  @include onDesktop {
+    font-size: $desctop-sm;
+  }
+}

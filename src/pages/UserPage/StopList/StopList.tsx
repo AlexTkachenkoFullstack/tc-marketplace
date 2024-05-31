@@ -10,6 +10,7 @@ import StopListItem from './StopListItem/StopListItem';
 import Card from '../MyAds/Card/Card';
 import styles from './StopList.module.scss';
 import { useNavigate } from 'react-router-dom';
+import plug from '../../../assets/images/Property 1=07.svg';
 
 const StopList: React.FC = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const StopList: React.FC = () => {
   const [transportData, setTransportData] = useState<any>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const categories = useMemo(() => ['Продавці', 'Транспорт'], []);
-  
+
   const fetchData = async () => {
     setIsLoading(true);
     try {
@@ -45,14 +46,14 @@ const StopList: React.FC = () => {
     fetchTransportsData();
   }, []);
   useEffect(() => {
-    if (userData.length > 0 ) {
-      setActive(categories[0])
-      setSelectedCategory(categories[0])
-    }else if(transportData.length > 0){
-      setActive(categories[1])
-      setSelectedCategory(categories[1])
+    if (userData.length > 0) {
+      setActive(categories[0]);
+      setSelectedCategory(categories[0]);
+    } else if (transportData.length > 0) {
+      setActive(categories[1]);
+      setSelectedCategory(categories[1]);
     }
-  }, [categories,transportData.length,userData.length]);
+  }, [categories, transportData.length, userData.length]);
 
   const handleSelectCategory = (category: string) => {
     setActive(category);
@@ -118,36 +119,46 @@ const StopList: React.FC = () => {
           </button>
         )}
       </div>
-      {selectedCategory === 'Продавці' && (
-        <ul>
-          {userData &&
-            userData.map((item: any) => (
-              <StopListItem
-                id={item.userId}
-                key={item.id}
-                title={item.userName}
-                userPhoto={item.userPhoto}
-                onClickDelete={handleUnHideUser}
-                onClickRedirect={() => handleRedirect(item.userId)}
-              />
-            ))}
-        </ul>
-      )}
-      {selectedCategory === 'Транспорт' && (
-        <ul className={styles.item}>
-          {transportData &&
-            transportData.map((car: any) => (
-              <Card
-                key={car.id}
-                car={car.transport}
-                advType={4}
-                onClickDelete={handleUnHideTransport}
-                offBlockInfo={true}
-                offBlockText={true}
-                updateStyle={['stop_list','stop_list_img']}
-              />
-            ))}
-        </ul>
+      {userData.length > 0 && transportData.length > 0 ? (
+        <>
+          {' '}
+          {selectedCategory === 'Продавці' && (
+            <ul>
+              {userData &&
+                userData.map((item: any) => (
+                  <StopListItem
+                    id={item.userId}
+                    key={item.id}
+                    title={item.userName}
+                    userPhoto={item.userPhoto}
+                    onClickDelete={handleUnHideUser}
+                    onClickRedirect={() => handleRedirect(item.userId)}
+                  />
+                ))}
+            </ul>
+          )}
+          {selectedCategory === 'Транспорт' && (
+            <ul className={styles.item}>
+              {transportData &&
+                transportData.map((car: any) => (
+                  <Card
+                    key={car.id}
+                    car={car.transport}
+                    advType={4}
+                    onClickDelete={handleUnHideTransport}
+                    offBlockInfo={true}
+                    offBlockText={true}
+                    updateStyle={['stop_list', 'stop_list_img']}
+                  />
+                ))}
+            </ul>
+          )}
+        </>
+      ) : (
+        <div className={styles.img_container}>
+          <img src={plug} alt="" className={styles.plug_img} />
+          <p className={styles.text}>Скриті оголошення відображаються тут</p>
+        </div>
       )}
     </>
   );

@@ -11,6 +11,8 @@ import { fetchFavoriteCars } from 'redux/cars/operations';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { getFavoriteCars } from 'redux/cars/selectors';
 import { deleteFavoriteCar } from 'redux/cars/slice';
+import plug from '../../assets/images/Property 1=08.svg';
+
 export const FavoritesPage: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -29,17 +31,6 @@ export const FavoritesPage: FC = () => {
 
   useEffect(() => {
     dispatch(fetchFavoriteCars());
-    // async function fetchFavoritesCars() {
-    //   setIsLoading(true);
-    //   try {
-    //     const response = await getFavoritesCars();
-    //     setResponseData(response);
-    //     setIsLoading(false);
-    //   } catch (error) {
-    //     console.log('error :>> ', error);
-    //   }
-    // }
-    // fetchFavoritesCars();
   }, []);
 
   const handleOptionMenu = (
@@ -122,30 +113,40 @@ export const FavoritesPage: FC = () => {
       </div>
       <div className={`${styles.Container}`}>
         {isLoading && <Loader />}
-        <ul className={styles.list_cars}>
-          {arrayForRender.map((car: any) => (
-            <SearchingCard
-              key={car.id}
-              car={car}
-              onShowMenu={handleOptionMenu}
-              onInfoContainerClick={handleInfoContainerClick}
-              onUpdateAfterHide={updateAfterHide}
-              isShowMenu={optionMenuId === car.id}
-              updateAfterAllHide={updateAfterAllHide}
-              cancelFavorite={handleCancelFavorite}
-              isDisabled={true}
+
+        {arrayForRender.length > 0 ? (
+          <>
+            <ul className={styles.list_cars}>
+              {arrayForRender.map((car: any) => (
+                <SearchingCard
+                  key={car.id}
+                  car={car}
+                  onShowMenu={handleOptionMenu}
+                  onInfoContainerClick={handleInfoContainerClick}
+                  onUpdateAfterHide={updateAfterHide}
+                  isShowMenu={optionMenuId === car.id}
+                  updateAfterAllHide={updateAfterAllHide}
+                  cancelFavorite={handleCancelFavorite}
+                  isDisabled={true}
+                />
+              ))}
+            </ul>
+            <CatalogPagination
+              forcePage={paginations.page}
+              onSetPage={handleShowMore}
+              currentPage={paginations.page}
+              totalPages={totalPages}
+              handlePageClick={handleChangePage}
+              updateStyles="isFavoritesPage"
             />
-          ))}
-        </ul>
-        <CatalogPagination
-          forcePage={paginations.page}
-          onSetPage={handleShowMore}
-          currentPage={paginations.page}
-          totalPages={totalPages}
-          handlePageClick={handleChangePage}
-          updateStyles="isFavoritesPage"
-        />
+          </>
+        ) : (
+          <div className={styles.img_container}>
+            <img src={plug} alt="" className={styles.plug_img} />
+            <p className={styles.text}>Обрані оголошення відображаються тут</p>
+          </div>
+        )}
       </div>
-    </section >
+    </section>
   );
 };

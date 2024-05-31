@@ -100,9 +100,12 @@ const ActiveCard: React.FC<IActiveCardProps> = ({ myAdverts, advType }) => {
       ) : (
         <>
           {!isAdsLoading && isShowPlug && (
+            <>
             <EmprtyPlug
-              title={`На даний момент відсутні ${typeText} оголошення`}
+            title={`${typeText.charAt(0).toUpperCase() + typeText.slice(1)} оголошення відображаються тут`}
             />
+           
+            </>
           )}
         </>
       )}
