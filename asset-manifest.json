@@ -1,13 +1,14 @@
 {
   "files": {
     "main.css": "/static/css/main.385fdafc.css",
-    "main.js": "/static/js/main.907170de.js",
+    "main.js": "/static/js/main.b93ac1b5.js",
     "static/media/noUserImage.webp": "/static/media/noUserImage.22c284b1bfc02acd8ad3.webp",
     "static/media/Property 1=08.svg": "/static/media/Property 1=08.08d7443a306d7b64c699b3120545bb55.svg",
     "static/media/Property 1=03.svg": "/static/media/Property 1=03.dd82cda647ebbdee4f88fbc17da89263.svg",
     "static/media/dove.svg": "/static/media/dove.8a92c1f06a654177167eebd18ccc975c.svg",
     "static/media/Property 1=07.svg": "/static/media/Property 1=07.e74fdd5a70bdc8aeccd40df219d8e3c9.svg",
     "static/media/Property 1=01.svg": "/static/media/Property 1=01.7771965c28cffe502b8e81b68494eb4e.svg",
+    "static/media/Property 1=10.svg": "/static/media/Property 1=10.8f206cb47ce4d348828bcf74bcff1fc5.svg",
     "static/media/Property 1=02.svg": "/static/media/Property 1=02.dba0f3472ec050854fffecd34c60b8a6.svg",
     "static/media/Property 1=05.svg": "/static/media/Property 1=05.6fbf449a5772acfe7088cbb29f7025b8.svg",
     "static/media/imagePlug.webp": "/static/media/imagePlug.1d73db5d112e1ba0844a.webp",
@@ -62,10 +63,10 @@
     "static/media/arrowDown.svg": "/static/media/arrowDown.324ac675127f865d8602d0767a0210de.svg",
     "static/media/line.svg": "/static/media/line.63befb63f000ebd4c502.svg",
     "main.385fdafc.css.map": "/static/css/main.385fdafc.css.map",
-    "main.907170de.js.map": "/static/js/main.907170de.js.map"
+    "main.b93ac1b5.js.map": "/static/js/main.b93ac1b5.js.map"
   },
   "entrypoints": [
     "static/css/main.385fdafc.css",
-    "static/js/main.907170de.js"
+    "static/js/main.b93ac1b5.js"
   ]
 }
