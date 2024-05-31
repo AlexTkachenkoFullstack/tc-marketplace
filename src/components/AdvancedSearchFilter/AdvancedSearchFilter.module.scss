@@ -571,6 +571,11 @@
   padding: 8px 16px;
   border: 1px solid transparent;
   transition: $effectDuration;
+
+  & svg {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 .resultFilterShow:hover {

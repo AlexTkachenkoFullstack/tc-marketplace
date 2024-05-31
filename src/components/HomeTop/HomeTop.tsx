@@ -217,10 +217,20 @@ export const HomeTop = () => {
     // dispatch(fetchFiltredCars(searchConfig));
     dispatch(writeTitle(title));
 
+    const mark = (carMark: string | string[] )=> {
+     const mark = Array.isArray(carMark) ? carMark : [carMark];
+     if(mark.includes("Марка")) {
+      return []
+     } else {
+      return mark
+     }
+
+    }
+
     dispatch(
       saveParamsForSubscr({
         selectedCategory: selectedCategory,
-        carMark: Array.isArray(carMark) ? carMark : [carMark],
+        carMark: mark(carMark),
         carModel: carModel,
         selectedRegions: selectedRegions,
         data,
