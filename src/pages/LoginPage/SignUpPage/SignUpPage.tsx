@@ -336,7 +336,7 @@ export const SignUpPage: FC = () => {
             )}
         </div>
         <button type="submit" className={styles.Login_btn}>
-          Реєстрацуватись
+          Реєструватися
         </button>
         <>
           {messageError.length > 0 &&
@@ -349,7 +349,7 @@ export const SignUpPage: FC = () => {
             })}
         </>
         <div className={styles.Login_googleBtn} onClick={() => login()}>
-          <span>Реєстрацувати через</span> Google
+          <span>Реєструватися через</span> Google
           <GoogleIcon />
         </div>
       </div>
