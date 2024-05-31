@@ -17,8 +17,8 @@ export const FavoritesPage: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [typeOfSort, setTypeOfSort] = useState<string | string[]>('');
-  const [optionMenuId, setOptionMenuId] = useState<number | null>(null);
+  // const [typeOfSort, setTypeOfSort] = useState<string | string[]>('');
+  // const [optionMenuId, setOptionMenuId] = useState<number | null>(null);
   // const [favoriteCars, setResponseData] = useState<any[]>([]);
   const favoriteCars = useAppSelector(getFavoriteCars);
   const [start, setStart] = useState(0);
@@ -31,7 +31,7 @@ export const FavoritesPage: FC = () => {
 
   useEffect(() => {
     dispatch(fetchFavoriteCars());
-  }, []);
+  }, [dispatch]);
 
   const handleOptionMenu = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -58,48 +58,53 @@ export const FavoritesPage: FC = () => {
   };
 
   const handleShowMore = () => {
+    setIsLoading(true)
     const newStart = 0;
     const newEnd = end + advertsPerPage;
     setStart(newStart);
     setEnd(newEnd);
     setPaginations(prev => ({ ...prev, page: prev.page + 1 }));
+    setIsLoading(false)
   };
 
   const handleChangePage = ({ selected }: { selected: number }) => {
+    setIsLoading(true)
     const newStart = selected * advertsPerPage;
     const newEnd = newStart + advertsPerPage;
     setStart(newStart);
     setEnd(newEnd);
     setPaginations(prev => ({ ...prev, page: selected }));
+    setIsLoading(false)
   };
 
   const handleBackClick = () => {
+    setIsLoading(true)
     navigate(-1);
   };
   let sortedArray = [...favoriteCars]; // Copy the favoriteCars array
 
-  switch (typeOfSort) {
-    case 'Від дешевих до дорогих':
-      sortedArray = sortedArray.sort((a, b) => a.price - b.price);
-      break;
-    case 'Від дорогих до дешевих':
-      sortedArray = sortedArray.sort((a, b) => b.price - a.price);
-      break;
-    case 'Пробіг, за зростанням':
-      sortedArray = sortedArray.sort((a, b) => a.mileage - b.mileage);
-      break;
-    case 'Пробіг, за спаданням':
-      sortedArray = sortedArray.sort((a, b) => b.mileage - a.mileage);
-      break;
-    case 'Від нових до старих':
-      sortedArray = sortedArray.sort((a, b) => b.year - a.year);
-      break;
-    case 'Від старих до нових':
-      sortedArray = sortedArray.sort((a, b) => a.year - b.year);
-      break;
-    default:
-      break;
-  }
+  // switch (typeOfSort) {
+  //   case 'Від дешевих до дорогих':
+  //     sortedArray = sortedArray.sort((a, b) => a.price - b.price);
+  //     break;
+  //   case 'Від дорогих до дешевих':
+  //     sortedArray = sortedArray.sort((a, b) => b.price - a.price);
+  //     break;
+  //   case 'Пробіг, за зростанням':
+  //     sortedArray = sortedArray.sort((a, b) => a.mileage - b.mileage);
+  //     break;
+  //   case 'Пробіг, за спаданням':
+  //     sortedArray = sortedArray.sort((a, b) => b.mileage - a.mileage);
+  //     break;
+  //   case 'Від нових до старих':
+  //     sortedArray = sortedArray.sort((a, b) => b.year - a.year);
+  //     break;
+  //   case 'Від старих до нових':
+  //     sortedArray = sortedArray.sort((a, b) => a.year - b.year);
+  //     break;
+  //   default:
+  //     break;
+  // }
   const arrayForRender = sortedArray.slice(start, end);
   return (
     <section className={styles.favorite}>
@@ -124,7 +129,7 @@ export const FavoritesPage: FC = () => {
                   onShowMenu={handleOptionMenu}
                   onInfoContainerClick={handleInfoContainerClick}
                   onUpdateAfterHide={updateAfterHide}
-                  isShowMenu={optionMenuId === car.id}
+                  isShowMenu={false}
                   updateAfterAllHide={updateAfterAllHide}
                   cancelFavorite={handleCancelFavorite}
                   isDisabled={true}

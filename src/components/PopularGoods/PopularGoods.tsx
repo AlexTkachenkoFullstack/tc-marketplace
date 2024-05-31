@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './PopularGoods.module.scss';
 import '../../styles/blocks/_container.scss';
-import { NavLink } from "react-router-dom";
+// import { NavLink } from "react-router-dom";
 import { CardItem } from "components/CardItem";
 import { ICar } from "types/IСar";
 
