@@ -4,7 +4,8 @@ import styles from './Footer.module.scss';
 
 import { Logo } from 'components/Logo';
 import { NavLink } from 'react-router-dom';
-import MessageModal from 'components/messageModal/messageModal';
+import { ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Footer: React.FC = () => {
   return (
@@ -29,7 +30,7 @@ export const Footer: React.FC = () => {
             Instagram
           </NavLink>
         </div>
-        <MessageModal/>
+     <ToastContainer/>
       </div>
     </footer>
   );
