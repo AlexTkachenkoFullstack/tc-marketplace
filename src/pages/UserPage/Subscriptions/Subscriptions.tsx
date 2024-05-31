@@ -159,7 +159,7 @@ const Subscriptions: React.FC = () => {
       ) : (
         <>
           {!isSubscrLoading && mySubscriptions.length === 0 && (
-            <EmprtyPlug title="На даний момент відсутні ваши підписки" />
+            <EmprtyPlug title="На даний момент відсутні ваши підписки" disabled={true} />
           )}
 
           <ul className={styles.subscriptionsList}>
