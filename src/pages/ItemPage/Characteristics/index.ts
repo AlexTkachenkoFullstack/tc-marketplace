@@ -1,1 +1,0 @@
-export * from './Characteristics.module.scss';
