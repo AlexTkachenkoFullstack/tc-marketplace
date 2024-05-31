@@ -1,7 +1,11 @@
 import styles from './CategoryBar.module.scss';
-import scrollRight from '../../assets/icons/arrow_right.svg';
-import scrollLeft from '../../assets/icons/arrow_back.svg';
-import { useEffect, useRef, useState } from 'react';
+// import scrollRight from '../../assets/icons/arrow_right.svg';
+// import scrollLeft from '../../assets/icons/arrow_back.svg';
+import {
+  //  useEffect,
+   useRef,
+    // useState 
+  } from 'react';
 import { useLocation } from 'react-router-dom';
 interface TransportObject {
   transportColorId: number;
@@ -31,45 +35,45 @@ export const CategoryBar: React.FC<Props> = ({
   selectedStyle,
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [showLeftScrollButton, setShowLeftScrollButton] = useState(false);
-  const [showRightScrollButton, setShowRightScrollButton] = useState(true);
+  // const [showLeftScrollButton, setShowLeftScrollButton] = useState(false);
+  // const [showRightScrollButton, setShowRightScrollButton] = useState(true);
   const location = useLocation();
   const isAdvancedSearchPage = location.pathname === '/advanced-search';
-  useEffect(() => {
-    const container = containerRef.current;
-    if (container) {
-      const handleScroll = () => {
-        setShowLeftScrollButton(container.scrollLeft > 0);
-        setShowRightScrollButton(
-          container.scrollWidth > container.clientWidth + container.scrollLeft,
-        );
-      };
+  // useEffect(() => {
+  //   const container = containerRef.current;
+  //   if (container) {
+  //     const handleScroll = () => {
+  //       setShowLeftScrollButton(container.scrollLeft > 0);
+  //       setShowRightScrollButton(
+  //         container.scrollWidth > container.clientWidth + container.scrollLeft,
+  //       );
+  //     };
 
-      const handleResize = () => {
-        handleScroll();
-      };
+  //     const handleResize = () => {
+  //       handleScroll();
+  //     };
 
-      container.addEventListener('scroll', handleScroll);
-      window.addEventListener('resize', handleResize);
+  //     container.addEventListener('scroll', handleScroll);
+  //     window.addEventListener('resize', handleResize);
 
-      return () => {
-        container.removeEventListener('scroll', handleScroll);
-        window.removeEventListener('resize', handleResize);
-      };
-    }
-  }, []);
+  //     return () => {
+  //       container.removeEventListener('scroll', handleScroll);
+  //       window.removeEventListener('resize', handleResize);
+  //     };
+  //   }
+  // }, []);
 
-  const handleScrollRight = () => {
-    if (containerRef.current) {
-      containerRef.current.scrollLeft += 200;
-    }
-  };
+  // const handleScrollRight = () => {
+  //   if (containerRef.current) {
+  //     containerRef.current.scrollLeft += 200;
+  //   }
+  // };
 
-  const handleScrollLeft = () => {
-    if (containerRef.current) {
-      containerRef.current.scrollLeft -= 200;
-    }
-  };
+  // const handleScrollLeft = () => {
+  //   if (containerRef.current) {
+  //     containerRef.current.scrollLeft -= 200;
+  //   }
+  // };
 
   return (
     <div
