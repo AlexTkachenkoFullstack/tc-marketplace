@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch } from 'redux/hooks';
 import { useProfile } from 'hooks/useProfile';
-
 // import styles from '../MyAds.module.scss';
-
 import Card from './Card';
-
 import { IAd } from 'types/IAd';
-
 import {
   fetchMyActiveAds,
   fetchMyAdsCount,
@@ -84,8 +80,7 @@ const ActiveCard: React.FC<IActiveCardProps> = ({ myAdverts, advType }) => {
         break;
     }
   }, [dispatch, advType]);
-
-
+  
   return (
     <>
       {myAdverts.length > 0 ? (

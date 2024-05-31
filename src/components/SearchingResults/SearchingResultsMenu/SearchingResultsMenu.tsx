@@ -8,10 +8,15 @@ import { Dropdown } from 'components/Dropdown/Dropdown';
 
 import SubscriptionModal from 'components/SubscriptionModal';
 import { createPortal } from 'react-dom';
-import { getParamsForSuscr, getTotalAdverts } from 'redux/filter/selectors';
+import {
+  getParamsForSuscr,
+  // getSelectedCars,
+  getTotalAdverts,
+} from 'redux/filter/selectors';
 import { ReactComponent as StarIcon } from '../../../assets/icons/star.svg';
 import { ReactComponent as BackIcon } from '../../../assets/icons/arrow_back.svg';
 import { fullTitle } from 'hooks/titleCreator';
+// import { getCarTypeParam } from 'services/services';
 
 const portal = document.querySelector('#modal-root') as Element;
 
@@ -33,9 +38,36 @@ const SearchingResultsMenu: React.FC<Iprops> = ({
   const [sortBy, setSortBy] = useState<'ASC' | 'DESC'>('ASC');
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [data, setData] = useState<any>({});
 
   const dispatch = useAppDispatch();
   const requestParams = useAppSelector(getParamsForSuscr);
+
+  const selectedCategory = requestParams.selectedCategory;
+  // const selectedCategory = useAppSelector(getParamsForSuscr);
+  // const { transportTypeId } = useAppSelector(getSelectedCars);
+
+  // useEffect(() => {
+  //   if (!transportTypeId) {
+  //     return;
+  //   }
+  //   async function getCarTypeParams() {
+  //     if (transportTypeId !== null) {
+  //       const data = await getCarTypeParam(transportTypeId);
+  //       setData(data);
+  //     }
+  //   }
+  //   getCarTypeParams();
+  // }, [transportTypeId]);
+
+  // useEffect(() => {
+  //   dispatch(
+  //     saveParamsForSubscr({
+  //       selectedCategory: "Легкові",
+  //       data,
+  //     }),
+  //   );
+  // }, [data, dispatch]);
 
   const toggleModalIsOpen = () => {
     setIsModalOpen(prev => !prev);
@@ -152,9 +184,12 @@ const SearchingResultsMenu: React.FC<Iprops> = ({
               </div>
 
               <button
-                className={styles.subscr}
+                className={`${styles.subscr} ${
+                  selectedCategory ? '' : styles.hideSubscrBtn
+                }`}
                 type="button"
                 onClick={toggleModalIsOpen}
+                // disabled={selectedCategory ? false : true}
               >
                 <StarIcon />
                 <span className={styles.hiddenText}>Підписатись на пошук</span>

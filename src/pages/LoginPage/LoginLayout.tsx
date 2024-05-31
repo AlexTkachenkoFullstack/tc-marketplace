@@ -1,4 +1,4 @@
-import { useEffect, FC } from 'react';
+import {  FC } from 'react';
 import styles from './LoginLayout.module.scss';
 
 import { NavLink, Outlet } from 'react-router-dom';

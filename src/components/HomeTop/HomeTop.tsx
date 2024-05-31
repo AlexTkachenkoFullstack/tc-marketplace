@@ -187,12 +187,12 @@ export const HomeTop = () => {
     // const searchParams: Pick<ISearchParams, 'transportBrandsId'> = {
     //   transportBrandsId: brandId,
     // };
-    const searchConfig = {
-      searchParams: {
-        transportBrandsId: brandId,
-      },
-    };
-    dispatch(fetchCars({ id: transportTypeId, searchConfig }));
+    // const searchConfig = {
+    //   searchParams: {
+    //     transportBrandsId: brandId,
+    //   },
+    // };
+    // dispatch(fetchCars({ id: transportTypeId, searchConfig }));
     // const searchParams: Pick<
     //   ISearchParams,
     //   | 'transportTypeId'
@@ -216,8 +216,6 @@ export const HomeTop = () => {
 
     // dispatch(fetchFiltredCars(searchConfig));
     dispatch(writeTitle(title));
-    navigate('/advanced-search');
-    
 
     dispatch(
       saveParamsForSubscr({
@@ -228,11 +226,22 @@ export const HomeTop = () => {
         data,
       }),
     );
+    navigate('/advanced-search');
   };
 
   const navigate = useNavigate();
 
   const handleAdvancedSearchClick = () => {
+
+    dispatch(
+      saveParamsForSubscr({
+        selectedCategory: selectedCategory,
+        carMark: Array.isArray(carMark) ? carMark : [carMark],
+        carModel: carModel,
+        selectedRegions: selectedRegions,
+        data,
+      }),
+    );
     navigate('/advanced-search?isOpenAdvancedFilter=true');
   };
 

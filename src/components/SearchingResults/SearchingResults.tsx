@@ -5,7 +5,7 @@ import React, {
   // useRef,
   useState,
 } from 'react';
-import { useSelector } from 'react-redux';
+
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 // import _ from 'lodash.throttle';
 
@@ -36,6 +36,7 @@ import {
 } from 'redux/profile/selectors';
 import { AdvancedSearchFilter } from 'components/AdvancedSearchFilter/AdvancedSearchFilter';
 import { paramsOptimization } from 'utils/paramsOptimization';
+import {ReactComponent as DoveIcon} from "../../assets/icons/dove.svg"
 
 interface IProps {
   handleAdvancedFilter: () => void;
@@ -51,6 +52,7 @@ const SearchingResults: React.FC<IProps> = ({
   const [isShowMore, setIsShowMore] = useState(false);
   const [isComponentMounted, setIsComponentMounted] = useState(false);
   const [pageRangeDisplayed, setPageRangeDisplayed] = useState<number>(2);
+  const [isInitialLoadComplete, setIsInitialLoadComplete] = useState(false);
 
   const dispatch = useAppDispatch();
   const location = useLocation();
@@ -60,11 +62,11 @@ const SearchingResults: React.FC<IProps> = ({
   const searchParams: Pick<
     ISearchParams,
     'transportTypeId' | 'brandId' | 'modelId' | 'regionId' | 'orderBy'
-  > = useSelector(getSelectedCars);
-  const adverts = useSelector(getFiltredCars);
-  const isLoadingFilteredCars = useSelector(getIsloadingFilterInfo);
-  const isLoadingSubscrCars = useSelector(isLoadingProfileInfo);
-  const totalAdverts: number | null = useSelector(getTotalAdverts);
+  > = useAppSelector(getSelectedCars);
+  const adverts = useAppSelector(getFiltredCars);
+  const isLoadingFilteredCars = useAppSelector(getIsloadingFilterInfo);
+  const isLoadingSubscrCars = useAppSelector(isLoadingProfileInfo);
+  const totalAdverts: number | null = useAppSelector(getTotalAdverts);
   let advertsPerPage = 12;
   let totalPages: number;
   if (totalAdverts !== null) {
@@ -149,6 +151,7 @@ const SearchingResults: React.FC<IProps> = ({
     } else {
       setFilteredCarsArr(prevState => [...prevState, ...adverts]);
     }
+    setIsInitialLoadComplete(true);
   }, [adverts, isShowMore]);
 
   const handleOptionMenu = (
@@ -188,7 +191,7 @@ const SearchingResults: React.FC<IProps> = ({
   };
 
   const { unseenTransportList, viewedTransportList } =
-    useSelector(getSubscrCarList);
+    useAppSelector(getSubscrCarList);
   const subsrcCarsArr = [...unseenTransportList, ...viewedTransportList];
 
   const arrForRender = id ? subsrcCarsArr : filteredCarsArr;
@@ -210,9 +213,12 @@ const SearchingResults: React.FC<IProps> = ({
           {(isLoadingFilteredCars || isLoadingSubscrCars) && !isShowMore ? (
             <Loader />
           ) : !isLoadingFilteredCars &&
-            isComponentMounted &&
+            isInitialLoadComplete &&
             arrForRender.length === 0 ? (
-            "We don't have any adverts"
+            <div className={styles.messageThumb}>
+              <DoveIcon />
+              <p>Немає оголошень, що задовольняють вашому запиту</p>
+            </div>
           ) : (
             <>
               {isLoadingFilteredCars && isShowMore && <Loader />}
