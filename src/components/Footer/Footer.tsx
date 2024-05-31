@@ -30,8 +30,8 @@ export const Footer: React.FC = () => {
             Instagram
           </NavLink>
         </div>
-     <ToastContainer/>
       </div>
+      <ToastContainer />
     </footer>
   );
 };
