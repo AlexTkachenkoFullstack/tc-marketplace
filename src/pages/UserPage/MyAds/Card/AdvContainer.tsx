@@ -84,7 +84,7 @@ const ActiveCard: React.FC<IActiveCardProps> = ({ myAdverts, advType }) => {
         break;
     }
   }, [dispatch, advType]);
-  console.log('first', isShowPlug);
+
 
   return (
     <>

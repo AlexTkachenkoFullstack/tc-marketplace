@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import styles from './FavoritesPage.module.scss';
-import { getFavoritesCars } from 'services/services';
+// import { getFavoritesCars } from 'services/services';
 import SearchingCard from 'components/SearchingResults/SearchingCard';
 import CatalogPagination from 'components/SearchingResults/CatalogPagination';
 import Loader from 'components/Loader/Loader';
