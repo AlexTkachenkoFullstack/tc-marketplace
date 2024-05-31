@@ -59,13 +59,13 @@ const SubscriptionCard: React.FC<IProps> = ({
     };
   }, []);
 
-  useEffect(() => {
-    if (isShowMenu) {
-      document.body.classList.add('noScroll');
-    } else {
-      document.body.classList.remove('noScroll');
-    }
-  }, [isShowMenu]);
+  // useEffect(() => {
+  //   if (isShowMenu) {
+  //     document.body.classList.add('noScroll');
+  //   } else {
+  //     document.body.classList.remove('noScroll');
+  //   }
+  // }, [isShowMenu]);
 
   useEffect(() => {
     setIsNotify(notificationStatus);
