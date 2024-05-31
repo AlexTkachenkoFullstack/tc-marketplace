@@ -1,12 +1,12 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import cn from 'classnames';
+// import cn from 'classnames';
 import styles from './CardItem.module.scss';
 
-import LikeImg from '../../assets/icons/favorite.svg';
-import ActiveLikeImg from '../../assets/icons/favorite-active.svg';
+// import LikeImg from '../../assets/icons/favorite.svg';
+// import ActiveLikeImg from '../../assets/icons/favorite-active.svg';
 import imagePlug from '../../assets/images/imagePlug.webp';
-import { CommonBtn } from 'components/Buttons/CommonBtn';
+// import { CommonBtn } from 'components/Buttons/CommonBtn';
 import { ICar } from 'types/IСar';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { isAuthUser } from 'redux/auth/selectors';

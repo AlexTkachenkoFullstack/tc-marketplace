@@ -17,8 +17,8 @@ import { ICities } from 'types/ICities';
 import { ICar, IFiltredCarsPayload } from 'types/IСar';
 import { addToFavourites, removeFromFavourites } from 'redux/cars/operations';
 import ModelListType from 'types/ModelListType';
-import { act } from 'react-dom/test-utils';
-import { title } from 'process';
+// import { act } from 'react-dom/test-utils';
+// import { title } from 'process';
 
 interface IFilterState {
   regions: IRegion[] | [];

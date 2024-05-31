@@ -8,7 +8,7 @@ import { ReactComponent as Arrowback } from '../../assets/icons/arrow_back.svg';
 import SearchingCard from 'components/SearchingResults/SearchingCard';
 import { deleteFavoriteCar } from 'redux/cars/slice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { isAuthUser } from 'redux/auth/selectors';
+// import { isAuthUser } from 'redux/auth/selectors';
 interface IUserProfileAddsCar {
   id: number;
   type: string;
@@ -44,12 +44,12 @@ const UserProfile: FC = () => {
   const { id } = useParams();
   const [responseData, setResponseData] = useState<IUserProfile | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const isAuth = useAppSelector(isAuthUser);
+  // const isAuth = useAppSelector(isAuthUser);
   const dispatch = useAppDispatch();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(
     'Вся техніка',
   );
-  const [optionMenuId, setOptionMenuId] = useState<number | null>(null);
+  // const [optionMenuId, setOptionMenuId] = useState<number | null>(null);
   const [active, setActive] = useState<string | null>('Вся техніка');
   const categories = [
     'Вся техніка',
@@ -301,7 +301,7 @@ const UserProfile: FC = () => {
               onShowMenu={handleOptionMenu}
               onInfoContainerClick={handleInfoContainerClick}
               onUpdateAfterHide={updateAfterHide}
-              isShowMenu={optionMenuId === car.id}
+              isShowMenu={false}
               updateAfterAllHide={updateAfterAllHide}
               cancelFavorite={handleCancelFavorite}
               isDisabled={true}
