@@ -32,8 +32,11 @@
 .contact {
   padding-block: 6px;
   color: $color-medium-gray;
-  font-size: 16px;
+  font-size: $mobile-md;
   font-weight: 500;
   line-height: 24px;
   letter-spacing: 0.15px;
+  @include onTablet {
+    font-size: $tablet-md;
+  }
 }
