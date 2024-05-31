@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.e5b4bbd9.css",
-    "main.js": "/static/js/main.5474d801.js",
+    "main.css": "/static/css/main.58303cc7.css",
+    "main.js": "/static/js/main.2f692f0c.js",
     "static/media/noUserImage.webp": "/static/media/noUserImage.22c284b1bfc02acd8ad3.webp",
     "static/media/Property 1=08.svg": "/static/media/Property 1=08.08d7443a306d7b64c699b3120545bb55.svg",
     "static/media/Property 1=03.svg": "/static/media/Property 1=03.dd82cda647ebbdee4f88fbc17da89263.svg",
@@ -33,7 +33,7 @@
     "static/media/location.svg": "/static/media/location.7f47b391de09aeca7cec8dcc2869f558.svg",
     "static/media/payments.svg": "/static/media/payments.a7397d2bb2cc6b12281d8b3161441e9d.svg",
     "static/media/chat_bubble_outline.svg": "/static/media/chat_bubble_outline.d72b4647830664a30136ec48d0663315.svg",
-    "static/media/arrow.svg": "/static/media/arrow.7981ac7c10dc918c18746e9100a98b50.svg",
+    "static/media/arrow.svg": "/static/media/arrow.fe038ebc7f05a6665507305ce9b390cb.svg",
     "static/media/update_btn.svg": "/static/media/update_btn.9e4bdcf7c99d9f58f06c714dad6b0382.svg",
     "static/media/addCircle.svg": "/static/media/addCircle.5684513b14584103e2dbd74a91e894f9.svg",
     "static/media/arrow_next.svg": "/static/media/arrow_next.56cbfc691e8d62d1169753c4719894e7.svg",
@@ -62,11 +62,11 @@
     "static/media/arrowDownBig.svg": "/static/media/arrowDownBig.b411c2ed83e2b03df6d9ab522f91ac53.svg",
     "static/media/arrowDown.svg": "/static/media/arrowDown.324ac675127f865d8602d0767a0210de.svg",
     "static/media/line.svg": "/static/media/line.63befb63f000ebd4c502.svg",
-    "main.e5b4bbd9.css.map": "/static/css/main.e5b4bbd9.css.map",
-    "main.5474d801.js.map": "/static/js/main.5474d801.js.map"
+    "main.58303cc7.css.map": "/static/css/main.58303cc7.css.map",
+    "main.2f692f0c.js.map": "/static/js/main.2f692f0c.js.map"
   },
   "entrypoints": [
-    "static/css/main.e5b4bbd9.css",
-    "static/js/main.5474d801.js"
+    "static/css/main.58303cc7.css",
+    "static/js/main.2f692f0c.js"
   ]
 }
