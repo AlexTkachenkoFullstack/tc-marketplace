@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import { paramsSerializer } from 'utils/paramsSerializer';
 
 axios.defaults.baseURL = 'https://api.pawo.space/api/v1/';
@@ -81,15 +82,17 @@ export const postNewAdvertisement = async (formData: FormData) => {
       'Content-type': 'multipart/form-data',
     },
   };
-  console.log('click');
+
   try {
     const response = await instance.post(
       'main/advertisements',
       formData,
       config,
     );
+    toast('Оголошення успішно додано!')
     return response.data;
   } catch (error) {
+    toast('Помилка в даних!')
     console.error('Помилка в даних!', error);
   }
 };
@@ -106,8 +109,10 @@ export const putEditAdvertisement = async (id: string, formData: FormData) => {
       formData,
       config,
     );
+    toast('Оголошення успішно оновлено!')
     return response.data;
   } catch (error) {
+    toast('Помилка в даних!')
     console.error('Помилка в даних!', error);
   }
 };
@@ -118,8 +123,10 @@ export const putDeleteAdvertisement = async (id: string) => {
     const response = await instance.put(
       `user-page/my-transports/${id}/update-status/DELETED`,
     );
+    toast('Оголошення успішно видалено!')
     return response.data;
   } catch (error) {
+    toast('Помилка в даних!')
     console.error('Помилка в даних!', error);
   }
 };
@@ -167,8 +174,10 @@ export const putUserInfo = async (formData: FormData) => {
   };
   try {
     const response = await instance.put('user-page', formData, config);
+    toast('Дані успішно оновлено!')
     return response.data;
   } catch (error) {
+    toast('Помилка в даних!')
     console.error('Помилка в даних!', error);
   }
 };

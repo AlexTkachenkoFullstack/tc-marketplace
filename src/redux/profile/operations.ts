@@ -6,6 +6,7 @@ import { KnownError, instance, setAuthHeader } from 'redux/auth/operations';
 import { ISearchParams } from 'types/ISearchParam';
 import { subscriptionRequestType } from 'types/subscriptionRequestType';
 import { paramsSerializer } from 'utils/paramsSerializer';
+import { toast } from 'react-toastify';
 // import { ISearchParams } from 'types/ISearchParam';
 // import { SearchParams } from 'types';
 
@@ -164,9 +165,11 @@ export const changeUserPassword = createAsyncThunk(
     token && setAuthHeader(token);
     try {
       const { data } = await instance.put(`user-page/security-info`, params);
+      toast('Дані успішно оновлено!')
       return data;
     } catch (err) {
-      const error: AxiosError<KnownError> = err as any;
+      toast('Помилка в даних!')
+      const error: AxiosError<KnownError> = err as any;      
       if (!error.response) {
         throw err;
       }
@@ -201,9 +204,10 @@ export const saveSubscription = createAsyncThunk(
         subscriptionRequest,
         config,
       );
-      
+      toast('Підписку успішно збережено!')
       return data;
     } catch (err) {
+      toast('Помилка в даних!')
       const error: AxiosError<KnownError> = err as any;
       if (!error.response) {
         throw err;
@@ -241,8 +245,10 @@ export const editSubscription = createAsyncThunk(
         subscriptionRequest,
         config,
       );
+      toast('Підписку успішно оновлено!')
       return data;
     } catch (err) {
+      toast('Помилка в даних!')
       const error: AxiosError<KnownError> = err as any;
       if (!error.response) {
         throw err;
@@ -281,8 +287,10 @@ export const deleteSubscription = createAsyncThunk(
     token && setAuthHeader(token);
     try {
       const { data } = await instance.delete(`subscriptions/${id}`);
+      toast('Підписка успішно видалено!')
       return data;
     } catch (err) {
+      toast('Помилка в даних!')
       const error: AxiosError<KnownError> = err as any;
       if (!error.response) {
         throw err;

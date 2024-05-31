@@ -474,13 +474,11 @@ const PersonalInfo: React.FC = () => {
     }
   };
   return (
-    <>
-      {/* <h2 className={styles.title_category}>Особисті дані</h2> */}
+    <>     
       <div className={styles.box_item}>
         <div className={styles.box_title_foto}>
           <h2 className={styles.title}>Фото</h2>
         </div>
-
         <div className={styles.imgContainer}>
           <UploadPhoto
             isMainePhoto={isMainePhoto}
@@ -505,35 +503,10 @@ const PersonalInfo: React.FC = () => {
       </div>
       <div className={styles.box_item}>
         <div className={styles.box_title}>
-          <h2 className={styles.title}>Ім’я</h2>
-          {/* <div
-            className={`${styles.mobileButton}  ${
-              getWindowWidth() >= 768 ? styles.hide : ''
-            }`}
-            onClick={() => handleMobileBtnIsOpen('block1')}
-          >
-            {isOpen.block1 ? (
-              <Arrowup width={24} height={24} />
-            ) : (
-              <Arrowdown width={24} height={24} />
-            )}
-          </div> */}
+          <h2 className={styles.title}>Ім’я</h2>       
         </div>
-        <div className={styles.listItem}>
-          {/* {isOpen.block1 && ( */}
-          <div className={styles.item_dropdown_box}>
-            {/* {name ? (
-              <label
-                htmlFor="name"
-                className={
-                  !isValidate && messages[1]
-                    ? `${styles.VinCode_red}`
-                    : `${styles.VinCode_label}`
-                }
-              >
-                Ім’я
-              </label>
-            ) : null} */}
+        <div className={styles.listItem}>        
+          <div className={styles.item_dropdown_box}>           
             <input
               autoComplete="off"
               className={`${styles.inputPhone} ${styles.VinCode_field}`}
@@ -542,16 +515,14 @@ const PersonalInfo: React.FC = () => {
               type="text"
               maxLength={17}
               placeholder={'Ім’я'}
-              value={name}
-              // onKeyDown={handleKeyPress}
+              value={name}             
               onBlur={handleOnBlurName}
               onChange={handleOnChangeName}
             />
             {isShow[1] && (
               <span className={styles.VinCode_errorMessage}>{messages[1]}</span>
             )}
-          </div>
-          {/* )} */}
+          </div>     
         </div>
       </div>
 
@@ -559,21 +530,8 @@ const PersonalInfo: React.FC = () => {
 
       <div className={styles.box_item}>
         <div className={styles.box_title}>
-          <h2 className={styles.title}>Номер телефону</h2>
-          {/* <div
-            className={`${styles.mobileButton}  ${
-              getWindowWidth() >= 768 ? styles.hide : ''
-            }`}
-            onClick={() => handleMobileBtnIsOpen('block2')}
-          >
-            {isOpen.block2 ? (
-              <Arrowup width={24} height={24} />
-            ) : (
-              <Arrowdown width={24} height={24} />
-            )}
-          </div> */}
-        </div>
-        {/* {isOpen.block2 && ( */}
+          <h2 className={styles.title}>Номер телефону</h2>         
+        </div>    
         <div className={styles.wrapper_item}>
           <div className={styles.item}>
             <span className={styles.staticValue}>+380</span>
@@ -593,41 +551,14 @@ const PersonalInfo: React.FC = () => {
               <span className={styles.VinCode_errorMessage}>{messages[3]}</span>
             )}
           </div>
-        </div>
-        {/* )} */}
+        </div>     
       </div>
-
       <div className={styles.box_item}>
         <div className={styles.box_title}>
-          <h2 className={styles.title}>E-mail</h2>
-          {/* <div
-            className={`${styles.mobileButton}  ${
-              getWindowWidth() >= 768 ? styles.hide : ''
-            }`}
-            onClick={() => handleMobileBtnIsOpen('block4')}
-          >
-            {isOpen.block4 ? (
-              <Arrowup width={24} height={24} />
-            ) : (
-              <Arrowdown width={24} height={24} />
-            )}
-          </div> */}
+          <h2 className={styles.title}>E-mail</h2>         
         </div>
-        <div className={styles.listItem}>
-          {/* {isOpen.block4 && ( */}
-          <div className={styles.item_dropdown_box}>
-            {/* {email ? (
-              <label
-                htmlFor="email"
-                className={
-                  activeField[4] !== 'email' && messages[4]
-                    ? `${styles.VinCode_red}`
-                    : `${styles.VinCode_label}`
-                }
-              >
-                E-mail
-              </label>
-            ) : null} */}
+        <div className={styles.listItem}>     
+          <div className={styles.item_dropdown_box}>           
             <input
               readOnly={immutableData}
               disabled={immutableData}
@@ -641,16 +572,14 @@ const PersonalInfo: React.FC = () => {
               type="email"
               maxLength={50}
               placeholder={'example@example.com'}
-              value={email}
-              // onFocus={() => handleOnFocusEmail(4, 'email')}
+              value={email}          
               onBlur={handleOnBlurEmail}
               onChange={handleOnChangeEmail}
             />
             {isShow[4] && (
               <span className={styles.VinCode_errorMessage}>{messages[4]}</span>
             )}
-          </div>
-          {/* )} */}
+          </div>     
         </div>
       </div>
 
@@ -658,22 +587,9 @@ const PersonalInfo: React.FC = () => {
 
       <div className={styles.box_item}>
         <div className={styles.box_title}>
-          <h2 className={styles.title}>Область</h2>
-          {/* <div
-            className={`${styles.mobileButton}  ${
-              getWindowWidth() >= 768 ? styles.hide : ''
-            }`}
-            onClick={() => handleMobileBtnIsOpen('block6')}
-          >
-            {isOpen.block6 ? (
-              <Arrowup width={24} height={24} />
-            ) : (
-              <Arrowdown width={24} height={24} />
-            )}
-          </div> */}
+          <h2 className={styles.title}>Область</h2>         
         </div>
-        <div className={styles.listItem}>
-          {/* {isOpen.block6 && ( */}
+        <div className={styles.listItem}>        
           <div className={styles.item_dropdown_box}>
             <Dropdown
               stylepaddingZero={true}
@@ -688,12 +604,7 @@ const PersonalInfo: React.FC = () => {
               }
               label="Область"
               startValue={
-                'Область'
-                //   `${
-                //   selectedRegion === 'Область' || selectedRegion === ''
-                //     ? 'Область'
-                //     : selectedRegion
-                // }`
+                'Область'               
               }
               allOptionsLabel="Вся Україна"
               option={selectedRegion}
@@ -703,30 +614,16 @@ const PersonalInfo: React.FC = () => {
             {isShow[6] && (
               <span className={styles.photo_errorMessage}>{messages[6]}</span>
             )}
-          </div>
-          {/* )} */}
+          </div>       
         </div>
       </div>
 
       {cities && cities.length > 0 && (
         <div className={styles.box_item_city}>
           <div className={styles.box_title}>
-            <h2 className={styles.title}>Місто</h2>
-            {/* <div
-              className={`${styles.mobileButton}  ${
-                getWindowWidth() >= 768 ? styles.hide : ''
-              }`}
-              onClick={() => handleMobileBtnIsOpen('block7')}
-            >
-              {isOpen.block7 ? (
-                <Arrowup width={24} height={24} />
-              ) : (
-                <Arrowdown width={24} height={24} />
-              )}
-            </div> */}
+            <h2 className={styles.title}>Місто</h2>           
           </div>
-          <div className={styles.listItem}>
-            {/* {isOpen.block15 && ( */}
+          <div className={styles.listItem}>           
             <div className={styles.item_dropdown_box}>
               <Dropdown
                 stylepaddingZero={true}
@@ -744,8 +641,7 @@ const PersonalInfo: React.FC = () => {
               {isShow[7] && (
                 <span className={styles.photo_errorMessage}>{messages[7]}</span>
               )}
-            </div>
-            {/* // )} */}
+            </div>       
           </div>
         </div>
       )}
@@ -757,18 +653,7 @@ const PersonalInfo: React.FC = () => {
       >
         Зберегти
       </button>
-      <>{isLoading && <Loader />}</>
-      {/* <>
-        {messages[18] &&
-          messages[18].length > 0 &&
-          ShowToast({
-            label: messages[18],
-            timer: 4500,
-            backgroundColor: '#7CCD7C',
-            color: '#feffff',
-            borderColor: '#7CCD7C',
-          })}
-      </> */}
+      <>{isLoading && <Loader />}</>     
     </>
   );
 };
