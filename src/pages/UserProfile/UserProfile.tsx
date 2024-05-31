@@ -7,7 +7,7 @@ import { ReactComponent as Arrowback } from '../../assets/icons/arrow_back.svg';
 // import Card from 'pages/UserPage/MyAds/Card/Card';
 import SearchingCard from 'components/SearchingResults/SearchingCard';
 import { deleteFavoriteCar } from 'redux/cars/slice';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { useAppDispatch} from 'redux/hooks';
 // import { isAuthUser } from 'redux/auth/selectors';
 interface IUserProfileAddsCar {
   id: number;
