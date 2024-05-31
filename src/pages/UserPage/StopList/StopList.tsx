@@ -119,7 +119,7 @@ const StopList: React.FC = () => {
           </button>
         )}
       </div>
-      {userData.length > 0 && transportData.length > 0 ? (
+      {userData.length > 0 || transportData.length > 0 ? (
         <>
           {' '}
           {selectedCategory === 'Продавці' && (
